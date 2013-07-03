@@ -18,4 +18,6 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
+//= require backbone/typewar
+//= require crafty
 //= require_tree .
