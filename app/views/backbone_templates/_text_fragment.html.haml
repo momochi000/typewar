@@ -1,3 +1,8 @@
 %script{:type => 'text/template', :id => "text_fragment_template"}
-  %p WOOOOOOOOOOOOOOOOOOOOOOOOOO
-  .foo muuuuuuuuuuu
+  <% active_class = active ? 'active' : 'inactive' %>
+  <div class="text-fragment-wrapper <%= active_class %>">
+  %p ~~~~Type me~~~~
+  %span.typed <%= typed %>
+  %span.missed <%= missed %>
+  %span.rest <%= rest %>
+  </div>

@@ -1,0 +1,7 @@
+.text-fragment {}
+.text-fragment-wrapper {
+  &.active { background-color: pink; }
+  span.typed { background-color: green; }
+  span.missed { background-color: red; }
+  span.rest { background-color: yellow; }
+}
