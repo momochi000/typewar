@@ -12,3 +12,8 @@ Some upcoming features:
 * Combo moves
 * Multiple character classes
 * Dungeons
+
+
+== DEV NOTES
+LEFT OFF - 
+  Finished the first draft of the text fragment component
