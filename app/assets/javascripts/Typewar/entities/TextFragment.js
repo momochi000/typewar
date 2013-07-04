@@ -1,14 +1,26 @@
-/* View which represents text fragments.  Not sure if we want to 
-   display text fragments as backbone views
-     - gives flexibility with markup and style
-     - Less reliance on crafty
-   or as crafty entities
-     - easier to manage
-   Probably want to do backbone views.. they'll need to display text in many
-   different divs or spans.  Text which was already typed, incorrect text, 
-   text which hasn't been typed, a destroyed or finished view, etc.
-*/
-
+/* Text Fragment Module.
+ * 
+ * This code creates text fragments which are typed by the user.
+ * When the text fragment is activated, it obtains a keyboard listener
+ * which watches for input from the user.  It then keeps track of correct
+ * and incorrect characters typed by the user.  When the fragment has been
+ * fully typed, an optional complete callback is fired.
+ * TODO: instead of registering a completed callback, fire a completed event.
+ * 
+ * There are three parts that make this work:
+ * 1) Backbone model - The model wraps the entire functionality and provides
+ *    an easy interface to interacting with the text fragments.  It also allows
+ *    for easily gathering text fragments into a Collection
+ * 2) Crafty component/entity - The crafty piece lives inside and ties itself
+ *    into the game engine.  Registering events and talking with other Crafty
+ *    components in order to interact with other bits of the 'game'.  It also
+ *    handles some of the rendering and keeping track of collisions/motion/
+ *    keyboard inputs, etc.
+ * 3) Backbone view - The view allows the text fragment to easily render and
+ *    update itself.  A pure crafty solution would be inconvenient as there
+ *    is no facility for creating or managing complex DOM structures or other
+ *    content.
+ */
 var TextFragmentView = Backbone.View.extend({
   tagName: 'div',
   className: 'text-fragment',
@@ -16,17 +28,12 @@ var TextFragmentView = Backbone.View.extend({
   render: function (opts){
     if(!this.id) { this.el.id = this._generateUniqueId(); }
     if(!_.any($(this.id))){
-      console.log("About to build this.$el using the template");
       this.$el.html(_.template($(this._template_id).html(), opts));
-      console.log("this.$el is now created, about to append it to the body");
-      // Ultimately we're going to append it 
-      //to some crafty element. For now, append it to the stage so we can 
-      // see it in action
-      //$('#cr-stage').append(this.el);
+      // Ultimately we're going to append it to some crafty element. For now, 
+      // append it to the stage so we can see it in action
       $('body').append(this.el);
-    }else{
-      console.log("DEBUG: TextFragmentView already exists on the page");
-    }
+      //$('#cr-stage').append(this.el);
+    }else{ }
   },
   // private
   
@@ -36,83 +43,86 @@ var TextFragmentView = Backbone.View.extend({
     return u_id;
   },
 
-  _generateRandomVal: function (){
+  _generateRandomVal: function (){ // Should probably be moved into a library or something
     return Math.floor(Math.random()*1000000);
   }
 });
 
 Crafty.c("TextFragment", {
-  _is_active: false,
+  is_active: false,
   _correct_characters: '',
+  _complete_callback: null,
   _current_position: null,
   _incorrect_characters: '',
+  _success_callback: null,
   _text: '',
   _view: null,
-
 
   init: function (){
     this.current_position = 0;
   },
 
-  textFragment: function (text){
-    // initialized with a string 
+  textFragment: function (text, success_callback){
     this._text = text;
+    if(success_callback) { this._success_callback = success_callback; }
     return this;
   },
 
-  attachKeyboardHandler: function (){
-    this.bind('KeyDown', this._handleKeyPress);
-    this._activate();
+  activate: function (){ 
+    this._current_position = 0;
+    this.is_active = true; 
+    this._attachKeyboardHandler();
     this.drawSelf();
   },
 
-  detachKeyboardHandler: function (){
-    this.unbind('KeyDown', this._handleKeyPress);
-    this._deactivate();
+  deactivate: function (){ 
+    this._detachKeyboardHandler();
+    this.is_active = false; 
+    this._current_position = null;
     this.drawSelf();
   },
 
   // A test function for debug purposes
   drawSelf: function (){
     if(!this._view) { this._view = new TextFragmentView; }
-    console.log("Calling drawSelf on the component, debug output of options to render");
-    console.log({active: this._is_active,
-                       typed: this._correct_characters, 
-                       missed: this._incorrect_characters, 
-                       rest: this._text.slice(this._current_position)});
-    console.log("############################################################");
-
-    this._view.render({active: this._is_active,
+    this._view.render({active: this.is_active,
                        typed: this._correct_characters, 
                        missed: this._incorrect_characters, 
                        rest: this._text.slice(this._current_position)});
   },
 
   //private
-  _activate: function (){ 
-    this._current_position = 0;
-    this._is_active = true; 
+
+  _attachKeyboardHandler: function (){
+    this.bind('KeyDown', this._handleKeyPress);
   },
 
-  _deactivate: function (){ 
-    this._is_active = false; 
-    this._current_position = null;
+  _detachKeyboardHandler: function (){
+    this.unbind('KeyDown', this._handleKeyPress);
   },
 
   _handleKeyPress: function (keyEvent){
     var letter_value;
-    console.log("In handleKeyPress on TextFragment, key Event is =>");
-    console.log(keyEvent);
     letter_value = this._translateKeyToLetter(keyEvent.key);
     if(letter_value){
       if(this._text[this._current_position] == letter_value){
         this._correctInput();
+        this._checkForCompletion();
       }else{
         this._wrongInput(letter_value);
       }
     }
-
     this.drawSelf();
+  },
+
+  _checkForCompletion: function (){
+    if(this._correct_characters.length == this._text.length){
+      console.log("wohoo! successfully typed the thingy");
+      this.deactivate();
+      // Fire the success callback if one is registered
+      if(this._success_callback) { this._success_callback(); }
+      this.drawSelf();
+    }
   },
 
   _correctInput: function (input){
@@ -122,10 +132,6 @@ Crafty.c("TextFragment", {
   },
 
   _wrongInput: function (input){
-    //console.log(" -- Got a wrong input, lets try to see what is going where..");
-    //console.log(" -- current_position -> " + this._current_position);
-    //console.log(" -- text  -> " + this._text);
-    //console.log(" -- text[_curr_pos]  -> " + this._text[this._current_position]);
     this._incorrect_characters += input;
   },
 
@@ -246,11 +252,31 @@ Crafty.c("TextFragment", {
   }
 });
 
+var TextFragmentEntity = BaseEntity.extend({
+  defaults: {
+    text: 'Default text, please initialize with real text'
+  },
 
-/**
-  Brainstorm..
-  What I want is, an entity that contains some fragment of text.  The entity
-  should display itself and might also have keyboard focus.
-  When it has keyboard focus, it should have a set of behavior around taking
-  key inputs and matching letters among the internal string.
- */
+  initialize: function (){
+    var entity = Crafty.e("2D, DOM, TextFragment").textFragment(this.get("text"));
+    this.set("entity", entity);
+    return this;
+  },
+
+  activate: function (){
+    this.get("entity").activate();
+  },
+
+  deactivate: function (){
+    this.get("entity").deactivate();
+  },
+
+  remove: function (){
+    var entity;
+    entity = this.getEntity();
+    entity.deactivate();
+    entity.destroy();
+  },
+});
+
+
