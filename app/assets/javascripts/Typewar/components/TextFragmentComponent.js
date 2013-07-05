@@ -6,11 +6,12 @@ var TextFragmentView = Backbone.View.extend({
     if(!this.id) { this.el.id = this._generateUniqueId(); }
     if(!_.any($(this.id))){
       this.$el.html(_.template($(this._template_id).html(), opts));
-      // Ultimately we're going to append it to some crafty element. For now, 
-      // append it to the stage so we can see it in action
-      $('body').append(this.el);
-      //$('#cr-stage').append(this.el);
-    }else{ }
+      if(this.options.entity_id) {
+        $("#"+this.options.entity_id).append(this.el);
+      } else {
+        $('body').append(this.el);
+      }
+    }
   },
   // private
   
@@ -36,6 +37,7 @@ Crafty.c("TextFragment", {
   _view: null,
 
   init: function (){
+    this.requires("DOM");
     this.current_position = 0;
   },
 
@@ -61,7 +63,9 @@ Crafty.c("TextFragment", {
 
   // A test function for debug purposes
   drawSelf: function (){
-    if(!this._view) { this._view = new TextFragmentView; }
+    if(!this._view) { 
+      this._view = new TextFragmentView({entity_id: this.getDomId()});
+    }
     this._view.render({active: this.is_active,
                        typed: this._correct_characters, 
                        missed: this._incorrect_characters, 

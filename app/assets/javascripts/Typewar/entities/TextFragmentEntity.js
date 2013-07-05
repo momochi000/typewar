@@ -22,13 +22,22 @@
  *    content.
  */
 
+
 var TextFragmentEntity = BaseEntity.extend({
   defaults: {
     text: 'Default text, please initialize with real text'
   },
 
   initialize: function (){
-    var entity = Crafty.e("2D, DOM, TextFragment").textFragment(this.get("text"));
+    var entity = Crafty.e("2D, DOM, TextFragment, Physics2D")
+      .attr({
+        x: this.get('x') || 0, 
+        y: this.get('y') || 0, 
+        w: this.get('w') || 5, 
+        h: this.get('h') || 5
+      })
+      .physics2D()
+      .textFragment(this.get("text"));
     this.set("entity", entity);
     return this;
   },
@@ -48,5 +57,3 @@ var TextFragmentEntity = BaseEntity.extend({
     entity.destroy();
   },
 });
-
-
