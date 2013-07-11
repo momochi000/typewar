@@ -2,8 +2,12 @@
 .text-fragment-wrapper {
   &.active { background-color: pink; }
 
-  font-size: 2em;
+  float: left;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.2em;
   span.typed { background-color: green; }
   span.missed { background-color: red; }
   span.rest { background-color: yellow; }
 }
+
