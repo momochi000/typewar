@@ -25,6 +25,11 @@ Crafty.c("Physics2D", {
     return this;
   },
 
+  setSpeed: function (new_x_spd, new_y_spd){
+    this._spd_x = new_x_spd;
+    this._spd_y = new_y_spd;
+  },
+
   //TODO: Rather than simply multiply by timestep, we need to check against
   //the previous frame to see if we've skipped or lost any frames.
   updatePos: function (){ //update the entity position
