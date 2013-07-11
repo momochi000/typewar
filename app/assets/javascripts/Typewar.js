@@ -8,5 +8,7 @@ TypewarGame.initGame = function (viewportHeight, viewportWidth){
 };
 
 TypewarGame.startGame = function (){ 
-  Crafty.scene("main");
+  var battle_scene;
+  battle_scene = new ProtoBattleScene;
+  battle_scene.play();
 };

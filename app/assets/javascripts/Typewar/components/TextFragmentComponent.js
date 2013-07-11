@@ -3,7 +3,9 @@ var TextFragmentView = Backbone.View.extend({
   className: 'text-fragment',
   _template_id: "#text_fragment_template",
   render: function (opts){
-    if(!this.id) { this.el.id = this._generateUniqueId(); }
+    if(!this.id) { 
+      this.id = this._generateUniqueId(); 
+    }
     if(!_.any($(this.id))){
       this.$el.html(_.template($(this._template_id).html(), opts));
       if(this.options.entity_id) {
@@ -28,11 +30,11 @@ var TextFragmentView = Backbone.View.extend({
 
 Crafty.c("TextFragment", {
   is_active: false,
+  is_complete: false,
   _correct_characters: '',
-  _complete_callback: null,
   _current_position: null,
   _incorrect_characters: '',
-  _success_callback: null,
+  _success_callback: undefined,
   _text: '',
   _view: null,
 
@@ -66,16 +68,61 @@ Crafty.c("TextFragment", {
     if(!this._view) { 
       this._view = new TextFragmentView({entity_id: this.getDomId()});
     }
-    this._view.render({active: this.is_active,
-                       typed: this._correct_characters, 
-                       missed: this._incorrect_characters, 
-                       rest: this._text.slice(this._current_position)});
+    if(!this.is_complete) {
+      this._view.render({active: this.is_active,
+                         typed: this._correct_characters, 
+                         missed: this._incorrect_characters, 
+                         rest: this._text.slice(this._current_position)});
+    } else {
+      // TODO: Render completed text fragments differently
+      //  For now, just dont' render completed ones
+
+      //this._view.render({active: this.is_active,
+      //                   typed: this._correct_characters, 
+      //                   missed: this._incorrect_characters, 
+      //                   rest: this._text.slice(this._current_position)});
+
+    }
+  },
+
+  /* We want to call this when the fragment is no longer to be displayed.
+   * The fragment doesn't get destroyed yet, it may have reached the player or
+   * it may have been correctly typed.  Either way, we remove it from the
+   * battle scene.
+   * The fragment itself might go into a completed array or failed array or 
+   * something for now, that is outside of the scope of this method.
+   */
+  removeFromPlay: function (){
+    this._view.remove();
   },
 
   //private
 
   _attachKeyboardHandler: function (){
     this.bind('KeyDown', this._handleKeyPress);
+  },
+
+  _complete: function (){
+    var output_data;
+    this.is_complete = true
+    this.deactivate();
+    // Fire the success callback if one is registered
+    if(this._success_callback) { this._success_callback(); }
+    this.drawSelf();
+
+    // TODO: decide what data to provide when this event gets fired.
+    // Here's a few I've thought of:
+    // success: true/false
+    // typos: int
+    // speed/time ?
+    // length ?
+
+    output_data = {};
+    output_data["text_fragment"] = this;
+    output_data["success"] = (this._incorrect_characters.size == 0);
+    Crafty.trigger("TextFragmentCompleted", output_data);
+    this.removeFromPlay();
+    return this;
   },
 
   _detachKeyboardHandler: function (){
@@ -98,11 +145,7 @@ Crafty.c("TextFragment", {
 
   _checkForCompletion: function (){
     if(this._correct_characters.length == this._text.length){
-      console.log("wohoo! successfully typed the thingy");
-      this.deactivate();
-      // Fire the success callback if one is registered
-      if(this._success_callback) { this._success_callback(); }
-      this.drawSelf();
+      this._complete();
     }
   },
 
@@ -152,7 +195,7 @@ Crafty.c("TextFragment", {
       case(Crafty.keys['7']):
         return '7';
       case(Crafty.keys['8']):
-        return '9';
+        return '8';
       case(Crafty.keys['9']):
         return '9';
       case(Crafty.keys['A']):
@@ -232,5 +275,3 @@ Crafty.c("TextFragment", {
     }
   }
 });
-
-
