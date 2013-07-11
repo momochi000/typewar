@@ -2,3 +2,4 @@ tmp
 *.swp
 log
 development
+.DS_Store
