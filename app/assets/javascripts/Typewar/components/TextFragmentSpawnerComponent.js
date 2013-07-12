@@ -4,29 +4,33 @@
 
 Crafty.c("TextFragmentSpawner", {
   _fragment_collection: null,
+  _completed_fragment_collection: null,
   _current_fragment: null,
   _current_fragment_index: null,
 
   init: function (){
     this.requires("2D");
     this._fragment_collection = [];
+    this._completed_fragment_collection = [];
   },
 
   textFragmentSpawner: function (){
+    Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
     return this;
   },
 
-  activateNextFragment: function (){
-    var next_frag;
-    if(!this._current_fragment){
-      this._current_fragment = this._fragment_collection[this._current_fragment_index];
-    }else{
-      if(this._current_fragment.is_complete){ 
-        this._current_fragment_index++;
-        this._current_fragment = this._fragment_collection[this._current_fragment_index];
-        this._current_fragment.activate();
-      }
+  activateNextFragment: function() {
+    if(this._fragment_collection.length > 0) {
+      this._fragment_collection[0].activate();
     }
+  },
+
+  moveCompletedFragment: function() {
+    var completedFragment = this._fragment_collection.shift();
+    if(completedFragment) { 
+      this._completed_fragment_collection.shift(completedFragment) 
+    }
+
   },
 
   generateTextFragment: function (text, speed){
@@ -38,13 +42,12 @@ Crafty.c("TextFragmentSpawner", {
     new_frag = new TextFragmentEntity({
       text: new_text,
       x: this._x,
-      y: this._y
+      y: this._y + 50 - Math.random() * 100
     });
 
     new_frag.getEntity().setSpeed(speed[0], speed[1]);
 
     this._fragment_collection.push(new_frag);
-    this._current_fragment_index = (this._current_fragment_index ? this._current_fragment_index+1 : 0)
 
     this.activateNextFragment();
 
@@ -62,6 +65,11 @@ Crafty.c("TextFragmentSpawner", {
       result += valid_chars[Math.round(Math.random() * (valid_chars.length - 1))];
     }
     return result;
+  },
+
+  textFragmentCompleted: function (e){
+    this.moveCompletedFragment();
+    this.activateNextFragment();
   }
 
   //private

@@ -15,12 +15,14 @@ Crafty.c("BattleNPCEnemy", {
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet;
     this._text_fragment_spawner = this._createFragmentSpawner();
     this.attach(this._text_fragment_spawner);
-    Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted);
+    Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
     return this;
   },
 
   attack: function (){
-    this._text_fragment_spawner.generateTextFragment(null, [-10, 0]);
+    var speed = -10 * Math.random();
+    var frag = this._text_fragment_spawner.generateTextFragment(null, [speed, 0]);
+    frag.getEntity().drawSelf();
   },
 
   textFragmentCompleted: function (e){

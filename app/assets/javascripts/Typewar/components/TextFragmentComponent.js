@@ -50,10 +50,12 @@ Crafty.c("TextFragment", {
   },
 
   activate: function (){ 
-    this._current_position = 0;
-    this.is_active = true; 
-    this._attachKeyboardHandler();
-    this.drawSelf();
+    if(!this.is_active){
+      this._current_position = 0;
+      this.is_active = true; 
+      this._attachKeyboardHandler();
+      this.drawSelf();
+    }
   },
 
   deactivate: function (){ 
