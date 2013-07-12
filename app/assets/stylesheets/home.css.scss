@@ -1,20 +1,7 @@
-#main {
-  margin-top: 2em;
+#cr-stage {
+  margin: 1em auto;
+}
 
-  #text-display {
-    border: 1px solid black;
-    padding: 10px;
-    background-color: #CCC;
-    margin: 20px 0;
-  }
-
-  .text-input-wrap {
-    text-align: center;
-
-    input {
-      height: 40px;
-      font-size: 30px;
-      line-height: 30px;
-    }
-  }
+.title {
+  text-align: center;
 }

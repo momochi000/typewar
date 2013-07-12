@@ -1,23 +1,5 @@
-.container#main
-  .row
-    .span10.offset1
-      .hero-unit
-        %p Type the text as it appears below:
-        #text-display
-        .text-input-wrap
-          = text_field_tag :text_entry, "", class: "input-xlarge", placeholder: "Input text here!"
-
+%h1.title Typewar
 - content_for :javascripts do
   :javascript
     TypewarGame.initGame(1080,480);
     TypewarGame.startGame();
-    /*
-    $(function() {
-      var game = Typewar.TextInputManager.init({
-        display: "#text-display",
-        input: "#text_entry"
-      });
-
-      game.start();
-    });
-    */
