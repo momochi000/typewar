@@ -4,6 +4,8 @@
 
 Crafty.c("TextFragmentSpawner", {
   _fragment_collection: null,
+  _current_fragment: null,
+  _current_fragment_index: null,
 
   init: function (){
     this.requires("2D");
@@ -12,6 +14,19 @@ Crafty.c("TextFragmentSpawner", {
 
   textFragmentSpawner: function (){
     return this;
+  },
+
+  activateNextFragment: function (){
+    var next_frag;
+    if(!this._current_fragment){
+      this._current_fragment = this._fragment_collection[this._current_fragment_index];
+    }else{
+      if(this._current_fragment.is_complete){ 
+        this._current_fragment_index++;
+        this._current_fragment = this._fragment_collection[this._current_fragment_index];
+        this._current_fragment.activate();
+      }
+    }
   },
 
   generateTextFragment: function (text, speed){
@@ -27,16 +42,19 @@ Crafty.c("TextFragmentSpawner", {
     });
 
     new_frag.getEntity().setSpeed(speed[0], speed[1]);
-    new_frag.getEntity().activate();
 
     this._fragment_collection.push(new_frag);
+    this._current_fragment_index = (this._current_fragment_index ? this._current_fragment_index+1 : 0)
+
+    this.activateNextFragment();
+
     return new_frag;
   },
 
   generateRandomString: function (length){
     var i, l, valid_chars, result;
 
-    valid_chars = '0123456789abcdefghijklmnopqrstuvwxyz      ';
+    valid_chars = '0123456789abcdefghijklmnopqrstuvwxyz   ';
     l = length || 12; 
     result = '';
 
@@ -45,15 +63,6 @@ Crafty.c("TextFragmentSpawner", {
     }
     return result;
   }
+
+  //private
 });
-
-
-
-// FOR DEVELOPMENT: marked for deletion
-var global_spwn;
-global_spwn = Crafty.e("2D, TextFragmentSpawner")
-  .attr({
-    x: 300,
-    y: 100,
-  })
-  .textFragmentSpawner();

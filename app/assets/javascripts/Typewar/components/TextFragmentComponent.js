@@ -106,7 +106,6 @@ Crafty.c("TextFragment", {
     var output_data;
     this.is_complete = true
     this.deactivate();
-    // Fire the success callback if one is registered
     if(this._success_callback) { this._success_callback(); }
     this.drawSelf();
 
