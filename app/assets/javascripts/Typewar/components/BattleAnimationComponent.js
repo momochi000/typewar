@@ -2,7 +2,7 @@
  * that will be overwritten by specific enemies (maybe)
  * Mainly it's going to define an interface of what sorts of animations any 
  * NPC in battle are going to respond to.
- * Standard combat stance animation
+ * Standard battle stance animation
  * Alternate stances? 
  * A set of standard attacks,
  * A set of hit animations
@@ -16,5 +16,9 @@ Crafty.c("BattleAnimation", {
   },
 
   battleAnimation: function (){
-  }
+    return this;
+  },
+  animAttack: function (){},
+  animReady: function (){},
+  animHit: function (){}
 });

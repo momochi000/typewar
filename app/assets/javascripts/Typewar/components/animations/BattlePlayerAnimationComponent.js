@@ -1,4 +1,4 @@
-Crafty.c("BattlePlayerAnimation", {
+Crafty.c("BattlePlayerAnim", {
   _READY_ANIM_SPEED: 29,
   _ATTACK_ANIM_SPEED: 8,
 
@@ -6,7 +6,7 @@ Crafty.c("BattlePlayerAnimation", {
     this.requires("SpriteAnimation");
   },
 
-  battlePlayerAnimation: function (){
+  battlePlayerAnim: function (){
     var self = this;
     this.animate("ready", 0, 0, 6)
       .animate("hit", 0, 1, 6)
