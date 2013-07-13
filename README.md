@@ -38,6 +38,10 @@ Some upcoming features:
 
   Add second stream of text fragments from enemy (spawner). 
 
+  Give the active text fragment z-index > all others
+
+  Do not auto activate the 'next' text fragment (in collection). The player 
+  should be able to activate one by typing.
 
 ---
 ### DONE - 
