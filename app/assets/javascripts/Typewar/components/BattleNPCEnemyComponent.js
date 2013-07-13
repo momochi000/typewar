@@ -26,8 +26,8 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   textFragmentCompleted: function (e){
-    console.log("DEBUG: DETECTED A TEXT FRAGMENT COMPLETE");
-    console.log(e);
+    var self = this;
+    window.setTimeout(function (){ self.animHit(); }, 430);
   },
 
   //delete: function (){
