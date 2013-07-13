@@ -53,6 +53,7 @@ Crafty.c("TextFragment", {
     if(!this.is_active){
       this._current_position = 0;
       this.is_active = true; 
+      this.z = 99999;
       this._attachKeyboardHandler();
       this.drawSelf();
     }
@@ -61,6 +62,7 @@ Crafty.c("TextFragment", {
   deactivate: function (){ 
     this._detachKeyboardHandler();
     this.is_active = false; 
+    this.z = 0;
     this._current_position = null;
     this.drawSelf();
   },
