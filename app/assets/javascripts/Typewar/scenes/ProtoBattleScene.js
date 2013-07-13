@@ -19,23 +19,24 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initializePC: function (){
-    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerAnimation, pl_st0")
-    player.attr({ x: 20, y: 250 })
-      .battlePlayerAnimation()
-      .battlePlayer()
-      .animate("ready", player._READY_ANIM_SPEED, -1);
+    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerAnim, pl_st0")
+    player.attr({ x: 20, y: 200 })
+      .battlePlayerAnim()
+      .battlePlayer();
     global_player = player;
   },
 
   initializeEnemyNPC: function (){
-    enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy")
+    enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, slime_st0")
       .attr({x: 700, y: 250})
+      .battleSlimeAnim()
       .battleNPCEnemy();
     global_enemy = enemy_npc; // DEBUG:
   },
 
   initializeSprites: function (){
     Sprite.create('player');
+    Sprite.create('slime');
   },
 
   play: function (){
