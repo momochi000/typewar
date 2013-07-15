@@ -4,7 +4,8 @@
  */
 
 Crafty.c("BattleNPCEnemy", {
-  _text_fragment_spawner: null,
+  _attack_fragment_spawner: null,
+  _defense_fragment_spawner: null,
   char_sheet: null,
 
   init: function (){
@@ -13,26 +14,38 @@ Crafty.c("BattleNPCEnemy", {
 
   battleNPCEnemy: function (char_sheet){
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet;
-    this._text_fragment_spawner = this._createFragmentSpawner();
-    this.attach(this._text_fragment_spawner);
+    this._createFragmentSpawners();
     Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
     return this;
   },
 
   attack: function (){
-    var speed = -10 * Math.random();
-    var frag = this._text_fragment_spawner.generateTextFragment(null, [speed, 0]);
+    var frag, speed;
+
+    speed = -20 * Math.random();
+    frag = this._attack_fragment_spawner.generateTextFragment({speed: [speed, 0], type: 'attack'});
+    frag.getEntity().drawSelf();
+  },
+
+  defend: function (){
+    var frag, speed;
+
+    speed = -20 * Math.random();
+    frag = this._defense_fragment_spawner.generateTextFragment({speed: [speed, 0], type: 'defense'});
     frag.getEntity().drawSelf();
   },
 
   textFragmentCompleted: function (e){
+    var self, completed_fragment;
     var self = this;
+    completed_fragment = e.text_fragment;
     window.setTimeout(function (){ self.animHit(); }, 430);
   },
 
   //delete: function (){
   //  Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted);
-  //  this._text_fragment_spawner.destroy();
+  //  this._attack_fragment_spawner.destroy();
+  //  this._defense_fragment_spawner.destroy();
   //  this.destroy();
   //},
   

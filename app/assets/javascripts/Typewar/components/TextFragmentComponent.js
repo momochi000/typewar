@@ -31,6 +31,7 @@ var TextFragmentView = Backbone.View.extend({
 Crafty.c("TextFragment", {
   is_active: false,
   is_complete: false,
+  type: 'attack',
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
@@ -94,7 +95,7 @@ Crafty.c("TextFragment", {
    * it may have been correctly typed.  Either way, we remove it from the
    * battle scene.
    * The fragment itself might go into a completed array or failed array or 
-   * something for now, that is outside of the scope of this method.
+   * something. For now, that is outside of the scope of this method.
    */
   removeFromPlay: function (){
     this._view.remove();

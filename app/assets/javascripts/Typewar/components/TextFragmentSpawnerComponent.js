@@ -15,7 +15,8 @@ Crafty.c("TextFragmentSpawner", {
   },
 
   textFragmentSpawner: function (){
-    Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
+    //Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
+    Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
     return this;
   },
 
@@ -28,24 +29,34 @@ Crafty.c("TextFragmentSpawner", {
   moveCompletedFragment: function() {
     var completedFragment = this._fragment_collection.shift();
     if(completedFragment) { 
-      this._completed_fragment_collection.shift(completedFragment) 
+      this._completed_fragment_collection.push(completedFragment) 
     }
-
   },
 
-  generateTextFragment: function (text, speed){
-    var new_frag, new_text;
+  /* generateTextFragment(<hash> options) => TextFragmentEntity
+   * options defines the attributes and behavior to attach to the newly
+   * spawned text fragment.
+   * Valid options:
+   *   <string>text : the text of the fragment
+   *   speed [x_spd, y_spd]
+   *   <string>type : a type string to define the type of fragment. Some example
+         types are 'attack' 'defense' 'special' 'combo'
+   */
+  generateTextFragment: function (options){
+    var new_frag, new_text, new_speed, new_type;
 
-    new_text = text || this.generateRandomString();
-    speed = speed || [0,0];
+    new_text = options["text"] || this.generateRandomString();
+    new_speed = options["speed"] || [0,0];
+    new_type = options["type"] || 'attack';
 
     new_frag = new TextFragmentEntity({
       text: new_text,
       x: this._x,
-      y: this._y + 50 - Math.random() * 100
+      y: this._y + 50 - Math.random() * 100,
+      type: new_type
     });
 
-    new_frag.getEntity().setSpeed(speed[0], speed[1]);
+    new_frag.getEntity().setSpeed(new_speed[0], new_speed[1]);
 
     this._fragment_collection.push(new_frag);
 
