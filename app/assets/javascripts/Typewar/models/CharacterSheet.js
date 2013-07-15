@@ -21,7 +21,7 @@ Typewar.Models.CharacterSheet = Backbone.Model.extend({
   defaults: {
     name: 'please enter a name',
     status: {
-      hp: 0
+      hp: 20
     },
     stats: {
       str: 0, 

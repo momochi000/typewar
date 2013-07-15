@@ -45,6 +45,13 @@ Crafty.c("BattleNPCEnemy", {
     window.setTimeout(function (){ self.animHit(); }, 430);
   },
 
+  takeDamage: function(damage) {
+    var currentHP = this.char_sheet.get("status").hp;
+    var newHP = currentHP - damage;
+
+    this.char_sheet.set({status: {hp: newHP}});
+  },
+
   //delete: function (){
   //  Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted);
   //  this._attack_fragment_spawner.destroy();

@@ -78,6 +78,9 @@ allow the player to prepare which works well for close combat and combos.
   Ultimately the players should probably trigger 'Attack' events that the manager listens to, but as currently
   implemented, the TextFragmentComponent ends up triggering 'TextFragmentCompleted' which the manager listens to.
 
+  Ideas:
+    Can have a base player/enemy entity that responds to all of the battle-required methods (currently calculateDamage, deliverAttack, handleBeingAttacked)
+
 ---
 ### DONE - 
 

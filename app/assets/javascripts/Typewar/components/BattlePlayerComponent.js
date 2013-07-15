@@ -21,6 +21,13 @@ Crafty.c("BattlePlayer", {
 
   handleBeingAttacked: function(e) {
     //stub for now, but could play animation or etc.
+  },
+
+  takeDamage: function(damage) {
+    var currentHP = this.char_sheet.get("status").hp;
+    var newHP = currentHP - damage;
+
+    this.char_sheet.set({status: {hp: newHP}});
   }
 });
 
