@@ -1,6 +1,9 @@
 .text-fragment {}
 .text-fragment-wrapper {
-  &.active { background-color: pink; }
+  &.active { 
+    z-index: 99999;
+    background-color: pink; 
+  }
 
   float: left;
   text-align: center;
