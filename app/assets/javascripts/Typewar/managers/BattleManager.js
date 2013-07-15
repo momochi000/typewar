@@ -56,12 +56,6 @@ _.extend(TypewarGame.BattleManager.prototype, {
 
   // private
   _resolveAttack: function (fragment){
-    // LEFT OFF~~~~~~~~
-    //   Partial hit still being reported when over 90% succ
-    //   Need to tie up loose ends
-    //   wrap up player getting hit vs enemy getting hit vs
-    //   player getting attacked vs enemy attacking.
-
     fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){
       fragment.defender.successfulHit();
