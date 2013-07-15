@@ -15,8 +15,7 @@ Crafty.c("TextFragmentSpawner", {
     this._completed_fragment_collection = [];
   },
 
-  textFragmentSpawner: function (opts){
-    this._parent = opts.parent;
+  textFragmentSpawner: function (){
     Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
     return this;
   },

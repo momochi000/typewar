@@ -29,16 +29,18 @@ var TextFragmentView = Backbone.View.extend({
 });
 
 Crafty.c("TextFragment", {
+  attacker: null,
+  defender: null,
   is_active: false,
   is_complete: false,
   type: 'attack',
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
+  _parent: null,
   _success_callback: undefined,
   _text: '',
   _view: null,
-  _parent: null,
 
   init: function (){
     this.requires("DOM");
@@ -48,6 +50,8 @@ Crafty.c("TextFragment", {
   textFragment: function (opts){
     this._text = opts.text;
     this._parent = opts.parent;
+    this.attacker = opts.attacker;
+    this.defender = opts.defender;
     if(opts.success_callback) { this._success_callback = opts.success_callback; }
     return this;
   },
@@ -90,6 +94,44 @@ Crafty.c("TextFragment", {
       //                   rest: this._text.slice(this._current_position)});
 
     }
+  },
+
+  isAttack: function (){
+    if(this.type === "attack"){ return true; }
+    return false;
+  },
+
+  isDefense: function (){
+    if(this.type === "defense"){ return true; }
+    return false;
+  },
+
+  wasPerfect: function (){
+    if(this.successPct() == 1) { return true; }
+    return false;
+  },
+
+  /* Returns a percentage of how correctly was the fragment typed 
+   * returns false if the fragment isn't yet completed.
+   * When we allow backspacing, this should include backspaces in
+   * the success percentage. There should be a skill that allows
+   * a certain number of backspaces to get 100%
+   */
+
+  successPct: function (){
+    var rating;
+
+    console.log("DEBUG: Calculating typing success on fragment => ");
+    if(!this.is_complete) { return false; }
+
+    console.log("DEBUG: incorrect: -> " + this._incorrect_characters.length);
+    console.log("DEBUG: correct: -> " + this._correct_characters.length);
+    rating = this._incorrect_characters.length / this._correct_characters.length;
+    rating = 1-rating;
+
+    console.log("DEBUG: Calculated: rating given -> " + rating);
+    console.log("DEBUG: Calculated: rating % -> " + (rating*100));
+    return (rating*100);
   },
 
   /* We want to call this when the fragment is no longer to be displayed.
