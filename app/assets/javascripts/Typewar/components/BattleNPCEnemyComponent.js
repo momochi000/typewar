@@ -13,7 +13,7 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   battleNPCEnemy: function (char_sheet){
-    this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet;
+    this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
     this._attack_fragment_spawner = this._createFragmentSpawner();
     return this;
   },
@@ -50,6 +50,19 @@ Crafty.c("BattleNPCEnemy", {
     var newHP = currentHP - damage;
 
     this.char_sheet.set({status: {hp: newHP}});
+    this.updateStatus();
+  },
+
+  getStatus: function(attribute) {
+    return this.char_sheet.get("status")[attribute];
+  },
+
+  getName: function() {
+    return this.char_sheet.get("name");
+  },
+
+  updateStatus: function() {
+    this.trigger("updateStatus");
   },
 
   //delete: function (){

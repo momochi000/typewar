@@ -8,7 +8,7 @@ Crafty.c("BattlePlayer", {
   battlePlayer: function (char_sheet){
     var self = this;
 
-    this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet;
+    this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Player"});
 
     return this;
   },
@@ -28,6 +28,19 @@ Crafty.c("BattlePlayer", {
     var newHP = currentHP - damage;
 
     this.char_sheet.set({status: {hp: newHP}});
+    this.updateStatus();
+  },
+
+  getStatus: function(attribute) {
+    return this.char_sheet.get("status")[attribute];
+  },
+
+  getName: function() {
+    return this.char_sheet.get("name");
+  },
+
+  updateStatus: function() {
+    this.trigger("updateStatus");
   }
 });
 

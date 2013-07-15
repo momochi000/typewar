@@ -8,7 +8,8 @@ var ProtoBattleScene = Backbone.Model.extend({
   initialize: function (){
     var self,
       enemy_npc,
-      player;
+      player,
+      statusBar;
 
     self = this;
     Crafty.scene(self.get('scene_id'), function (){
@@ -17,6 +18,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       enemy_npc = self.initializeEnemyNPC();
       player = self.initializePC();
       self.initializeBattleManager(player, enemy_npc);
+      self.initializeStatusBar(player, enemy_npc);
     });
   },
 
@@ -47,6 +49,14 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initializeBattleManager: function(player, enemy) {
     new TypewarGame.BattleManager(player, enemy);
+  },
+
+  initializeStatusBar: function(player, enemy) {
+    var statusBar = new Typewar.Views.StatusBarView();
+    statusBar.addEntity(player);
+    statusBar.addEntity(enemy);
+
+    statusBar.render();
   },
 
   play: function (){
