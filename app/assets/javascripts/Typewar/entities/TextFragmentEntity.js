@@ -38,7 +38,12 @@ var TextFragmentEntity = BaseEntity.extend({
         h: this.get('h') || 5
       })
       .physics2D()
-      .textFragment({text: this.get("text"), parent: this.get('parent') });
+      .textFragment({
+        text: this.get("text"), 
+        parent: this.get('parent'),
+        attacker: this.get("attacker"),
+        defender: this.get("defender")
+      });
 
     if(this.get('type')){ entity.type = this.get('type') }
     this.set("entity", entity);

@@ -15,43 +15,40 @@ Crafty.c("BattleNPCEnemy", {
 
   battleNPCEnemy: function (char_sheet){
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
+    // TODO: merge the spawners ive created, only need one.
     //this._attack_fragment_spawner = this._createFragmentSpawner();
     this._createFragmentSpawners();
-    Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
+    //Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
     return this;
   },
 
-  attack: function (){
+  attackInitiatedFrom: function (attacker){
     var frag, speed;
 
     speed = -20 * Math.random();
-    frag = this._attack_fragment_spawner.generateTextFragment({speed: [speed, 0], type: 'attack'});
+    frag = this._attack_fragment_spawner.generateTextFragment({
+      speed: [speed, 0],
+      attacker: attacker,
+      defender: this,
+      type: "attack"
+    });
     frag.getEntity().drawSelf();
   },
 
-  /* Calculates what should happen on this party's side of the combat round
-   * If the player hit the enemy successfully, compute damage and play the
-   * appropriate animations, trigger the appropriate events. This logic could
-   * probably live somewhere else, but hey, as long as its' wrapped nicely
-   * right here we should be able to pluck it out when we care to.
-   */
-  computeRound: function (text_fragment){
-    if(text_fragment.isAttack()){
-      this._resolveAttack(text_fragment);
-    }else if(text_fragment.isDefense()){
-      this._resolveDefense(text_fragment);
-    }
-  },
-
-  defend: function (){
+  initiateAttackOn: function (defender){
     var frag, speed;
 
     speed = -20 * Math.random();
-    frag = this._defense_fragment_spawner.generateTextFragment({speed: [speed, 0], type: 'defense'});
+    frag = this._defense_fragment_spawner.generateTextFragment({
+      speed: [speed, 0],
+      attacker: this,
+      defender: defender,
+      type: "defense"
+    });
     frag.getEntity().drawSelf();
   },
 
-  miss: function (){
+  wasMissed: function (){
     console.log("DEBUG: SLIME: MISSED ME!!");
   },
   
@@ -71,13 +68,6 @@ Crafty.c("BattleNPCEnemy", {
     var self = this;
     console.log("DEBUG: SLIME: HIT!! GOT ME GOOD D=");
     window.setTimeout(function (){ self.animHit(); }, this._ANIM_DELAY);
-  },
-
-  textFragmentCompleted: function (e){
-    var completed_fragment;
-    
-    completed_fragment = e.text_fragment;
-    this.computeRound(completed_fragment);
   },
 
   takeDamage: function(damage) {
@@ -108,25 +98,6 @@ Crafty.c("BattleNPCEnemy", {
   //},
   
   //private 
-
-  /* Calculate a successful/unsuccessful defense based on the given fragment 
-   * decide whether/how to animate, calculate damage taken, etc
-   */
-  _resolveDefense: function (fragment){
-    if(fragment.wasPerfect()){
-      this.successfulDefense();
-    }
-  },
-
-  _resolveAttack: function (fragment){
-    if(fragment.wasPerfect()){
-      this.successfulHit();
-    }else if(fragment.successPct() > 90){
-      this.partialHit();
-    } else {
-      this.miss();
-    }
-  },
 
   _createFragmentSpawners: function (){
     this._attack_fragment_spawner = Crafty.e("2D, TextFragmentSpawner")

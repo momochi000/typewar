@@ -54,7 +54,8 @@ Crafty.c("TextFragmentSpawner", {
       x: this._x,
       y: this._y + 50 - Math.random() * 100,
       type: new_type,
-      parent: this._parent
+      attacker: options.attacker,
+      defender: options.defender
     });
 
     new_frag.getEntity().setSpeed(new_speed[0], new_speed[1]);

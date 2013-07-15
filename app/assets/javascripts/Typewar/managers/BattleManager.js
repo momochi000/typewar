@@ -1,15 +1,31 @@
 //Can eventually refactor this to be multiple entities
 // TODO: Make this into a backbone model
-TypewarGame.BattleManager = function(text_fragment) {
-  this.attacker = text_fragment.attacker;
-  this.defender = text_fragment.defender;
-  this.fragment = text_fragment;
-
+TypewarGame.BattleManager = function() {
   Crafty.bind("TextFragmentCompleted", _.bind(this.handleAttack, this));
 }
 
 _.extend(TypewarGame.BattleManager.prototype, {
   handleAttack: function(data) {
+    var text_fragment;
+
+    text_fragment = data.text_fragment;
+    console.log("DEBUG:handling attack with data => ");
+    console.log(data);
+
+    if(text_fragment.type == 'attack'){
+      this._resolveAttack(text_fragment);
+    }else if(text_fragment.type == 'defense'){
+      this._resolveDefense(text_fragment);
+    }
+
+
+    //if(text_fragment.isAttack()){
+    //  this._resolveAttack(text_fragment);
+    //}else if(text_fragment.isDefense()){
+    //  this._resolveDefense(text_fragment);
+    //}
+
+
 //    if(data.parent === this.entityTwo) {
 //      this.entityOne.deliverAttack();
 //      this.entityTwo.handleBeingAttacked(data);
@@ -36,5 +52,32 @@ _.extend(TypewarGame.BattleManager.prototype, {
   calculateDamage: function(opts) {
     //stub for now, should eventually do some math
     return 2;
-  }
+  },
+
+  // private
+  _resolveAttack: function (fragment){
+    // LEFT OFF~~~~~~~~
+    //   Partial hit still being reported when over 90% succ
+    //   Need to tie up loose ends
+    //   wrap up player getting hit vs enemy getting hit vs
+    //   player getting attacked vs enemy attacking.
+
+    fragment.attacker.deliverAttack();
+    if(fragment.wasPerfect()){
+      fragment.defender.successfulHit();
+      fragment.defender.takeDamage();
+    }else if(fragment.successPct() > 90){
+      fragment.defender.partialHit();
+      fragment.defender.takeDamage();
+    } else {
+      fragment.defender.wasMissed();
+    }
+  },
+
+  _resolveDefense: function (fragment){
+    fragment.attacker.deliverAttack();
+    if(fragment.wasPerfect()){
+      fragment.defender.successfulDefense();
+    }
+  },
 });

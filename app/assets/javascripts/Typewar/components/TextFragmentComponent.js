@@ -105,7 +105,7 @@ Crafty.c("TextFragment", {
   },
 
   wasPerfect: function (){
-    if(this.successPct() == 1) { return true; }
+    if(this.successPct() >= 99.9) { return true; }
     return false;
   },
 
@@ -119,16 +119,12 @@ Crafty.c("TextFragment", {
   successPct: function (){
     var rating;
 
-    console.log("DEBUG: Calculating typing success on fragment => ");
     if(!this.is_complete) { return false; }
+    if(this._incorrect_characters.length == 0) { return 100; }
 
-    console.log("DEBUG: incorrect: -> " + this._incorrect_characters.length);
-    console.log("DEBUG: correct: -> " + this._correct_characters.length);
     rating = this._incorrect_characters.length / this._correct_characters.length;
     rating = 1-rating;
 
-    console.log("DEBUG: Calculated: rating given -> " + rating);
-    console.log("DEBUG: Calculated: rating % -> " + (rating*100));
     return (rating*100);
   },
 
