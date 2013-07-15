@@ -11,15 +11,12 @@
  *   int
  *   cha
  *   wis
-
- * 
- * 
- * ================== End list of attributes
  */
 
 Typewar.Models.CharacterSheet = Backbone.Model.extend({
   defaults: {
     name: 'please enter a name',
+    level: 0,
     status: {
       hp: 20
     },
@@ -31,6 +28,6 @@ Typewar.Models.CharacterSheet = Backbone.Model.extend({
       int: 0, 
       cha: 0, 
       wis: 0
-     }
-  },
+    }
+  }
 });
