@@ -76,7 +76,15 @@ var Sprite = Backbone.Model.extend({
         'slime_att04': [4,2],
         'slime_att05': [5,2],
         'slime_att06': [6,2],
-        'slime_att06': [7,2]
+        'slime_att06': [7,2],
+        'slime_blk00': [0,3],
+        'slime_blk01': [1,3],
+        'slime_blk02': [2,3],
+        'slime_blk03': [3,3],
+        'slime_blk04': [4,3],
+        'slime_blk05': [5,3],
+        'slime_blk06': [6,3],
+        'slime_blk07': [7,3]
       }
     }
   },

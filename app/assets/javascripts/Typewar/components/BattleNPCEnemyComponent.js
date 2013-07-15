@@ -35,6 +35,10 @@ Crafty.c("BattleNPCEnemy", {
     frag.getEntity().drawSelf();
   },
 
+  deliverAttack: function (){
+    this.animAttack();
+  },
+
   initiateAttackOn: function (defender){
     var frag, speed;
 
@@ -54,14 +58,14 @@ Crafty.c("BattleNPCEnemy", {
   
   partialHit: function (){
     console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
-    //var self = this;
-    //window.setTimeout(function (){ self.animGuard(); }, this._ANIM_DELAY);
+    var self = this;
+    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_DELAY);
   },
 
   successfulDefense: function (){
     console.log("DEBUG: SLIME: DEFENDED!!! ");
-    //var self = this;
-    //window.setTimeout(function (){ self.animGuard(); }, this._ANIM_DELAY);
+    var self = this;
+    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_DELAY);
   },
 
   successfulHit: function (){
@@ -71,8 +75,11 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   takeDamage: function(damage) {
-    var currentHP = this.char_sheet.get("status").hp;
-    var newHP = currentHP - damage;
+    var currentHP, newHP;
+
+    damage = damage || 2;
+    currentHP = this.char_sheet.get("status").hp;
+    newHP = currentHP - damage;
 
     this.char_sheet.set({status: {hp: newHP}});
     this.updateStatus();

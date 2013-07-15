@@ -33,10 +33,14 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initializeEnemyNPC: function (){
+    var slime_char_sheet = new Typewar.Models.CharacterSheet;
+    slime_char_sheet.set('name', 'Chaos slime');
+
+    slime_char_sheet 
     enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, slime_st0")
       .attr({x: 700, y: 250})
       .battleSlimeAnim()
-      .battleNPCEnemy();
+      .battleNPCEnemy(slime_char_sheet);
     global_enemy = enemy_npc; // DEBUG:
 
     return enemy_npc;
