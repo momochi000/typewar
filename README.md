@@ -43,16 +43,45 @@ A certain skill could allow the player to preview a text fragment before it's
 fired. Separate skills that allow preview for attack vs defense. This will
 allow the player to prepare which works well for close combat and combos.
 
----
+Text fragments fly at the player not unlike song chords in beatmania/ddr/et al
+typing the fragment correctly should reduce it to an icon that continues on 
+it's path. When the icon reaches the player, the motion and calculations get
+executed. For example: A slime throws an attack fragment at the player. The
+player types it. The fragment text collapses and what remains is a slime ball
+(representing the slime's attack) continues flying towards the player at the
+same trajectory as the original text fragment box. Once it reaches the player,
+because the player typed it correctly, the player avatar does a block animation
+and receives no damage (or slight damage if the enemy is much stronger.. etc).
 
 ---
 
-### LEFT OFF - 
+---
+
+### LEFT OFF - TODO: Turn these into tracker stories
 
 #### Beef up text fragment spawner
 
   Add second stream of text fragments from enemy (spawner). 
-    Enemy should have two spawners: attack and defense.
+    Player shouldn't swing sword on successful defense. Only attack
+    Make sure behavior functions correctly on both parties for attack and def.
+    text fragments should have a pointer to it's collection, and the collection
+    should have a pointer to it's owner. The spawner should as well.
+
+  Text fragments should answer to TextFragment#success() that reports a percent
+  of how quickly you typed it.
+
+  Attacker and defender should be linked to on each text fragment
+
+  The player should be triggering attacks on the monster(s).
+  Refactor the way attacking and defending works. The text fragments should be
+  labeled with attacker and defender and they should resolve separately and
+  instructions should be sent to each party.
+  There should be a battlecomputer component or module that takes the attacker,
+  the defender, and a completed text fragment and does whatever magical math
+  and our logic to figure out what happened in that round.
+  With this, we can probably ditch the dual spawners on the enemy npc. The
+  enem(y/ies) should still hold the spawner, but no longer need 2, attacks
+  and defenses should still be sent from the enemy's spawner
 
   Make player attack do damage to enemy
 
@@ -67,7 +96,12 @@ allow the player to prepare which works well for close combat and combos.
   Do not auto activate the 'next' text fragment (in collection). The player 
   should be able to activate one by typing.
 
-  Add hit effect sprite
+  Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
+  when you block)
+
+  Gather stats on player typing.
+    Create an object for each keypress with a timestamp. Send back to server 
+    and save.
 
 #### Battle Manager/event propagation
 
@@ -83,6 +117,10 @@ allow the player to prepare which works well for close combat and combos.
 
 ---
 ### DONE - 
+
+  Add second stream of text fragments from enemy (spawner). 
+    Enemy should have two spawners: attack and defense.
+    Modify text fragment spawner to be able to pass in options when generating a text fragment. Make text fragments able to accept arguments which affect the way they behave and are displayed.
 
   Give the active text fragment z-index > all others
 
