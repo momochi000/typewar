@@ -69,6 +69,15 @@ allow the player to prepare which works well for close combat and combos.
 
   Add hit effect sprite
 
+#### Battle Manager/event propagation
+
+  A battle manager that handles all of the battle events, so that individual entities(player/npc) won't
+  have to manage listening to events. They respond to certain methods for animation/dealing/receiving damage
+  that the manager calls.
+
+  Ultimately the players should probably trigger 'Attack' events that the manager listens to, but as currently
+  implemented, the TextFragmentComponent ends up triggering 'TextFragmentCompleted' which the manager listens to.
+
 ---
 ### DONE - 
 
