@@ -7,14 +7,16 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initialize: function (){
     var self,
-      enemy_npc;
+      enemy_npc,
+      player;
 
     self = this;
     Crafty.scene(self.get('scene_id'), function (){
       Crafty.background("black");
       self.initializeSprites();
-      self.initializeEnemyNPC();
-      self.initializePC();
+      enemy_npc = self.initializeEnemyNPC();
+      player = self.initializePC();
+      self.initializeBattleManager(player, enemy_npc);
     });
   },
 
@@ -24,6 +26,8 @@ var ProtoBattleScene = Backbone.Model.extend({
       .battlePlayerAnim()
       .battlePlayer();
     global_player = player;
+
+    return player;
   },
 
   initializeEnemyNPC: function (){
@@ -32,6 +36,8 @@ var ProtoBattleScene = Backbone.Model.extend({
       .battleSlimeAnim()
       .battleNPCEnemy();
     global_enemy = enemy_npc; // DEBUG:
+
+    return enemy_npc;
   },
 
   initializeSprites: function (){
@@ -39,8 +45,11 @@ var ProtoBattleScene = Backbone.Model.extend({
     Sprite.create('slime');
   },
 
+  initializeBattleManager: function(player, enemy) {
+    new TypewarGame.BattleManager(player, enemy);
+  },
+
   play: function (){
     Crafty.scene(this.get('scene_id'));
   }
-
 });

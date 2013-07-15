@@ -14,8 +14,7 @@ Crafty.c("BattleNPCEnemy", {
 
   battleNPCEnemy: function (char_sheet){
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet;
-    this._createFragmentSpawners();
-    Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
+    this._attack_fragment_spawner = this._createFragmentSpawner();
     return this;
   },
 
@@ -35,7 +34,11 @@ Crafty.c("BattleNPCEnemy", {
     frag.getEntity().drawSelf();
   },
 
-  textFragmentCompleted: function (e){
+  deliverAttack: function() {
+   //stub for now
+  },
+
+  handleBeingAttacked: function (e){
     var self, completed_fragment;
     var self = this;
     completed_fragment = e.text_fragment;
@@ -53,6 +56,6 @@ Crafty.c("BattleNPCEnemy", {
   _createFragmentSpawner: function (){
     return Crafty.e("2D, TextFragmentSpawner")
       .attr({x: this._x, y: this._y})
-      .textFragmentSpawner();
+      .textFragmentSpawner({parent: this});
   }
 });

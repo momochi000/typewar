@@ -7,6 +7,7 @@ Crafty.c("TextFragmentSpawner", {
   _completed_fragment_collection: null,
   _current_fragment: null,
   _current_fragment_index: null,
+  _parent: null,
 
   init: function (){
     this.requires("2D");
@@ -14,8 +15,8 @@ Crafty.c("TextFragmentSpawner", {
     this._completed_fragment_collection = [];
   },
 
-  textFragmentSpawner: function (){
-    //Crafty.bind("TextFragmentCompleted", _.bind(this.textFragmentCompleted, this));
+  textFragmentSpawner: function (opts){
+    this._parent = opts.parent;
     Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
     return this;
   },
@@ -53,7 +54,8 @@ Crafty.c("TextFragmentSpawner", {
       text: new_text,
       x: this._x,
       y: this._y + 50 - Math.random() * 100,
-      type: new_type
+      type: new_type,
+      parent: this._parent
     });
 
     new_frag.getEntity().setSpeed(new_speed[0], new_speed[1]);

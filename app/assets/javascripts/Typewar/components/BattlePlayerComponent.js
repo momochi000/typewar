@@ -9,16 +9,18 @@ Crafty.c("BattlePlayer", {
     var self = this;
 
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet;
-    Crafty.bind("TextFragmentCompleted", function (e){
-      console.log("DEBUG: Player received TextFragmentCompleted event");
-      self.attack();
-    });
+
     return this;
   },
 
-  attack: function (){
+  deliverAttack: function (){
     this.animAttack();
     // deal damage to target?
     // build up special meter?
+  },
+
+  handleBeingAttacked: function(e) {
+    //stub for now, but could play animation or etc.
   }
 });
+

@@ -38,15 +38,17 @@ Crafty.c("TextFragment", {
   _success_callback: undefined,
   _text: '',
   _view: null,
+  _parent: null,
 
   init: function (){
     this.requires("DOM");
     this.current_position = 0;
   },
 
-  textFragment: function (text, success_callback){
-    this._text = text;
-    if(success_callback) { this._success_callback = success_callback; }
+  textFragment: function (opts){
+    this._text = opts.text;
+    this._parent = opts.parent;
+    if(opts.success_callback) { this._success_callback = opts.success_callback; }
     return this;
   },
 
@@ -124,6 +126,7 @@ Crafty.c("TextFragment", {
     output_data = {};
     output_data["text_fragment"] = this;
     output_data["success"] = (this._incorrect_characters.size == 0);
+    output_data["parent"] = this._parent;
     Crafty.trigger("TextFragmentCompleted", output_data);
     this.removeFromPlay();
     return this;
