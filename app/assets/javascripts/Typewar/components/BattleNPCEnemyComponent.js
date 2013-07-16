@@ -4,7 +4,7 @@
  */
 
 Crafty.c("BattleNPCEnemy", {
-  _ANIM_DELAY: 430,
+  _ANIM_HIT_DELAY: 430,
   _attack_fragment_spawner: null,
   _defense_fragment_spawner: null,
   char_sheet: null,
@@ -59,19 +59,19 @@ Crafty.c("BattleNPCEnemy", {
   partialHit: function (){
     console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
     var self = this;
-    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_DELAY);
+    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
   },
 
   successfulDefense: function (){
     console.log("DEBUG: SLIME: DEFENDED!!! ");
     var self = this;
-    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_DELAY);
+    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
   },
 
   successfulHit: function (){
     var self = this;
     console.log("DEBUG: SLIME: HIT!! GOT ME GOOD D=");
-    window.setTimeout(function (){ self.animHit(); }, this._ANIM_DELAY);
+    window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
   },
 
   takeDamage: function(damage) {

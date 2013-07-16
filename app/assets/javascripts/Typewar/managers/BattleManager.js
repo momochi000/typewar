@@ -17,36 +17,6 @@ _.extend(TypewarGame.BattleManager.prototype, {
     }else if(text_fragment.type == 'defense'){
       this._resolveDefense(text_fragment);
     }
-
-
-    //if(text_fragment.isAttack()){
-    //  this._resolveAttack(text_fragment);
-    //}else if(text_fragment.isDefense()){
-    //  this._resolveDefense(text_fragment);
-    //}
-
-
-//    if(data.parent === this.entityTwo) {
-//      this.entityOne.deliverAttack();
-//      this.entityTwo.handleBeingAttacked(data);
-//      
-//      var damage = this.calculateDamage({
-//        attacker: this.entityOne,
-//        defender: this.entityTwo
-//      });
-//
-//      this.entityTwo.takeDamage(damage);
-//    } else {
-//      this.entityTwo.deliverAttack();
-//      this.entityOne.handleBeingAttacked(data);
-//
-//      var damage = this.calculateDamage({
-//        attacker: this.entityTwo,
-//        defender: this.entityOne
-//      });
-//
-//      this.entityOne.takeDamage(damage);
-//    }
   },
 
   calculateDamage: function(opts) {
@@ -59,10 +29,10 @@ _.extend(TypewarGame.BattleManager.prototype, {
     fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){
       fragment.defender.successfulHit();
-      fragment.defender.takeDamage();
-    }else if(fragment.successPct() > 90){
+      fragment.defender.takeDamage(2);
+    } else if(fragment.successPct() > 90){
       fragment.defender.partialHit();
-      fragment.defender.takeDamage();
+      fragment.defender.takeDamage(1);
     } else {
       fragment.defender.wasMissed();
     }
@@ -72,6 +42,12 @@ _.extend(TypewarGame.BattleManager.prototype, {
     fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){
       fragment.defender.successfulDefense();
+    } else if(fragment.successPct() > 90){
+      fragment.defender.partialHit();
+      fragment.defender.takeDamage(1);
+    } else {
+      fragment.defender.successfulHit();
+      fragment.defender.takeDamage(2);
     }
   },
 });

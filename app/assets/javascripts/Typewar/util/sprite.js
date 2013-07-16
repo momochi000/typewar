@@ -24,7 +24,7 @@ var Sprite = Backbone.Model.extend({
   static_images: {},
   images:{
     'player': {
-      'file': 'assets/Typewar/sprites/player_test01.png',
+      'file': 'assets/Typewar/sprites/player_test.png',
       'tile': 108,
       'tileh': 76,
       'elements': {
@@ -48,12 +48,19 @@ var Sprite = Backbone.Model.extend({
         'pl_att03': [3,2],
         'pl_att04': [4,2],
         'pl_att05': [5,2],
-        'pl_att06': [6,2]
+        'pl_att06': [6,2],
+        'pl_blk00': [0,3],
+        'pl_blk01': [1,3],
+        'pl_blk02': [2,3],
+        'pl_blk03': [3,3],
+        'pl_blk04': [4,3],
+        'pl_blk05': [5,3],
+        'pl_blk06': [6,3]
       }
     },
 
     'slime': {
-      'file': 'assets/Typewar/sprites/b_npc_slime01.png',
+      'file': 'assets/Typewar/sprites/b_npc_slime.png',
       'tile': 36,
       'elements': {
         'slime_st0':   [0,0],

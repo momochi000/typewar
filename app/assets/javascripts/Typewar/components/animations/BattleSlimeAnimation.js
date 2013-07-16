@@ -1,8 +1,8 @@
 Crafty.c("BattleSlimeAnim", {
-  _READY_ANIM_SPEED: 39,
-  _ATTACK_ANIM_SPEED: 25,
-  _BLOCK_ANIM_SPEED: 15,
+  _ATTACK_ANIM_SPEED: 23,
+  _BLOCK_ANIM_SPEED: 17,
   _HIT_ANIM_SPEED: 18,
+  _READY_ANIM_SPEED: 39,
 
   init: function (){
     this.requires("SpriteAnimation");
@@ -25,11 +25,11 @@ Crafty.c("BattleSlimeAnim", {
   },
 
   animBlock: function (){
-    this.stop().animate("block", this._ATTACK_ANIM_SPEED, 0);
+    this.stop().animate("block", this._BLOCK_ANIM_SPEED, 0);
   },
 
   animHit: function (){
-    this.stop().animate("hit", this._ATTACK_ANIM_SPEED, 0);
+    this.stop().animate("hit", this._HIT_ANIM_SPEED, 0);
   },
 
   animReady: function (){

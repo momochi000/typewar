@@ -1,5 +1,6 @@
 Crafty.c("BattlePlayer", {
   char_sheet: null,
+  _ANIM_HIT_DELAY: 430,
 
   init: function (){
     this.requires("2D, BattlePlayerAnimation");
@@ -38,9 +39,33 @@ Crafty.c("BattlePlayer", {
   getName: function() {
     return this.char_sheet.get("name");
   },
+  
+  partialHit: function (){
+    var self = this;
+    console.log("DEBUG: PLAYER: PARTIAL HIT. OW!!! ");
+    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+  },
+
+  successfulDefense: function (){
+    var self = this;
+    console.log("DEBUG: PLAYER: DEFENDED!!! ");
+    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+  },
+
+  successfulHit: function (){
+    var self = this;
+    console.log("DEBUG: PLAYER: HIT!! GOT ME GOOD D=");
+    window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
+  },
+
+  takeDamage: function (){
+  },
 
   updateStatus: function() {
     this.trigger("updateStatus");
+  },
+
+  wasMissed: function (){
   }
 });
 
