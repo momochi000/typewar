@@ -1,5 +1,6 @@
 Crafty.c("BattlePlayer", {
   char_sheet: null,
+  _fragment_spawner: null,
   _ANIM_HIT_DELAY: 430,
 
   init: function (){
@@ -10,6 +11,7 @@ Crafty.c("BattlePlayer", {
     var self = this;
 
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Player"});
+    this._createFragmentSpawner();
 
     return this;
   },
@@ -18,16 +20,30 @@ Crafty.c("BattlePlayer", {
     this.animAttack();
   },
 
-  getStatus: function(attribute) {
+  getStatus: function (attribute){
     return this.char_sheet.get("status")[attribute];
   },
 
-  getName: function() {
+  getName: function (){
     return this.char_sheet.get("name");
   },
 
-  getPercentHP: function() {
+  getPercentHP: function (){
     return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+  },
+
+  initiateAttackOn: function (defender){
+    var frag, speed;
+
+    speed = 20 * Math.random();
+    frag = this._fragment_spawner.generateTextFragment({
+      y: (this._y - 120 + (50-Math.random()*100)),
+      speed: [speed, 0],
+      attacker: this,
+      defender: defender
+      //type: "defense"
+    });
+    frag.getEntity().drawSelf();
   },
  
   partialHit: function (){
@@ -62,6 +78,16 @@ Crafty.c("BattlePlayer", {
   },
 
   wasMissed: function (){
+  },
+
+  // private
+  
+  _createFragmentSpawner: function (){
+    this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
+      .attr({x: this._x, y: this._y})
+      .textFragmentSpawner();
+
+    this.attach(this._fragment_spawner);
   }
 });
 

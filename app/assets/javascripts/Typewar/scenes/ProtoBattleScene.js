@@ -17,7 +17,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       self.initializeSprites();
       enemy_npc = self.initializeEnemyNPC();
       player = self.initializePC();
-      self.initializeBattleManager(player, enemy_npc);
+      self.initializeBattleManager( {player: player, enemies: [enemy_npc]} );
       self.initializeStatusBar(player, enemy_npc);
     });
   },

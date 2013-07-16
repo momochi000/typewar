@@ -1,6 +1,9 @@
 //Can eventually refactor this to be multiple entities
 // TODO: Make this into a backbone model
-TypewarGame.BattleManager = function() {
+TypewarGame.BattleManager = function(options) {
+  this.player = options["player"];
+  this.enemies = options["enemies"];
+  
   Crafty.bind("TextFragmentCompleted", _.bind(this.handleAttack, this));
 }
 
@@ -18,9 +21,10 @@ _.extend(TypewarGame.BattleManager.prototype, {
     console.log("DEBUG:handling attack with data => ");
     console.log(data);
 
-    if(text_fragment.type == 'attack'){
+    
+    if(text_fragment.attacker == this.player){
       this._resolveAttack(text_fragment);
-    }else if(text_fragment.type == 'defense'){
+    }else if(text_fragment.defender == this.player){
       this._resolveDefense(text_fragment);
     }
   },

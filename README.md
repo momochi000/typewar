@@ -60,6 +60,8 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
 ### LEFT OFF - TODO: Turn these into tracker stories
 
 #### Beef up text fragment spawner
+  Player attacking the monster sends text fragment from the player to the enemy
+
   Set up simple AI that manages battle flow
 
   Particle system setup
@@ -67,8 +69,6 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
   Damage counters (numbers flying off hits)
 
   Rails backend loads text dictionaries and sends them to the game engine
-
-  Player attacking the monster sends text fragment from the player to the enemy
 
   text fragments should have a pointer to it's collection, and the collection
   should have a pointer to it's owner. The spawner should as well.

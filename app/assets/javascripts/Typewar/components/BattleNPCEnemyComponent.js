@@ -5,8 +5,7 @@
 
 Crafty.c("BattleNPCEnemy", {
   _ANIM_HIT_DELAY: 430,
-  _attack_fragment_spawner: null,
-  _defense_fragment_spawner: null,
+  _fragment_spawner: null,
   char_sheet: null,
 
   init: function (){
@@ -15,24 +14,8 @@ Crafty.c("BattleNPCEnemy", {
 
   battleNPCEnemy: function (char_sheet){
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
-    // TODO: merge the spawners ive created, only need one.
-    //this._attack_fragment_spawner = this._createFragmentSpawner();
-    this._createFragmentSpawners();
-    //Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
+    this._createFragmentSpawner();
     return this;
-  },
-
-  attackInitiatedFrom: function (attacker){
-    var frag, speed;
-
-    speed = -20 * Math.random();
-    frag = this._attack_fragment_spawner.generateTextFragment({
-      speed: [speed, 0],
-      attacker: attacker,
-      defender: this,
-      type: "attack"
-    });
-    frag.getEntity().drawSelf();
   },
 
   deliverAttack: function (){
@@ -40,14 +23,16 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   initiateAttackOn: function (defender){
-    var frag, speed;
+    var frag, speed, starting_y_pos;
 
+    starting_y_pos = this._y + 60 + (50 - Math.random()*100);
     speed = -20 * Math.random();
-    frag = this._defense_fragment_spawner.generateTextFragment({
+    frag = this._fragment_spawner.generateTextFragment({
+      y: starting_y_pos,
       speed: [speed, 0],
       attacker: this,
-      defender: defender,
-      type: "defense"
+      defender: defender
+      //type: "defense"
     });
     frag.getEntity().drawSelf();
   },
@@ -110,16 +95,11 @@ Crafty.c("BattleNPCEnemy", {
   
   //private 
 
-  _createFragmentSpawners: function (){
-    this._attack_fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
-      .attr({x: this._x, y: this._y + 60})
+  _createFragmentSpawner: function (){
+    this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
+      .attr({x: this._x, y: this._y})
       .textFragmentSpawner();
 
-    this._defense_fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
-      .attr({x: this._x, y: this._y - 120})
-      .textFragmentSpawner();
-
-    this.attach(this._attack_fragment_spawner);
-    this.attach(this._defense_fragment_spawner);
+    this.attach(this._fragment_spawner);
   }
 });

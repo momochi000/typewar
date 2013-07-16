@@ -43,16 +43,18 @@ Crafty.c("TextFragmentSpawner", {
          types are 'attack' 'defense' 'special' 'combo'
    */
   generateTextFragment: function (options){
-    var new_frag, new_text, new_speed, new_type;
+    var new_x, new_y, new_frag, new_text, new_speed, new_type;
 
+    new_x = options["x"] || this._x;
+    new_y = options["y"] || this._y + 50 - Math.random() * 100;
     new_text = options["text"] || this.generateRandomString();
     new_speed = options["speed"] || [0,0];
     new_type = options["type"] || 'attack';
 
     new_frag = new TextFragmentEntity({
       text: new_text,
-      x: this._x,
-      y: this._y + 50 - Math.random() * 100,
+      x: new_x,
+      y: new_y,
       type: new_type,
       attacker: options.attacker,
       defender: options.defender
