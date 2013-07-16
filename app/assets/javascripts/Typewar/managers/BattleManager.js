@@ -5,6 +5,12 @@ TypewarGame.BattleManager = function() {
 }
 
 _.extend(TypewarGame.BattleManager.prototype, {
+
+  calculateDamage: function(opts) {
+    //stub for now, should eventually do some math
+    return 2;
+  },
+
   handleAttack: function(data) {
     var text_fragment;
 
@@ -19,12 +25,8 @@ _.extend(TypewarGame.BattleManager.prototype, {
     }
   },
 
-  calculateDamage: function(opts) {
-    //stub for now, should eventually do some math
-    return 2;
-  },
-
   // private
+
   _resolveAttack: function (fragment){
     fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){

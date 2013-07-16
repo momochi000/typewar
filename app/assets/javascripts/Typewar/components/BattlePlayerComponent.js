@@ -16,20 +16,6 @@ Crafty.c("BattlePlayer", {
 
   deliverAttack: function (){
     this.animAttack();
-    // deal damage to target?
-    // build up special meter?
-  },
-
-  handleBeingAttacked: function(e) {
-    //stub for now, but could play animation or etc.
-  },
-
-  takeDamage: function(damage) {
-    var currentHP = this.char_sheet.get("status").hp;
-    var newHP = currentHP - damage;
-
-    this.char_sheet.set({status: {hp: newHP}});
-    this.updateStatus();
   },
 
   getStatus: function(attribute) {
@@ -39,7 +25,11 @@ Crafty.c("BattlePlayer", {
   getName: function() {
     return this.char_sheet.get("name");
   },
-  
+
+  getPercentHP: function() {
+    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+  },
+ 
   partialHit: function (){
     var self = this;
     console.log("DEBUG: PLAYER: PARTIAL HIT. OW!!! ");
@@ -58,11 +48,13 @@ Crafty.c("BattlePlayer", {
     window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
   },
 
-  takeDamage: function (){
-  },
+  takeDamage: function(damage) {
+    var currentHP, newHP;
 
-  getPercentHP: function() {
-    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+    currentHP = this.char_sheet.get("status").hp;
+    newHP = currentHP - damage;
+    this.char_sheet.set({status: {hp: newHP}});
+    this.updateStatus();
   },
 
   updateStatus: function() {
