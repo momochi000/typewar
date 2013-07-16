@@ -60,41 +60,26 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
 ### LEFT OFF - TODO: Turn these into tracker stories
 
 #### Beef up text fragment spawner
+  Set up simple AI that manages battle flow
 
-  Add second stream of text fragments from enemy (spawner). 
-    Player shouldn't swing sword on successful defense. Only attack
-    Make sure behavior functions correctly on both parties for attack and def.
-    text fragments should have a pointer to it's collection, and the collection
-    should have a pointer to it's owner. The spawner should as well.
+  Particle system setup
 
-  Text fragments should answer to TextFragment#success() that reports a percent
-  of how quickly you typed it.
+  Damage counters (numbers flying off hits)
 
-  Attacker and defender should be linked to on each text fragment
+  Rails backend loads text dictionaries and sends them to the game engine
 
-  The player should be triggering attacks on the monster(s).
-  Refactor the way attacking and defending works. The text fragments should be
-  labeled with attacker and defender and they should resolve separately and
-  instructions should be sent to each party.
-  There should be a battlecomputer component or module that takes the attacker,
-  the defender, and a completed text fragment and does whatever magical math
-  and our logic to figure out what happened in that round.
-  With this, we can probably ditch the dual spawners on the enemy npc. The
-  enem(y/ies) should still hold the spawner, but no longer need 2, attacks
-  and defenses should still be sent from the enemy's spawner
+  Player attacking the monster sends text fragment from the player to the enemy
 
-  Make player attack do damage to enemy
-
-  Add defend animation and insert appropriately
+  text fragments should have a pointer to it's collection, and the collection
+  should have a pointer to it's owner. The spawner should as well.
 
   Change player sprite (current one is crap)
 
   Show damage numbers above enemy when they take damage
 
-  Show health status for enemy.
-
-  Do not auto activate the 'next' text fragment (in collection). The player 
-  should be able to activate one by typing.
+  The player should be able to activate any text fragment by typing.
+  Need a text input manager that watches for keyboard inputs and selects the
+  correct active fragments.
 
   Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
   when you block)
@@ -103,20 +88,33 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
     Create an object for each keypress with a timestamp. Send back to server 
     and save.
 
-#### Battle Manager/event propagation
-
-  A battle manager that handles all of the battle events, so that individual entities(player/npc) won't
-  have to manage listening to events. They respond to certain methods for animation/dealing/receiving damage
-  that the manager calls.
-
-  Ultimately the players should probably trigger 'Attack' events that the manager listens to, but as currently
-  implemented, the TextFragmentComponent ends up triggering 'TextFragmentCompleted' which the manager listens to.
-
-  Ideas:
-    Can have a base player/enemy entity that responds to all of the battle-required methods (currently calculateDamage, deliverAttack, handleBeingAttacked)
-
 ---
+
 ### DONE - 
+
+  Show health status for enemy.
+
+  Add defend animation and insert appropriately
+
+  The player should be triggering attacks on the monster(s).
+  Refactor the way attacking and defending works. The text fragments should be
+  labeled with attacker and defender and they should resolve separately and
+  instructions should be sent to each party.
+  There should be a battlecomputer component or module that takes the attacker,
+  the defender, and a completed text fragment and does whatever magical math
+  and our logic to figure out what happened in that round.
+  With this, we can probably ditch the dual spawners on the enemy npc.
+
+  Make player attack do damage to enemy
+
+  Attacker and defender should be linked to on each text fragment
+
+  Text fragments should answer to TextFragment#success() that reports a percent
+  of how quickly you typed it.
+
+  Add second stream of text fragments from enemy (spawner). 
+    Player shouldn't swing sword on successful defense. Only attack
+    Make sure behavior functions correctly on both parties for attack and def.
 
   Add second stream of text fragments from enemy (spawner). 
     Enemy should have two spawners: attack and defense.
