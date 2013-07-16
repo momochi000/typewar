@@ -1,20 +1,24 @@
 //Can eventually refactor this to be multiple entities
 // TODO: Make this into a backbone model
-TypewarGame.BattleManager = function(options) {
-  this.player = options["player"];
-  this.enemies = options["enemies"];
-  
-  Crafty.bind("TextFragmentCompleted", _.bind(this.handleAttack, this));
-}
+Typewar.Models.BattleManager = Backbone.Model.extend({
+  initialize: function (){
+    if(!this.has('player')) {
+      throw "BattleManager initialized without player entity";
+    }
+    if(!this.has('enemies')) {
+      throw "BattleManager initialized without enemies array";
+    }
 
-_.extend(TypewarGame.BattleManager.prototype, {
+    Crafty.bind("TextFragmentCompleted", this.handleAttack.bind(this));
+  },
 
   calculateDamage: function(opts) {
     //stub for now, should eventually do some math
     return 2;
   },
 
-  handleAttack: function(data) {
+
+  handleAttack: function (data){
     var text_fragment;
 
     text_fragment = data.text_fragment;
@@ -22,14 +26,12 @@ _.extend(TypewarGame.BattleManager.prototype, {
     console.log(data);
 
     
-    if(text_fragment.attacker == this.player){
+    if(text_fragment.attacker == this.get('player')){
       this._resolveAttack(text_fragment);
-    }else if(text_fragment.defender == this.player){
+    }else if(text_fragment.defender == this.get('player')){
       this._resolveDefense(text_fragment);
     }
   },
-
-  // private
 
   _resolveAttack: function (fragment){
     fragment.attacker.deliverAttack();
@@ -55,5 +57,7 @@ _.extend(TypewarGame.BattleManager.prototype, {
       fragment.defender.successfulHit();
       fragment.defender.takeDamage(2);
     }
-  },
+  }
 });
+
+

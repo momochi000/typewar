@@ -17,7 +17,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       self.initializeSprites();
       enemy_npc = self.initializeEnemyNPC();
       player = self.initializePC();
-      self.initializeBattleManager( {player: player, enemies: [enemy_npc]} );
+      self.initializeBattleManager({player: player, enemies: [enemy_npc]});
       self.initializeStatusBar(player, enemy_npc);
     });
   },
@@ -51,8 +51,8 @@ var ProtoBattleScene = Backbone.Model.extend({
     Sprite.create('slime');
   },
 
-  initializeBattleManager: function(player, enemy) {
-    new TypewarGame.BattleManager(player, enemy);
+  initializeBattleManager: function (options){
+    new Typewar.Models.BattleManager(options);
   },
 
   initializeStatusBar: function(player, enemy) {
