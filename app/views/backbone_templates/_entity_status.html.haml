@@ -2,3 +2,6 @@
   .status
     .name <%= name %>
     .hp <%= hp %>
+    <div class='progress progress-striped <%= statusHP %>'>
+    <div class='bar' style="width: <%= percentHP %>%;"></div>
+    </div>

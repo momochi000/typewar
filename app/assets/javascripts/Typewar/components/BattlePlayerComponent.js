@@ -61,6 +61,10 @@ Crafty.c("BattlePlayer", {
   takeDamage: function (){
   },
 
+  getPercentHP: function() {
+    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+  },
+
   updateStatus: function() {
     this.trigger("updateStatus");
   },

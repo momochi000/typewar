@@ -11,8 +11,11 @@
   margin: 0 auto;
 
   .entity-status {
-    display: inline-block;
+    float: left;
     width: 300px;
     .name { font-weight: bold; }
+    &:last-child {
+      float: right;
+    }
   }
 }

@@ -93,6 +93,10 @@ Crafty.c("BattleNPCEnemy", {
     return this.char_sheet.get("name");
   },
 
+  getPercentHP: function() {
+    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+  },
+
   updateStatus: function() {
     this.trigger("updateStatus");
   },
