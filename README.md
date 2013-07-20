@@ -53,6 +53,21 @@ same trajectory as the original text fragment box. Once it reaches the player,
 because the player typed it correctly, the player avatar does a block animation
 and receives no damage (or slight damage if the enemy is much stronger.. etc).
 
+Make monsters have a progress bar that fills up when they are preparing to 
+attack. The player should have a similar bar, perhaps allowing the player to
+attack without fully charging it (to make weaker but faster attacks).
+Once the monster's bar fills up, they 'cast' a text fragment.
+
+To add variety to the enemies attack, fragments could have acceleration rather
+than a flat speed. They could also have deceleration, so the player might think
+to target one first only to be fooled into wasting time when it might take
+longer overall
+
+Text fragments could be wrapped around objects that in a more broader sense,
+represent attacks. They could have a type (physical, magic, electrical, acid)
+have properties (piercing, crushing, burning, etc), have a damage value and
+other attributes. 
+
 ---
 
 ---
@@ -60,13 +75,36 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
 ### LEFT OFF - TODO: Turn these into tracker stories
 
 #### Beef up text fragment spawner
-  Player attacking the monster sends text fragment from the player to the enemy
 
-  Set up simple AI that manages battle flow
+  The player should be able to activate any text fragment by typing.
+  Need a text input manager that watches for keyboard inputs and selects the
+  correct active fragments.
+    + Handle the case where multiple fragments start with the same word.
+      - I think we'll want to defer this and allow different skills to handle
+      this situation in various ways.
+    + Need to clean up fragments when dead (at least put them in the graveyard)
+    + Ensure the proper arrays get the right fragments placed in them
+
+  Create the colliders that represent making it fully past the character's 
+  defense. Signal an event on those and do the right thing all around.
+
+  Deallocate text fragments after they are removed from play, either when they
+  hit or expended. Can probably safely remove 2D and DOM from them.
+
+  Move the AI to the slime. Extract it out so it's a module I can attach to
+  any monster, even swiching out. Perhaps the monster could have several
+  behaviors that can be toggled. AI has many behaviors.
+  For now, just set the behavior to attack at a constant rate
+
+  Zoom in on the characters, camera is too far out.
+
+  Try giving the fragments acceleration instead of speed.
+  OOh better yet, give some to each.
 
   Particle system setup
 
-  Damage counters (numbers flying off hits)
+  Damage counters (numbers flying off hits) Show damage numbers above enemy 
+  when they take damage
 
   Rails backend loads text dictionaries and sends them to the game engine
 
@@ -74,12 +112,6 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
   should have a pointer to it's owner. The spawner should as well.
 
   Change player sprite (current one is crap)
-
-  Show damage numbers above enemy when they take damage
-
-  The player should be able to activate any text fragment by typing.
-  Need a text input manager that watches for keyboard inputs and selects the
-  correct active fragments.
 
   Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
   when you block)
@@ -91,6 +123,10 @@ and receives no damage (or slight damage if the enemy is much stronger.. etc).
 ---
 
 ### DONE - 
+
+  Player attacking the monster sends text fragment from the player to the enemy
+
+  Set up simple AI that manages battle flow
 
   Show health status for enemy.
 
