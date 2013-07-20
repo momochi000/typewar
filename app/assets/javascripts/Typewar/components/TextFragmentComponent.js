@@ -59,13 +59,12 @@ Crafty.c("TextFragment", {
       this._current_position = 0;
       this.is_active = true; 
       this.z = 99999;
-      this._attachKeyboardHandler();
+      Crafty.trigger("TextFragmentActivated", this);
       this.drawSelf();
     }
   },
 
   deactivate: function (){ 
-    this._detachKeyboardHandler();
     this.is_active = false; 
     this.z = 0;
     this._current_position = null;
@@ -99,14 +98,36 @@ Crafty.c("TextFragment", {
     return false;
   },
 
+  isComplete: function (){ // a convenience method
+    return this.is_complete;
+  },
+
   isDefense: function (){
     if(this.type === "defense"){ return true; }
     return false;
   },
 
-  wasPerfect: function (){
-    if(this.successPct() >= 99.9) { return true; }
-    return false;
+  // Return true if the given character matches the first one in the text frag
+  matchFirstChar: function (chr){
+    return (this._text[0] == chr);
+  },
+
+  /* We want to call this when the fragment is no longer to be displayed.
+   * The fragment doesn't get destroyed yet, it may have reached the player or
+   * it may have been correctly typed.  Either way, we remove it from the
+   * battle scene.
+   * The fragment itself might go into a completed array or failed array or 
+   * something. For now, that is outside of the scope of this method.
+   */
+  removeFromPlay: function (){
+    this._view.remove();
+  },
+
+  reset: function (){
+    this.is_complete = false;
+    this._incorrect_characters = '';
+    this._correct_characters = '';
+    this.deactivate();
   },
 
   /* Returns a percentage of how correctly was the fragment typed 
@@ -128,22 +149,26 @@ Crafty.c("TextFragment", {
     return (rating*100);
   },
 
-  /* We want to call this when the fragment is no longer to be displayed.
-   * The fragment doesn't get destroyed yet, it may have reached the player or
-   * it may have been correctly typed.  Either way, we remove it from the
-   * battle scene.
-   * The fragment itself might go into a completed array or failed array or 
-   * something. For now, that is outside of the scope of this method.
+  /* The means of feeding characters to the text fragment. Correct characters
+   * move the fragment closer to completion, incorrect characters are tracked
+   * as well
    */
-  removeFromPlay: function (){
-    this._view.remove();
+  takeInput: function (chr){
+    if(this._text[this._current_position] == chr){
+      this._correctInput();
+      this._checkForCompletion();
+    }else{
+      this._wrongInput(chr);
+    }
+    this.drawSelf();
+  },
+
+  wasPerfect: function (){
+    if(this.successPct() >= 99.9) { return true; }
+    return false;
   },
 
   //private
-
-  _attachKeyboardHandler: function (){
-    this.bind('KeyDown', this._handleKeyPress);
-  },
 
   _complete: function (){
     var output_data;
@@ -167,24 +192,6 @@ Crafty.c("TextFragment", {
     return this;
   },
 
-  _detachKeyboardHandler: function (){
-    this.unbind('KeyDown', this._handleKeyPress);
-  },
-
-  _handleKeyPress: function (keyEvent){
-    var letter_value;
-    letter_value = this._translateKeyToLetter(keyEvent.key);
-    if(letter_value){
-      if(this._text[this._current_position] == letter_value){
-        this._correctInput();
-        this._checkForCompletion();
-      }else{
-        this._wrongInput(letter_value);
-      }
-    }
-    this.drawSelf();
-  },
-
   _checkForCompletion: function (){
     if(this._correct_characters.length == this._text.length){
       this._complete();
@@ -192,128 +199,12 @@ Crafty.c("TextFragment", {
   },
 
   _correctInput: function (input){
-    // validate input? check the input against the current position in _text
+    // TODO: validate input? check the input against the current position in _text
     this._correct_characters += this._text[this._current_position];
     this._current_position++;
   },
 
   _wrongInput: function (input){
     this._incorrect_characters += input;
-  },
-
-  _translateKeyToLetter: function (keyCode){
-    switch(keyCode) {
-      //case(Crafty.keys['BACKSPACE'])
-      //case(Crafty.keys['TAB'])
-      //case(Crafty.keys['ENTER'])
-      //case(Crafty.keys['CAPS'])
-      //case(Crafty.keys['ESC'])
-      case(Crafty.keys['SPACE']): 
-        return ' ';
-      //case(Crafty.keys['PAGE_UP'])
-      //case(Crafty.keys['PAGE_DOWN'])
-      //case(Crafty.keys['END'])
-      //case(Crafty.keys['HOME'])
-      //case(Crafty.keys['LEFT_ARROW'])
-      //case(Crafty.keys['UP_ARROW'])
-      //case(Crafty.keys['RIGHT_ARROW'])
-      //case(Crafty.keys['DOWN_ARROW'])
-      //case(Crafty.keys['INSERT'])
-      //case(Crafty.keys['DELETE'])
-      case(Crafty.keys['0']): 
-        return '0';
-      case(Crafty.keys['1']):
-        return '1';
-      case(Crafty.keys['2']):
-        return '2';
-      case(Crafty.keys['3']):
-        return '3';
-      case(Crafty.keys['4']):
-        return '4';
-      case(Crafty.keys['5']):
-        return '5';
-      case(Crafty.keys['6']):
-        return '6';
-      case(Crafty.keys['7']):
-        return '7';
-      case(Crafty.keys['8']):
-        return '8';
-      case(Crafty.keys['9']):
-        return '9';
-      case(Crafty.keys['A']):
-        return 'a';
-      case(Crafty.keys['B']):
-        return 'b';
-      case(Crafty.keys['C']):
-        return 'c';
-      case(Crafty.keys['D']):
-        return 'd';
-      case(Crafty.keys['E']):
-        return 'e';
-      case(Crafty.keys['F']):
-        return 'f';
-      case(Crafty.keys['G']):
-        return 'g';
-      case(Crafty.keys['H']):
-        return 'h';
-      case(Crafty.keys['I']):
-        return 'i';
-      case(Crafty.keys['J']):
-        return 'j';
-      case(Crafty.keys['K']):
-        return 'k';
-      case(Crafty.keys['L']):
-        return 'l';
-      case(Crafty.keys['M']):
-        return 'm';
-      case(Crafty.keys['N']):
-        return 'n';
-      case(Crafty.keys['O']):
-        return 'o';
-      case(Crafty.keys['P']):
-        return 'p';
-      case(Crafty.keys['Q']):
-        return 'q';
-      case(Crafty.keys['R']):
-        return 'r';
-      case(Crafty.keys['S']):
-        return 's';
-      case(Crafty.keys['T']):
-        return 't';
-      case(Crafty.keys['U']):
-        return 'u';
-      case(Crafty.keys['V']):
-        return 'v';
-      case(Crafty.keys['W']):
-        return 'w';
-      case(Crafty.keys['X']):
-        return 'x';
-      case(Crafty.keys['Y']):
-        return 'y';
-      case(Crafty.keys['Z']):
-        return 'z';
-      //case(Crafty.keys['NUMPAD_0'])
-      //case(Crafty.keys['NUMPAD_1'])
-      //case(Crafty.keys['NUMPAD_2'])
-      //case(Crafty.keys['NUMPAD_3'])
-      //case(Crafty.keys['NUMPAD_4'])
-      //case(Crafty.keys['NUMPAD_5'])
-      //case(Crafty.keys['NUMPAD_6'])
-      //case(Crafty.keys['NUMPAD_7'])
-      //case(Crafty.keys['NUMPAD_8'])
-      //case(Crafty.keys['NUMPAD_9'])
-      //case(Crafty.keys['MULTIPLY'])
-      //case(Crafty.keys['ADD'])
-      //case(Crafty.keys['SUBSTRACT'])
-      //case(Crafty.keys['DECIMAL'])
-      //case(Crafty.keys['DIVIDE'])
-      //case(Crafty.keys['SHIFT'])
-      //case(Crafty.keys['CTRL'])
-      //case(Crafty.keys['ALT'])
-      //case(Crafty.keys['PLUS'])
-      //case(Crafty.keys['COMMA'])
-      //case(Crafty.keys['MINUS'])
-      //case(Crafty.keys['PERIOD'])
-    }
   }
 });

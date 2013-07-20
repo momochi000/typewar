@@ -1,6 +1,10 @@
-//Can eventually refactor this to be multiple entities
-// TODO: Make this into a backbone model
 Typewar.Models.BattleManager = Backbone.Model.extend({
+  defaults: {
+    active_text_fragments: [],
+    fragment_graveyard: [],
+    live_text_fragments: [],
+  },
+
   initialize: function (){
     if(!this.has('player')) {
       throw "BattleManager initialized without player entity";
@@ -9,7 +13,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       throw "BattleManager initialized without enemies array";
     }
 
-    Crafty.bind("TextFragmentCompleted", this.handleAttack.bind(this));
+    this._setupCompletedFragmentListener();
+    this._setupActivatedFragmentListener();
+    this._setupBattleAI();
   },
 
   calculateDamage: function(opts) {
@@ -17,20 +23,85 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return 2;
   },
 
+  /* sweeps through text fragments registered with this manager and removes
+   * any that are already completed or have exited the play field or are 
+   * invalid or have been wiped out etc.
 
-  handleAttack: function (data){
+   * discard fragments that are complete
+   * or have collided with the other side (TBI)
+   */
+  cleanupLiveFragments: function (){
+    // TODO: implement me
+  },
+
+  getAllLiveFragments: function (){
+    return this.get("live_text_fragments");
+  },
+
+  getActiveTextFragments: function (){
+    return this.get("active_text_fragments") || [];
+  },
+
+  /* Callback for when a text fragment is completed. 
+   * TODO: This should be renamed
+   */
+  handleFragmentCompleted: function (data){
     var text_fragment;
 
     text_fragment = data.text_fragment;
-    console.log("DEBUG:handling attack with data => ");
-    console.log(data);
-
     
     if(text_fragment.attacker == this.get('player')){
       this._resolveAttack(text_fragment);
     }else if(text_fragment.defender == this.get('player')){
       this._resolveDefense(text_fragment);
     }
+
+    this._removeActiveFragment(text_fragment);
+  },
+
+  /* Takes a fragment and keeps a reference to it within the manager */
+  registerFragment: function (text_fragment){
+    this.get("live_text_fragments").push(text_fragment);
+  },
+
+  // private
+
+  _decideBattleAction: function (){
+    var decider;
+
+    decider = 10 * Math.random();
+
+    if(decider > 6){
+      this.get('player').initiateAttackOn(this.get('enemies')[0]);
+    }else{
+      this.get('enemies')[0].initiateAttackOn(this.get('player'));
+    }
+  },
+
+  /* Move the given fragment, if it is present in the active_fragments array,
+   * to the fragment_graveyard array
+   */
+  _removeActiveFragment: function (fragment){
+    var active_fragments, fragment_graveyard, self;
+    self = this;
+    active_fragments = this.get("active_text_fragments");
+    fragment_graveyard = this.get("fragment_graveyard")
+
+    index = _.indexOf(active_fragments, fragment);
+    active_fragments.splice(index, 1);
+    fragment_graveyard.push(fragment);
+
+    // TODO: hey, will modifying active_fragments here also
+    // change the array that lives in this.get('active_text_fragments')?
+    // I'll want to check that before moving on from here.
+
+    //_.each(active_fragments, function (f){
+    //  var index;
+    //  if(fragment === f){
+    //    index = _.indexOf(active_fragments, f);
+    //    active_fragments.splice(index, 1);
+    //  }
+    //});
   },
 
   _resolveAttack: function (fragment){
@@ -57,6 +128,24 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       fragment.defender.successfulHit();
       fragment.defender.takeDamage(2);
     }
+  },
+  _setupBattleAI: function (){
+    var battle_timer;
+
+    battle_timer = window.setInterval(this._decideBattleAction.bind(this), 6000);
+    //this.set("battle_timer", battle_timer);
+  },
+
+    // Add the newly activated fragment to the set of active fragments registered with the battle manager
+  _setupActivatedFragmentListener: function (){
+    var self = this;
+    Crafty.bind("TextFragmentActivated", function (evt){
+      self.get("active_text_fragments").push(evt);
+    });
+  },
+
+  _setupCompletedFragmentListener: function (){
+    Crafty.bind("TextFragmentCompleted", this.handleFragmentCompleted.bind(this));
   }
 });
 

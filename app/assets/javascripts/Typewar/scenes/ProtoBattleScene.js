@@ -19,6 +19,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       player = self.initializePC();
       self.initializeBattleManager({player: player, enemies: [enemy_npc]});
       self.initializeStatusBar(player, enemy_npc);
+      self.initializeInputManager();
     });
   },
 
@@ -52,7 +53,11 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initializeBattleManager: function (options){
-    new Typewar.Models.BattleManager(options);
+    Typewar.Engine.BattleManager = new Typewar.Models.BattleManager(options);
+  },
+
+  initializeInputManager: function (){
+    Typewar.Engine.InputManager = new Typewar.Models.BattleInputManager;
   },
 
   initializeStatusBar: function(player, enemy) {

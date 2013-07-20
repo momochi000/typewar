@@ -20,12 +20,6 @@ Crafty.c("TextFragmentSpawner", {
     return this;
   },
 
-  activateNextFragment: function() {
-    if(this._fragment_collection.length > 0) {
-      this._fragment_collection[0].activate();
-    }
-  },
-
   moveCompletedFragment: function() {
     var completedFragment = this._fragment_collection.shift();
     if(completedFragment) { 
@@ -64,7 +58,7 @@ Crafty.c("TextFragmentSpawner", {
 
     this._fragment_collection.push(new_frag);
 
-    this.activateNextFragment();
+    this._registerFragmentWithBattleManager(new_frag);
 
     return new_frag;
   },
@@ -79,13 +73,17 @@ Crafty.c("TextFragmentSpawner", {
     for (i = l; i > 0; --i) {
       result += valid_chars[Math.round(Math.random() * (valid_chars.length - 1))];
     }
-    return result;
+    return result.trim();
   },
 
   textFragmentCompleted: function (e){
     this.moveCompletedFragment();
-    this.activateNextFragment();
-  }
+  },
 
   //private
+
+  // Perhaps this logic should move to the battle manager
+  _registerFragmentWithBattleManager: function (frag){
+    Typewar.Engine.BattleManager.registerFragment(frag);
+  }
 });
