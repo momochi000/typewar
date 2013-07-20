@@ -76,6 +76,13 @@ other attributes.
 
 #### Beef up text fragment spawner
 
+  Move the AI to the slime. Extract it out so it's a module I can attach to
+  any monster, even swiching out. Perhaps the monster could have several
+  behaviors that can be toggled. AI has many behaviors.
+  For now, just set the behavior to attack at a constant rate
+
+  Get a simple library of text in there to test actual typing.
+
   The player should be able to activate any text fragment by typing.
   Need a text input manager that watches for keyboard inputs and selects the
   correct active fragments.
@@ -90,13 +97,6 @@ other attributes.
 
   Deallocate text fragments after they are removed from play, either when they
   hit or expended. Can probably safely remove 2D and DOM from them.
-
-  Move the AI to the slime. Extract it out so it's a module I can attach to
-  any monster, even swiching out. Perhaps the monster could have several
-  behaviors that can be toggled. AI has many behaviors.
-  For now, just set the behavior to attack at a constant rate
-
-  Zoom in on the characters, camera is too far out.
 
   Try giving the fragments acceleration instead of speed.
   OOh better yet, give some to each.
@@ -123,6 +123,8 @@ other attributes.
 ---
 
 ### DONE - 
+
+  Zoom in on the characters, camera is too far out.
 
   Player attacking the monster sends text fragment from the player to the enemy
 

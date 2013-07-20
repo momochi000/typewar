@@ -25,6 +25,11 @@ Crafty.c("Physics2D", {
     return this;
   },
 
+  setAccel: function (new_x_accel, new_y_accel){
+    this._x_accel = _new_x_accel;
+    this._y_accel = _new_y_accel;
+  },
+
   setSpeed: function (new_x_spd, new_y_spd){
     this._spd_x = new_x_spd;
     this._spd_y = new_y_spd;

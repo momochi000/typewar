@@ -23,12 +23,11 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   initiateAttackOn: function (defender){
-    var frag, speed, starting_y_pos;
+    var frag, speed;
 
-    starting_y_pos = this._y + 60 + (50 - Math.random()*100);
     speed = -20 * Math.random();
     frag = this._fragment_spawner.generateTextFragment({
-      y: starting_y_pos,
+      offset: [0,-70],
       speed: [speed, 0],
       attacker: this,
       defender: defender

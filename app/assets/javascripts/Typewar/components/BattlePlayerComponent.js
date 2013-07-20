@@ -37,7 +37,7 @@ Crafty.c("BattlePlayer", {
 
     speed = 20 * Math.random();
     frag = this._fragment_spawner.generateTextFragment({
-      y: (this._y - 120 + (50-Math.random()*100)),
+      offset: [0, -150],
       speed: [speed, 0],
       attacker: this,
       defender: defender

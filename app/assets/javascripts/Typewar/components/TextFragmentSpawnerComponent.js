@@ -31,30 +31,46 @@ Crafty.c("TextFragmentSpawner", {
    * options defines the attributes and behavior to attach to the newly
    * spawned text fragment.
    * Valid options:
-   *   <string>text : the text of the fragment
-   *   speed [x_spd, y_spd]
-   *   <string>type : a type string to define the type of fragment. Some example
-         types are 'attack' 'defense' 'special' 'combo'
+   *   <string> text   : the text of the fragment
+   *   <array> offset  : 
+   *   <array> speed   : [x_spd, y_spd]
+   *   <string>type    : a type string to define the type of fragment. Some 
+   *     example types are 'attack' 'defense' 'special' 'combo'
+   *   <array> accel   : [x_accel, y_accel]
+   *   <array> wiggle  : [x_wiggle, y_wiggle]. An amount to randomly shift the
+   *     spawn points of the generated text fragment.
    */
   generateTextFragment: function (options){
-    var new_x, new_y, new_frag, new_text, new_speed, new_type;
+    var new_accel, x_new, y_new, new_frag, new_text, new_speed, new_type, new_wiggle, y_offset;
 
-    new_x = options["x"] || this._x;
-    new_y = options["y"] || this._y + 50 - Math.random() * 100;
-    new_text = options["text"] || this.generateRandomString();
-    new_speed = options["speed"] || [0,0];
-    new_type = options["type"] || 'attack';
+    x_new      = options["x"]      || this._x;
+    y_new      = options["y"]      || this._y;
+    if(options["offset"]) { x_new+=options["offset"][0]; y_new+=options["offset"][1];}
+    new_text   = options["text"]   || this.generateRandomString();
+    new_speed  = options["speed"]  || [0,0];
+    new_type   = options["type"]   || 'attack';
+    new_accel  = options["accel"]  || [0,0];
+    new_wiggle = options["wiggle"] || false;
 
+    if(new_wiggle){ 
+      x_new, y_new = this._adjustForWiggle(x_new, y_new, wiggle[0], wiggle[1]); 
+    }else{
+      x_new, y_new = this._adjustForWiggle(x_new, y_new, 0, 35);
+    }
     new_frag = new TextFragmentEntity({
       text: new_text,
-      x: new_x,
-      y: new_y,
+      x: x_new,
+      y: y_new,
+      x_accel: new_accel[0],
+      y_accel: new_accel[1],
       type: new_type,
       attacker: options.attacker,
       defender: options.defender
     });
 
     new_frag.getEntity().setSpeed(new_speed[0], new_speed[1]);
+
+    console.log("DEBUG: New fragment generated at: [" +x_new+ ", " +y_new+ "] ");
 
     this._fragment_collection.push(new_frag);
 
@@ -83,6 +99,27 @@ Crafty.c("TextFragmentSpawner", {
   //private
 
   // Perhaps this logic should move to the battle manager
+  _adjustForWiggle: function (x, y, x_wiggle, y_wiggle){
+    var x_new, y_new;
+
+    if(this._coinToss()){
+      x_new = x + Math.random() * x_wiggle;
+    } else {
+      x_new = x - Math.random() * x_wiggle;
+    }
+    if(this._coinToss()){
+      y_new = y + Math.random() * y_wiggle;
+    } else {
+      y_new = y - Math.random() * y_wiggle;
+    }
+    return x_new, y_new;
+  }, 
+
+  //randomly returns true or false
+  _coinToss: function (){
+    return ( (Math.floor(Math.random()*2)) == 1 );
+  },
+
   _registerFragmentWithBattleManager: function (frag){
     Typewar.Engine.BattleManager.registerFragment(frag);
   }
