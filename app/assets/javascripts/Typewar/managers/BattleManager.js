@@ -14,7 +14,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }
 
     this._setupCompletedFragmentListener();
-    this._setupActivatedFragmentListener();
+    this._setupFragmentActivatedListener();
     this._setupBattleAI();
   },
 
@@ -128,7 +128,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
     // Add the newly activated fragment to the set of active fragments registered with the battle manager
-  _setupActivatedFragmentListener: function (){
+  _setupFragmentActivatedListener: function (){
     var self = this;
     Crafty.bind("TextFragmentActivated", function (evt){
       self.get("active_text_fragments").push(evt);
