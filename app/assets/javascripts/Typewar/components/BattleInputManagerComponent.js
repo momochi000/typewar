@@ -1,6 +1,24 @@
 /* Component to handle all player input during battle.
  * When there are no active text fragments, this component must decide based
  * on player input, which one(s) to activate and continue to feed inputs to.
+ *      
+ * Case 1: there is a currently active text fragment
+ * Pass off the inputs to that fragment and let it do it's thing.
+ * Case 2 : there is no active text fragment
+ *   Search through unfinished text fragments and find the ones that start
+ *   with this matching character.  
+ *   If there are none : 
+ *     input is incorrect (and some penalty is assessed)
+ *   If there is one : 
+ *     Make that the active text fragment and pass the input value to it
+ *   If there is more than one :
+ *     Stub this out, too complex to handle just now but eventually, we
+ *     want to track multiple active ones until the user types a character
+ *     that only exists on one of them. Then we reset/discard the others
+ *     and make that one the active one.
+ *     if there are two with identical text, then the user can complete
+ *     both by typing them
+ * 
  */
 
 Crafty.c("BattleInputManager", {
@@ -8,8 +26,7 @@ Crafty.c("BattleInputManager", {
   },
 
   battleInputManager: function (){
-    // bind a keyboard input
-    this._attachKeyboardHandler();
+    this._attachKeyboardHandler(); // bind a keyboard input
   },
 
   // private 
@@ -28,21 +45,9 @@ Crafty.c("BattleInputManager", {
     self = this;
     letter_value = this._translateKeyToLetter(keyEvent.key);
     battle_manager = Typewar.Engine.BattleManager;
-    //active_fragment = battle_manager.getActiveTextFragment();
     active_fragments = battle_manager.getActiveTextFragments();
 
-    //if(active_fragment) {
-    //  active_fragment.take_input(letter_value);
-    if(!_.isEmpty(active_fragments)){
-      _.each(active_fragments, function (curr_frag){
-        curr_frag.takeInput(letter_value);
-      });
-      // advance progress on all active fragments, 
-      // reset those that differ from active ones
-      // count typos if no letters match
-    }else{
-      // search through text fragments for ones that start with matching 
-      // letter values.
+    if(_.isEmpty(active_fragments)){
       battle_manager.cleanupLiveFragments();
       all_live_fragments = battle_manager.getAllLiveFragments();
       _.each(all_live_fragments, function (curr_frag){
@@ -51,33 +56,20 @@ Crafty.c("BattleInputManager", {
         if(curr_frag_ent.matchFirstChar(letter_value)){
           curr_frag_ent.activate();
           curr_frag_ent.takeInput(letter_value);
-
           // LEFT OFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
           // Ok, here's the state of things: 
           // The decision to wrap text fragments with backbone models is biting me in the ass right here.  I'm getting some instances as backbone models and some as crafty entities.  Need to do a refactor of remove the TextFragmentEntity backbone model and all uses of it and change those to use crafty ents.
-
         }
       });
+    }else{
+      _.each(active_fragments, function (curr_frag){
+        curr_frag.takeInput(letter_value);
+      });
+      // count typos if no letters match
     }
 
-    // Case 1: there is a currently active text fragment
-    //  Pass off the inputs to that fragment and let it do it's thing.
-    // Case 2 : there is no active text fragment
-    //   Search through unfinished text fragments and find the ones that start
-    //   with this matching character.  
-    //   If there are none : 
-    //     input is incorrect (and some penalty is assessed)
-    //   If there is one : 
-    //     Make that the active text fragment and pass the input value to it
-    //   If there is more than one :
-    //     Stub this out, too complex to handle just now but eventually, we
-    //     want to track multiple active ones until the user types a character
-    //     that only exists on one of them. Then we reset/discard the others
-    //     and make that one the active one.
-    //     if there are two with identical text, then the user can complete
-    //     both by typing them
-
     battle_manager = null; //clear the reference
+
   },
 
   _translateKeyToLetter: function (keyCode){

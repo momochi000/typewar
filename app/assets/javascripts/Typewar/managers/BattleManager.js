@@ -26,7 +26,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   /* sweeps through text fragments registered with this manager and removes
    * any that are already completed or have exited the play field or are 
    * invalid or have been wiped out etc.
-
    * discard fragments that are complete
    * or have collided with the other side (TBI)
    */
@@ -80,6 +79,10 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   /* Move the given fragment, if it is present in the active_fragments array,
    * to the fragment_graveyard array
+   * NOTE: Be wary of references to objects in the various collections 
+   * reflecting the correct changes when they've happened to local pointers
+   * here.  I'm not sure how things work with backbone.  Might want to look
+   * into it if something mysteriously breaks around this bit.
    */
   _removeActiveFragment: function (fragment){
     var active_fragments, fragment_graveyard, self;
@@ -90,18 +93,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     index = _.indexOf(active_fragments, fragment);
     active_fragments.splice(index, 1);
     fragment_graveyard.push(fragment);
-
-    // TODO: hey, will modifying active_fragments here also
-    // change the array that lives in this.get('active_text_fragments')?
-    // I'll want to check that before moving on from here.
-
-    //_.each(active_fragments, function (f){
-    //  var index;
-    //  if(fragment === f){
-    //    index = _.indexOf(active_fragments, f);
-    //    active_fragments.splice(index, 1);
-    //  }
-    //});
   },
 
   _resolveAttack: function (fragment){
