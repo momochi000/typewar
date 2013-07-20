@@ -81,6 +81,12 @@ other attributes.
   behaviors that can be toggled. AI has many behaviors.
   For now, just set the behavior to attack at a constant rate
 
+  Allow a method of stopping the AI. It would be nice if we could listen for
+  the Crafty.pause() call and stop and start automatically.
+
+  BUG: there is a bug where the input manager stops accepting inputs. Try to
+  trigger this bug and investigate
+
   Get a simple library of text in there to test actual typing.
 
   The player should be able to activate any text fragment by typing.
