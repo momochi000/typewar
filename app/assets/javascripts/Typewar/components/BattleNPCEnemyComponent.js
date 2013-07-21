@@ -6,6 +6,7 @@
 Crafty.c("BattleNPCEnemy", {
   _ANIM_HIT_DELAY: 430,
   _fragment_spawner: null,
+  _current_target: null,
   char_sheet: null,
 
   init: function (){
@@ -18,6 +19,19 @@ Crafty.c("BattleNPCEnemy", {
     return this;
   },
 
+  activateAI: function (){
+    var self = this;
+
+    if(!this._current_target){ return false; }
+    this.battle_timer = window.setInterval(function() {
+      self.initiateAttackOn(self._current_target);
+    }, 7000);
+  },
+
+  deactivateAI: function (){
+    if(this.battle_timer){ window.clearInterval(this.battle_timer); }
+  },
+
   deliverAttack: function (){
     this.animAttack();
   },
@@ -25,6 +39,13 @@ Crafty.c("BattleNPCEnemy", {
   initiateAttackOn: function (defender){
     var frag, speed;
 
+    console.log("DEBUG: SLIME: FIRING ATTACK ON DEFENDER, ENSURE DEFENDER IS A VALID TARGET");
+    if(defender.has("BattlePlayer")){
+      console.log("DEBUG: SLIME: Valid target");
+    } else {
+      console.log("DEBUG: SLIME: INVALID target");
+      
+    }
     speed = -20 * Math.random();
     frag = this._fragment_spawner.generateTextFragment({
       offset: [0,-70],
@@ -44,6 +65,10 @@ Crafty.c("BattleNPCEnemy", {
     console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
     var self = this;
     window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+  },
+
+  setTarget: function (target){
+    this._current_target = target;
   },
 
   successfulDefense: function (){

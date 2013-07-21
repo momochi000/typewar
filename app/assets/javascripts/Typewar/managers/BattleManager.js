@@ -65,18 +65,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   // private
 
-  _decideBattleAction: function (){
-    var decider;
-
-    decider = 10 * Math.random();
-
-    if(decider > 6){
-      this.get('player').initiateAttackOn(this.get('enemies')[0]);
-    }else{
-      this.get('enemies')[0].initiateAttackOn(this.get('player'));
-    }
-  },
-
   /* Move the given fragment, if it is present in the active_fragments array,
    * to the fragment_graveyard array
    * NOTE: Be wary of references to objects in the various collections 
@@ -120,11 +108,17 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       fragment.defender.takeDamage(2);
     }
   },
-  _setupBattleAI: function (){
-    var battle_timer;
 
-    battle_timer = window.setInterval(this._decideBattleAction.bind(this), 6000);
-    //this.set("battle_timer", battle_timer);
+  _setupBattleAI: function (){
+    var self = this;
+    _.each(this.get("enemies"), function (e){
+      e.setTarget(self.get("player"));
+      e.activateAI();
+    }); 
+
+    this.get("player").setTarget(this.get("enemies")[0]);
+    this.get("player").activateAutoAttack();
+
   },
 
     // Add the newly activated fragment to the set of active fragments registered with the battle manager

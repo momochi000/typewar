@@ -1,5 +1,6 @@
 Crafty.c("BattlePlayer", {
   char_sheet: null,
+  _current_target: null,
   _fragment_spawner: null,
   _ANIM_HIT_DELAY: 430,
 
@@ -14,6 +15,17 @@ Crafty.c("BattlePlayer", {
     this._createFragmentSpawner();
 
     return this;
+  },
+
+  activateAutoAttack: function (){
+    var self = this;
+    this.battle_timer = window.setInterval(function() {
+      self.initiateAttackOn(self._current_target);
+    }, 7000);
+  },
+
+  deactivateAutoAttack: function (){
+    if(this.battle_timer){ window.clearInterval(this.battle_timer); }
   },
 
   deliverAttack: function (){
@@ -50,6 +62,10 @@ Crafty.c("BattlePlayer", {
     var self = this;
     console.log("DEBUG: PLAYER: PARTIAL HIT. OW!!! ");
     window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+  },
+
+  setTarget: function (target){
+    this._current_target = target;
   },
 
   successfulDefense: function (){
