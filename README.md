@@ -76,13 +76,13 @@ other attributes.
 
 #### Beef up text fragment spawner
 
-  Move the AI to the slime. Extract it out so it's a module I can attach to
-  any monster, even swiching out. Perhaps the monster could have several
-  behaviors that can be toggled. AI has many behaviors.
-  For now, just set the behavior to attack at a constant rate
+  Create the colliders that represent making it fully past the character's 
+  defense. Signal an event on those and do the right thing all around.
 
-  Allow a method of stopping the AI. It would be nice if we could listen for
-  the Crafty.pause() call and stop and start automatically.
+  Craete a battle over scene for the winner
+
+  Deallocate text fragments after they are removed from play, either when they
+  hit or expended. Can probably safely remove 2D and DOM from them.
 
   BUG: there is a bug where the input manager stops accepting inputs. Try to
   trigger this bug and investigate
@@ -97,12 +97,6 @@ other attributes.
       this situation in various ways.
     + Need to clean up fragments when dead (at least put them in the graveyard)
     + Ensure the proper arrays get the right fragments placed in them
-
-  Create the colliders that represent making it fully past the character's 
-  defense. Signal an event on those and do the right thing all around.
-
-  Deallocate text fragments after they are removed from play, either when they
-  hit or expended. Can probably safely remove 2D and DOM from them.
 
   Try giving the fragments acceleration instead of speed.
   OOh better yet, give some to each.
@@ -129,6 +123,16 @@ other attributes.
 ---
 
 ### DONE - 
+
+  Add a background.
+
+  Allow a method of stopping the AI. It would be nice if we could listen for
+  the Crafty.pause() call and stop and start automatically.
+
+  Move the AI to the slime. Extract it out so it's a module I can attach to
+  any monster, even swiching out. Perhaps the monster could have several
+  behaviors that can be toggled. AI has many behaviors.
+  For now, just set the behavior to attack at a constant rate
 
   Zoom in on the characters, camera is too far out.
 

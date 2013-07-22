@@ -16,6 +16,7 @@ Crafty.c("BattleNPCEnemy", {
   battleNPCEnemy: function (char_sheet){
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
     this._createFragmentSpawner();
+    this.z = 5;
     return this;
   },
 

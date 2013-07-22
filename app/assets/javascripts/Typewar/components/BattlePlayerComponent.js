@@ -13,6 +13,7 @@ Crafty.c("BattlePlayer", {
 
     this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Player"});
     this._createFragmentSpawner();
+    this.z = 5;
 
     return this;
   },

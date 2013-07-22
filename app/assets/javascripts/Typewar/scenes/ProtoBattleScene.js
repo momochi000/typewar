@@ -1,4 +1,4 @@
-var global_enemy, global_player; // DEBUG;
+var global_bg, global_enemy, global_player; // DEBUG;
 
 var ProtoBattleScene = Backbone.Model.extend({
   defaults: {
@@ -13,15 +13,28 @@ var ProtoBattleScene = Backbone.Model.extend({
 
     self = this;
     Crafty.scene(self.get('scene_id'), function (){
-      Crafty.background("black");
       self.initSprites();
       enemy_npc = self.initEnemyNPC();
       player = self.initPC();
+      self.initBackground();
       self.initCamera();
       self.initBattleManager({player: player, enemies: [enemy_npc]});
       self.initStatusBar(player, enemy_npc);
       self.initInputManager();
     });
+  },
+
+  initBackground: function (){
+    // Later we should make the background an entity that can be moved around 
+    // so we can scroll across the battlefield
+    // nevermind.. looks like we have to make it an entity because a css
+    // background doesn't support animated gifs i guess.
+
+    //Crafty.background("black");
+    //Crafty.background("url('assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif')");
+    global_bg = Crafty.e("2D, DOM, Image, BattleBackground")
+      .battleBackground("assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif", 800, 336)
+      .attr({x: -26, y: -60, z: 0});
   },
 
   initCamera: function (){
