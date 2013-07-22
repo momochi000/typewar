@@ -76,6 +76,9 @@ other attributes.
 
 #### Beef up text fragment spawner
 
+  Distinguish somehow the difference between player cast text fragments and npc
+  sent ones..
+
   Create the colliders that represent making it fully past the character's 
   defense. Signal an event on those and do the right thing all around.
 
@@ -123,6 +126,9 @@ other attributes.
 ---
 
 ### DONE - 
+
+  Remove the 'type me' instruction text from text fragment partials (or make
+  them less obtrusive)
 
   Add a background.
 

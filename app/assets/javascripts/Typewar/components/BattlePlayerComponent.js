@@ -2,7 +2,7 @@ Crafty.c("BattlePlayer", {
   char_sheet: null,
   _current_target: null,
   _fragment_spawner: null,
-  _ANIM_HIT_DELAY: 430,
+  _ANIM_HIT_DELAY: 410,
 
   init: function (){
     this.requires("2D, BattlePlayerAnimation");
