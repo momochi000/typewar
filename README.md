@@ -82,6 +82,9 @@ other attributes.
   Create the colliders that represent making it fully past the character's 
   defense. Signal an event on those and do the right thing all around.
 
+  Add a state machine to text fragments and use that to keep track of whether
+  they can be typed or not.
+
   Craete a battle over scene for the winner
 
   Deallocate text fragments after they are removed from play, either when they
@@ -102,7 +105,7 @@ other attributes.
     + Ensure the proper arrays get the right fragments placed in them
 
   Try giving the fragments acceleration instead of speed.
-  OOh better yet, give some to each.
+  OOh better yet, give some a flat speed and some an accel.
 
   Particle system setup
 
