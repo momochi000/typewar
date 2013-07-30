@@ -15,6 +15,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
     this._setupCompletedFragmentListener();
     this._setupFragmentActivatedListener();
+    this._setupFragmentExitStageListener();
     this._setupBattleAI();
   },
 
@@ -83,6 +84,22 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     fragment_graveyard.push(fragment);
   },
 
+  // This belongs in underscore or something, need to move this somewhere 
+  // appropriate
+  _removeFromArray: function (array, item){
+    var index;
+
+    console.log("DEBUG: REMOVING ITEM FROM ARRAY");
+
+    index = _.indexOf(array, item);
+    if(index >= 0){
+      array.splice(index, 1);
+      return item;
+    } else {
+      return null;
+    }
+  },
+
   _resolveAttack: function (fragment){
     fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){
@@ -121,13 +138,53 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   },
 
-    // Add the newly activated fragment to the set of active fragments registered with the battle manager
+  // Add the newly activated fragment to the set of active fragments registered with the battle manager
   _setupFragmentActivatedListener: function (){
     var self = this;
     Crafty.bind("TextFragmentActivated", function (evt){
       self.get("active_text_fragments").push(evt);
     });
   },
+
+  _setupFragmentExitStageListener: function (){
+    var self, live_fragments, active_fragments, graveyard;
+
+    self = this;
+    live_fragments = this.get("live_text_fragments");
+    active_fragments = this.get("active_text_fragments");
+    graveyard = this.get("fragment_graveyard");
+
+    Crafty.bind("TextFragmentExitedStage", function (evt){
+      var index, fragment;
+
+      fragment = evt.text_fragment;
+      console.log("========================================");
+      console.log("DEBUG: Battle manager got TextFragmentExitedStage event");
+      console.log(live_fragments);
+      console.log(active_fragments);
+      console.log(graveyard);
+      console.log(fragment);
+      console.log(evt);
+      console.log("========================================");
+
+      if(self._removeFromArray(live_fragments, fragment)){
+        fragment.deactivate();
+        console.log("DEBUG: moving deactivated live fragment to the graveyard");
+        graveyard.push(fragment);
+      }else if(self._removeFromArray(active_fragments, fragment)){
+        fragment.deactivate();
+        console.log("DEBUG: moving deactivated active fragment to the graveyard");
+        graveyard.push(fragment);
+      } else {
+      // bug here, fragment not found in the right place.  Gotta check the collections
+      // FOUND PROBLEM: the fragment collection is a set of backbone models 
+      //   while the fragment that we get back from the event is a crafty entity.
+      //   I knew this was going to bite me in the ass.. might be time to refactor the
+      //   models out of it...
+        throw "ERROR: fragment not found within active or live fragments" + evt;
+      }
+    });
+  }, 
 
   _setupCompletedFragmentListener: function (){
     Crafty.bind("TextFragmentCompleted", this.handleFragmentCompleted.bind(this));

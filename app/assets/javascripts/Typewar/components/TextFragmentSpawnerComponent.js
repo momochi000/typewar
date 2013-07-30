@@ -10,7 +10,7 @@ Crafty.c("TextFragmentSpawner", {
   _parent: null,
 
   init: function (){
-    this.requires("2D");
+    this.requires("2D, Collision");
     this._fragment_collection = [];
     this._completed_fragment_collection = [];
   },

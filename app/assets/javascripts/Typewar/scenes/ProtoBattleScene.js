@@ -17,6 +17,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       enemy_npc = self.initEnemyNPC();
       player = self.initPC();
       self.initBackground();
+      self.initStageEdges();
       self.initCamera();
       self.initBattleManager({player: player, enemies: [enemy_npc]});
       self.initStatusBar(player, enemy_npc);
@@ -25,16 +26,15 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initBackground: function (){
-    // Later we should make the background an entity that can be moved around 
-    // so we can scroll across the battlefield
-    // nevermind.. looks like we have to make it an entity because a css
-    // background doesn't support animated gifs i guess.
-
     //Crafty.background("black");
     //Crafty.background("url('assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif')");
     global_bg = Crafty.e("2D, DOM, Image, BattleBackground")
       .battleBackground("assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif", 800, 336)
       .attr({x: -26, y: -60, z: 0});
+  },
+
+  initBattleManager: function (options){
+    Typewar.Engine.BattleManager = new Typewar.Models.BattleManager(options);
   },
 
   initCamera: function (){
@@ -70,8 +70,21 @@ var ProtoBattleScene = Backbone.Model.extend({
     Sprite.create('slime');
   },
 
-  initBattleManager: function (options){
-    Typewar.Engine.BattleManager = new Typewar.Models.BattleManager(options);
+  initStageEdges: function (){
+    var width, height;
+
+    width = Typewar.viewportWidth;
+    height = Typewar.viewportHeight;
+
+    // Left edge
+    Crafty.e("2D, Collision, BattleStageEdge")
+      .attr({x: 0, y: 0, w: 5, h: height })
+      .collision([[0,0], [0, height], [5, height], [5, 0]]);
+
+//    // Right edge
+//    Crafty.e("2D, Collision, BattleStageEdge")
+//      .attr({x: width, y: 0, w: 5, h: height })
+//      .collision([[0,0], [0, height], [5, height], [5, 0]]);
   },
 
   initInputManager: function (){

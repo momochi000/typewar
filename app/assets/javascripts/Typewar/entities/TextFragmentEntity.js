@@ -29,7 +29,7 @@ var TextFragmentEntity = BaseEntity.extend({
   },
 
   initialize: function (){
-    var entity = Crafty.e("2D, DOM, TextFragment, Physics2D")
+    var entity = Crafty.e("2D, DOM, Collision, TextFragment, Physics2D")
       .attr({
         x: this.get('x') || 0, 
         y: this.get('y') || 0, 
@@ -37,6 +37,7 @@ var TextFragmentEntity = BaseEntity.extend({
         w: this.get('w') || 5, 
         h: this.get('h') || 5
       })
+      .collision([[0,0],[5,0],[5,5],[0,5]])
       .physics2D()
       .textFragment({
         text: this.get("text"), 

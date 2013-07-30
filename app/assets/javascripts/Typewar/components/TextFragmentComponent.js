@@ -42,7 +42,7 @@ Crafty.c("TextFragment", {
   _view: null,
 
   init: function (){
-    this.requires("DOM");
+    this.requires("DOM, Collision");
     this.current_position = 0;
   },
 
@@ -51,6 +51,7 @@ Crafty.c("TextFragment", {
     this.attacker = opts.attacker;
     this.defender = opts.defender;
     if(opts.success_callback) { this._success_callback = opts.success_callback; }
+    this._bindStageEdgeCollisionEvent();
     return this;
   },
 
@@ -169,6 +170,14 @@ Crafty.c("TextFragment", {
   },
 
   //private
+
+  _bindStageEdgeCollisionEvent: function (){
+    var self = this;
+    this.onHit("BattleStageEdge", function (e){
+      console.log("DEBUG: TEXT FRAGMENT REACHED BATTLE STAGE EDGE, TRIGGERING EVENT");
+      Crafty.trigger("TextFragmentExitedStage", {text_fragment: self});
+    });
+  },
 
   _complete: function (){
     var output_data;
