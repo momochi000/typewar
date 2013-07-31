@@ -20,13 +20,6 @@ Crafty.c("TextFragmentSpawner", {
     return this;
   },
 
-  moveCompletedFragment: function() {
-    var completedFragment = this._fragment_collection.shift();
-    if(completedFragment) { 
-      this._completed_fragment_collection.push(completedFragment) 
-    }
-  },
-
   /* generateTextFragment(<hash> options) => TextFragmentEntity
    * options defines the attributes and behavior to attach to the newly
    * spawned text fragment.
@@ -41,7 +34,8 @@ Crafty.c("TextFragmentSpawner", {
    *     spawn points of the generated text fragment.
    */
   generateTextFragment: function (options){
-    var new_accel, x_new, y_new, new_frag, new_text, new_speed, new_type, new_wiggle, y_offset;
+    var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 
+      new_type, new_wiggle, y_offset;
 
     x_new      = options["x"]      || this._x;
     y_new      = options["y"]      || this._y;
@@ -57,6 +51,7 @@ Crafty.c("TextFragmentSpawner", {
     }else{
       x_new, y_new = this._adjustForWiggle(x_new, y_new, 0, 35);
     }
+
     new_frag = new TextFragmentEntity({
       text: new_text,
       x: x_new,
@@ -68,13 +63,12 @@ Crafty.c("TextFragmentSpawner", {
       defender: options.defender
     });
 
-    new_frag.getEntity().setSpeed(new_speed[0], new_speed[1]);
+    new_frag_ent = new_frag.getEntity();
 
-    console.log("DEBUG: New fragment generated at: [" +x_new+ ", " +y_new+ "] ");
+    new_frag_ent.setSpeed(new_speed[0], new_speed[1]);
 
-    this._fragment_collection.push(new_frag);
-
-    this._registerFragmentWithBattleManager(new_frag);
+    this._fragment_collection.push(new_frag_ent);
+    this._registerFragmentWithBattleManager(new_frag_ent);
 
     return new_frag;
   },
@@ -90,6 +84,13 @@ Crafty.c("TextFragmentSpawner", {
       result += valid_chars[Math.round(Math.random() * (valid_chars.length - 1))];
     }
     return result.trim();
+  },
+
+  moveCompletedFragment: function() {
+    var completedFragment = this._fragment_collection.shift();
+    if(completedFragment) { 
+      this._completed_fragment_collection.push(completedFragment) 
+    }
   },
 
   textFragmentCompleted: function (e){

@@ -51,14 +51,9 @@ Crafty.c("BattleInputManager", {
       battle_manager.cleanupLiveFragments();
       all_live_fragments = battle_manager.getAllLiveFragments();
       _.each(all_live_fragments, function (curr_frag){
-        var curr_frag_ent;
-        curr_frag_ent = curr_frag.getEntity();
-        if(curr_frag_ent.matchFirstChar(letter_value)){
-          curr_frag_ent.activate();
-          curr_frag_ent.takeInput(letter_value);
-          // LEFT OFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          // Ok, here's the state of things: 
-          // The decision to wrap text fragments with backbone models is biting me in the ass right here.  I'm getting some instances as backbone models and some as crafty entities.  Need to do a refactor of remove the TextFragmentEntity backbone model and all uses of it and change those to use crafty ents.
+        if(curr_frag.matchFirstChar(letter_value)){
+          curr_frag.activate();
+          curr_frag.takeInput(letter_value);
         }
       });
     }else{

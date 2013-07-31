@@ -2,7 +2,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   defaults: {
     active_text_fragments: [],
     fragment_graveyard: [],
-    live_text_fragments: [],
+    live_text_fragments: []
   },
 
   initialize: function (){
@@ -76,6 +76,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   _removeActiveFragment: function (fragment){
     var active_fragments, fragment_graveyard, self;
     self = this;
+
     active_fragments = this.get("active_text_fragments");
     fragment_graveyard = this.get("fragment_graveyard")
 
@@ -88,8 +89,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   // appropriate
   _removeFromArray: function (array, item){
     var index;
-
-    console.log("DEBUG: REMOVING ITEM FROM ARRAY");
 
     index = _.indexOf(array, item);
     if(index >= 0){
@@ -158,29 +157,15 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       var index, fragment;
 
       fragment = evt.text_fragment;
-      console.log("========================================");
-      console.log("DEBUG: Battle manager got TextFragmentExitedStage event");
-      console.log(live_fragments);
-      console.log(active_fragments);
-      console.log(graveyard);
-      console.log(fragment);
-      console.log(evt);
-      console.log("========================================");
-
       if(self._removeFromArray(live_fragments, fragment)){
         fragment.deactivate();
-        console.log("DEBUG: moving deactivated live fragment to the graveyard");
         graveyard.push(fragment);
       }else if(self._removeFromArray(active_fragments, fragment)){
         fragment.deactivate();
-        console.log("DEBUG: moving deactivated active fragment to the graveyard");
         graveyard.push(fragment);
+      }else if(_.contains(graveyard, fragment)){
+        console.log("DEBUG: found the fragment in the graveyard, this is probably double searching somehwere");
       } else {
-      // bug here, fragment not found in the right place.  Gotta check the collections
-      // FOUND PROBLEM: the fragment collection is a set of backbone models 
-      //   while the fragment that we get back from the event is a crafty entity.
-      //   I knew this was going to bite me in the ass.. might be time to refactor the
-      //   models out of it...
         throw "ERROR: fragment not found within active or live fragments" + evt;
       }
     });

@@ -42,7 +42,7 @@ Crafty.c("TextFragment", {
   _view: null,
 
   init: function (){
-    this.requires("DOM, Collision");
+    this.requires("2D, DOM, Physics2D, Collision");
     this.current_position = 0;
   },
 
@@ -117,11 +117,10 @@ Crafty.c("TextFragment", {
    * The fragment doesn't get destroyed yet, it may have reached the player or
    * it may have been correctly typed.  Either way, we remove it from the
    * battle scene.
-   * The fragment itself might go into a completed array or failed array or 
-   * something. For now, that is outside of the scope of this method.
    */
   removeFromPlay: function (){
     this._view.remove();
+    this.zeroVel();
   },
 
   reset: function (){
@@ -174,7 +173,7 @@ Crafty.c("TextFragment", {
   _bindStageEdgeCollisionEvent: function (){
     var self = this;
     this.onHit("BattleStageEdge", function (e){
-      console.log("DEBUG: TEXT FRAGMENT REACHED BATTLE STAGE EDGE, TRIGGERING EVENT");
+      self.removeFromPlay();
       Crafty.trigger("TextFragmentExitedStage", {text_fragment: self});
     });
   },
@@ -185,13 +184,6 @@ Crafty.c("TextFragment", {
     this.deactivate();
     if(this._success_callback) { this._success_callback(); }
     this.drawSelf();
-
-    // TODO: decide what data to provide when this event gets fired.
-    // Here's a few I've thought of:
-    // success: true/false
-    // typos: int
-    // speed/time ?
-    // length ?
 
     output_data = {};
     output_data["text_fragment"] = this;

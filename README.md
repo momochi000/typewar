@@ -73,11 +73,28 @@ other attributes.
 ---
 
 ### LEFT OFF - TODO: Turn these into tracker stories
+#### Working on 
+  Removing text fragments from the scene once they hit the edge.  Stuck on
+  moving the fragment into the 'graveyard' on the battle manager.  Can't seem
+  to find the fragment that comes back from the event.
+  However, I suspect that the fragment has already been dealt with.. no wait
+  it's not in the graveyard either...
+  Well, maybe it's still being moved and so the event is getting triggered many
+  times. 
+  Need to check to ensure that the fragment is being deactivated properly.
+  In fact, perhaps it's being more than deactivated, it's being finished, or
+  destroyed or demolished. It should call deactivate, but also should remove
+  the view, remove the 2D component, remove bindings, stop calculation of 
+  position.
 
-#### Beef up text fragment spawner
+  Create a way for pausing the rudimentary AI, stopping the timers that create
+  more text fragments.  Better yet, have it listen for a Crafty.pause() where
+  it then does the appropriate.  Better yet, make the timers count by Crafty
+  frames.  This way pause will do the right thing.  Will need ot create a Timer
+  object which binds to EnterFrame and increments itself.
 
   Distinguish somehow the difference between player cast text fragments and npc
-  sent ones..
+  sent ones (appearance)..
 
   Create the colliders that represent making it fully past the character's 
   defense. Signal an event on those and do the right thing all around.
