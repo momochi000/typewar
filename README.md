@@ -74,6 +74,9 @@ other attributes.
 
 ### LEFT OFF - TODO: Turn these into tracker stories
 #### Working on 
+
+  Get a simple library of text in there to test actual typing.
+
   Create a way for pausing the rudimentary AI, stopping the timers that create
   more text fragments.  Better yet, have it listen for a Crafty.pause() where
   it then does the appropriate.  Better yet, make the timers count by Crafty
@@ -83,21 +86,15 @@ other attributes.
   Distinguish somehow the difference between player cast text fragments and npc
   sent ones (appearance)..
 
-  Create the colliders that represent making it fully past the character's 
-  defense. Signal an event on those and do the right thing all around.
-
   Add a state machine to text fragments and use that to keep track of whether
   they can be typed or not.
 
   Craete a battle over scene for the winner
 
-  Deallocate text fragments after they are removed from play, either when they
-  hit or expended. Can probably safely remove 2D and DOM from them.
-
   BUG: there is a bug where the input manager stops accepting inputs. Try to
   trigger this bug and investigate
 
-  Get a simple library of text in there to test actual typing.
+  Make player stagger/stumble when one if their text fragments crosses untyped
 
   The player should be able to activate any text fragment by typing.
   Need a text input manager that watches for keyboard inputs and selects the
