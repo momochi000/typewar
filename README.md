@@ -74,19 +74,6 @@ other attributes.
 
 ### LEFT OFF - TODO: Turn these into tracker stories
 #### Working on 
-  Removing text fragments from the scene once they hit the edge.  Stuck on
-  moving the fragment into the 'graveyard' on the battle manager.  Can't seem
-  to find the fragment that comes back from the event.
-  However, I suspect that the fragment has already been dealt with.. no wait
-  it's not in the graveyard either...
-  Well, maybe it's still being moved and so the event is getting triggered many
-  times. 
-  Need to check to ensure that the fragment is being deactivated properly.
-  In fact, perhaps it's being more than deactivated, it's being finished, or
-  destroyed or demolished. It should call deactivate, but also should remove
-  the view, remove the 2D component, remove bindings, stop calculation of 
-  position.
-
   Create a way for pausing the rudimentary AI, stopping the timers that create
   more text fragments.  Better yet, have it listen for a Crafty.pause() where
   it then does the appropriate.  Better yet, make the timers count by Crafty
@@ -146,6 +133,21 @@ other attributes.
 ---
 
 ### DONE - 
+
+  Removing text fragments from the scene once they hit the edge.  Stuck on
+  moving the fragment into the 'graveyard' on the battle manager.  Can't seem
+  to find the fragment that comes back from the event.
+  However, I suspect that the fragment has already been dealt with.. no wait
+  it's not in the graveyard either...
+  Well, maybe it's still being moved and so the event is getting triggered many
+  times. 
+  Need to check to ensure that the fragment is being deactivated properly.
+  In fact, perhaps it's being more than deactivated, it's being finished, or
+  destroyed or demolished. It should call deactivate, but also should remove
+  the view, remove the 2D component, remove bindings, stop calculation of 
+  position.
+
+  Move completed text fragments to the graveyard as well.
 
   Remove the 'type me' instruction text from text fragment partials (or make
   them less obtrusive)

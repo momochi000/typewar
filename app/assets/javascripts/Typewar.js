@@ -1,8 +1,8 @@
 Typewar.Engine = {};
 
-Typewar.initGame = function (viewportHeight, viewportWidth){
-  Crafty.init(viewportHeight, viewportWidth);
-  Crafty.viewport.init(viewportHeight, viewportWidth);
+Typewar.initGame = function (viewportWidth, viewportHeight){
+  Crafty.init(viewportWidth, viewportHeight);
+  Crafty.viewport.init(viewportWidth, viewportHeight);
   Crafty.background("blue");
   this.viewportHeight = viewportHeight;
   this.viewportWidth = viewportWidth;

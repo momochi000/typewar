@@ -120,7 +120,11 @@ Crafty.c("TextFragment", {
    */
   removeFromPlay: function (){
     this._view.remove();
-    this.zeroVel();
+    //this.zeroVel();
+    //this.removeComponent("Collision", true);
+    //this.removeComponent("2D",        true);
+    this.removeComponent("DOM",       true);
+    this._unbindStageEdgeCollision();
   },
 
   reset: function (){
@@ -172,10 +176,7 @@ Crafty.c("TextFragment", {
 
   _bindStageEdgeCollisionEvent: function (){
     var self = this;
-    this.onHit("BattleStageEdge", function (e){
-      self.removeFromPlay();
-      Crafty.trigger("TextFragmentExitedStage", {text_fragment: self});
-    });
+    this.bind("EnterFrame", this._handleStageEdgeCollision);
   },
 
   _complete: function (){
@@ -205,7 +206,19 @@ Crafty.c("TextFragment", {
     this._current_position++;
   },
 
+  _handleStageEdgeCollision: function (evt){
+    if(this.hit("BattleStageEdge")){
+      this.removeFromPlay();
+      Crafty.trigger("TextFragmentExitedStage", {text_fragment: this});
+    }
+  },
+
+  _unbindStageEdgeCollision: function (){
+    this.unbind("EnterFrame", this._handleStageEdgeCollision);
+  },
+
   _wrongInput: function (input){
     this._incorrect_characters += input;
   }
+
 });

@@ -76,15 +76,20 @@ var ProtoBattleScene = Backbone.Model.extend({
     width = Typewar.viewportWidth;
     height = Typewar.viewportHeight;
 
-    // Left edge
-    Crafty.e("2D, Collision, BattleStageEdge")
+    //console.log("DEBUG: CREATING STAGE EDGE WITH ==========================================>>>>");
+    //console.log("width: " + width);
+    //console.log("height: " + height);
+    //console.log("left ->  x: " + 0, " y: " + 0 + " w: " + 5 + " h: " + height);
+    //console.log("right ->  x: " + width, " y: " + 0 + " w: " + 5 + " h: " + height);
+    //console.log("DEBUG: END ===============================================================>>>>");
+
+    Crafty.e("2D, DOM, Collision, BattleStageEdge, SolidHitBox") // Left edge
       .attr({x: 0, y: 0, w: 5, h: height })
       .collision([[0,0], [0, height], [5, height], [5, 0]]);
 
-//    // Right edge
-//    Crafty.e("2D, Collision, BattleStageEdge")
-//      .attr({x: width, y: 0, w: 5, h: height })
-//      .collision([[0,0], [0, height], [5, height], [5, 0]]);
+    Crafty.e("2D, DOM, Collision, BattleStageEdge, SolidHitBox") // Right edge
+      .attr({x: 600, y: 0, w: 5, h: height })
+      .collision([[0,0], [0, height], [5, height], [5, 0]]);
   },
 
   initInputManager: function (){

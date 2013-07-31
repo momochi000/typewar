@@ -40,11 +40,11 @@ Crafty.c("BattleNPCEnemy", {
   initiateAttackOn: function (defender){
     var frag, speed;
 
-    console.log("DEBUG: SLIME: FIRING ATTACK ON DEFENDER, ENSURE DEFENDER IS A VALID TARGET");
+    //console.log("DEBUG: SLIME: FIRING ATTACK ON DEFENDER, ENSURE DEFENDER IS A VALID TARGET");
     if(defender.has("BattlePlayer")){
-      console.log("DEBUG: SLIME: Valid target");
+      //console.log("DEBUG: SLIME: Valid target");
     } else {
-      console.log("DEBUG: SLIME: INVALID target");
+      //console.log("DEBUG: SLIME: INVALID target");
       
     }
     speed = -20 * Math.random();
@@ -111,13 +111,6 @@ Crafty.c("BattleNPCEnemy", {
     this.trigger("updateStatus");
   },
 
-  //delete: function (){
-  //  Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted);
-  //  this._attack_fragment_spawner.destroy();
-  //  this._defense_fragment_spawner.destroy();
-  //  this.destroy();
-  //},
-  
   //private 
 
   _createFragmentSpawner: function (){

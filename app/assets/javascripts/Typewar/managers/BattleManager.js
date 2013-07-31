@@ -46,17 +46,34 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    * TODO: This should be renamed
    */
   handleFragmentCompleted: function (data){
-    var text_fragment;
+    var text_fragment, player;
 
+    player = this.get('player');
     text_fragment = data.text_fragment;
-    
-    if(text_fragment.attacker == this.get('player')){
+
+    if(text_fragment.attacker == player){
       this._resolveAttack(text_fragment);
-    }else if(text_fragment.defender == this.get('player')){
+    }else if(text_fragment.defender == player){
       this._resolveDefense(text_fragment);
     }
 
     this._removeActiveFragment(text_fragment);
+  },
+
+  handleFragmentMissed: function (data){
+    var fragment, player;
+
+    fragment = ( data['text_fragment'] ? data['text_framgent'] : data );
+    player = this.get('player');
+
+    if(fragment.attacker == player){
+      console.log("DEBUG: player fragment went off screen");
+      // do nothing
+    }else if(fragment.defender == player){
+      console.log("DEBUG: monster fragment went off screen");
+      this._resolveDefense(fragment);
+    }
+
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */
@@ -157,10 +174,15 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       var index, fragment;
 
       fragment = evt.text_fragment;
+
+      self.handleFragmentMissed(fragment);
+
       if(self._removeFromArray(live_fragments, fragment)){
+        console.log("DEBUG: Removing fragment from LIVE to graveyard XXXXXXXXXXXXXX");
         fragment.deactivate();
         graveyard.push(fragment);
       }else if(self._removeFromArray(active_fragments, fragment)){
+        console.log("DEBUG: Removing fragment from active to graveyard XXXXXXXXXXXXXX");
         fragment.deactivate();
         graveyard.push(fragment);
       }else if(_.contains(graveyard, fragment)){
@@ -175,5 +197,3 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     Crafty.bind("TextFragmentCompleted", this.handleFragmentCompleted.bind(this));
   }
 });
-
-
