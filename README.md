@@ -75,16 +75,24 @@ other attributes.
 ### LEFT OFF - TODO: Turn these into tracker stories
 #### Working on 
 
+  BUG: when a fragment that you're currently typing goes off screen, it never
+  releases the keyboard focus (need to unbind)
+
   Get a simple library of text in there to test actual typing.
+
+  Distinguish somehow the difference between player cast text fragments and npc
+  sent ones (appearance)..
+
+  PERFORMANCE: seems like dom nodes aren't getting properly removed when text
+  fragments go away.  Need to ensure that they do.
+
+  Change player sprite (current one is crap)
 
   Create a way for pausing the rudimentary AI, stopping the timers that create
   more text fragments.  Better yet, have it listen for a Crafty.pause() where
   it then does the appropriate.  Better yet, make the timers count by Crafty
   frames.  This way pause will do the right thing.  Will need ot create a Timer
   object which binds to EnterFrame and increments itself.
-
-  Distinguish somehow the difference between player cast text fragments and npc
-  sent ones (appearance)..
 
   Add a state machine to text fragments and use that to keep track of whether
   they can be typed or not.
@@ -117,8 +125,6 @@ other attributes.
 
   text fragments should have a pointer to it's collection, and the collection
   should have a pointer to it's owner. The spawner should as well.
-
-  Change player sprite (current one is crap)
 
   Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
   when you block)
