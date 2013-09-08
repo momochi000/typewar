@@ -42,9 +42,14 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initPC: function (){
-    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerAnim, pl_st0")
+    //player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerAnim, pl_st0")
+    //player.attr({ x: 20, y: 180 })
+    //  .battlePlayerAnim()
+    //  .battlePlayer();
+
+    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerZeroAnim, plz_st0")
     player.attr({ x: 20, y: 180 })
-      .battlePlayerAnim()
+      .battlePlayerZeroAnim()
       .battlePlayer();
     global_player = player;
 
@@ -66,7 +71,8 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initSprites: function (){
-    Sprite.create('player');
+    //Sprite.create('player');
+    Sprite.create('player_zero');
     Sprite.create('slime');
   },
 
