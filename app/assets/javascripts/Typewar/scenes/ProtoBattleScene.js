@@ -38,7 +38,10 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initCamera: function (){
-    Crafty.viewport.scale(1.75);
+    //Crafty.viewport.scale(1.75);
+    Crafty.viewport.scale(2.4);
+    Crafty.viewport.y -= 140;
+    Crafty.viewport.x -= 30;
   },
 
   initPC: function (){
@@ -62,7 +65,7 @@ var ProtoBattleScene = Backbone.Model.extend({
 
     slime_char_sheet 
     enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, slime_st0")
-      .attr({x: 520, y: 220})
+      .attr({x: 390, y: 210})
       .battleSlimeAnim()
       .battleNPCEnemy(slime_char_sheet);
     global_enemy = enemy_npc; // DEBUG:
