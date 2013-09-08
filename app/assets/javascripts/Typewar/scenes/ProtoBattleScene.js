@@ -54,6 +54,7 @@ var ProtoBattleScene = Backbone.Model.extend({
     player.attr({ x: 20, y: 180 })
       .battlePlayerZeroAnim()
       .battlePlayer();
+
     global_player = player;
 
     return player;
@@ -64,8 +65,9 @@ var ProtoBattleScene = Backbone.Model.extend({
     slime_char_sheet.set('name', 'Chaos slime');
 
     slime_char_sheet 
-    enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, slime_st0")
+    enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0")
       .attr({x: 390, y: 210})
+      .nPCBrain()
       .battleSlimeAnim()
       .battleNPCEnemy(slime_char_sheet);
     global_enemy = enemy_npc; // DEBUG:
