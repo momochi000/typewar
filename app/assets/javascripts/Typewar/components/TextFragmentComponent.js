@@ -1,3 +1,5 @@
+/* TODO: this should move to it's own directory 
+ */
 var TextFragmentView = Backbone.View.extend({
   tagName: 'div',
   className: 'text-fragment',

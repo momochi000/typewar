@@ -16,6 +16,7 @@ Crafty.c("TextFragmentSpawner", {
   },
 
   textFragmentSpawner: function (){
+    // TODO: Need to revisit if this is working or not and refactor.
     Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
     return this;
   },
