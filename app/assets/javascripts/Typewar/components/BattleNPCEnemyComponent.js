@@ -20,10 +20,6 @@ Crafty.c("BattleNPCEnemy", {
     return this;
   },
 
-  deactivateAI: function (){
-    if(this.battle_timer){ window.clearInterval(this.battle_timer); }
-  },
-
   deliverAttack: function (){
     this.animAttack();
   },
@@ -44,7 +40,6 @@ Crafty.c("BattleNPCEnemy", {
       speed: [speed, 0],
       attacker: this,
       defender: defender
-      //type: "defense"
     });
     frag.getEntity().drawSelf();
   },
