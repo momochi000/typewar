@@ -4,3 +4,4 @@ log
 development
 .DS_Store
 .idea
+db/*.sqlite3
