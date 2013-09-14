@@ -80,13 +80,20 @@ other attributes.
 
   Get a simple library of text in there to test actual typing.
 
+  Create a module that governs the display of the battle. It needs to handle
+  crafty's zoom level and move things around teh scene appropriately.  This
+  should probably go in the Camera component.  Currently, we want to set a 
+  higher zoom level because the 2d sprites we're using are small and on any
+  decent display are too tiny and hard to see.  We want to scale up the scene
+  but this means we have to move all the entities and the offset of the crafty
+  stage.  The camera component should maintain a zoom level and be able to
+  translate coordinates in scene space to screen space and vice versa.
+
   Distinguish somehow the difference between player cast text fragments and npc
   sent ones (appearance)..
 
   PERFORMANCE: seems like dom nodes aren't getting properly removed when text
   fragments go away.  Need to ensure that they do.
-
-  Change player sprite (current one is crap)
 
   Create a way for pausing the rudimentary AI, stopping the timers that create
   more text fragments.  Better yet, have it listen for a Crafty.pause() where
@@ -97,7 +104,7 @@ other attributes.
   Add a state machine to text fragments and use that to keep track of whether
   they can be typed or not.
 
-  Craete a battle over scene for the winner
+  Create a battle over scene for the winner
 
   BUG: there is a bug where the input manager stops accepting inputs. Try to
   trigger this bug and investigate
@@ -136,6 +143,8 @@ other attributes.
 ---
 
 ### DONE - 
+
+  Change player sprite (current one is crap)
 
   Removing text fragments from the scene once they hit the edge.  Stuck on
   moving the fragment into the 'graveyard' on the battle manager.  Can't seem
