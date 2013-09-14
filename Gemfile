@@ -1,12 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'thin'
 
+gem 'factory_girl_rails'
 gem 'haml'
-gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem "twitter-bootstrap-rails"
 gem 'rails-backbone'
+gem "therubyracer"
+gem 'thin'
+gem "twitter-bootstrap-rails"
+
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'faker'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
