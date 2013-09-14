@@ -15,12 +15,13 @@
 
 Typewar.Models.CharacterSheet = Backbone.Model.extend({
   defaults: {
-    name: 'please enter a name',
-    level: 0,
+    id: null,
+    name: "please enter a name",
     status: {
       hp: 20
     },
     stats: {
+      level: 0,
       str: 0, 
       spd: 0, 
       sta: 0, 
@@ -28,6 +29,18 @@ Typewar.Models.CharacterSheet = Backbone.Model.extend({
       int: 0, 
       cha: 0, 
       wis: 0
+    },
+    vocabulary: ''
+  },
+
+  /* Returns a json of the character sheet for shipment to the server
+   */
+  packaged: function (){
+    return {
+      id: this.get("id"),
+      name: this.get("name"),
+      status: this.get("status"),
+      stats: this.get("stats")
     }
   }
 });
