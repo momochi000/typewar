@@ -6,6 +6,8 @@ Typewar::Application.routes.draw do
   # root 'welcome#index'
   root to: "home#index"
 
+  resources :characters, :only => [:create, :index, :show, :update]
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
