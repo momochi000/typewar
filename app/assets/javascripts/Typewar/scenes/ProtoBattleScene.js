@@ -1,4 +1,4 @@
-var global_bg, global_enemy, global_player; // DEBUG;
+var global_bg; // DEBUG;
 
 var ProtoBattleScene = Backbone.Model.extend({
   defaults: {
@@ -6,28 +6,22 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initialize: function (){
-    var self,
-      enemy_npc,
-      player,
-      statusBar;
+    var self, statusBar;
 
     self = this;
     Crafty.scene(self.get('scene_id'), function (){
       self.initSprites();
-      enemy_npc = self.initEnemyNPC();
-      player = self.initPC();
+      self.loadCombatants();
       self.initBackground();
       self.initStageEdges();
       self.initCamera();
-      self.initBattleManager({player: player, enemies: [enemy_npc]});
-      self.initStatusBar(player, enemy_npc);
+      self.initBattleManager(self.combatants);
+      self.initStatusBar(self.combatants.player, self.combatants.enemies[0]);
       self.initInputManager();
     });
   },
 
   initBackground: function (){
-    //Crafty.background("black");
-    //Crafty.background("url('assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif')");
     global_bg = Crafty.e("2D, DOM, Image, BattleBackground")
       .battleBackground("assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif", 800, 336)
       .attr({x: -26, y: -60, z: 0});
@@ -38,41 +32,25 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initCamera: function (){
-    //Crafty.viewport.scale(1.75);
     Crafty.viewport.scale(2.4);
     Crafty.viewport.y -= 140;
     Crafty.viewport.x -= 30;
   },
 
   initPC: function (){
-    //player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerAnim, pl_st0")
-    //player.attr({ x: 20, y: 180 })
-    //  .battlePlayerAnim()
-    //  .battlePlayer();
-
-    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerZeroAnim, plz_st0")
-    player.attr({ x: 20, y: 180 })
-      .battlePlayerZeroAnim()
-      .battlePlayer();
-
-    global_player = player;
+    var player;
+    player = new PCBattleEntity();
 
     return player;
   },
 
   initEnemyNPC: function (){
     var slime_char_sheet = new Typewar.Models.CharacterSheet;
+
     slime_char_sheet.set('name', 'Chaos slime');
+    enemy_npc = new NPCEntity();
 
-    slime_char_sheet 
-    enemy_npc = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0")
-      .attr({x: 390, y: 210})
-      .nPCBrain()
-      .battleSlimeAnim()
-      .battleNPCEnemy(slime_char_sheet);
-    global_enemy = enemy_npc; // DEBUG:
-
-    return enemy_npc;
+    return enemy_npc
   },
 
   initSprites: function (){
@@ -86,13 +64,6 @@ var ProtoBattleScene = Backbone.Model.extend({
 
     width = Typewar.viewportWidth;
     height = Typewar.viewportHeight;
-
-    //console.log("DEBUG: CREATING STAGE EDGE WITH ==========================================>>>>");
-    //console.log("width: " + width);
-    //console.log("height: " + height);
-    //console.log("left ->  x: " + 0, " y: " + 0 + " w: " + 5 + " h: " + height);
-    //console.log("right ->  x: " + width, " y: " + 0 + " w: " + 5 + " h: " + height);
-    //console.log("DEBUG: END ===============================================================>>>>");
 
     Crafty.e("2D, DOM, Collision, BattleStageEdge, SolidHitBox") // Left edge
       .attr({x: 0, y: 0, w: 5, h: height })
@@ -109,10 +80,20 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initStatusBar: function(player, enemy) {
     var statusBar = new Typewar.Views.StatusBarView();
-    statusBar.addEntity(player);
-    statusBar.addEntity(enemy);
+    // TODO: Make this pass in models rather than entities
+    statusBar.addEntity(player.getEntity());
+    statusBar.addEntity(enemy.getEntity());
 
     statusBar.render();
+  },
+
+  loadCombatants: function (){
+    var enemy_npc, player;
+
+    enemy_npc = this.initEnemyNPC();
+    player = this.initPC();
+    this.combatants = {player: player, enemies: [enemy_npc]};
+    return this.combatants;
   },
 
   play: function (){

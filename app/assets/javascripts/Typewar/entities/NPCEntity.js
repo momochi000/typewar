@@ -85,15 +85,6 @@ var NPCEntity = BaseEntity.extend({
    * set target.
    */
   setTarget: function (target){
-    console.log("DEBUG: in NPCENTITY.setTarget()");
-    console.log("DEBUG: THIS => ");
-    console.log(this);
-    console.log(this.getEntity());
-    console.log("DEBUG: TARGET => ")
-    console.log(target);
-    console.log(target.getEntity());
-
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     this.getEntity().setTarget(target.getEntity());
   }
 

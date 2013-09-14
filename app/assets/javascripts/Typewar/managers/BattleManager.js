@@ -1,3 +1,13 @@
+/* The BattleManager manages the battle.
+ * it contains the player and enemies and all active and dead text fragments
+ * 
+ * TODO: In keeping things consistent, wherever I use backbone models, the 
+ * things that are contained within should also be backbone models.  In that
+ * vein, Text fragments, enemies, and the player stored here should be 
+ * backbone models, not crafty entities.  Entities may be referenced through
+ * their respective models.
+ */
+
 Typewar.Models.BattleManager = Backbone.Model.extend({
   defaults: {
     active_text_fragments: [],
@@ -46,14 +56,15 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    * TODO: This should be renamed
    */
   handleFragmentCompleted: function (data){
-    var text_fragment, player;
+    var text_fragment, player, player_ent;
 
     player = this.get('player');
+    player_ent = player.getEntity();
     text_fragment = data.text_fragment;
 
-    if(text_fragment.attacker == player){
+    if(text_fragment.attacker == player_ent){
       this._resolveAttack(text_fragment);
-    }else if(text_fragment.defender == player){
+    }else if(text_fragment.defender == player_ent){
       this._resolveDefense(text_fragment);
     }
 
@@ -61,15 +72,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   handleFragmentMissed: function (data){
-    var fragment, player;
+    var fragment, player, player_ent;
 
     fragment = ( data['text_fragment'] ? data['text_framgent'] : data );
     player = this.get('player');
+    player_ent = player.getEntity();
 
-    if(fragment.attacker == player){
+    if(fragment.attacker == player_ent){
       console.log("DEBUG: player fragment went off screen");
       // do nothing
-    }else if(fragment.defender == player){
+    }else if(fragment.defender == player_ent){
       console.log("DEBUG: monster fragment went off screen");
       this._resolveDefense(fragment);
     }
@@ -142,8 +154,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }
   },
 
+  /* LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * HERE Lies the latest issue: self.get('player')
+   * returns a backbone model as is required.
+   * self.get('enemies') should return an array of backbone models
+   * but instead returns an array of crafty entities. I need to
+   * trace back where that is being set and fix it.
+   */
   _setupBattleAI: function (){
     var self = this;
+
     _.each(this.get("enemies"), function (e){
       e.setTarget(self.get("player"));
       e.activateAI();

@@ -5,10 +5,11 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
   _parentId: '#status-area',
   entity: null,
 
+  // TODO: This should take in backbone models rather than entities
   initialize: function(opts) {
     this.entity = opts.entity;
+    // TODO: Figure out how to nicely unbind this to prevent memory leaks
     this.entity.bind('updateStatus', _.bind(this.render, this));
-    //Figure out how to nicely unbind this to prevent memory leaks
   },
 
   render: function() {
