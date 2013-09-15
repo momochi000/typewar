@@ -7,7 +7,7 @@ FactoryGirl.define do
   factory :easy_slime, :parent => :character do
     name { Faker::Name.name }
     char_class 'Slime'
-    char_sheet {{
+    stats {{
       level: 1,
       str: rand(10),
       spd: rand(4),
