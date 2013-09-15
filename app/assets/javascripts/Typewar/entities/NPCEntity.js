@@ -64,16 +64,39 @@ var NPCEntity = BaseEntity.extend({
     
     this.fetch({
       success: function (model, response){
-        console.log("DEBUG: SUCCESSFUL GET FROM SERVER< WHAT DID WE GET?? => ");
-        console.log(model);
-        console.log(response);
-        //self.get('entity').char_sheet = response.char_sheet
-        // edit the attached entity according to the data in here
+        var char_sheet;
+        self.processDataFromServer(response);
       },
       error: function (model, response, options){
         console.log("DEBUG: error, ");
       }
     });
+  },
+
+  /* processDataFromServer(JSON response)
+   * Loads data passed from the server into self.  
+   * Ideally, fetch would just do the right thing, but I don't
+   * feel like wrestling with it to get it to work right now
+   * so this method will do for now.
+   * NOTE: status seemed to come back from the server ok (got set as a json)
+   * meanwhile, vocabulary and stats got set as strings
+   */
+  processDataFromServer: function (resp){
+    var char_sheet, vocab, stats;
+    vocab = JSON.parse(this.get('vocabulary'));
+    stats = JSON.parse(this.get('stats'));
+    this.set('vocabulary', vocab);
+    this.set('stats', stats);
+
+    char_sheet = new Typewar.Models.CharacterSheet({
+      name:       this.name,
+      status:     this.get('status'),
+      stats:      stats,
+      vocabulary: vocab
+    });
+
+    this.getEntity().char_sheet = char_sheet;
+    this.getEntity().updateStatus();
   },
 
   /* Convenience wrapper to call the entity's setTarget method,
