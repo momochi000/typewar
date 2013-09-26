@@ -22,7 +22,8 @@
  */
 
 Crafty.c("BattleInputManager", {
-  init: function (){
+  init: function (){ 
+    this.shift_key_down = false;
   },
 
   battleInputManager: function (){
@@ -31,12 +32,23 @@ Crafty.c("BattleInputManager", {
 
   // private 
 
+  _applyModifierKeys: function (letter_value){
+    if(this.shift_key_down){
+      return letter_value.toUpperCase();
+    }else{
+      return letter_value;
+    }
+  },
+
   _attachKeyboardHandler: function (){
     this.bind('KeyDown', this._handleKeyPress);
+    this.bind('KeyUp', this._handleKeyRelease);
+    // Need a keyup event as well
   },
 
   _detachKeyboardHandler: function (){
     this.unbind('KeyDown', this._handleKeyPress);
+    this.unbind('KeyUp', this._handleKeyRelease);
   },
 
   _handleKeyPress: function (keyEvent){
@@ -47,6 +59,15 @@ Crafty.c("BattleInputManager", {
     battle_manager = Typewar.Engine.BattleManager;
     active_fragments = battle_manager.getActiveTextFragments();
 
+    if(this._isModifierKey(letter_value)){
+      this._handleModifierKeyPressed(letter_value);
+      return;
+    }
+
+    letter_value = this._applyModifierKeys(letter_value);
+    
+    // If there are no active fragments, loop over live fragments and see if
+    // any match the pressed key
     if(_.isEmpty(active_fragments)){
       battle_manager.cleanupLiveFragments();
       all_live_fragments = battle_manager.getAllLiveFragments();
@@ -57,6 +78,7 @@ Crafty.c("BattleInputManager", {
         }
       });
     }else{
+      // Pass the input to all active fragments
       _.each(active_fragments, function (curr_frag){
         curr_frag.takeInput(letter_value);
       });
@@ -64,7 +86,43 @@ Crafty.c("BattleInputManager", {
     }
 
     battle_manager = null; //clear the reference
+  },
 
+  _handleKeyRelease: function (keyEvent){
+    var letter_value;
+    
+    letter_value = this._translateKeyToLetter(keyEvent.key);
+
+    if(this._isModifierKey(letter_value)){
+      this._handleModifierKeyReleased(letter_value);
+    }
+  },
+
+  _handleModifierKeyPressed: function (key_val){
+    switch(key_val) {
+      case('shift'):
+        this.shift_key_down = true;
+      default:
+        return false;
+    }
+  },
+
+  _handleModifierKeyReleased: function (key_val){
+    switch(key_val) {
+      case('shift'):
+        this.shift_key_down = false;
+      default:
+        return false;
+    }
+  },
+
+  _isModifierKey: function (key_val){
+    switch(key_val) {
+      case('shift'):
+        return true;
+      default:
+        return false;
+    }
   },
 
   _translateKeyToLetter: function (keyCode){
@@ -173,7 +231,8 @@ Crafty.c("BattleInputManager", {
       //case(Crafty.keys['SUBSTRACT'])
       //case(Crafty.keys['DECIMAL'])
       //case(Crafty.keys['DIVIDE'])
-      //case(Crafty.keys['SHIFT'])
+      case(Crafty.keys['SHIFT']):
+        return 'shift';
       //case(Crafty.keys['CTRL'])
       //case(Crafty.keys['ALT'])
       //case(Crafty.keys['PLUS'])
