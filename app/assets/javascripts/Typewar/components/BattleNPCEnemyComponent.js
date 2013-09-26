@@ -24,30 +24,45 @@ Crafty.c("BattleNPCEnemy", {
     this.animAttack();
   },
 
+  getStatus: function(attribute) {
+    return this.char_sheet.get("status")[attribute];
+  },
+
+  getName: function() {
+    return this.char_sheet.get("name");
+  },
+
+  getPercentHP: function() {
+    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+  },
+
   initiateAttackOn: function (defender){
-    var frag, speed;
+    var frag, speed, text_fragment_options, next_text;
 
     //console.log("DEBUG: SLIME: FIRING ATTACK ON DEFENDER, ENSURE DEFENDER IS A VALID TARGET");
     if(defender.has("BattlePlayer")){
       //console.log("DEBUG: SLIME: Valid target");
     } else {
       //console.log("DEBUG: SLIME: INVALID target");
-      
     }
+
     speed = -20 * Math.random();
-    frag = this._fragment_spawner.generateTextFragment({
+    text_fragment_options = {
       offset: [0,-70],
       speed: [speed, 0],
       attacker: this,
       defender: defender
-    });
+    }
+    next_text = this._getWordFromVocabulary();
+    //if(next_text) {text_fragment_options['text'] = next_text;}
+    if(next_text) {
+      console.log("was able to get a word out of the vocabulary, what was it?? --->  " + next_text);
+      text_fragment_options['text'] = next_text;
+    }
+    frag = this._fragment_spawner.generateTextFragment(text_fragment_options);
     frag.getEntity().drawSelf();
   },
 
-  wasMissed: function (){
-    console.log("DEBUG: SLIME: MISSED ME!!");
-  },
-  
   partialHit: function (){
     console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
     var self = this;
@@ -81,21 +96,14 @@ Crafty.c("BattleNPCEnemy", {
     this.updateStatus();
   },
 
-  getStatus: function(attribute) {
-    return this.char_sheet.get("status")[attribute];
-  },
-
-  getName: function() {
-    return this.char_sheet.get("name");
-  },
-
-  getPercentHP: function() {
-    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
-  },
-
   updateStatus: function() {
     this.trigger("updateStatus");
   },
+
+  wasMissed: function (){
+    console.log("DEBUG: SLIME: MISSED ME!!");
+  },
+  
 
   //private 
 
@@ -105,5 +113,17 @@ Crafty.c("BattleNPCEnemy", {
       .textFragmentSpawner();
 
     this.attach(this._fragment_spawner);
+  },
+
+  _getWordFromVocabulary: function (){
+    var vocab;
+    vocab = this.char_sheet.get('vocabulary');
+    //console.log("DEBUG: IN _getWordFromVocabulary");
+    if(vocab && vocab.length > 1){
+      //console.log("IN HERE~~~~~~~~~~~~~~~~~~~~");
+      return vocab[Math.floor(Math.random()*vocab.length)];
+    }else{
+      return null;
+    }
   }
 });
