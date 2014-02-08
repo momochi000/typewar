@@ -15,9 +15,9 @@ Some upcoming features:
 
 ---
 
-## DEV NOTES
+# DEV NOTES
 
-### Design Ideas/Brainstorm
+## Design Ideas/Brainstorm
 As the opponent gets hits on you, they advance closer to you. When they get 
 too close, they can do a stronger attack. Also you get less time to type the
 next string of text.
@@ -72,46 +72,59 @@ other attributes.
 
 ---
 
-### LEFT OFF - TODO: Turn these into tracker stories
-#### Working on 
+## CURRENT
 
-  BUG: when a fragment that you're currently typing goes off screen, it never
+
+ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of these):
++ Text line breaks rather than displays in line.
++ Need to distinguish between player text frags and enemy text frags (story exists)
++ Need to handle backspace (it goes back in the browser history)
++ Player/enemy health switches places
++ At battle end, should display a battle over scene
++ At some point keyboard input stops being handled
+
+
+#### Switch to postgres to prepare for heroku deploy
+#### BUG: when a fragment that you're currently typing goes off screen, it never
   releases the keyboard focus (need to unbind)
+#### BUG: there is a bug where the input manager stops accepting inputs. 
+  Try to trigger this bug and investigate. This may be related to not releasing
+  keyboard focus.
 
-  Get a simple library of text in there to test actual typing.
 
-  Create a module that governs the display of the battle. It needs to handle
-  crafty's zoom level and move things around teh scene appropriately.  This
+
+
+#### use different attack animation from slime (something more visible)
+#### Tweak balance so that text flies at the player more smoothly (from the npc)
+#### Hook up the player character to retrieve data from the server including
+  a vocabulary
+#### Gather stats on player typing.
+    Create an object for each keypress with a timestamp. Send back to server 
+    and save.
+#### Get a simple library of text in there to test actual typing.
+#### Rework npc slime sprite
+#### Create a module that governs the display of the battle. It needs to handle
+  crafty's zoom level and move things around the scene appropriately.  This
   should probably go in the Camera component.  Currently, we want to set a 
   higher zoom level because the 2d sprites we're using are small and on any
   decent display are too tiny and hard to see.  We want to scale up the scene
   but this means we have to move all the entities and the offset of the crafty
   stage.  The camera component should maintain a zoom level and be able to
   translate coordinates in scene space to screen space and vice versa.
-
-  Distinguish somehow the difference between player cast text fragments and npc
+#### Distinguish somehow the difference between player cast text fragments and npc
   sent ones (appearance)..
-
-  PERFORMANCE: seems like dom nodes aren't getting properly removed when text
+#### PERFORMANCE: seems like dom nodes aren't getting properly removed when text
   fragments go away.  Need to ensure that they do.
-
-  Create a way for pausing the rudimentary AI, stopping the timers that create
+#### Create a way for pausing the rudimentary AI, stopping the timers that create
   more text fragments.  Better yet, have it listen for a Crafty.pause() where
   it then does the appropriate.  Better yet, make the timers count by Crafty
   frames.  This way pause will do the right thing.  Will need ot create a Timer
   object which binds to EnterFrame and increments itself.
-
-  Add a state machine to text fragments and use that to keep track of whether
+#### Add a state machine to text fragments and use that to keep track of whether
   they can be typed or not.
-
-  Create a battle over scene for the winner
-
-  BUG: there is a bug where the input manager stops accepting inputs. Try to
-  trigger this bug and investigate
-
-  Make player stagger/stumble when one if their text fragments crosses untyped
-
-  The player should be able to activate any text fragment by typing.
+#### Create a battle over scene for the winner
+#### Make player stagger/stumble when one if their text fragments crosses untyped
+#### The player should be able to activate any text fragment by typing.
   Need a text input manager that watches for keyboard inputs and selects the
   correct active fragments.
     + Handle the case where multiple fragments start with the same word.
@@ -119,34 +132,24 @@ other attributes.
       this situation in various ways.
     + Need to clean up fragments when dead (at least put them in the graveyard)
     + Ensure the proper arrays get the right fragments placed in them
-
-  Try giving the fragments acceleration instead of speed.
+#### Try giving the fragments acceleration instead of speed.
   OOh better yet, give some a flat speed and some an accel.
-
-  Particle system setup
-
-  Damage counters (numbers flying off hits) Show damage numbers above enemy 
+#### Particle system setup
+#### Damage counters (numbers flying off hits) Show damage numbers above enemy 
   when they take damage
-
-  Rails backend loads text dictionaries and sends them to the game engine
-
-  text fragments should have a pointer to it's collection, and the collection
+#### Rails backend loads text dictionaries and sends them to the game engine
+#### text fragments should have a pointer to it's collection, and the collection
   should have a pointer to it's owner. The spawner should as well.
-
-  Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
+#### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
   when you block)
-
-  Gather stats on player typing.
-    Create an object for each keypress with a timestamp. Send back to server 
-    and save.
 
 ---
 
-### DONE - 
+## DONE
 
-  Change player sprite (current one is crap)
-
-  Removing text fragments from the scene once they hit the edge.  Stuck on
+#### Handle capital letters
+#### Change player sprite (current one is crap)
+#### Removing text fragments from the scene once they hit the edge.  Stuck on
   moving the fragment into the 'graveyard' on the battle manager.  Can't seem
   to find the fragment that comes back from the event.
   However, I suspect that the fragment has already been dealt with.. no wait
@@ -158,33 +161,22 @@ other attributes.
   destroyed or demolished. It should call deactivate, but also should remove
   the view, remove the 2D component, remove bindings, stop calculation of 
   position.
-
-  Move completed text fragments to the graveyard as well.
-
-  Remove the 'type me' instruction text from text fragment partials (or make
+#### Move completed text fragments to the graveyard as well.
+#### Remove the 'type me' instruction text from text fragment partials (or make
   them less obtrusive)
-
-  Add a background.
-
-  Allow a method of stopping the AI. It would be nice if we could listen for
+#### Add a background.
+#### Allow a method of stopping the AI. It would be nice if we could listen for
   the Crafty.pause() call and stop and start automatically.
-
-  Move the AI to the slime. Extract it out so it's a module I can attach to
+#### Move the AI to the slime. Extract it out so it's a module I can attach to
   any monster, even swiching out. Perhaps the monster could have several
   behaviors that can be toggled. AI has many behaviors.
   For now, just set the behavior to attack at a constant rate
-
-  Zoom in on the characters, camera is too far out.
-
-  Player attacking the monster sends text fragment from the player to the enemy
-
-  Set up simple AI that manages battle flow
-
-  Show health status for enemy.
-
-  Add defend animation and insert appropriately
-
-  The player should be triggering attacks on the monster(s).
+#### Zoom in on the characters, camera is too far out.
+#### Player attacking the monster sends text fragment from the player to the enemy
+#### Set up simple AI that manages battle flow
+#### Show health status for enemy.
+#### Add defend animation and insert appropriately
+#### The player should be triggering attacks on the monster(s).
   Refactor the way attacking and defending works. The text fragments should be
   labeled with attacker and defender and they should resolve separately and
   instructions should be sent to each party.
@@ -192,40 +184,28 @@ other attributes.
   the defender, and a completed text fragment and does whatever magical math
   and our logic to figure out what happened in that round.
   With this, we can probably ditch the dual spawners on the enemy npc.
-
-  Make player attack do damage to enemy
-
-  Attacker and defender should be linked to on each text fragment
-
-  Text fragments should answer to TextFragment#success() that reports a percent
+#### Make player attack do damage to enemy
+#### Attacker and defender should be linked to on each text fragment
+#### Text fragments should answer to TextFragment#success() that reports a percent
   of how quickly you typed it.
-
-  Add second stream of text fragments from enemy (spawner). 
+#### Add second stream of text fragments from enemy (spawner). 
     Player shouldn't swing sword on successful defense. Only attack
     Make sure behavior functions correctly on both parties for attack and def.
-
-  Add second stream of text fragments from enemy (spawner). 
+#### Add second stream of text fragments from enemy (spawner). 
     Enemy should have two spawners: attack and defense.
-    Modify text fragment spawner to be able to pass in options when generating a text fragment. Make text fragments able to accept arguments which affect the way they behave and are displayed.
-
-  Give the active text fragment z-index > all others
-
-  Add a sprite for the enemy.
+    Modify text fragment spawner to be able to pass in options when generating 
+    a text fragment. Make text fragments able to accept arguments which affect 
+    the way they behave and are displayed.
+#### Give the active text fragment z-index > all others
+#### Add a sprite for the enemy.
     Add animation for enemy sprite when hit.
     Add animation for when they attack
-
-  Add hit points to enemy
-
-  Move the enemy (in the scene) to the right a bit.
-
-  Keep track of the current (active) fragment.  Maybe there should be an
+#### Add hit points to enemy
+#### Move the enemy (in the scene) to the right a bit.
+#### Keep track of the current (active) fragment.  Maybe there should be an
   active pointer/instance var.
-
-  When a spawner generates a new fragment, ensure that it doesn't get
+#### When a spawner generates a new fragment, ensure that it doesn't get
   activated if another fragment is already active
-
-  When a fragment is completed, if there is another live fragment, activate
+#### When a fragment is completed, if there is another live fragment, activate
   the next one in the array.
-
-
-  Finish the first draft of the text fragment component
+#### Finish the first draft of the text fragment component
