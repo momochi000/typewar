@@ -1,0 +1,2 @@
+class PlayerCharacter < Character
+end
