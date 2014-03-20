@@ -90,10 +90,6 @@ ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of
 #### BUG: there is a bug where the input manager stops accepting inputs. 
   Try to trigger this bug and investigate. This may be related to not releasing
   keyboard focus.
-
-
-
-
 #### use different attack animation from slime (something more visible)
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
 #### Hook up the player character to retrieve data from the server including
