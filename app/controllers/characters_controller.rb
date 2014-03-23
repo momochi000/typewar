@@ -5,7 +5,7 @@ class CharactersController < ApplicationController
 
   def index
     # Grab and return a random npc/monster
-    render :json => Character.all.sample.to_json
+    render :json => Character.all.sample.to_backbone
   end
 
   def show

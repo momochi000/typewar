@@ -68,7 +68,8 @@ var NPCEntity = BaseEntity.extend({
         self.processDataFromServer(response);
       },
       error: function (model, response, options){
-        console.log("DEBUG: error, ");
+        console.log("DEBUG: error obtaining npc data from server. Response was ==>");
+        console.log(response);
       }
     });
   },
@@ -83,8 +84,8 @@ var NPCEntity = BaseEntity.extend({
    */
   processDataFromServer: function (resp){
     var char_sheet, vocab, stats;
-    vocab = JSON.parse(this.get('vocabulary'));
-    stats = JSON.parse(this.get('stats'));
+    vocab = this.get('vocabulary');
+    stats = this.get('stats');
     this.set('vocabulary', vocab);
     this.set('stats', stats);
 

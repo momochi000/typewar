@@ -125,7 +125,7 @@ Crafty.c("TextFragment", {
     //this.zeroVel();
     //this.removeComponent("Collision", true);
     //this.removeComponent("2D",        true);
-    this.removeComponent("DOM",       true);
+    this.removeComponent("DOM",         true);
     this._unbindStageEdgeCollision();
   },
 
