@@ -1,7 +1,7 @@
 require 'json'
 
 class Character < ActiveRecord::Base
-  serialize :char_sheet, JSON
+  serialize :stats, JSON
   serialize :status, JSON
   serialize :vocabulary, JSON
 
@@ -11,7 +11,7 @@ class Character < ActiveRecord::Base
         Faker::Address.state,
         Faker::Company.catch_phrase
       ]
-    }.flatten.to_json
+    }.flatten
   end
 
   # Return a json to send to the server and be converted into a game character
