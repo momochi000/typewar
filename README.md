@@ -83,19 +83,19 @@ ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of
 + At battle end, should display a battle over scene
 + At some point keyboard input stops being handled
 
-
-#### Switch to postgres to prepare for heroku deploy
 #### BUG: when a fragment that you're currently typing goes off screen, it never
-  releases the keyboard focus (need to unbind)
+  * releases the keyboard focus (need to unbind)
 #### BUG: there is a bug where the input manager stops accepting inputs. 
-  Try to trigger this bug and investigate. This may be related to not releasing
-  keyboard focus.
+  * Try to trigger this bug and investigate. This may be related to not releasing
+    keyboard focus.
+#### BUG: player/enemy health switches places.
+  * Whoever takes more damage appears on the right
 #### use different attack animation from slime (something more visible)
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
 #### Hook up the player character to retrieve data from the server including
   a vocabulary
 #### Gather stats on player typing.
-    Create an object for each keypress with a timestamp. Send back to server 
+  * Create an object for each keypress with a timestamp. Send back to server 
     and save.
 #### Get a simple library of text in there to test actual typing.
 #### Rework npc slime sprite
@@ -143,6 +143,7 @@ ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of
 
 ## DONE
 
+#### Switch to postgres to prepare for heroku deploy
 #### Handle capital letters
 #### Change player sprite (current one is crap)
 #### Removing text fragments from the scene once they hit the edge.  Stuck on
