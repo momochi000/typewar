@@ -72,7 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### BUG: backspace triggers back in the browser
 #### BUG: player/enemy health switches places. Whoever takes more damage appears on the right
 #### Improve the way text fragments display, make them show spaces properly
 Don't show incorrect characters, just flash red or something.  Maybe have a
@@ -115,6 +114,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: backspace triggers back in the browser
 #### Handle dashes
 #### BUG: Player/enemy health switches places
 #### The player should be able to activate any text fragment by typing.

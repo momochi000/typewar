@@ -43,18 +43,20 @@ Crafty.c("BattleInputManager", {
   _attachKeyboardHandler: function (){
     this.bind('KeyDown', this._handleKeyPress);
     this.bind('KeyUp', this._handleKeyRelease);
-    // Need a keyup event as well
+    this._preventBackspaceNavigation();
   },
 
   _detachKeyboardHandler: function (){
     this.unbind('KeyDown', this._handleKeyPress);
     this.unbind('KeyUp', this._handleKeyRelease);
+    this._unbindBackspacePrevention();
   },
 
   _handleKeyPress: function (keyEvent){
     var self, active_fragment, letter_value, battle_manager, all_live_fragments;
 
     self = this;
+
     letter_value = this._translateKeyToLetter(keyEvent.key);
     battle_manager = Typewar.Engine.BattleManager;
     active_fragments = battle_manager.getActiveTextFragments();
@@ -125,9 +127,19 @@ Crafty.c("BattleInputManager", {
     }
   },
 
+  _preventBackspaceNavigation: function (){
+    $(document).on("keydown", function (e) {
+      if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+      }
+    });
+  },
+
   _translateKeyToLetter: function (keyCode){
     switch(keyCode) {
-      //case(Crafty.keys['BACKSPACE'])
+      case(Crafty.keys['BACKSPACE']):
+        // We could do something special with this if we later choose
+        return '';
       //case(Crafty.keys['TAB'])
       //case(Crafty.keys['ENTER'])
       //case(Crafty.keys['CAPS'])
@@ -241,7 +253,9 @@ Crafty.c("BattleInputManager", {
         return '-';
       //case(Crafty.keys['PERIOD'])
     }
+  },
+
+  _unbindBackspacePrevention: function (){
+    $(document).off("keydown");
   }
-
-
 });
