@@ -237,7 +237,8 @@ Crafty.c("BattleInputManager", {
       //case(Crafty.keys['ALT'])
       //case(Crafty.keys['PLUS'])
       //case(Crafty.keys['COMMA'])
-      //case(Crafty.keys['MINUS'])
+      case(Crafty.keys['MINUS']):
+        return '-';
       //case(Crafty.keys['PERIOD'])
     }
   }
