@@ -80,7 +80,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
     if(fragment.attacker == player_ent){
       console.log("DEBUG: player fragment went off screen");
-      // do nothing
     }else if(fragment.defender == player_ent){
       console.log("DEBUG: monster fragment went off screen");
       this._resolveDefense(fragment);
@@ -89,14 +88,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   handleTextInput: function (letter_value){
-    var active_fragments, live_fragments;
+    var active_fragments, live_fragments, self;
 
+    self = this;
+    live_fragments = this.getLiveFragments();
     active_fragments = this.getActiveTextFragments();
+
     // If there are no active fragments, loop over live fragments and see if
     // any match the pressed key
     if(_.isEmpty(active_fragments)){
       this.cleanupLiveFragments();
-      live_fragments = this.getLiveFragments();
       _.each(live_fragments, function (curr_frag){
         if(curr_frag.matchFirstChar(letter_value)){
           curr_frag.activate();
@@ -104,11 +105,22 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         }
       });
     }else{
-      // Pass the input to all active fragments
-      _.each(active_fragments, function (curr_frag){
-        curr_frag.takeInput(letter_value);
-      });
-      // count typos if no letters match
+      // NOTE: this algorithm allows the following edge case:
+      // When multiple fragments are 'active' starting with the same text, e.g.
+      // 'fool' and 'foolish'.  If you type 'foox', it will deactivate all but 
+      // one of the active text fragments.  This might be acceptable, and we 
+      // can use this to encourage accuracy by banging out combos.
+      if(active_fragments.length > 1) {                // if multiple fragments active
+        _.each(active_fragments, function (curr_frag){ // send text input to all active fragments
+          if(!curr_frag.takeInput(letter_value)){ 
+            curr_frag.reset()                          // deactivate any which have incorrect input
+            self._removeFromArray(active_fragments, curr_frag);
+            live_fragments.push(curr_frag);       // move fragment from active back to live
+          }
+        });
+      }else{
+        active_fragments[0].takeInput(letter_value);
+      }
     }
     
   },

@@ -156,16 +156,20 @@ Crafty.c("TextFragment", {
 
   /* The means of feeding characters to the text fragment. Correct characters
    * move the fragment closer to completion, incorrect characters are tracked
-   * as well
+   * as well.
+   * return true if the input was correct else false
    */
   takeInput: function (chr){
     if(this._text[this._current_position] == chr){
       this._correctInput();
       this._checkForCompletion();
+      this.drawSelf();
+      return true
     }else{
       this._wrongInput(chr);
+      this.drawSelf();
+      return false;
     }
-    this.drawSelf();
   },
 
   wasPerfect: function (){
