@@ -44,7 +44,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     // TODO: implement me
   },
 
-  getAllLiveFragments: function (){
+  getLiveFragments: function (){
     return this.get("live_text_fragments");
   },
 
@@ -86,6 +86,31 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       this._resolveDefense(fragment);
     }
 
+  },
+
+  handleTextInput: function (letter_value){
+    var active_fragments, live_fragments;
+
+    active_fragments = this.getActiveTextFragments();
+    // If there are no active fragments, loop over live fragments and see if
+    // any match the pressed key
+    if(_.isEmpty(active_fragments)){
+      this.cleanupLiveFragments();
+      live_fragments = this.getLiveFragments();
+      _.each(live_fragments, function (curr_frag){
+        if(curr_frag.matchFirstChar(letter_value)){
+          curr_frag.activate();
+          curr_frag.takeInput(letter_value);
+        }
+      });
+    }else{
+      // Pass the input to all active fragments
+      _.each(active_fragments, function (curr_frag){
+        curr_frag.takeInput(letter_value);
+      });
+      // count typos if no letters match
+    }
+    
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */

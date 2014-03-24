@@ -53,13 +53,11 @@ Crafty.c("BattleInputManager", {
   },
 
   _handleKeyPress: function (keyEvent){
-    var self, active_fragment, letter_value, battle_manager, all_live_fragments;
+    var self, letter_value;
 
     self = this;
 
     letter_value = this._translateKeyToLetter(keyEvent.key);
-    battle_manager = Typewar.Engine.BattleManager;
-    active_fragments = battle_manager.getActiveTextFragments();
 
     if(this._isModifierKey(letter_value)){
       this._handleModifierKeyPressed(letter_value);
@@ -67,27 +65,7 @@ Crafty.c("BattleInputManager", {
     }
 
     letter_value = this._applyModifierKeys(letter_value);
-    
-    // If there are no active fragments, loop over live fragments and see if
-    // any match the pressed key
-    if(_.isEmpty(active_fragments)){
-      battle_manager.cleanupLiveFragments();
-      all_live_fragments = battle_manager.getAllLiveFragments();
-      _.each(all_live_fragments, function (curr_frag){
-        if(curr_frag.matchFirstChar(letter_value)){
-          curr_frag.activate();
-          curr_frag.takeInput(letter_value);
-        }
-      });
-    }else{
-      // Pass the input to all active fragments
-      _.each(active_fragments, function (curr_frag){
-        curr_frag.takeInput(letter_value);
-      });
-      // count typos if no letters match
-    }
-
-    battle_manager = null; // release the reference
+    Typewar.Engine.BattleManager.handleTextInput(letter_value);
   },
 
   _handleKeyRelease: function (keyEvent){
