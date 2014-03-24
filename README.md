@@ -70,8 +70,6 @@ other attributes.
 
 ---
 
----
-
 ## CURRENT
 
 
@@ -79,34 +77,43 @@ ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of
 + Text line breaks rather than displays in line.
 + Need to distinguish between player text frags and enemy text frags (story exists)
 + Need to handle backspace (it goes back in the browser history)
-+ Player/enemy health switches places
 + At battle end, should display a battle over scene
 + At some point keyboard input stops being handled
 
-#### BUG: when a fragment that you're currently typing goes off screen, it never
-  * releases the keyboard focus (need to unbind)
+#### BUG: when a fragment that you're currently typing goes off screen, it never releases the keyboard focus (need to unbind)
+On further investigation, my guess was correct: A text fragment had exited the 
+battle area but was not deallocated.  Next experiment, we want to see if a 
+text fragment is correctly being destroyed when it leaves the battle arena.
+Will need to check Typewar.Engine.BattleManager.getAllLiveFragments() and 
+ensure it's size is always equal to the number of fragments we see on screen.
+
+I think I see the problem now.  When a text fragment goes live (enters the 
+live queue), it does not get destroyed when it goes off the screen edge.  Now
+let's trace why this might be.
+
+#### BUG: Player/enemy health switches places
 #### BUG: there is a bug where the input manager stops accepting inputs. 
   * Try to trigger this bug and investigate. This may be related to not releasing
     keyboard focus.
 #### BUG: player/enemy health switches places.
   * Whoever takes more damage appears on the right
-#### use different attack animation from slime (something more visible)
+#### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
+#### Use a different attack animation from slime (something more visible)
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
-#### Hook up the player character to retrieve data from the server including
-  a vocabulary
+#### Hook up the player character to retrieve data from the server including a vocabulary
 #### Gather stats on player typing.
   * Create an object for each keypress with a timestamp. Send back to server 
     and save.
 #### Get a simple library of text in there to test actual typing.
 #### Rework npc slime sprite
-#### Create a module that governs the display of the battle. It needs to handle
-  crafty's zoom level and move things around the scene appropriately.  This
-  should probably go in the Camera component.  Currently, we want to set a 
-  higher zoom level because the 2d sprites we're using are small and on any
-  decent display are too tiny and hard to see.  We want to scale up the scene
-  but this means we have to move all the entities and the offset of the crafty
-  stage.  The camera component should maintain a zoom level and be able to
-  translate coordinates in scene space to screen space and vice versa.
+#### Create a module that governs the display of the battle. 
+It needs to handle crafty's zoom level and move things around the scene 
+appropriately.  This should probably go in the Camera component.  Currently, 
+we want to set a higher zoom level because the 2d sprites we're using are 
+small and on any decent display are too tiny and hard to see.  We want to 
+scale up the scene but this means we have to move all the entities and the 
+offset of the crafty stage.  The camera component should maintain a zoom level 
+and be able to translate coordinates in scene space to screen space and vice versa.
 #### Distinguish somehow the difference between player cast text fragments and npc
   sent ones (appearance)..
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text
@@ -129,15 +136,12 @@ ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of
     + Need to clean up fragments when dead (at least put them in the graveyard)
     + Ensure the proper arrays get the right fragments placed in them
 #### Try giving the fragments acceleration instead of speed.
-  OOh better yet, give some a flat speed and some an accel.
+OOh better yet, give some a flat speed and some an accel.
 #### Particle system setup
-#### Damage counters (numbers flying off hits) Show damage numbers above enemy 
-  when they take damage
+#### Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 #### Rails backend loads text dictionaries and sends them to the game engine
-#### text fragments should have a pointer to it's collection, and the collection
-  should have a pointer to it's owner. The spawner should as well.
-#### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles
-  when you block)
+#### text fragments should have a pointer to it's collection, and the collection should have a pointer to it's owner. The spawner should as well.
+#### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
 
 ---
 
