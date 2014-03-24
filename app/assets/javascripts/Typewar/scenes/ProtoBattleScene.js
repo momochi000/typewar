@@ -81,11 +81,10 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initStatusBar: function(player, enemy) {
     var statusBar = new Typewar.Views.StatusBarView();
-    // TODO: Make this pass in models rather than entities
+    // TODO: Make this pass in backbone models rather than entities
+    statusBar.render();
     statusBar.addEntity(player.getEntity());
     statusBar.addEntity(enemy.getEntity());
-
-    statusBar.render();
   },
 
   loadCombatants: function (){

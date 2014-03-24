@@ -72,7 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### BUG: Player/enemy health switches places
 #### Handle dashes
 #### BUG: backspace triggers back in the browser
 #### BUG: player/enemy health switches places. Whoever takes more damage appears on the right
@@ -117,6 +116,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: Player/enemy health switches places
 #### The player should be able to activate any text fragment by typing.
 Need a text input manager that watches for keyboard inputs and selects the
 correct active fragments.

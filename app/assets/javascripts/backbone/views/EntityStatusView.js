@@ -1,7 +1,7 @@
 Typewar.Views.EntityStatusView = Backbone.View.extend({
   tagName: 'div',
   className: 'entity-status',
-  _templateId: '#entity-status',
+  _templateId: '#entity-status-template',
   _parentId: '#status-area',
   entity: null,
 
@@ -13,15 +13,15 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
   },
 
   render: function() {
-    var opts = {
+    var opts, $found_el;
+    opts = {
       hp: this.entity.getStatus("hp"),
       name: this.entity.getName(),
       percentHP: this.entity.getPercentHP(),
       statusHP: this.getStatusHP()
     }
-    this.$el.html(_.template($(this._templateId).html(), opts));
-    $(this._parentId).append(this.el);
 
+    this.$el.html(_.template($(this._templateId).html(), opts));
     return this;
   },
 

@@ -16,6 +16,9 @@ Typewar.Views.StatusBarView = Backbone.View.extend({
   },
 
   addEntity: function(entity) {
-    this._entityViews.push(new Typewar.Views.EntityStatusView({entity: entity}));  
+    var new_view = new Typewar.Views.EntityStatusView({entity: entity, id: 'entity-status-'+entity[0]})
+    new_view.render();
+    this._entityViews.push(new_view);
+    this.$el.append(new_view.$el);
   }
 });
