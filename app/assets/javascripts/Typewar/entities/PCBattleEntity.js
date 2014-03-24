@@ -17,11 +17,5 @@ var PCBattleEntity = BaseEntity.extend({
     global_player_m = this;
 
     return this;
-  }, 
-  activateAutoAttack: function (){
-    this.getEntity().activateAutoAttack();
-  },
-  setTarget: function (target){
-    this.getEntity().setTarget(target.getEntity());
   }
 });

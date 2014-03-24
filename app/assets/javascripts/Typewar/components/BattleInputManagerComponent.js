@@ -85,7 +85,7 @@ Crafty.c("BattleInputManager", {
       // count typos if no letters match
     }
 
-    battle_manager = null; //clear the reference
+    battle_manager = null; // release the reference
   },
 
   _handleKeyRelease: function (keyEvent){

@@ -162,16 +162,19 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    * trace back where that is being set and fix it.
    */
   _setupBattleAI: function (){
-    var self = this;
+    var self, playerEntity, targetEntity;
+    self = this;
 
     _.each(this.get("enemies"), function (e){
       e.setTarget(self.get("player"));
       e.activateAI();
     }); 
 
-    this.get("player").setTarget(this.get("enemies")[0]);
-    this.get("player").activateAutoAttack();
+    playerEntity = this.get("player").getEntity();
+    targetEntity = this.get("enemies")[0].getEntity();
 
+    playerEntity.setTarget(targetEntity);
+    playerEntity.activateAutoAttack();
   },
 
   // Add the newly activated fragment to the set of active fragments registered with the battle manager

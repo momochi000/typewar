@@ -118,9 +118,7 @@ Crafty.c("BattleNPCEnemy", {
   _getWordFromVocabulary: function (){
     var vocab;
     vocab = this.char_sheet.get('vocabulary');
-    //console.log("DEBUG: IN _getWordFromVocabulary");
     if(vocab && vocab.length > 1){
-      //console.log("IN HERE~~~~~~~~~~~~~~~~~~~~");
       return vocab[Math.floor(Math.random()*vocab.length)];
     }else{
       return null;
