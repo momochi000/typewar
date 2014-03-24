@@ -75,19 +75,18 @@ other attributes.
 #### BUG: Player/enemy health switches places
 #### Handle dashes
 #### BUG: backspace triggers back in the browser
-#### BUG: player/enemy health switches places.
-  * Whoever takes more damage appears on the right
+#### BUG: player/enemy health switches places. Whoever takes more damage appears on the right
 #### Improve the way text fragments display, make them show spaces properly
-  Don't show incorrect characters, just flash red or something.  Maybe have a
-  counter increment on it instead.
+Don't show incorrect characters, just flash red or something.  Maybe have a
+counter increment on it instead.
 #### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
 #### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
 #### Use a different attack animation from slime (something more visible)
 #### Hook up the player character to retrieve data from the server including a vocabulary
 #### Create a battle over scene for the winner
 #### Gather stats on player typing.
-  * Create an object for each keypress with a timestamp. Send back to server 
-    and save.
+Create an object for each keypress with a timestamp. Send back to server and 
+save.
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
 #### Create a module that governs the display of the battle. 
 It needs to handle crafty's zoom level and move things around the scene 
@@ -97,23 +96,15 @@ small and on any decent display are too tiny and hard to see.  We want to
 scale up the scene but this means we have to move all the entities and the 
 offset of the crafty stage.  The camera component should maintain a zoom level 
 and be able to translate coordinates in scene space to screen space and vice versa.
-#### PERFORMANCE: seems like dom nodes aren't getting properly removed when text
-  fragments go away.  Need to ensure that they do.
-#### Create a way for pausing the rudimentary AI, stopping the timers that create
-  more text fragments.  Better yet, have it listen for a Crafty.pause() where
-  it then does the appropriate.  Better yet, make the timers count by Crafty
-  frames.  This way pause will do the right thing.  Will need ot create a Timer
-  object which binds to EnterFrame and increments itself.
+#### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away.  
+Need to ensure that they do.
+#### Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments.  
+Better yet, have it listen for a Crafty.pause() where it then does the 
+appropriate.  Better yet, make the timers count by Crafty frames.  This 
+way pause will do the right thing.  Will need ot create a Timer object which 
+binds to EnterFrame and increments itself.
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 #### Make player stagger/stumble when one if their text fragments crosses untyped
-#### The player should be able to activate any text fragment by typing.
-  Need a text input manager that watches for keyboard inputs and selects the
-  correct active fragments.
-    + Handle the case where multiple fragments start with the same word.
-      - I think we'll want to defer this and allow different skills to handle
-      this situation in various ways.
-    + Need to clean up fragments when dead (at least put them in the graveyard)
-    + Ensure the proper arrays get the right fragments placed in them
 #### Try giving the fragments acceleration instead of speed.
 OOh better yet, give some a flat speed and some an accel.
 #### Particle system setup
@@ -126,7 +117,14 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
-
+#### The player should be able to activate any text fragment by typing.
+Need a text input manager that watches for keyboard inputs and selects the
+correct active fragments.
+  + Handle the case where multiple fragments start with the same word.
+    - I think we'll want to defer this and allow different skills to handle
+    this situation in various ways.
+  + Need to clean up fragments when dead (at least put them in the graveyard)
+  + Ensure the proper arrays get the right fragments placed in them
 #### BUG: Enemy name doesn't display
 #### BUG: when a fragment that you're currently typing goes off screen, it never releases the keyboard focus (need to unbind)
 On further investigation, my guess was correct: A text fragment had exited the 
