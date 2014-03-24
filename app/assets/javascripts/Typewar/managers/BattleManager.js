@@ -177,11 +177,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     playerEntity.activateAutoAttack();
   },
 
-  // Add the newly activated fragment to the set of active fragments registered with the battle manager
+  // Move the fragment from the live set to the active fragments set
   _setupFragmentActivatedListener: function (){
-    var self = this;
+    var self, fragment, live_fragments_set, active_fragments_set;
+
+    self = this;
     Crafty.bind("TextFragmentActivated", function (evt){
-      self.get("active_text_fragments").push(evt);
+      live_fragments_set = self.get("live_text_fragments");
+      active_fragments_set = self.get("active_text_fragments");
+      fragment = self._removeFromArray(live_fragments_set, evt)     // remove the fragment from the live array
+      active_fragments_set.push(evt);                           // add the fragment to the active array
     });
   },
 
