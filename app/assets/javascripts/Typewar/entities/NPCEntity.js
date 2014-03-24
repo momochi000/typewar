@@ -64,7 +64,6 @@ var NPCEntity = BaseEntity.extend({
     
     this.fetch({
       success: function (model, response){
-        var char_sheet;
         self.processDataFromServer(response);
       },
       error: function (model, response, options){
@@ -83,15 +82,16 @@ var NPCEntity = BaseEntity.extend({
    * meanwhile, vocabulary and stats got set as strings
    */
   processDataFromServer: function (resp){
-    var char_sheet, vocab, stats;
+    var char_sheet, vocab, stats, name, status;
+
     vocab = this.get('vocabulary');
     stats = this.get('stats');
-    this.set('vocabulary', vocab);
-    this.set('stats', stats);
+    status = this.get('status');
+    name = resp.name;
 
     char_sheet = new Typewar.Models.CharacterSheet({
-      name:       this.name,
-      status:     this.get('status'),
+      name:       name || this.name, 
+      status:     status,
       stats:      stats,
       vocabulary: vocab
     });
