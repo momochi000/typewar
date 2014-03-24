@@ -80,18 +80,8 @@ ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of
 + At battle end, should display a battle over scene
 + At some point keyboard input stops being handled
 
-#### BUG: when a fragment that you're currently typing goes off screen, it never releases the keyboard focus (need to unbind)
-On further investigation, my guess was correct: A text fragment had exited the 
-battle area but was not deallocated.  Next experiment, we want to see if a 
-text fragment is correctly being destroyed when it leaves the battle arena.
-Will need to check Typewar.Engine.BattleManager.getAllLiveFragments() and 
-ensure it's size is always equal to the number of fragments we see on screen.
-
-I think I see the problem now.  When a text fragment goes live (enters the 
-live queue), it does not get destroyed when it goes off the screen edge.  Now
-let's trace why this might be.
-
 #### BUG: Player/enemy health switches places
+#### Handle dashes
 #### BUG: there is a bug where the input manager stops accepting inputs. 
   * Try to trigger this bug and investigate. This may be related to not releasing
     keyboard focus.
@@ -123,8 +113,7 @@ and be able to translate coordinates in scene space to screen space and vice ver
   it then does the appropriate.  Better yet, make the timers count by Crafty
   frames.  This way pause will do the right thing.  Will need ot create a Timer
   object which binds to EnterFrame and increments itself.
-#### Add a state machine to text fragments and use that to keep track of whether
-  they can be typed or not.
+#### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 #### Create a battle over scene for the winner
 #### Make player stagger/stumble when one if their text fragments crosses untyped
 #### The player should be able to activate any text fragment by typing.
@@ -147,21 +136,34 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+
+#### BUG: Enemy name doesn't display
+#### BUG: when a fragment that you're currently typing goes off screen, it never releases the keyboard focus (need to unbind)
+On further investigation, my guess was correct: A text fragment had exited the 
+battle area but was not deallocated.  Next experiment, we want to see if a 
+text fragment is correctly being destroyed when it leaves the battle arena.
+Will need to check Typewar.Engine.BattleManager.getAllLiveFragments() and 
+ensure it's size is always equal to the number of fragments we see on screen.
+
+I think I see the problem now.  When a text fragment goes live (enters the 
+live queue), it does not get destroyed when it goes off the screen edge.  Now
+let's trace why this might be.
+
+I believe this bug is fixed but will need to keep an eye out for it because I
+cannot verify this.
 #### Switch to postgres to prepare for heroku deploy
 #### Handle capital letters
 #### Change player sprite (current one is crap)
-#### Removing text fragments from the scene once they hit the edge.  Stuck on
-  moving the fragment into the 'graveyard' on the battle manager.  Can't seem
-  to find the fragment that comes back from the event.
-  However, I suspect that the fragment has already been dealt with.. no wait
-  it's not in the graveyard either...
-  Well, maybe it's still being moved and so the event is getting triggered many
-  times. 
-  Need to check to ensure that the fragment is being deactivated properly.
-  In fact, perhaps it's being more than deactivated, it's being finished, or
-  destroyed or demolished. It should call deactivate, but also should remove
-  the view, remove the 2D component, remove bindings, stop calculation of 
-  position.
+#### Removing text fragments from the scene once they hit the edge.  
+  Stuck on moving the fragment into the 'graveyard' on the battle manager.  
+  Can't seem to find the fragment that comes back from the event.  However, 
+  I suspect that the fragment has already been dealt with.. no wait it's 
+  not in the graveyard either...  Well, maybe it's still being moved and 
+  so the event is getting triggered many times.  Need to check to ensure 
+  that the fragment is being deactivated properly.  In fact, perhaps it's
+  being more than deactivated, it's being finished, or destroyed 
+  or demolished. It should call deactivate, but also should remove the view,
+  remove the 2D component, remove bindings, stop calculation of position.
 #### Move completed text fragments to the graveyard as well.
 #### Remove the 'type me' instruction text from text fragment partials (or make
   them less obtrusive)

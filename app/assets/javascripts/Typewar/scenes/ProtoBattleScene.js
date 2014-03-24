@@ -59,6 +59,7 @@ var ProtoBattleScene = Backbone.Model.extend({
     Sprite.create('slime');
   },
 
+  // TODO: set up the right edge of the screen correctly according to the width of the window
   initStageEdges: function (){
     var width, height;
 
