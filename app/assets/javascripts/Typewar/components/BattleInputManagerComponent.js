@@ -23,7 +23,7 @@
 
 Crafty.c("BattleInputManager", {
   init: function (){ 
-    this.shift_key_down = false;
+    this.is_shift_key_down = false;
   },
 
   battleInputManager: function (){
@@ -33,7 +33,7 @@ Crafty.c("BattleInputManager", {
   // private 
 
   _applyModifierKeys: function (letter_value){
-    if(this.shift_key_down){
+    if(this.is_shift_key_down){
       return letter_value.toUpperCase();
     }else{
       return letter_value;
@@ -101,7 +101,7 @@ Crafty.c("BattleInputManager", {
   _handleModifierKeyPressed: function (key_val){
     switch(key_val) {
       case('shift'):
-        this.shift_key_down = true;
+        this.is_shift_key_down = true;
       default:
         return false;
     }
@@ -110,7 +110,7 @@ Crafty.c("BattleInputManager", {
   _handleModifierKeyReleased: function (key_val){
     switch(key_val) {
       case('shift'):
-        this.shift_key_down = false;
+        this.is_shift_key_down = false;
       default:
         return false;
     }
