@@ -72,30 +72,23 @@ other attributes.
 
 ## CURRENT
 
-
-ISSUES CLEAR FROM A QUICK PLAY AFTER BEING AWAY FOR A WHILE (make stories out of these):
-+ Text line breaks rather than displays in line.
-+ Need to distinguish between player text frags and enemy text frags (story exists)
-+ Need to handle backspace (it goes back in the browser history)
-+ At battle end, should display a battle over scene
-+ At some point keyboard input stops being handled
-
 #### BUG: Player/enemy health switches places
 #### Handle dashes
-#### BUG: there is a bug where the input manager stops accepting inputs. 
-  * Try to trigger this bug and investigate. This may be related to not releasing
-    keyboard focus.
+#### BUG: backspace triggers back in the browser
 #### BUG: player/enemy health switches places.
   * Whoever takes more damage appears on the right
+#### Improve the way text fragments display, make them show spaces properly
+  Don't show incorrect characters, just flash red or something.  Maybe have a
+  counter increment on it instead.
 #### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
+#### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
 #### Use a different attack animation from slime (something more visible)
-#### Tweak balance so that text flies at the player more smoothly (from the npc)
 #### Hook up the player character to retrieve data from the server including a vocabulary
+#### Create a battle over scene for the winner
 #### Gather stats on player typing.
   * Create an object for each keypress with a timestamp. Send back to server 
     and save.
-#### Get a simple library of text in there to test actual typing.
-#### Rework npc slime sprite
+#### Tweak balance so that text flies at the player more smoothly (from the npc)
 #### Create a module that governs the display of the battle. 
 It needs to handle crafty's zoom level and move things around the scene 
 appropriately.  This should probably go in the Camera component.  Currently, 
@@ -104,8 +97,6 @@ small and on any decent display are too tiny and hard to see.  We want to
 scale up the scene but this means we have to move all the entities and the 
 offset of the crafty stage.  The camera component should maintain a zoom level 
 and be able to translate coordinates in scene space to screen space and vice versa.
-#### Distinguish somehow the difference between player cast text fragments and npc
-  sent ones (appearance)..
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text
   fragments go away.  Need to ensure that they do.
 #### Create a way for pausing the rudimentary AI, stopping the timers that create
@@ -114,7 +105,6 @@ and be able to translate coordinates in scene space to screen space and vice ver
   frames.  This way pause will do the right thing.  Will need ot create a Timer
   object which binds to EnterFrame and increments itself.
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
-#### Create a battle over scene for the winner
 #### Make player stagger/stumble when one if their text fragments crosses untyped
 #### The player should be able to activate any text fragment by typing.
   Need a text input manager that watches for keyboard inputs and selects the
@@ -151,6 +141,8 @@ let's trace why this might be.
 
 I believe this bug is fixed but will need to keep an eye out for it because I
 cannot verify this.
+#### BUG: there is a bug where the input manager stops accepting inputs.
+Seems to be fixed thanks to the above, but need to keep an eye out for it.
 #### Switch to postgres to prepare for heroku deploy
 #### Handle capital letters
 #### Change player sprite (current one is crap)
