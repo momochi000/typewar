@@ -72,14 +72,13 @@ other attributes.
 
 ## CURRENT
 
-#### BUG: player/enemy health switches places. Whoever takes more damage appears on the right
-#### Improve the way text fragments display, make them show spaces properly
-Don't show incorrect characters, just flash red or something.  Maybe have a
-counter increment on it instead.
 #### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
 #### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
 #### Use a different attack animation from slime (something more visible)
+#### BUG: Disregard returns
 #### Hook up the player character to retrieve data from the server including a vocabulary
+#### Don't show incorrect characters, just flash red or something.  
+Maybe have a counter increment on it instead.
 #### Create a battle over scene for the winner
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
@@ -100,6 +99,7 @@ Better yet, have it listen for a Crafty.pause() where it then does the
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
 way pause will do the right thing.  Will need ot create a Timer object which 
 binds to EnterFrame and increments itself.
+#### Consider making text fragments small when live and large when active
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 #### Make player stagger/stumble when one if their text fragments crosses untyped
 #### Try giving the fragments acceleration instead of speed.
@@ -114,9 +114,10 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Improve the way text fragments display, make them show spaces properly
 #### BUG: backspace triggers back in the browser
 #### Handle dashes
-#### BUG: Player/enemy health switches places
+#### BUG: player/enemy health switches places. Whoever takes more damage appears on the right
 #### The player should be able to activate any text fragment by typing.
 Need a text input manager that watches for keyboard inputs and selects the
 correct active fragments.

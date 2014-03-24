@@ -2,7 +2,8 @@
 .text-fragment-wrapper {
   &.active { 
     z-index: 99999;
-    background-color: pink; 
+    width: 165px;
+    background-color: hotpink; 
   }
 
   float: left;
