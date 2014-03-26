@@ -72,12 +72,13 @@ other attributes.
 
 ## CURRENT
 
-#### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
-#### Use a different attack animation from slime (something more visible)
-#### BUG: Disregard returns
+#### BUG: Prevent spacebar from scrolling down.
+I want to bundle up all the browser keyboard control overrides.  Do this in the
+same place that I handle backspace override.
 #### Hook up the player character to retrieve data from the server including a vocabulary
 #### Don't show incorrect characters, just flash red or something.  
 Maybe have a counter increment on it instead.
+#### Use a different attack animation from slime (something more visible)
 #### Create a battle over scene for the winner
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
@@ -115,6 +116,8 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: Disregard returns
+#### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
 #### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
 #### Improve the way text fragments display, make them show spaces properly
 #### BUG: backspace triggers back in the browser
