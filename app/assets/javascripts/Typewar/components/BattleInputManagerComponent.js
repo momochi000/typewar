@@ -43,13 +43,18 @@ Crafty.c("BattleInputManager", {
   _attachKeyboardHandler: function (){
     this.bind('KeyDown', this._handleKeyPress);
     this.bind('KeyUp', this._handleKeyRelease);
-    this._preventBackspaceNavigation();
+    this._handleBrowserKeyOverrides();
   },
 
   _detachKeyboardHandler: function (){
     this.unbind('KeyDown', this._handleKeyPress);
     this.unbind('KeyUp', this._handleKeyRelease);
-    this._unbindBackspacePrevention();
+    this._unbindBrowserKeyOverrides();
+  },
+
+  _handleBrowserKeyOverrides: function (){
+    this._preventBackspaceNavigation();
+    this._preventSpacebarScroll();
   },
 
   _handleKeyPress: function (keyEvent){
@@ -108,6 +113,14 @@ Crafty.c("BattleInputManager", {
   _preventBackspaceNavigation: function (){
     $(document).on("keydown", function (e) {
       if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+      }
+    });
+  },
+
+  _preventSpacebarScroll: function (){
+    $(document).on("keydown", function (e) {
+      if (e.which === 32 && !$(e.target).is("input, textarea")) {
         e.preventDefault();
       }
     });
@@ -234,7 +247,7 @@ Crafty.c("BattleInputManager", {
     }
   },
 
-  _unbindBackspacePrevention: function (){
+  _unbindBrowserKeyOverrides: function (){
     $(document).off("keydown");
   }
 });

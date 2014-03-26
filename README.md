@@ -72,9 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### BUG: Prevent spacebar from scrolling down.
-I want to bundle up all the browser keyboard control overrides.  Do this in the
-same place that I handle backspace override.
 #### Hook up the player character to retrieve data from the server including a vocabulary
 #### Don't show incorrect characters, just flash red or something.  
 Maybe have a counter increment on it instead.
@@ -116,6 +113,9 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: Prevent spacebar from scrolling down.
+I want to bundle up all the browser keyboard control overrides.  Do this in the
+same place that I handle backspace override.
 #### BUG: Disregard returns
 #### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
 #### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
