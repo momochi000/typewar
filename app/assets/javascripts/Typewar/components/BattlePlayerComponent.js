@@ -53,8 +53,8 @@ Crafty.c("BattlePlayer", {
       offset: [0, -100],
       speed: [speed, 0],
       attacker: this,
-      defender: defender
-      //type: "defense"
+      defender: defender,
+      classes: ["player"]
     });
     frag.getEntity().drawSelf();
   },

@@ -26,6 +26,7 @@ Crafty.c("TextFragmentSpawner", {
    * spawned text fragment.
    * Valid options:
    *   <string> text   : the text of the fragment
+   *   <string> classes: additional css classes to apply
    *   <array> offset  : 
    *   <array> speed   : [x_spd, y_spd]
    *   <string>type    : a type string to define the type of fragment. Some 
@@ -38,14 +39,15 @@ Crafty.c("TextFragmentSpawner", {
     var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 
       new_type, new_wiggle, y_offset;
 
-    x_new      = options["x"]      || this._x;
-    y_new      = options["y"]      || this._y;
+    x_new        = options["x"]        || this._x;
+    y_new        = options["y"]        || this._y;
     if(options["offset"]) { x_new+=options["offset"][0]; y_new+=options["offset"][1];}
-    new_text   = options["text"]   || this.generateRandomString();
-    new_speed  = options["speed"]  || [0,0];
-    new_type   = options["type"]   || 'attack';
-    new_accel  = options["accel"]  || [0,0];
-    new_wiggle = options["wiggle"] || false;
+    new_text     = options["text"]     || this.generateRandomString();
+    new_classes  = options["classes"]  || [];
+    new_speed    = options["speed"]    || [0,0];
+    new_type     = options["type"]     || 'attack';
+    new_accel    = options["accel"]    || [0,0];
+    new_wiggle   = options["wiggle"]   || false;
 
     if(new_wiggle){ 
       x_new, y_new = this._adjustForWiggle(x_new, y_new, wiggle[0], wiggle[1]); 
@@ -57,6 +59,7 @@ Crafty.c("TextFragmentSpawner", {
       text: new_text,
       x: x_new,
       y: y_new,
+      css_classes: new_classes,
       x_accel: new_accel[0],
       y_accel: new_accel[1],
       type: new_type,

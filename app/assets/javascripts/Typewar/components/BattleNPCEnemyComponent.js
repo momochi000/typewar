@@ -51,7 +51,8 @@ Crafty.c("BattleNPCEnemy", {
       offset: [0,-70],
       speed: [speed, 0],
       attacker: this,
-      defender: defender
+      defender: defender,
+      classes: ["slime"]
     }
     next_text = this._getWordFromVocabulary();
     //if(next_text) {text_fragment_options['text'] = next_text;}

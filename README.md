@@ -72,7 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
 #### Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
 #### Use a different attack animation from slime (something more visible)
 #### BUG: Disregard returns
@@ -100,6 +99,8 @@ appropriate.  Better yet, make the timers count by Crafty frames.  This
 way pause will do the right thing.  Will need ot create a Timer object which 
 binds to EnterFrame and increments itself.
 #### Consider making text fragments small when live and large when active
+#### Build a better method of attaching css classes to text fragments.
+See TextFragmentEntity.js for TODO notes.
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 #### Make player stagger/stumble when one if their text fragments crosses untyped
 #### Try giving the fragments acceleration instead of speed.
@@ -114,6 +115,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: when multiple fragments are 'active' deactivate any that get a wrong input
 #### Improve the way text fragments display, make them show spaces properly
 #### BUG: backspace triggers back in the browser
 #### Handle dashes
