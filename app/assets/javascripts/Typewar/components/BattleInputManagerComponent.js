@@ -119,7 +119,8 @@ Crafty.c("BattleInputManager", {
         // We could do something special with this if we later choose
         return '';
       //case(Crafty.keys['TAB'])
-      //case(Crafty.keys['ENTER'])
+      case(Crafty.keys['ENTER']):
+        return '';
       //case(Crafty.keys['CAPS'])
       //case(Crafty.keys['ESC'])
       case(Crafty.keys['SPACE']): 
