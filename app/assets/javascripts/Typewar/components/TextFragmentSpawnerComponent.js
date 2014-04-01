@@ -120,9 +120,9 @@ Crafty.c("TextFragmentSpawner", {
     return x_new, y_new;
   }, 
 
-  //randomly returns true or false
+  // Randomly returns true or false // TODO: Move to its own module
   _coinToss: function (){
-    return ( (Math.floor(Math.random()*2)) == 1 );
+    return ( (Math.floor(Math.random()*2)) === 1 );
   },
 
   _registerFragmentWithBattleManager: function (frag){
