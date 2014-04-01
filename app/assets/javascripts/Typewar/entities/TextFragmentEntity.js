@@ -47,14 +47,7 @@ var TextFragmentEntity = BaseEntity.extend({
       });
 
     if(this.get('type')){ entity.type = this.get('type') }
-    _.each(this.get("css_classes"), function (css_class){
-      // TODO: instead of adding a component to the text fragment entity,
-      // should pass down the classes to the text fragment component which is
-      // responsible for rendering the text fragment template
-      // From here, make the template able to attach all classes to the text 
-      // fragment's container. This solution is ook for now though.
-      entity.addComponent(css_class+'-text');
-    });
+    entity.addClasses(this.get("css_classes"));
     this.set("entity", entity);
     return this;
   },

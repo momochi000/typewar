@@ -1,20 +1,58 @@
+@-webkit-keyframes blinker {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@keyframes blinker {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}             
 .text-fragment {}
 .text-fragment-wrapper {
   &.active { 
     z-index: 99999;
     width: 165px;
     background-color: hotpink; 
+    &.typo { 
+      -webkit-animation-name: blinker;
+      -webkit-animation-duration: 0.1s;
+      -webkit-animation-timing-function: linear;
+      -webkit-animation-iteration-count: infinite;
+      animation-name: blinker;
+      animation-duration: 0.1s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
   }
+
 
   float: left;
   text-align: center;
   font-size: 1.0em;
   line-height: 1.2em;
   span.typed { background-color: green; }
-  span.missed { background-color: red; }
+  span.missed { 
+    background-color: red; 
+    display:none;
+  }
   span.rest { background-color: yellow; }
+
+  // Unit specific text-fragment styles
+  &.player {
+    span.rest { background-color: salmon; }
+  }
+
+  &.slime {
+    font-size: 0.8em;
+    font-family: comic-sans;
+    background-color: steel-blue;
+    span.rest { background-color: skyblue; }
+  }
 }
 
+/*
 .slime-text .text-fragment-wrapper {
   font-size: 0.8em;
   font-family: comic-sans;
@@ -26,3 +64,4 @@
   span.rest { background-color: salmon; }
 }
 
+*/
