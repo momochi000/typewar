@@ -41,10 +41,12 @@ Crafty.c("TextFragment", {
   _success_callback: undefined,
   _text: '',
   _view: null,
+  _classes: null,
 
   init: function (){
     this.requires("2D, DOM, Physics2D, Collision");
     this.current_position = 0;
+    this._classes = [];
   },
 
   textFragment: function (opts){
@@ -66,6 +68,15 @@ Crafty.c("TextFragment", {
     }
   },
 
+  addClass: function (css_class) { // add css class to text fragment
+    this.addClasses([css_class]);
+  },
+  
+  addClasses: function (classes) { // add css classes to text fragment
+    if(!classes.concat || !(classes.length>0)) {throw "Invalid argument to addClasses on TextFragmentComponent, must be array"}
+    this._classes = this._classes.concat(classes);
+  },
+
   deactivate: function (){ 
     this.is_active = false; 
     this.z = 0;
@@ -82,7 +93,8 @@ Crafty.c("TextFragment", {
       this._view.render({active: this.is_active,
                          typed: this._correct_characters, 
                          missed: this._incorrect_characters, 
-                         rest: this._text.slice(this._current_position)});
+                         rest: this._text.slice(this._current_position),
+                         classes: this._getClasses()});
     } else {
       // TODO: Render completed text fragments differently
       //  For now, just dont' render completed ones
@@ -211,6 +223,25 @@ Crafty.c("TextFragment", {
     this._current_position++;
   },
 
+  _flickerEffect: function (){
+    var self=this;
+    if(this._classes.indexOf('typo') == -1){
+      this._classes.push('typo');
+      window.setTimeout(function (){
+        self._classes = _.without(self._classes, 'typo');
+        self.drawSelf();
+      }, 200);
+    }
+  },
+
+  _getClasses: function (){
+    var output;
+    output = _.reduce(this._classes, function (memo, curr_class){
+      return(memo + ' ' + curr_class);
+    }, '');
+    return output;
+  },
+
   _handleStageEdgeCollision: function (evt){
     if(this.hit("BattleStageEdge")){
       this.removeFromPlay();
@@ -224,6 +255,6 @@ Crafty.c("TextFragment", {
 
   _wrongInput: function (input){
     this._incorrect_characters += input;
+    this._flickerEffect();
   }
-
 });
