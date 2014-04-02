@@ -72,7 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### Hook up the player character to retrieve data from the server including a vocabulary
 #### Use a different attack animation from slime (something more visible)
 #### Create a battle over scene for the winner
 #### Fix the issue with the text fragment width
@@ -81,6 +80,7 @@ The width should probably be set to the length of the string or something
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
 counting correct and one incorrect characters
+#### Add devise and player model and allow people to create accounts and log in
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
@@ -100,6 +100,8 @@ Better yet, have it listen for a Crafty.pause() where it then does the
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
 way pause will do the right thing.  Will need ot create a Timer object which 
 binds to EnterFrame and increments itself.
+#### Esc to bail out of typing a text fragment 
+But only if you have the requisite skill
 #### Consider making text fragments small when live and large when active
 #### Build a better method of attaching css classes to text fragments.
 See TextFragmentEntity.js for TODO notes.
@@ -117,6 +119,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Hook up the player character to retrieve data from the server including a vocabulary
 #### Don't show incorrect characters, just flash red or something.
 #### BUG: Prevent spacebar from scrolling down.
 I want to bundle up all the browser keyboard control overrides.  Do this in the

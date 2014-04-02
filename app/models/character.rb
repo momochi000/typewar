@@ -5,6 +5,9 @@ class Character < ActiveRecord::Base
   serialize :status, JSON
   serialize :vocabulary, JSON
 
+  scope :slimes,  -> { where(:char_class => 'Slime') }
+  scope :players, -> { where(:char_class => 'Player') }
+
   def self.generate_vocabulary
     15.times.map{|itor|
       [ Faker::Address.city,

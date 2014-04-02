@@ -55,11 +55,7 @@ Crafty.c("BattleNPCEnemy", {
       classes: ["slime"]
     }
     next_text = this._getWordFromVocabulary();
-    //if(next_text) {text_fragment_options['text'] = next_text;}
-    if(next_text) {
-      console.log("was able to get a word out of the vocabulary, what was it?? --->  " + next_text);
-      text_fragment_options['text'] = next_text;
-    }
+    if(next_text) {text_fragment_options['text'] = next_text;}
     frag = this._fragment_spawner.generateTextFragment(text_fragment_options);
     frag.getEntity().drawSelf();
   },

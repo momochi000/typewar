@@ -54,7 +54,8 @@ Crafty.c("BattlePlayer", {
       speed: [speed, 0],
       attacker: this,
       defender: defender,
-      classes: ["player"]
+      classes: ["player"],
+      text: this._getWordFromVocabulary()
     });
     frag.getEntity().drawSelf();
   },
@@ -105,6 +106,16 @@ Crafty.c("BattlePlayer", {
       .textFragmentSpawner();
 
     this.attach(this._fragment_spawner);
+  },
+
+  _getWordFromVocabulary: function (){
+    var vocab;
+    vocab = this.char_sheet.get('vocabulary');
+    if(vocab && vocab.length > 1){
+      return vocab[Math.floor(Math.random()*vocab.length)];
+    }else{
+      return null;
+    }
   }
 });
 

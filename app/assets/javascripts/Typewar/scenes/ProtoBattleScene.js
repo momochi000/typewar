@@ -45,12 +45,11 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initEnemyNPC: function (){
-    var slime_char_sheet = new Typewar.Models.CharacterSheet;
+    //var slime_char_sheet = new Typewar.Models.CharacterSheet;
 
-    slime_char_sheet.set('name', 'Chaos slime');
+    //slime_char_sheet.set('name', 'Chaos slime');
     enemy_npc = new NPCEntity();
-
-    return enemy_npc
+    return enemy_npc;
   },
 
   initSprites: function (){

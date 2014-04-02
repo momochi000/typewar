@@ -9,7 +9,7 @@ var global_enemy; // DEBUG;
  */
 var NPCEntity = BaseEntity.extend({
   defaults: { },
-  urlRoot: '/characters',
+  urlRoot: '/characters/slimes',
 
   initialize: function (){
     var entity, self;
@@ -55,9 +55,7 @@ var NPCEntity = BaseEntity.extend({
   },
 
   getFromServer: function (){
-    var self;
-
-    self = this;
+    var self = this;
 
     //console.log("DEBUG: in get from server, about to fetch()");
     //console.log("DEBUG: do we have a url: "+ this.url + " what about urlRoot? : " + this.urlRoot);
