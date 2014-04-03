@@ -72,7 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### Use a different attack animation from slime (something more visible)
 #### Create a battle over scene for the winner
 #### Fix the issue with the text fragment width
 The width should probably be set to the length of the string or something
@@ -81,6 +80,7 @@ This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
 counting correct and one incorrect characters
 #### Add devise and player model and allow people to create accounts and log in
+#### Adjust game behavior based on stats from player and npc
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
@@ -119,6 +119,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Use a different attack animation from slime (something more visible)
 #### Hook up the player character to retrieve data from the server including a vocabulary
 #### Don't show incorrect characters, just flash red or something.
 #### BUG: Prevent spacebar from scrolling down.

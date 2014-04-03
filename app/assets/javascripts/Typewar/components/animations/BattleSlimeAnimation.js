@@ -13,6 +13,7 @@ Crafty.c("BattleSlimeAnim", {
     this.animate("ready", 0, 0, 4)
       .animate("hit", 0, 1, 7)
       .animate("attack1", 0, 2, 7)
+      .animate("attack2", 0, 4, 8)
       .animate("block", 0, 3, 7)
       .bind("EnterFrame", function (e){
         if(!self.isPlaying()){ self.animReady(); }
@@ -21,7 +22,7 @@ Crafty.c("BattleSlimeAnim", {
   },
 
   animAttack: function (){
-    this.stop().animate("attack1", this._ATTACK_ANIM_SPEED, 0);
+    this.stop().animate("attack2", this._ATTACK_ANIM_SPEED, 0);
   },
 
   animBlock: function (){
