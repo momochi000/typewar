@@ -15,16 +15,19 @@ var ProtoBattleScene = Backbone.Model.extend({
       self.initBackground();
       self.initStageEdges();
       self.initCamera();
-      self.initBattleManager(self.combatants);
-      self.initStatusBar(self.combatants.player, self.combatants.enemies[0]);
+      self.initBattleManager(self.get('combatants'));
+      self.initStatusBar(self.get('combatants').player, self.get('combatants').enemies[0]);
       self.initInputManager();
     });
   },
 
   initBackground: function (){
-    global_bg = Crafty.e("2D, DOM, Image, BattleBackground")
+    var bg;
+    bg = Crafty.e("2D, DOM, Image, BattleBackground")
       .battleBackground("assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif", 800, 336)
       .attr({x: -26, y: -60, z: 0});
+    global_bg = bg;
+    this.set('background', bg);
   },
 
   initBattleManager: function (options){
@@ -38,18 +41,14 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initPC: function (){
-    var player;
-    player = new PCBattleEntity();
-
-    return player;
+    return new PCBattleEntity();
   },
 
   initEnemyNPC: function (){
     //var slime_char_sheet = new Typewar.Models.CharacterSheet;
-
     //slime_char_sheet.set('name', 'Chaos slime');
-    enemy_npc = new NPCEntity();
-    return enemy_npc;
+
+    return new NPCEntity();
   },
 
   initSprites: function (){
@@ -87,12 +86,14 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   loadCombatants: function (){
-    var enemy_npc, player;
+    var enemy_npc, player, combatants;
 
     enemy_npc = this.initEnemyNPC();
     player = this.initPC();
-    this.combatants = {player: player, enemies: [enemy_npc]};
-    return this.combatants;
+
+    combatants = {player: player, enemies: [enemy_npc]};
+    this.set('combatants', combatants);
+    return combatants;
   },
 
   play: function (){
