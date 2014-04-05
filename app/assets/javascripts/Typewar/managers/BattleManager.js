@@ -23,9 +23,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       throw "BattleManager initialized without enemies array";
     }
 
-    this._setupCompletedFragmentListener();
-    this._setupFragmentActivatedListener();
-    this._setupFragmentExitStageListener();
+    this._bindEventListeners();
     this._setupBattleAI();
   },
 
@@ -34,14 +32,12 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return 2;
   },
 
-  /* sweeps through text fragments registered with this manager and removes
-   * any that are already completed or have exited the play field or are 
-   * invalid or have been wiped out etc.
-   * discard fragments that are complete
-   * or have collided with the other side (TBI)
-   */
-  cleanupLiveFragments: function (){
-    // TODO: implement me
+  deallocate: function (){
+    this._unbindAllListeners();
+    this._cleanupLiveFragments();
+    this._cleanupActiveFragments();
+    this._cleanupFragmentGraveyard();
+    this.clear();
   },
 
   getLiveFragments: function (){
@@ -79,9 +75,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     player_ent = player.getEntity();
 
     if(fragment.attacker == player_ent){
-      console.log("DEBUG: player fragment went off screen");
+      //console.log("DEBUG: player fragment went off screen");
     }else if(fragment.defender == player_ent){
-      console.log("DEBUG: monster fragment went off screen");
+      //console.log("DEBUG: monster fragment went off screen");
       this._resolveDefense(fragment);
     }
 
@@ -97,7 +93,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     // If there are no active fragments, loop over live fragments and see if
     // any match the pressed key
     if(_.isEmpty(active_fragments)){
-      this.cleanupLiveFragments();
+      this._ensureLiveFragmentsClean();
       _.each(live_fragments, function (curr_frag){
         if(curr_frag.matchFirstChar(letter_value)){
           curr_frag.activate();
@@ -122,7 +118,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         active_fragments[0].takeInput(letter_value);
       }
     }
-    
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */
@@ -131,6 +126,35 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   // private
+
+  _bindEventListeners: function (){
+    this._setupCompletedFragmentListener();
+    this._setupFragmentActivatedListener();
+    this._setupFragmentExitStageListener();
+    this._setupNPCDiedListener();
+  },
+
+  _cleanupActiveFragments: function (){
+    this.unset("active_text_fragments");
+  },
+
+  _cleanupFragmentGraveyard: function (){
+    this.unset("fragment_graveyard");
+  },
+
+  _cleanupLiveFragments: function (){
+    this.unset("live_text_fragments"); // NOTE: TESTME__ Is this sufficient? or should we call deallocate on each fragment?
+  },
+
+  /* sweeps through text fragments registered with this manager and removes
+   * any that are already completed or have exited the play field or are 
+   * invalid or have been wiped out etc.
+   * discard fragments that are complete
+   * or have collided with the other side (TBI)
+   */
+  _ensureLiveFragmentsClean: function (){
+    //TODO: Implement me
+  },
 
   /* Move the given fragment, if it is present in the active_fragments array,
    * to the fragment_graveyard array
@@ -214,6 +238,10 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     playerEntity.activateAutoAttack();
   },
 
+  _setupCompletedFragmentListener: function (){
+    Crafty.bind("TextFragmentCompleted", this.handleFragmentCompleted.bind(this));
+  },
+
   // Move the fragment from the live set to the active fragments set
   _setupFragmentActivatedListener: function (){
     var self, fragment, live_fragments_set, active_fragments_set;
@@ -243,22 +271,31 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       self.handleFragmentMissed(fragment);
 
       if(self._removeFromArray(live_fragments, fragment)){
-        console.log("DEBUG: Removing fragment from LIVE to graveyard XXXXXXXXXXXXXX");
+        //console.log("DEBUG: Removing fragment from LIVE to graveyard XXXXXXXXXXXXXX");
         fragment.deactivate();
         graveyard.push(fragment);
       }else if(self._removeFromArray(active_fragments, fragment)){
-        console.log("DEBUG: Removing fragment from active to graveyard XXXXXXXXXXXXXX");
+        //console.log("DEBUG: Removing fragment from active to graveyard XXXXXXXXXXXXXX");
         fragment.deactivate();
         graveyard.push(fragment);
       }else if(_.contains(graveyard, fragment)){
-        console.log("DEBUG: found the fragment in the graveyard, this is probably double searching somehwere");
+        //console.log("DEBUG: found the fragment in the graveyard, this is probably double searching somehwere");
       } else {
         throw "ERROR: fragment not found within active or live fragments" + evt;
       }
     });
   }, 
 
-  _setupCompletedFragmentListener: function (){
-    Crafty.bind("TextFragmentCompleted", this.handleFragmentCompleted.bind(this));
+  _setupPlayerDiedListener: function (){
+    Crafty.bind("player_died", function (e){
+      Typewar.battleOver(false);
+    });
+  },
+
+  // For now this just assumes monster dead = battle over
+  _setupNPCDiedListener: function (){
+    Crafty.bind("NPCDied", function (e){
+      Typewar.battleOver(true);
+    });
   }
 });

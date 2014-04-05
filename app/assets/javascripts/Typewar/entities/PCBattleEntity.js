@@ -21,6 +21,11 @@ var PCBattleEntity = BaseEntity.extend({
     return this;
   },
 
+  deallocate: function (){
+    this.getEntity().deallocate();
+    this.clear();
+  },
+
   getFromServer: function (){
     var self = this;
 
@@ -38,7 +43,6 @@ var PCBattleEntity = BaseEntity.extend({
         console.log(model);
       }
     });
-
   },
 
   processDataFromServer: function (resp){

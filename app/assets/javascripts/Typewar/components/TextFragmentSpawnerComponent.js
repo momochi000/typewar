@@ -21,6 +21,13 @@ Crafty.c("TextFragmentSpawner", {
     return this;
   },
 
+  deallocate: function (){
+    Crafty.unbind("TextFragmentCompleted");
+    //Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted); //Test if this works
+    this._fragment_collection = null; //NOTE TEST, do we need to deallocate each fragment individually?
+    this._completed_fragment_collection = null;
+  },
+
   /* generateTextFragment(<hash> options) => TextFragmentEntity
    * options defines the attributes and behavior to attach to the newly
    * spawned text fragment.

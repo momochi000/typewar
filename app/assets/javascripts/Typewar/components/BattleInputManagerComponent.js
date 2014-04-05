@@ -28,6 +28,12 @@ Crafty.c("BattleInputManager", {
 
   battleInputManager: function (){
     this._attachKeyboardHandler(); // bind a keyboard input
+    return this;
+  },
+
+  deallocate: function (){
+    this._detachKeyboardHandler();
+    this.destroy();
   },
 
   // private 

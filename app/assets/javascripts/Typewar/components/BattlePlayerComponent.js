@@ -29,6 +29,12 @@ Crafty.c("BattlePlayer", {
     if(this.battle_timer){ window.clearInterval(this.battle_timer); }
   },
 
+  deallocate: function (){
+    this.deactivateAutoAttack();
+    this._fragment_spawner.deallocate();
+    this.destroy();
+  },
+
   deliverAttack: function (){
     this.animAttack();
   },
@@ -118,4 +124,3 @@ Crafty.c("BattlePlayer", {
     }
   }
 });
-

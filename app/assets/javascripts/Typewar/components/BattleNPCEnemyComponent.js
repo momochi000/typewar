@@ -1,6 +1,10 @@
 /* A component specifically for enemies encountered in Typewar's battle system
  * This is the base component, other child components are made up of specific
  * monsters or enemy types and require this component, calling methods from it.
+
+ * Events Triggered:
+ * updateStatus ===========> When the status of the npc changes
+ * enemy_died =============> When this monster dies
  */
 
 Crafty.c("BattleNPCEnemy", {
@@ -20,8 +24,19 @@ Crafty.c("BattleNPCEnemy", {
     return this;
   },
 
+  deallocate: function (){
+    this.deactivateAI();
+    this._fragment_spawner.deallocate();
+    this._fragment_spawner = null;
+    this.destroy();
+  },
+
   deliverAttack: function (){
     this.animAttack();
+  },
+
+  die: function (){
+    Crafty.trigger("NPCDied", {target: this});
   },
 
   getStatus: function(attribute) {
@@ -91,6 +106,7 @@ Crafty.c("BattleNPCEnemy", {
 
     this.char_sheet.set({status: {hp: newHP}});
     this.updateStatus();
+    if(newHP <= 0){ this.die(); }
   },
 
   updateStatus: function() {

@@ -16,6 +16,7 @@ var TextFragmentView = Backbone.View.extend({
       }
     }
   },
+
   // private
   
   _generateUniqueId: function (){
@@ -24,7 +25,7 @@ var TextFragmentView = Backbone.View.extend({
     return u_id;
   },
 
-  _generateRandomVal: function (){ // Should probably be moved into a library or something
+  _generateRandomVal: function (){ // TODO: move into a library or something
     return Math.floor(Math.random()*1000000);
   }
 });
@@ -84,6 +85,13 @@ Crafty.c("TextFragment", {
     this.drawSelf();
   },
 
+  deallocate: function (){
+    this.deactivate();
+    this._unbindAll();
+    this._view.remove(); //destroy the view.  May need to unbind additional events by hand
+    this.destroy();
+  },
+
   // A test function for debug purposes
   drawSelf: function (){
     if(!this._view) { 
@@ -134,9 +142,11 @@ Crafty.c("TextFragment", {
   removeFromPlay: function (){
     this._view.remove();
     //this.zeroVel();
-    //this.removeComponent("Collision", true);
+    this.removeComponent("Collision", true);
+    this.removeComponent("Physics2D", true);
     //this.removeComponent("2D",        true);
-    this.removeComponent("DOM",         true);
+    //this.removeComponent("DOM",       true);
+    //TODO: Hide this guy off screen somehow.. maybe set y pos to -9999999 and kill the velocity
     this._unbindStageEdgeCollision();
   },
 
@@ -251,6 +261,10 @@ Crafty.c("TextFragment", {
 
   _unbindStageEdgeCollision: function (){
     this.unbind("EnterFrame", this._handleStageEdgeCollision);
+  },
+
+  _unbindAll: function (){
+    this._unbindStageEdgeCollision();
   },
 
   _wrongInput: function (input){

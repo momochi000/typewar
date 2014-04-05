@@ -25,6 +25,12 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
     return this;
   },
 
+  deallocate: function (){
+    this.entity.unbind('updateStatus'); // TODO: check to make sure this works
+    this.entity = null;
+    this.remove();
+  },
+
   getStatusHP: function() {
     var percentHP = this.entity.getPercentHP();
     var statusHP;

@@ -24,7 +24,6 @@ var NPCEntity = BaseEntity.extend({
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
 
-
     /* LEFT OFF: 
      * Got the server to send back a monster with some data.  
      * Everything should just work from here.
@@ -50,6 +49,13 @@ var NPCEntity = BaseEntity.extend({
   activateAI: function (){
     this.getEntity().activateAI();
   },
+
+  deallocate: function (){
+    this.getEntity().deallocate();
+    this.clear();
+  },
+
+  // TODO: Deprecate?
   deactivateAI: function (){
     this.getEntity().deactivateAI();
   },

@@ -20,5 +20,13 @@ Typewar.Views.StatusBarView = Backbone.View.extend({
     new_view.render();
     this._entityViews.push(new_view);
     this.$el.append(new_view.$el);
+  },
+
+  deallocate: function (){
+    _.each(this._entityViews, function (view){
+      view.deallocate();
+      view.remove();
+    });
+    this.remove();
   }
 });
