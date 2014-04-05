@@ -73,6 +73,9 @@ other attributes.
 ## CURRENT
 
 #### Create a battle over scene for the winner
+Create a scene manager that handles loading different scenes
+The scene manager lives inside the core engine which handles the logistics of
+setting up and breaking down the various game modes
 #### Fix the issue with the text fragment width
 The width should probably be set to the length of the string or something
 #### Display incorrect characters typed along with correct characters.
@@ -84,7 +87,16 @@ counting correct and one incorrect characters
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
+#### Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
+#### BUG: when 2 fragments starting with the same text are typed, when one wins
+For example:
+    South Dakota
+    South Carolina
+Once you type 'South ' now you press D, South Carolina deactivates but it won't
+register the D press for south dakota.
+This feature just seems to be broken
+#### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
 #### Create a module that governs the display of the battle. 
 It needs to handle crafty's zoom level and move things around the scene 
 appropriately.  This should probably go in the Camera component.  Currently, 
@@ -93,6 +105,12 @@ small and on any decent display are too tiny and hard to see.  We want to
 scale up the scene but this means we have to move all the entities and the 
 offset of the crafty stage.  The camera component should maintain a zoom level 
 and be able to translate coordinates in scene space to screen space and vice versa.
+This is may also need to handle setup of the viewport depending on device 
+screen size and orientation etc.  Scaling the game appropriately.
+#### Refactor: the way npc and players take damage
+Need to pass in or identify the source of the damage.  For example when npc 
+dies, the event it publishes/broadcasts should contain info about who killed
+it.
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away.  
 Need to ensure that they do.
 #### Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments.  
@@ -110,10 +128,7 @@ See TextFragmentEntity.js for TODO notes.
 #### Try giving the fragments acceleration instead of speed.
 OOh better yet, give some a flat speed and some an accel.
 #### Particle system setup
-#### Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 #### Rails backend loads text dictionaries and sends them to the game engine
-#### text fragments should have a pointer to it's collection, and the collection should have a pointer to it's owner. The spawner should as well.
-#### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
 
 ---
 
@@ -184,7 +199,7 @@ Seems to be fixed thanks to the above, but need to keep an eye out for it.
 #### Set up simple AI that manages battle flow
 #### Show health status for enemy.
 #### Add defend animation and insert appropriately
-#### The player should be triggering attacks on the monster(s).
+#### REFACTOR: The player should be triggering attacks on the monster(s).
   Refactor the way attacking and defending works. The text fragments should be
   labeled with attacker and defender and they should resolve separately and
   instructions should be sent to each party.
