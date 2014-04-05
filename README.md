@@ -83,12 +83,25 @@ This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
 counting correct and one incorrect characters
 #### Add devise and player model and allow people to create accounts and log in
+#### Difficulty scale.
+Need a system which adjusts the difficulty of the game mechanics.  I want
+difficulty of gameplay to be separate from difficulty of the battle.  The
+difficulty of fighting a particular monster should be based upon the 
+stat/level difference between the player and that monster, but the difficulty
+of typing the words (for example) should be scalable outside of that.  Will
+need to make it harder for someone who can type really fast.
 #### Adjust game behavior based on stats from player and npc
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
 #### Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
+#### REFACTOR: make event naming consistent.
+Either camel case or underscored, pick one and run with it
+#### REFACTOR: the way npc and players take damage
+Need to pass in or identify the source of the damage.  For example when npc 
+dies, the event it publishes/broadcasts should contain info about who killed
+it.
 #### BUG: when 2 fragments starting with the same text are typed, when one wins
 For example:
     South Dakota
@@ -107,10 +120,6 @@ offset of the crafty stage.  The camera component should maintain a zoom level
 and be able to translate coordinates in scene space to screen space and vice versa.
 This is may also need to handle setup of the viewport depending on device 
 screen size and orientation etc.  Scaling the game appropriately.
-#### Refactor: the way npc and players take damage
-Need to pass in or identify the source of the damage.  For example when npc 
-dies, the event it publishes/broadcasts should contain info about who killed
-it.
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away.  
 Need to ensure that they do.
 #### Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments.  
