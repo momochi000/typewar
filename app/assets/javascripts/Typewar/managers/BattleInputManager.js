@@ -9,12 +9,6 @@ Typewar.Models.BattleInputManager = Backbone.Model.extend({
   },
 
   deallocate: function (){
-    // LEFT OFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Implement me
-    // Then after committing all the changes, refactor me to be
-    // set as Typewar.Engine.inputmanager.
-    // The class should be BattleInputManager as above but the 
-    // instance of the class should be lowercase
     this.get("input_manager_entity").deallocate();
     this.unset("input_manager_entity");
   }

@@ -37,7 +37,7 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   deallocateInputManager: function (){
-    Typewar.Engine.InputManager.deallocate();
+    Typewar.Engine.inputManager.deallocate();
   },
 
   deallocateStageEdges: function (){
@@ -107,7 +107,7 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initInputManager: function (){
-    Typewar.Engine.InputManager = new Typewar.Models.BattleInputManager;
+    Typewar.Engine.inputManager = new Typewar.Models.BattleInputManager;
   },
 
   initStatusBar: function(player, enemy) {
