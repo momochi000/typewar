@@ -12,7 +12,7 @@
 .text-fragment-wrapper {
   &.active { 
     z-index: 99999;
-    width: 165px;
+    width: 8em;
     background-color: hotpink; 
     &.typo { 
       -webkit-animation-name: blinker;
@@ -24,15 +24,16 @@
       animation-timing-function: linear;
       animation-iteration-count: infinite;
     }
-
   }
-
 
   float: left;
   text-align: center;
   font-size: 1.0em;
   line-height: 1.2em;
-  span.typed { background-color: green; }
+  span.typed { 
+    background-color: green; 
+    font-size: 0.5em;
+  }
   span.missed { 
     background-color: red; 
     display:none;
@@ -40,6 +41,7 @@
   span.rest { background-color: yellow; }
 
   // Unit specific text-fragment styles
+  // TODO: change to player-fragment and slime-fragment
   &.player {
     span.rest { background-color: salmon; }
   }
@@ -51,17 +53,3 @@
     span.rest { background-color: skyblue; }
   }
 }
-
-/*
-.slime-text .text-fragment-wrapper {
-  font-size: 0.8em;
-  font-family: comic-sans;
-  background-color: steel-blue;
-  span.rest { background-color: skyblue; }
-}
-
-.player-text .text-fragment-wrapper {
-  span.rest { background-color: salmon; }
-}
-
-*/

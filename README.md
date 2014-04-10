@@ -72,17 +72,21 @@ other attributes.
 
 ## CURRENT
 
-#### Create a battle over scene for the winner
-Create a scene manager that handles loading different scenes
-The scene manager lives inside the core engine which handles the logistics of
-setting up and breaking down the various game modes
-#### Fix the issue with the text fragment width
-The width should probably be set to the length of the string or something
+#### BUG: when 2 fragments starting with the same text are typed, when one wins
+For example:
+    South Dakota
+    South Carolina
+Once you type 'South ' now you press D, South Carolina deactivates but it won't
+register the D press for south dakota.
+This feature just seems to be broken
 #### Display incorrect characters typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
-counting correct and one incorrect characters
-#### Add devise and player model and allow people to create accounts and log in
+counting correct and one incorrect characters.
+There also needs to be better feedback when an incorrect character is typed.
+Adjust the flicker when a wrong character typed.  Increase the flicker duration
+Decrase the time between on/off within the flicker
+
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -90,6 +94,7 @@ difficulty of fighting a particular monster should be based upon the
 stat/level difference between the player and that monster, but the difficulty
 of typing the words (for example) should be scalable outside of that.  Will
 need to make it harder for someone who can type really fast.
+#### BUG: when player dies, it doesn't do the game over screen
 #### Adjust game behavior based on stats from player and npc
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
@@ -102,13 +107,7 @@ Either camel case or underscored, pick one and run with it
 Need to pass in or identify the source of the damage.  For example when npc 
 dies, the event it publishes/broadcasts should contain info about who killed
 it.
-#### BUG: when 2 fragments starting with the same text are typed, when one wins
-For example:
-    South Dakota
-    South Carolina
-Once you type 'South ' now you press D, South Carolina deactivates but it won't
-register the D press for south dakota.
-This feature just seems to be broken
+#### Add devise and player model and allow people to create accounts and log in
 #### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
 #### Create a module that governs the display of the battle. 
 It needs to handle crafty's zoom level and move things around the scene 
@@ -122,6 +121,7 @@ This is may also need to handle setup of the viewport depending on device
 screen size and orientation etc.  Scaling the game appropriately.
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away.  
 Need to ensure that they do.
+#### Make the battle over scene overlay on top of the battle scene.
 #### Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments.  
 Better yet, have it listen for a Crafty.pause() where it then does the 
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
@@ -143,6 +143,13 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Fix the issue with the text fragment width
+The width should probably be set to the length of the string or something
+Might need some javascript to set the width of the text fragment wrapper
+#### Create a battle over scene for the winner
+Create a scene manager that handles loading different scenes
+The scene manager lives inside the core engine which handles the logistics of
+setting up and breaking down the various game modes
 #### Use a different attack animation from slime (something more visible)
 #### Hook up the player character to retrieve data from the server including a vocabulary
 #### Don't show incorrect characters, just flash red or something.
