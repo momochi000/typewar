@@ -133,6 +133,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this._setupFragmentActivatedListener();
     this._setupFragmentExitStageListener();
     this._setupNPCDiedListener();
+    this._setupPlayerDiedListener();
   },
 
   _cleanupActiveFragments: function (){
@@ -288,7 +289,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   }, 
 
   _setupPlayerDiedListener: function (){
-    Crafty.bind("player_died", function (e){
+    Crafty.bind("PlayerDied", function (e){
       Typewar.battleOver(false);
     });
   },

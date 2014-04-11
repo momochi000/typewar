@@ -39,6 +39,10 @@ Crafty.c("BattlePlayer", {
     this.animAttack();
   },
 
+  die: function (){
+    Crafty.trigger("PlayerDied", {target: this});
+  },
+
   getStatus: function (attribute){
     return this.char_sheet.get("status")[attribute];
   },
@@ -95,6 +99,7 @@ Crafty.c("BattlePlayer", {
     newHP = currentHP - damage;
     this.char_sheet.set({status: {hp: newHP}});
     this.updateStatus();
+    if(newHP <= 0){ this.die(); }
   },
 
   updateStatus: function() {

@@ -72,6 +72,20 @@ other attributes.
 
 ## CURRENT
 
+#### Decrase the time between on/off within the flicker
+#### Difficulty scale.
+Need a system which adjusts the difficulty of the game mechanics.  I want
+difficulty of gameplay to be separate from difficulty of the battle.  The
+difficulty of fighting a particular monster should be based upon the 
+stat/level difference between the player and that monster, but the difficulty
+of typing the words (for example) should be scalable outside of that.  Will
+need to make it harder for someone who can type really fast.
+#### Display incorrect characters count typed along with correct characters.
+This needs some sort of design such that it's intuitive as to what's happening.
+I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
+counting correct and one incorrect characters.
+There also needs to be better feedback when an incorrect character is typed.
+Adjust the flicker when a wrong character typed.  Increase the flicker duration
 #### BUG: when 2 fragments being with the same text and one wins
 It appears to skip a character.  For example:
 abcdef
@@ -80,21 +94,6 @@ abcdff
 if you type abcd, all 3 fragments should activate.  As soon as you type f, the
 first fragment should deactivate (go back to 'live') and the 2 final ones 
 should have abcdf as completed, but instead will only have abcd still complete.
-#### Display incorrect characters count typed along with correct characters.
-This needs some sort of design such that it's intuitive as to what's happening.
-I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
-counting correct and one incorrect characters.
-There also needs to be better feedback when an incorrect character is typed.
-Adjust the flicker when a wrong character typed.  Increase the flicker duration
-Decrase the time between on/off within the flicker
-#### Difficulty scale.
-Need a system which adjusts the difficulty of the game mechanics.  I want
-difficulty of gameplay to be separate from difficulty of the battle.  The
-difficulty of fighting a particular monster should be based upon the 
-stat/level difference between the player and that monster, but the difficulty
-of typing the words (for example) should be scalable outside of that.  Will
-need to make it harder for someone who can type really fast.
-#### BUG: when player dies, it doesn't do the game over screen
 #### REFACTOR: Remove all convenience methods from NPC entity backbone model
 Calls should only be made on the actual crafty entity
 #### Gather stats on player typing.
@@ -121,10 +120,10 @@ offset of the crafty stage.  The camera component should maintain a zoom level
 and be able to translate coordinates in scene space to screen space and vice versa.
 This is may also need to handle setup of the viewport depending on device 
 screen size and orientation etc.  Scaling the game appropriately.
-#### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away.  
+#### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away
 Need to ensure that they do.
 #### Make the battle over scene overlay on top of the battle scene.
-#### Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments.  
+#### Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments
 Better yet, have it listen for a Crafty.pause() where it then does the 
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
 way pause will do the right thing.  Will need ot create a Timer object which 
@@ -132,7 +131,7 @@ binds to EnterFrame and increments itself.
 #### Esc to bail out of typing a text fragment 
 But only if you have the requisite skill
 #### Consider making text fragments small when live and large when active
-#### Build a better method of attaching css classes to text fragments.
+#### Build a better method of attaching css classes to text fragments
 See TextFragmentEntity.js for TODO notes.
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 #### Make player stagger/stumble when one if their text fragments crosses untyped
@@ -145,6 +144,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: when player dies, it doesn't do the game over screen
 #### BUG: player text appears too high on the screen sometimes
 #### BUG: when 2 fragments starting with the same text are typed, when one wins
 For example:
