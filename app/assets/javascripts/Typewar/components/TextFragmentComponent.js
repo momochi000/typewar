@@ -234,13 +234,15 @@ Crafty.c("TextFragment", {
   },
 
   _flickerEffect: function (){
-    var self=this;
+    var self, FLICKER_ANIMATION_DURATION;
+    self = this;
+    FLICKER_ANIMATION_DURATION = 350;
     if(this._classes.indexOf('typo') == -1){
       this._classes.push('typo');
       window.setTimeout(function (){
         self._classes = _.without(self._classes, 'typo');
         self.drawSelf();
-      }, 200);
+      }, FLICKER_ANIMATION_DURATION);
     }
   },
 

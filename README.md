@@ -72,7 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### Decrase the time between on/off within the flicker
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -144,6 +143,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Decrase the time between on/off within the flicker
 #### BUG: when player dies, it doesn't do the game over screen
 #### BUG: player text appears too high on the screen sometimes
 #### BUG: when 2 fragments starting with the same text are typed, when one wins

@@ -148,10 +148,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this.unset("live_text_fragments"); // NOTE: TESTME__ Is this sufficient? or should we call deallocate on each fragment?
   },
 
-  /* sweeps through text fragments registered with this manager and removes
+  /* Sweep through text fragments registered with this manager and removes
    * any that are already completed or have exited the play field or are 
-   * invalid or have been wiped out etc.
-   * discard fragments that are complete
+   * invalid or have been wiped out etc. Discard fragments that are complete
    * or have collided with the other side (TBI)
    */
   _ensureLiveFragmentsClean: function (){
