@@ -84,7 +84,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   handleTextInput: function (letter_value){
-    var active_fragments, live_fragments, self;
+    var active_fragments, live_fragments, self, duped_fragments;
 
     self = this;
     live_fragments = this.getLiveFragments();
@@ -94,7 +94,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     // any match the pressed key
     if(_.isEmpty(active_fragments)){
       this._ensureLiveFragmentsClean();
-      _.each(live_fragments, function (curr_frag){
+      duped_fragments = live_fragments.slice(0);
+      _.each(duped_fragments, function (curr_frag){
         if(curr_frag.matchFirstChar(letter_value)){
           curr_frag.activate();
           curr_frag.takeInput(letter_value);
