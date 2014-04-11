@@ -72,6 +72,14 @@ other attributes.
 
 ## CURRENT
 
+#### REFACTOR: Rearrange the combat logic into the battlemanager.
+The (battle) scene initializes the battle manager.
+The battle manager keeps track of the two sides of battle (typically the player
+and opponents). The battle manager has the attack manager module which 
+determines how to generate text fragments based on difficulty level, stat
+differences between the players, etc etc.
+It's also eventually going to keep track of any environmental effects during
+battle.
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -83,8 +91,6 @@ need to make it harder for someone who can type really fast.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
 counting correct and one incorrect characters.
-There also needs to be better feedback when an incorrect character is typed.
-Adjust the flicker when a wrong character typed.  Increase the flicker duration
 #### BUG: when 2 fragments being with the same text and one wins
 It appears to skip a character.  For example:
 abcdef

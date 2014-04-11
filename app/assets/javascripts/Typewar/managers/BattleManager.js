@@ -119,6 +119,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         active_fragments[0].takeInput(letter_value);
       }
     }
+    duped_fragments = null; //deallocate
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */

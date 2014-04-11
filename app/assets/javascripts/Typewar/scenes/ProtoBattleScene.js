@@ -2,7 +2,8 @@ var global_bg; // DEBUG;
 
 var ProtoBattleScene = Backbone.Model.extend({
   defaults: {
-    scene_id: 'prototype_battle'
+    scene_id: 'prototype_battle',
+    STAGE_WIDTH: 600
   },
 
   initialize: function (){
@@ -89,8 +90,9 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   // TODO: set up the right edge of the screen correctly according to the width of the window
   initStageEdges: function (){
-    var width, height, left_edge, right_edge;
+    var width, height, left_edge, right_edge, stage_width;
 
+    stage_width = this.get('STAGE_WIDTH');
     width = Typewar.viewportWidth;
     height = Typewar.viewportHeight;
 
@@ -99,7 +101,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       .collision([[0,0], [0, height], [5, height], [5, 0]]);
 
     right_edge = Crafty.e("2D, DOM, Collision, BattleStageEdge, SolidHitBox") // Right edge
-      .attr({x: 600, y: 0, w: 5, h: height })
+      .attr({x: stage_width, y: 0, w: 5, h: height })
       .collision([[0,0], [0, height], [5, height], [5, 0]]);
 
     this.set('left_edge', left_edge);

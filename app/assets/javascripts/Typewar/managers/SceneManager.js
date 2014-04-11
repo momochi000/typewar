@@ -3,6 +3,10 @@ var SceneManager = Backbone.Model.extend({
 
   initialize: function (){},
 
+  getCurrentScene: function (){
+    return this.get('current_scene');
+  },
+
   loadScene: function (scene_id, args){
     var new_scene, desired_scene;
 
