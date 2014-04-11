@@ -78,15 +78,49 @@ For example:
     South Carolina
 Once you type 'South ' now you press D, South Carolina deactivates but it won't
 register the D press for south dakota.
-This feature just seems to be broken
-#### Display incorrect characters typed along with correct characters.
+This feature just seems to be broken.
+My ramblings investigating this issue: 
+I've turned off player and npc battle ai so I can manually send text
+fragments through the console.  Using initiateAttackOn() from each of them
+I'll send abcdefg from player and abcdfff from monster.
+I should be able to type a and have both activate but it isn't doing it.
+
+Upon further investigation, it looks like what's happening is the first
+live fragment gets processed (activate). then the event gets triggered
+TextFragmentActivated which in this manager moves it out of the live array
+and into active.  This happens before the second fragment can be processed
+and we're done ?? wait no.. that doesn't sound right.  it should still run
+over the _.each loop......
+more digging needed
+
+Upon further investigation, what I theorize is happening is that _.each
+is (may be) doing a traditional for loop, looping over the array until
+the itor is >= array length.  The shuffling of the arrays pushes one
+item out of the live array into the active array so now the length is
+equal to the itor and the loop bails out. I'll need to verify because the
+implementation sets a variable length = obj.length so i'm thinking it 
+shouldn't keep checking object length but instead cache that value
+
+Final investigation, after digging into underscore, it looks like _.each
+uses native [].forEach if available.  [].forEach will not visit each item
+in the array if the array is modified during execution.
+
+#### BUG: player text appears too high on the screen sometimes
+#### BUG: when 2 fragments being with the same text and one wins
+It appears to skip a character.  For example:
+abcdef
+abcdff
+abcdff
+if you type abcd, all 3 fragments should activate.  As soon as you type f, the
+first fragment should deactivate (go back to 'live') and the 2 final ones 
+should have abcdf as completed, but instead will only have abcd still complete.
+#### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
 counting correct and one incorrect characters.
 There also needs to be better feedback when an incorrect character is typed.
 Adjust the flicker when a wrong character typed.  Increase the flicker duration
 Decrase the time between on/off within the flicker
-
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -95,7 +129,8 @@ stat/level difference between the player and that monster, but the difficulty
 of typing the words (for example) should be scalable outside of that.  Will
 need to make it harder for someone who can type really fast.
 #### BUG: when player dies, it doesn't do the game over screen
-#### Adjust game behavior based on stats from player and npc
+#### REFACTOR: Remove all convenience methods from NPC entity backbone model
+Calls should only be made on the actual crafty entity
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
@@ -107,6 +142,7 @@ Either camel case or underscored, pick one and run with it
 Need to pass in or identify the source of the damage.  For example when npc 
 dies, the event it publishes/broadcasts should contain info about who killed
 it.
+#### Adjust game behavior based on stats from player and npc
 #### Add devise and player model and allow people to create accounts and log in
 #### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
 #### Create a module that governs the display of the battle. 
