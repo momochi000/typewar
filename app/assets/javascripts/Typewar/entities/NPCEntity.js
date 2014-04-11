@@ -46,6 +46,7 @@ var NPCEntity = BaseEntity.extend({
     return this;
   },
 
+  // TODO: Deprecate
   activateAI: function (){
     this.getEntity().activateAI();
   },
@@ -55,7 +56,7 @@ var NPCEntity = BaseEntity.extend({
     this.clear();
   },
 
-  // TODO: Deprecate?
+  // TODO: Deprecate
   deactivateAI: function (){
     this.getEntity().deactivateAI();
   },
