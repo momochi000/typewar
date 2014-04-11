@@ -72,40 +72,6 @@ other attributes.
 
 ## CURRENT
 
-#### BUG: when 2 fragments starting with the same text are typed, when one wins
-For example:
-    South Dakota
-    South Carolina
-Once you type 'South ' now you press D, South Carolina deactivates but it won't
-register the D press for south dakota.
-This feature just seems to be broken.
-My ramblings investigating this issue: 
-I've turned off player and npc battle ai so I can manually send text
-fragments through the console.  Using initiateAttackOn() from each of them
-I'll send abcdefg from player and abcdfff from monster.
-I should be able to type a and have both activate but it isn't doing it.
-
-Upon further investigation, it looks like what's happening is the first
-live fragment gets processed (activate). then the event gets triggered
-TextFragmentActivated which in this manager moves it out of the live array
-and into active.  This happens before the second fragment can be processed
-and we're done ?? wait no.. that doesn't sound right.  it should still run
-over the _.each loop......
-more digging needed
-
-Upon further investigation, what I theorize is happening is that _.each
-is (may be) doing a traditional for loop, looping over the array until
-the itor is >= array length.  The shuffling of the arrays pushes one
-item out of the live array into the active array so now the length is
-equal to the itor and the loop bails out. I'll need to verify because the
-implementation sets a variable length = obj.length so i'm thinking it 
-shouldn't keep checking object length but instead cache that value
-
-Final investigation, after digging into underscore, it looks like _.each
-uses native [].forEach if available.  [].forEach will not visit each item
-in the array if the array is modified during execution.
-
-#### BUG: player text appears too high on the screen sometimes
 #### BUG: when 2 fragments being with the same text and one wins
 It appears to skip a character.  For example:
 abcdef
@@ -179,6 +145,39 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: player text appears too high on the screen sometimes
+#### BUG: when 2 fragments starting with the same text are typed, when one wins
+For example:
+    South Dakota
+    South Carolina
+Once you type 'South ' now you press D, South Carolina deactivates but it won't
+register the D press for south dakota.
+This feature just seems to be broken.
+My ramblings investigating this issue: 
+I've turned off player and npc battle ai so I can manually send text
+fragments through the console.  Using initiateAttackOn() from each of them
+I'll send abcdefg from player and abcdfff from monster.
+I should be able to type a and have both activate but it isn't doing it.
+
+Upon further investigation, it looks like what's happening is the first
+live fragment gets processed (activate). then the event gets triggered
+TextFragmentActivated which in this manager moves it out of the live array
+and into active.  This happens before the second fragment can be processed
+and we're done ?? wait no.. that doesn't sound right.  it should still run
+over the _.each loop......
+more digging needed
+
+Upon further investigation, what I theorize is happening is that _.each
+is (may be) doing a traditional for loop, looping over the array until
+the itor is >= array length.  The shuffling of the arrays pushes one
+item out of the live array into the active array so now the length is
+equal to the itor and the loop bails out. I'll need to verify because the
+implementation sets a variable length = obj.length so i'm thinking it 
+shouldn't keep checking object length but instead cache that value
+
+Final investigation, after digging into underscore, it looks like _.each
+uses native [].forEach if available.  [].forEach will not visit each item
+in the array if the array is modified during execution.
 #### Fix the issue with the text fragment width
 The width should probably be set to the length of the string or something
 Might need some javascript to set the width of the text fragment wrapper
