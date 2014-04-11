@@ -16,11 +16,11 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   initialize: function (){
-    if(!this.has('player')) {
-      throw "BattleManager initialized without player entity";
+    if(!this.has('side1')){
+      throw "BattleManager initialized without side 1";
     }
-    if(!this.has('enemies')) {
-      throw "BattleManager initialized without enemies array";
+    if(!this.has('side2')){
+      throw "BattleManager initialized without side 2";
     }
 
     this._bindEventListeners();
@@ -48,13 +48,11 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return this.get("active_text_fragments") || [];
   },
 
-  /* Callback for when a text fragment is completed. 
-   * TODO: This should be renamed
-   */
+  // Callback for when a text fragment is completed.
   handleFragmentCompleted: function (data){
     var text_fragment, player, player_ent;
 
-    player = this.get('player');
+    player = this.get('side1')[0];
     player_ent = player.getEntity();
     text_fragment = data.text_fragment;
 
@@ -71,7 +69,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     var fragment, player, player_ent;
 
     fragment = ( data['text_fragment'] ? data['text_framgent'] : data );
-    player = this.get('player');
+    player = this.get('side1')[0];
     player_ent = player.getEntity();
 
     if(fragment.attacker == player_ent){
@@ -218,7 +216,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   /* LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * HERE Lies the latest issue: self.get('player')
+   * HERE Lies the latest issue: self.get('side1') and self.get('side2')
    * returns a backbone model as is required.
    * self.get('enemies') should return an array of backbone models
    * but instead returns an array of crafty entities. I need to
@@ -226,15 +224,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    */
   _setupBattleAI: function (){
     var self, playerEntity, targetEntity;
+
     self = this;
-
-    _.each(this.get("enemies"), function (e){
-      e.setTarget(self.get("player"));
-      e.activateAI();
+    playerEntity = this.get("side1")[0].getEntity();
+    targetEntity = this.get("side2")[0].getEntity();
+    _.each(this.get("side2"), function (e){
+      var e_ent;
+      e_ent = e.getEntity();
+      e_ent.setTarget(playerEntity);
+      e_ent.activateAI();
     }); 
-
-    playerEntity = this.get("player").getEntity();
-    targetEntity = this.get("enemies")[0].getEntity();
 
     playerEntity.setTarget(targetEntity);
     playerEntity.activateAutoAttack();

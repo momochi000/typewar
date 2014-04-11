@@ -16,7 +16,7 @@ var ProtoBattleScene = Backbone.Model.extend({
       self.initBackground();
       self.initStageEdges();
       self.initCamera();
-      self.initBattleManager(self.get('combatants'));
+      self.initBattleManager({side1: [self.get('combatants').player], side2: self.get("combatants").enemies });
       self.initStatusBar(self.get('combatants').player, self.get('combatants').enemies[0]);
       self.initInputManager();
     });
