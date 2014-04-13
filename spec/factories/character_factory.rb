@@ -14,6 +14,9 @@ FactoryGirl.define do
     }}
 
     properties {{
+      blunt:    0,
+      slashing: 0,
+      piercing: 0,
       fire:     0,
       earth:    0,
       water:    0,
