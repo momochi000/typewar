@@ -15,6 +15,7 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require underscore
+//= require underscore.mixin.deepExtend
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
