@@ -46,11 +46,12 @@ var PCBattleEntity = BaseEntity.extend({
   },
 
   processDataFromServer: function (resp){
-    var char_sheet, vocab, stats, name, status;
+    var char_sheet, properties, vocab, stats, name, status;
 
     vocab = this.get('vocabulary');
     stats = this.get('stats');
     status = this.get('status');
+    properties = this.get('properties');
     name = resp.name;
 
     char_sheet = new Typewar.Models.CharacterSheet({
