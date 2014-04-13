@@ -72,7 +72,7 @@ other attributes.
 
 ## CURRENT
 
-#### REFACTOR: Rearrange the combat logic into the battlemanager.
+#### EPIC: Typewar battle evolution
 The (battle) scene initializes the battle manager.
 The battle manager keeps track of the two sides of battle (typically the player
 and opponents). The battle manager has the attack manager module which 
@@ -80,6 +80,43 @@ determines how to generate text fragments based on difficulty level, stat
 differences between the players, etc etc.
 It's also eventually going to keep track of any environmental effects during
 battle.
+
+Text fragments should fly from attacker to defender, not just left and right.
+Fragments are considered to have struck only when hitboxes collide
+
++ player/npc.initiateAttackOn should call the battle manager
+  Battle manager then generates options for the text fragment spawner
++ player is assigned a number of attacks (the AI will have to know about
+  these)
++ player generates attack object from stored attacks.
+  * stored attack contains:
+  * position func
+  * classes func
+  * hitbox over time (just constant for now)
++ attack object is used to build initial fragment property list
+  * player attributes + attack profile = initial fragment prop list
++ Fragment is created with a property list
++ Fragment's behavior is governed by that property list
+  * damage object
+  * text
+  * position over time
+  * classes(css) over time
+  * hitbox size over time (shape we don't care for now)
++ characters have hitboxes
+
++ Fragment damage is resolved when the fragment's hitbox intersects with the
+  defender's
++ player attacks that fail fade away when typed.
+  * opacity 0 with transition (possibly flicker to off)
+  * fragment immediately becomes ineffective (collision off)
++ enemy attacks are destroyed when typed
+  * damage reduced based on correctness of typing
++ enemy attacks that reach the player do damage
++ fragments that leave the play field are destroyed
++ character vocabulary has to have a wide range of character lengths.
+  Can take lorum ipsem text and chop it up into various sizes (for now for
+  testing).  Perhaps each attack will have it's own vocabulary?
+
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
