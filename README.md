@@ -99,6 +99,8 @@ abcdff
 if you type abcd, all 3 fragments should activate.  As soon as you type f, the
 first fragment should deactivate (go back to 'live') and the 2 final ones 
 should have abcdf as completed, but instead will only have abcd still complete.
+Thought: could this be solved the same as the previous problem, by duping one
+of the arrays?
 #### REFACTOR: Remove all convenience methods from NPC entity backbone model
 Calls should only be made on the actual crafty entity
 #### Gather stats on player typing.
@@ -112,9 +114,11 @@ Either camel case or underscored, pick one and run with it
 Need to pass in or identify the source of the damage.  For example when npc 
 dies, the event it publishes/broadcasts should contain info about who killed
 it.
+#### Combos
 #### Adjust game behavior based on stats from player and npc
 #### Add devise and player model and allow people to create accounts and log in
 #### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
+#### Clear all TODO's in code
 #### Create a module that governs the display of the battle. 
 It needs to handle crafty's zoom level and move things around the scene 
 appropriately.  This should probably go in the Camera component.  Currently, 
