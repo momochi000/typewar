@@ -1,5 +1,5 @@
-/* The BattleManager manages the battle.
- * it contains the player and enemies and all active and dead text fragments
+/* The BattleManager. It manages the battle
+ * contains the player and enemies and all active and dead text fragments
  * 
  * TODO: In keeping things consistent, wherever I use backbone models, the 
  * things that are contained within should also be backbone models.  In that
@@ -48,6 +48,46 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return this.get("active_text_fragments") || [];
   },
 
+  // Handle attack between battle entities
+  handleAttack: function (options){
+    var attacker, defender, attack, 
+      text_frag_options;
+      
+    if(!options.attacker){throw "BattleManager: handleAttack called with no attacker";}
+    if(!options.defender){throw "BattleManager: handleAttack called with no defender";}
+    if(!options.attack)  {throw "BattleManager: handleAttack called with no attack specified";}
+    attacker = options.attacker;
+    defender = options.defender;
+    attack = options.attack; 
+
+    
+    // Run it through the battle analyzer to modify the various attributes of 
+    // the text fragment options from differences between stats plus modifiers
+    // followed by equipment
+    // For example: attacker speed 20, defender speed 1: increase speed of the 
+    // fragment by some multiplier if the attacker is not the player.  If it is
+    // the player, then decrease speed by some multiplier.  Due to the 
+    // complexity and multitude of edge cases in these calculations, this
+    // behavior must be extrated out into the battle analyzer
+
+    // this.BattleAnalyzer.analyze(attacker, defender, environment);
+
+    text_frag_options = _.deepClone(attack)
+    text_frag_options.attacker = attacker;
+    text_frag_options.defender = defender;
+    // For now just grab a random word, later we'll need to select text based
+    // on some properties of the attack
+    next_text = attacker._getWordFromVocabulary();
+    if(next_text) {text_frag_options.text = next_text;}
+    if(this._isSide1(attacker)) { 
+      text_frag_options.direction = 1;
+    }else{
+      text_frag_options.direction = -1;
+    }
+    text_frag_options.difficulty_multiplier = 0.01;
+    return text_frag_options;
+  },
+
   // Callback for when a text fragment is completed.
   handleFragmentCompleted: function (data){
     var text_fragment, player, player_ent;
@@ -78,7 +118,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       //console.log("DEBUG: monster fragment went off screen");
       this._resolveDefense(fragment);
     }
-
   },
 
   handleTextInput: function (letter_value){
@@ -106,6 +145,22 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       // one of the active text fragments.  This might be acceptable, and we 
       // can use this to encourage accuracy by banging out combos.
       if(active_fragments.length > 1) {                // if multiple fragments active
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // TODO: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ON MASTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // There's a bug here where if 2 fragments are active, for example
+        // foolish
+        // foolhardy
+        // you'll type 'fool' and both fragments will be active
+        // then you type 'h' expecting the first fragment to deactivate
+        // and the second fragment to highlight 'foolh'
+        // However, foolish will deactivate but nothing will happen with 
+        // foolhardy.
+        // To fix this, we just need to duplicate the active_fragments array
+        // before iterating over it. In the same way a bug was solved in the
+        // above block.
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         _.each(active_fragments, function (curr_frag){ // send text input to all active fragments
           if(!curr_frag.takeInput(letter_value)){ 
             curr_frag.reset()                          // deactivate any which have incorrect input
@@ -154,6 +209,19 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    */
   _ensureLiveFragmentsClean: function (){
     //TODO: Implement me
+  },
+
+  _isSide1: function (entity){
+    var side1_ents, side2_ents;
+    side1_ents = _.map(this.get("side1"), function (model){ return model.getEntity() });
+    side2_ents = _.map(this.get("side2"), function (model){ return model.getEntity() });
+    if(_.contains(side1_ents, entity)){
+      return true;
+    }else if(_.contains(side2_ents, entity)){
+      return false;
+    }else{
+      throw "ERROR: private method isSide1 in BattleManager called with invalid argument: is neither side 1 or 2";
+    }
   },
 
   /* Move the given fragment, if it is present in the active_fragments array,
@@ -232,11 +300,11 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       var e_ent;
       e_ent = e.getEntity();
       e_ent.setTarget(playerEntity);
-      e_ent.activateAI();
+      //e_ent.activateAI();
     }); 
 
     playerEntity.setTarget(targetEntity);
-    playerEntity.activateAutoAttack();
+    //playerEntity.activateAutoAttack();
   },
 
   _setupCompletedFragmentListener: function (){

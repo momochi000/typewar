@@ -35,27 +35,29 @@ Crafty.c("TextFragment", {
   defender: null,
   is_active: false,
   is_complete: false,
-  type: 'attack',
+  type: 'attack', // TODO: I believe this can also be deprecated since type isn't used anymore
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
-  _success_callback: undefined,
   _text: '',
   _view: null,
   _classes: null,
 
   init: function (){
-    this.requires("2D, DOM, Physics2D, Collision");
+    //this.requires("2D, DOM, Physics2D, Collision");
+    this.requires("2D, DOM, Collision");
     this.current_position = 0;
     this._classes = [];
   },
 
   textFragment: function (opts){
-    this._text = opts.text;
-    this.attacker = opts.attacker;
-    this.defender = opts.defender;
-    if(opts.success_callback) { this._success_callback = opts.success_callback; }
-    this._bindStageEdgeCollisionEvent();
+    this._text                  = opts.text;
+    this.attacker               = opts.attacker;
+    this.defender               = opts.defender;
+    this._attack_object          = opts;
+    this._recordStartTime();
+    this._recordStartPos();
+    this._initMovement();
     return this;
   },
 
@@ -102,7 +104,7 @@ Crafty.c("TextFragment", {
                          typed: this._correct_characters, 
                          missed: this._incorrect_characters, 
                          rest: this._text.slice(this._current_position),
-                         classes: this._getClasses()});
+                         classes: this._getClassesForDom()});
     } else {
       // TODO: Render completed text fragments differently
       //  For now, just dont' render completed ones
@@ -115,6 +117,7 @@ Crafty.c("TextFragment", {
     }
   },
 
+  // TODO: looks like this and isDefense can be deprecated, not used anywhere
   isAttack: function (){
     if(this.type === "attack"){ return true; }
     return false;
@@ -144,8 +147,6 @@ Crafty.c("TextFragment", {
     //this.zeroVel();
     this.removeComponent("Collision", true);
     this.removeComponent("Physics2D", true);
-    //this.removeComponent("2D",        true);
-    //this.removeComponent("DOM",       true);
     //TODO: Hide this guy off screen somehow.. maybe set y pos to -9999999 and kill the velocity
     this._unbindStageEdgeCollision();
   },
@@ -201,8 +202,12 @@ Crafty.c("TextFragment", {
 
   //private
 
-  _bindStageEdgeCollisionEvent: function (){
+  _bindMovementFunction: function (){
     var self = this;
+    this.bind("EnterFrame", this._handleMovement);
+  },
+
+  _bindStageEdgeCollisionEvent: function (){
     this.bind("EnterFrame", this._handleStageEdgeCollision);
   },
 
@@ -210,7 +215,6 @@ Crafty.c("TextFragment", {
     var output_data;
     this.is_complete = true
     this.deactivate();
-    if(this._success_callback) { this._success_callback(); }
     this.drawSelf();
 
     output_data = {};
@@ -233,6 +237,14 @@ Crafty.c("TextFragment", {
     this._current_position++;
   },
 
+  _currentTime: function (){
+    return (Crafty.frame() - this._startFrame);
+  },
+
+  _evalPositionFunc: function (){
+    return this._attack_object.positionFunc(this._start_x, this._start_y, this._currentTime());
+  },
+
   _flickerEffect: function (){
     var self, FLICKER_ANIMATION_DURATION;
     self = this;
@@ -247,11 +259,23 @@ Crafty.c("TextFragment", {
   },
 
   _getClasses: function (){
+    return this._classes.concat(this._attack_object.classesFunc(this._currentTime()));
+  },
+
+  _getClassesForDom: function (){
     var output;
-    output = _.reduce(this._classes, function (memo, curr_class){
+    output = _.reduce(this._getClasses(), function (memo, curr_class){
       return(memo + ' ' + curr_class);
     }, '');
     return output;
+  },
+
+  _handleMovement: function (){
+    var result;
+    result = this._evalPositionFunc();
+    this.x = result.x;
+    this.y = result.y;
+    result = null;
   },
 
   _handleStageEdgeCollision: function (evt){
@@ -261,12 +285,30 @@ Crafty.c("TextFragment", {
     }
   },
 
+  _initMovement: function (){
+    this._bindMovementFunction();
+  },
+
+  _recordStartPos: function (){
+    this._start_x = this.x;
+    this._start_y = this.y;
+  },
+
+  _recordStartTime: function (){
+    this._startFrame = Crafty.frame();
+  },
+
+  _unbindMovementFunction: function (){
+    this.unbind("EnterFrame", this._handleMovement);
+  },
+
   _unbindStageEdgeCollision: function (){
     this.unbind("EnterFrame", this._handleStageEdgeCollision);
   },
 
   _unbindAll: function (){
     this._unbindStageEdgeCollision();
+    this._unbindMovementFunction();
   },
 
   _wrongInput: function (input){

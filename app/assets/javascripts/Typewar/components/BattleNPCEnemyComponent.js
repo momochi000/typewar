@@ -24,6 +24,44 @@ Crafty.c("BattleNPCEnemy", {
     return this;
   },
 
+  // TODO: Turn this into an attribute on the model that gets passed to the 
+  // entity on creation
+  attacks: {
+    standard: {
+      name: 'standard',
+      properties: {
+        blunt:    3,
+        slashing: 0,
+        piercing: 0,
+        fire:     0,
+        earth:    0,
+        water:    0,
+        air:      0,
+        light:    0,
+        dark:     0,
+        poison:   0,
+        life:     0,
+        death:    0
+      },
+      // NOTE / TODO: difficulty multiplier should be passed in as a WPM value
+      // This function must be able to take that WPM value and scale the attack
+      // speed appropriately.
+      positionFunc: function (start_x, start_y, time, options){
+        var spd, dir, diff, x;
+        options = options || {};
+        spd     = 2;
+        dir     = options.direction || this.direction || 1;
+        diff    = options.difficulty_multiplier || this.difficulty_multiplier || 1;
+        x = start_x + dir*time*spd*diff;
+        return { x: x, y: start_y};
+      },
+      classesFunc: function (time){
+        return ["slime"];
+      }, 
+      hitbox: {w: 50, h: 50}
+    }
+  },
+
   deallocate: function (){
     this.deactivateAI();
     this._fragment_spawner.deallocate();
@@ -47,6 +85,10 @@ Crafty.c("BattleNPCEnemy", {
     return this.char_sheet.get("name");
   },
 
+  getVocabulary: function (){
+    return this.char_sheet.get("vocabulary");
+  },
+
   getPercentHP: function() {
     return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
   },
@@ -54,25 +96,13 @@ Crafty.c("BattleNPCEnemy", {
   initiateAttackOn: function (defender){
     var frag, speed, text_fragment_options, next_text;
 
-    //console.log("DEBUG: SLIME: FIRING ATTACK ON DEFENDER, ENSURE DEFENDER IS A VALID TARGET");
-    if(defender.has("BattlePlayer")){
-      //console.log("DEBUG: SLIME: Valid target");
-    } else {
-      //console.log("DEBUG: SLIME: INVALID target");
-    }
+    text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
+      attacker: this, 
+      defender: defender, 
+      attack: this.attacks['standard']
+    });
 
-    speed = -20 * Math.random();
-    text_fragment_options = {
-      offset: [0,-70],
-      speed: [speed, 0],
-      attacker: this,
-      defender: defender,
-      classes: ["slime"]
-    }
-    next_text = this._getWordFromVocabulary();
-    if(next_text) {text_fragment_options['text'] = next_text;}
-    frag = this._fragment_spawner.generateTextFragment(text_fragment_options);
-    frag.getEntity().drawSelf();
+    frag = this._fragment_spawner.generateTextFragment({attack_properties: text_fragment_options});
   },
 
   partialHit: function (){
@@ -128,9 +158,10 @@ Crafty.c("BattleNPCEnemy", {
     this.attach(this._fragment_spawner);
   },
 
+  // Grab a random string from the vocabulary
   _getWordFromVocabulary: function (){
     var vocab;
-    vocab = this.char_sheet.get('vocabulary');
+    vocab = this.getVocabulary();
     if(vocab && vocab.length > 1){
       return vocab[Math.floor(Math.random()*vocab.length)];
     }else{

@@ -29,25 +29,21 @@ var TextFragmentEntity = BaseEntity.extend({
   },
 
   initialize: function (){
+    var attack_properties, hitbox;
+
+    attack_properties = this.get("attack_properties");
+    hitbox = attack_properties.hitbox;
+    
     var entity = Crafty.e("2D, DOM, Collision, TextFragment, Physics2D")
       .attr({
         x: this.get('x') || 0, 
         y: this.get('y') || 0, 
         z: this.get('z') || 0, 
-        w: this.get('w') || 5, 
-        h: this.get('h') || 5
+        w: hitbox.w || 5, 
+        h: hitbox.h || 5
       })
-      .collision([[0,0],[5,0],[5,5],[0,5]])
-      .physics2D()
-      .textFragment({
-        text: this.get("text"), 
-        parent: this.get('parent'),
-        attacker: this.get("attacker"),
-        defender: this.get("defender")
-      });
-
-    if(this.get('type')){ entity.type = this.get('type') }
-    entity.addClasses(this.get("css_classes"));
+      .collision(this._generateCollisionPolyFromRect(attack_properties.hitbox))
+      .textFragment(this.get("attack_properties"));
     this.set("entity", entity);
     return this;
   },
@@ -66,4 +62,9 @@ var TextFragmentEntity = BaseEntity.extend({
     entity.deactivate();
     entity.destroy();
   },
+
+  // TODO: put this in a library or something, or maybe make it a crafty module
+  _generateCollisionPolyFromRect: function (rect){
+    return [[0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]];
+  }
 });

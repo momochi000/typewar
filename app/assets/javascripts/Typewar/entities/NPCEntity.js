@@ -16,7 +16,7 @@ var NPCEntity = BaseEntity.extend({
     self = this;
     
     entity = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0")
-      .attr({x: 390, y: 210})
+      .attr({x: 390, y: 210, w: 50, h: 60 })
       .nPCBrain()
       .battleSlimeAnim()
       .battleNPCEnemy();

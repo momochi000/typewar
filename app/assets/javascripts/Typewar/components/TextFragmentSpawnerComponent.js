@@ -7,7 +7,7 @@ Crafty.c("TextFragmentSpawner", {
   _completed_fragment_collection: null,
   _current_fragment: null,
   _current_fragment_index: null,
-  _parent: null,
+  _parent: null, // TODO: deprecate?? don't think this is used
 
   init: function (){
     this.requires("2D, Collision");
@@ -23,7 +23,7 @@ Crafty.c("TextFragmentSpawner", {
 
   deallocate: function (){
     Crafty.unbind("TextFragmentCompleted");
-    //Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted); //Test if this works
+    //Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted); //TODO: Test if this works
     this._fragment_collection = null; //NOTE TEST, do we need to deallocate each fragment individually?
     this._completed_fragment_collection = null;
   },
@@ -42,44 +42,20 @@ Crafty.c("TextFragmentSpawner", {
    *   <array> wiggle  : [x_wiggle, y_wiggle]. An amount to randomly shift the
    *     spawn points of the generated text fragment.
    */
+
   generateTextFragment: function (options){
     var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 
       new_type, new_wiggle, y_offset;
 
-    x_new        = options["x"]        || this._x;
-    y_new        = options["y"]        || this._y;
-    if(options["offset"]) { x_new+=options["offset"][0]; y_new+=options["offset"][1];}
-    new_text     = options["text"]     || this.generateRandomString();
-    new_classes  = options["classes"]  || [];
-    new_speed    = options["speed"]    || [0,0];
-    new_type     = options["type"]     || 'attack';
-    new_accel    = options["accel"]    || [0,0];
-    new_wiggle   = options["wiggle"]   || false;
 
-    if(new_wiggle){ 
-      x_new, y_new = this._adjustForWiggle(x_new, y_new, wiggle[0], wiggle[1]); 
-    }else{
-      x_new, y_new = this._adjustForWiggle(x_new, y_new, 0, 35);
-    }
+    options = _.extend({x: this.x, y: this.y, z: this.z}, options);
 
-    new_frag = new TextFragmentEntity({
-      text: new_text,
-      x: x_new,
-      y: y_new,
-      css_classes: new_classes,
-      x_accel: new_accel[0],
-      y_accel: new_accel[1],
-      type: new_type,
-      attacker: options.attacker,
-      defender: options.defender
-    });
+    new_frag = new TextFragmentEntity(options);
 
     new_frag_ent = new_frag.getEntity();
-
-    new_frag_ent.setSpeed(new_speed[0], new_speed[1]);
-
     this._fragment_collection.push(new_frag_ent);
     this._registerFragmentWithBattleManager(new_frag_ent);
+    new_frag_ent.drawSelf();
 
     return new_frag;
   },

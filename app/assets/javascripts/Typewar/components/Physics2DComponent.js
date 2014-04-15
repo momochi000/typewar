@@ -15,12 +15,14 @@ Crafty.c("Physics2D", {
   },
 
   physics2D: function (timestep_size){
-    var fps = Crafty.timer.getFPS();
+    var self, fps 
+    self = this;
+    fps = Crafty.timer.getFPS();
     
     this._timestep_size = 1/fps;
     this.bind('EnterFrame', function () {
-      this.updateVel(); //calculate new velocity based on accel
-      this.updatePos(); //calculate new position based on velocity
+      self.updateVel(); //calculate new velocity based on accel
+      self.updatePos(); //calculate new position based on velocity
     });
     return this;
   },
