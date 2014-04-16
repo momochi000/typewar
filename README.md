@@ -144,6 +144,12 @@ need to make it harder for someone who can type really fast.
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
 resolveDefense private methods in the battle manager
+#### Properly animate text fragment when it transitions to various states
+Need ot make several stories out of this
+Animate a successful hit
+Animate a successful defense
+Animate successful completion
+any more?
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
