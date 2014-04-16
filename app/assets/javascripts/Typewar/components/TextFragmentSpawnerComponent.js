@@ -2,6 +2,9 @@
  * can be generated and fired at the player in rapid succession.
  */
 
+// TODO: do we care about the fragment collection and completed fragment 
+// collection inside this component? the battle manager should probably
+// be sufficient to manage that stuff, revisit whether we need this here
 Crafty.c("TextFragmentSpawner", {
   _fragment_collection: null,
   _completed_fragment_collection: null,
