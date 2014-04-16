@@ -107,6 +107,9 @@ Crafty.c("BattleNPCEnemy", {
     frag = this._fragment_spawner.generateTextFragment({attack_properties: text_fragment_options});
   },
 
+  isPlayer: function (){ return false; },
+  isNPC: function (){ return true; },
+
   partialHit: function (){
     console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
     var self = this;

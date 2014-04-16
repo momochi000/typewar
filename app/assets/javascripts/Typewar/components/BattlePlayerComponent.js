@@ -110,6 +110,9 @@ Crafty.c("BattlePlayer", {
       attack_properties: text_fragment_options
     });
   },
+
+  isPlayer: function (){ return true; },
+  isNPC: function (){ return false; },
  
   partialHit: function (){
     var self = this;
