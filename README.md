@@ -81,29 +81,29 @@ differences between the players, etc etc.
 It's also eventually going to keep track of any environmental effects during
 battle.
 
-Text fragments should fly from attacker to defender, not just left and right.
-Fragments are considered to have struck only when hitboxes collide
-
-+ player/npc.initiateAttackOn should call the battle manager
++ (DONE)player/npc.initiateAttackOn should call the battle manager
   Battle manager then generates options for the text fragment spawner
-+ player is assigned a number of attacks (the AI will have to know about
++ (DONE)player is assigned a number of attacks (the AI will have to know about
   these)
-+ player generates attack object from stored attacks.
-  * stored attack contains:
-  * position func
-  * classes func
-  * hitbox over time (just constant for now)
-+ attack object is used to build initial fragment property list
-  * player attributes + attack profile = initial fragment prop list
-+ Fragment is created with a property list
-+ Fragment's behavior is governed by that property list
-  * damage object
-  * text
-  * position over time
-  * classes(css) over time
-  * hitbox size over time (shape we don't care for now)
-+ characters have hitboxes
++ (DONE)player generates attack object from stored attacks.
+  * (DONE)stored attack contains:
+  * (DONE)position func
+  * (DONE)classes func
+  * (DONE)hitbox over time (just constant for now)
++ (DONE)attack object is used to build initial fragment property list
+  * (DONE)player attributes + attack profile = initial fragment prop list
++ (DONE)Fragment is created with a property list
++ (DONE)Fragment's behavior is governed by that property list
+  * (DONE)damage object
+  * (DONE)text
+  * (DONE)position over time
+  * (DONE)classes(css) over time
+  * (DONE)hitbox size over time (shape we don't care for now)
 
++ TextFragmentCompleted event should trigger with the text fragment itself as
+  an option/argument. More specifically, it's attack object
++ when damage is resolved, pass the calculation to the battle manager
++ characters have hitboxes
 + Fragment damage is resolved when the fragment's hitbox intersects with the
   defender's
 + player attacks that fail fade away when typed.
@@ -116,7 +116,6 @@ Fragments are considered to have struck only when hitboxes collide
 + character vocabulary has to have a wide range of character lengths.
   Can take lorum ipsem text and chop it up into various sizes (for now for
   testing).  Perhaps each attack will have it's own vocabulary?
-
 
 Further discussion: 
 * Text fragment positionFunc needs to be able to handle a speed multiplier
