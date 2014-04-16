@@ -144,11 +144,11 @@ Crafty.c("TextFragment", {
    */
   removeFromPlay: function (){
     this._view.remove();
-    //this.zeroVel();
     this.removeComponent("Collision", true);
     this.removeComponent("Physics2D", true);
-    //TODO: Hide this guy off screen somehow.. maybe set y pos to -9999999 and kill the velocity
-    this._unbindStageEdgeCollision();
+    this.y = -9999999999;
+    this.z = -100;
+    this._unbindAll();
   },
 
   reset: function (){
