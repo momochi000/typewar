@@ -1,6 +1,7 @@
 tmp
 *.swp
 log
+config/database.yml
 development
 .DS_Store
 .idea
