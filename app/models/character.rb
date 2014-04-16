@@ -4,6 +4,7 @@ class Character < ActiveRecord::Base
   serialize :stats, JSON
   serialize :status, JSON
   serialize :vocabulary, JSON
+  serialize :properties, JSON
 
   scope :slimes,  -> { where(:char_class => 'Slime') }
   scope :players, -> { where(:char_class => 'Player') }
