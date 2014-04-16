@@ -43,6 +43,8 @@ Crafty.c("BattleNPCEnemy", {
         life:     0,
         death:    0
       },
+      animation: "attack2", // TODO: pass this through such that the correct animation plays at the right time
+                            // Monster animation should play on text fragment generation
       // NOTE / TODO: difficulty multiplier should be passed in as a WPM value
       // This function must be able to take that WPM value and scale the attack
       // speed appropriately.
@@ -94,7 +96,7 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   initiateAttackOn: function (defender){
-    var frag, speed, text_fragment_options, next_text;
+    var frag, speed, text_fragment_options;
 
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
@@ -146,7 +148,6 @@ Crafty.c("BattleNPCEnemy", {
   wasMissed: function (){
     console.log("DEBUG: SLIME: MISSED ME!!");
   },
-  
 
   //private 
 

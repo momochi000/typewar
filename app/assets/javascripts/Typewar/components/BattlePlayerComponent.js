@@ -18,6 +18,42 @@ Crafty.c("BattlePlayer", {
     return this;
   },
 
+  attacks: {
+    standard: {
+      name: "standard",
+      properties: {
+        blunt:    0,
+        slashing: 3,
+        piercing: 0,
+        fire:     0,
+        earth:    0,
+        water:    0,
+        air:      0,
+        light:    0,
+        dark:     0,
+        poison:   0,
+        life:     0,
+        death:    0
+      },
+      animation: "attack1", // Player attack should happen when text fragment 
+                            // is completed (playtest it). This should also
+                            // accept an array so the attack can be randomized
+      positionFunc: function (start_x, start_y, time, options){
+        var spd, dir, diff, x;
+        options = options || {};
+        spd     = 2;
+        dir     = options.direction || this.direction || 1;
+        diff    = options.difficulty_multiplier || this.difficulty_multiplier || 1;
+        x = start_x + dir*time*spd*diff;
+        return { x: x, y: start_y};
+      },
+      classesFunc: function (time){
+        return ["player"];
+      }, 
+      hitbox: {w: 50, h: 50}
+    }
+  },
+
   activateAutoAttack: function (){
     var self = this;
     this.battle_timer = window.setInterval(function() {
@@ -32,6 +68,7 @@ Crafty.c("BattlePlayer", {
   deallocate: function (){
     this.deactivateAutoAttack();
     this._fragment_spawner.deallocate();
+    this._fragment_spawner = null;
     this.destroy();
   },
 
@@ -51,23 +88,27 @@ Crafty.c("BattlePlayer", {
     return this.char_sheet.get("name");
   },
 
+  getVocabulary: function (){
+    return this.char_sheet.get("vocabulary");
+  },
+
+
   getPercentHP: function (){
     return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
   },
 
   initiateAttackOn: function (defender){
-    var frag, speed;
+    var frag, speed, text_fragment_options, next_text;
 
-    speed = 20 * Math.random();
-    frag = this._fragment_spawner.generateTextFragment({
-      offset: [-10, -100],
-      speed: [speed, 0],
+    text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this,
       defender: defender,
-      classes: ["player"],
-      text: this._getWordFromVocabulary()
+      attack: this.attacks['standard']
     });
-    frag.getEntity().drawSelf();
+
+    frag = this._fragment_spawner.generateTextFragment({
+      attack_properties: text_fragment_options
+    });
   },
  
   partialHit: function (){
@@ -106,8 +147,7 @@ Crafty.c("BattlePlayer", {
     this.trigger("updateStatus");
   },
 
-  wasMissed: function (){
-  },
+  wasMissed: function (){ },
 
   // private
   
@@ -119,9 +159,10 @@ Crafty.c("BattlePlayer", {
     this.attach(this._fragment_spawner);
   },
 
+  // Grab a random string from the vocabulary
   _getWordFromVocabulary: function (){
     var vocab;
-    vocab = this.char_sheet.get('vocabulary');
+    vocab = this.getVocabulary();
     if(vocab && vocab.length > 1){
       return vocab[Math.floor(Math.random()*vocab.length)];
     }else{

@@ -54,7 +54,7 @@ Crafty.c("TextFragment", {
     this._text                  = opts.text;
     this.attacker               = opts.attacker;
     this.defender               = opts.defender;
-    this._attack_object          = opts;
+    this._attack_object         = opts;
     this._recordStartTime();
     this._recordStartPos();
     this._initMovement();
