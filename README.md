@@ -99,10 +99,9 @@ battle.
   * (DONE)position over time
   * (DONE)classes(css) over time
   * (DONE)hitbox size over time (shape we don't care for now)
-
-+ TextFragmentCompleted event should trigger with the text fragment itself as
++ (DONE)TextFragmentCompleted event should trigger with the text fragment itself as
   an option/argument. More specifically, it's attack object
-+ when damage is resolved, pass the calculation to the battle manager
+
 + characters have hitboxes
 + Fragment damage is resolved when the fragment's hitbox intersects with the
   defender's
@@ -130,7 +129,10 @@ appropriately such that the travel time corresponds with player typing ability
 recorded and played back as a math function? Can a vector represent a
 position func?
 
-
+#### Make enemy npc play animation upon their attack
+Player animation behavior doesn't change
+#### REFACTOR: ensure all events triggered are CapitalCased
+#### Make text fragment TextFragmentExitedStage event pass itself as an arg
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -138,6 +140,10 @@ difficulty of fighting a particular monster should be based upon the
 stat/level difference between the player and that monster, but the difficulty
 of typing the words (for example) should be scalable outside of that.  Will
 need to make it harder for someone who can type really fast.
+#### Improve damage calculation
+Use the properties of the attack (which will be carried by the text fragment)
+when resolving damage dealt.  Should happen in the resolveAttack and 
+resolveDefense private methods in the battle manager
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
