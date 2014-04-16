@@ -27,8 +27,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this._setupBattleAI();
   },
 
-  calculateDamage: function(opts) {
-    //stub for now, should eventually do some math
+  calculateDamage: function(opts) { //stub for now, should eventually do some math
     return 2;
   },
 
@@ -48,7 +47,10 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return this.get("active_text_fragments") || [];
   },
 
-  // Handle attack between battle entities
+  /* Handles an attack between battle entities
+   * This happens before a text fragment is generated and helps to set up the
+   * text fragment appropriately before sending it flying.
+   */
   handleAttack: function (options){
     var attacker, defender, attack, 
       text_frag_options;
@@ -84,17 +86,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }else{
       text_frag_options.direction = -1;
     }
-    text_frag_options.difficulty_multiplier = 0.01;
+    //text_frag_options.difficulty_multiplier = 0.01;
     return text_frag_options;
   },
 
   // Callback for when a text fragment is completed.
-  handleFragmentCompleted: function (data){
-    var text_fragment, player, player_ent;
+  handleFragmentCompleted: function (text_fragment){
+    var player, player_ent;
 
     player = this.get('side1')[0];
     player_ent = player.getEntity();
-    text_fragment = data.text_fragment;
 
     if(text_fragment.attacker == player_ent){
       this._resolveAttack(text_fragment);
@@ -186,6 +187,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this._setupCompletedFragmentListener();
     this._setupFragmentActivatedListener();
     this._setupFragmentExitStageListener();
+    this._setupFragmentHitEntityListener();
     this._setupNPCDiedListener();
     this._setupPlayerDiedListener();
   },
@@ -211,6 +213,19 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     //TODO: Implement me
   },
 
+  _handleTextFragmentCollision: function (evt){
+    var defender, text_fragment;
+
+    text_fragment = evt.text_fragment;
+    defender = text_fragment.defender;
+    if(defender.isPlayer()){ // Determine who got hit & resolve combat
+      this._resolveDefense(text_fragment);
+    }else{
+      this._resolveAttack(text_fragment);
+    }
+    this._moveFragmentToGraveyard(text_fragment); // Clear the text fragment
+  },
+
   _isSide1: function (entity){
     var side1_ents, side2_ents;
     side1_ents = _.map(this.get("side1"), function (model){ return model.getEntity() });
@@ -224,6 +239,27 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }
   },
 
+  _moveFragmentToGraveyard: function (fragment, evt){
+    var live_fragments, active_fragments, graveyard;
+
+    live_fragments = this.get("live_text_fragments");
+    active_fragments = this.get("active_text_fragments");
+    graveyard = this.get("fragment_graveyard");
+    if(this._removeFromArray(live_fragments, fragment)){
+      //console.log("DEBUG: Removing fragment from LIVE to graveyard XXXXXXXXXXXXXX");
+      fragment.deactivate();
+      graveyard.push(fragment);
+    }else if(this._removeFromArray(active_fragments, fragment)){
+      //console.log("DEBUG: Removing fragment from active to graveyard XXXXXXXXXXXXXX");
+      fragment.deactivate();
+      graveyard.push(fragment);
+    }else if(_.contains(graveyard, fragment)){
+      //console.log("DEBUG: found the fragment in the graveyard, this is probably double searching somehwere");
+    } else {
+      throw "ERROR: fragment not found within active or live fragments";
+    }
+  },
+
   /* Move the given fragment, if it is present in the active_fragments array,
    * to the fragment_graveyard array
    * NOTE: Be wary of references to objects in the various collections 
@@ -233,11 +269,10 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    */
   _removeActiveFragment: function (fragment){
     var active_fragments, fragment_graveyard, self;
-    self = this;
 
+    self = this;
     active_fragments = this.get("active_text_fragments");
     fragment_graveyard = this.get("fragment_graveyard")
-
     index = _.indexOf(active_fragments, fragment);
     active_fragments.splice(index, 1);
     fragment_graveyard.push(fragment);
@@ -325,35 +360,22 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _setupFragmentExitStageListener: function (){
-    var self, live_fragments, active_fragments, graveyard;
+    var self;
 
     self = this;
-    live_fragments = this.get("live_text_fragments");
-    active_fragments = this.get("active_text_fragments");
-    graveyard = this.get("fragment_graveyard");
 
     Crafty.bind("TextFragmentExitedStage", function (evt){
       var index, fragment;
 
       fragment = evt.text_fragment;
-
       self.handleFragmentMissed(fragment);
-
-      if(self._removeFromArray(live_fragments, fragment)){
-        //console.log("DEBUG: Removing fragment from LIVE to graveyard XXXXXXXXXXXXXX");
-        fragment.deactivate();
-        graveyard.push(fragment);
-      }else if(self._removeFromArray(active_fragments, fragment)){
-        //console.log("DEBUG: Removing fragment from active to graveyard XXXXXXXXXXXXXX");
-        fragment.deactivate();
-        graveyard.push(fragment);
-      }else if(_.contains(graveyard, fragment)){
-        //console.log("DEBUG: found the fragment in the graveyard, this is probably double searching somehwere");
-      } else {
-        throw "ERROR: fragment not found within active or live fragments" + evt;
-      }
+      self._moveFragmentToGraveyard(fragment);
     });
   }, 
+
+  _setupFragmentHitEntityListener: function (){
+    Crafty.bind("TextFragmentHitUnit", this._handleTextFragmentCollision.bind(this));
+  },
 
   _setupPlayerDiedListener: function (){
     Crafty.bind("PlayerDied", function (e){
@@ -366,5 +388,14 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     Crafty.bind("NPCDied", function (e){
       Typewar.battleOver(true);
     });
+  },
+
+  _unbindAllListeners: function (){
+    Crafty.unbind("TextFragmentCompleted");
+    Crafty.unbind("TextFragmentActivated");
+    Crafty.unbind("TextFragmentExitedStage");
+    Crafty.unbind("TextFragmentHitUnit");
+    Crafty.unbind("PlayerDied");
+    Crafty.unbind("NPCDied");
   }
 });

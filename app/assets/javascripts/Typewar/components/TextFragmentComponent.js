@@ -44,7 +44,6 @@ Crafty.c("TextFragment", {
   _classes: null,
 
   init: function (){
-    //this.requires("2D, DOM, Physics2D, Collision");
     this.requires("2D, DOM, Collision");
     this.current_position = 0;
     this._classes = [];
@@ -58,6 +57,8 @@ Crafty.c("TextFragment", {
     this._recordStartTime();
     this._recordStartPos();
     this._initMovement();
+    this._bindStageEdgeCollisionEvent();
+    this._bindUnitCollisionListeners();
     return this;
   },
 
@@ -164,7 +165,6 @@ Crafty.c("TextFragment", {
    * the success percentage. There should be a skill that allows
    * a certain number of backspaces to get 100%
    */
-
   successPct: function (){
     var rating;
 
@@ -211,16 +211,17 @@ Crafty.c("TextFragment", {
     this.bind("EnterFrame", this._handleStageEdgeCollision);
   },
 
+  _bindUnitCollisionListeners: function (){
+    this.bind("EnterFrame", this._handleNPCCollision);
+    this.bind("EnterFrame", this._handlePlayerCollision);
+  },
+
   _complete: function (){
-    var output_data;
     this.is_complete = true
     this.deactivate();
     this.drawSelf();
 
-    output_data = {};
-    output_data["text_fragment"] = this;
-    output_data["success"] = (this._incorrect_characters.size == 0);
-    Crafty.trigger("TextFragmentCompleted", output_data);
+    Crafty.trigger("TextFragmentCompleted", this);
     this.removeFromPlay();
     return this;
   },
@@ -278,6 +279,27 @@ Crafty.c("TextFragment", {
     result = null;
   },
 
+  _handleNPCCollision: function (evt){
+    var collision_data;
+    collision_data = this.hit("BattleNPCEnemy")
+    if(collision_data){
+      if(this.attacker.has("BattleNPCEnemy")){return null;} //ignore a collision with the one who spawned the fragment
+      this.removeFromPlay();
+      Crafty.trigger("TextFragmentHitUnit", {text_fragment: this, collision_data: collision_data});
+    }
+  },
+
+  _handlePlayerCollision: function (evt){
+    var collision_data;
+    collision_data = this.hit("BattlePlayer");
+    if(collision_data){
+      if(this.attacker.has("BattlePlayer")){return null;} //ignore a collision with the one who spawned the fragment
+      this.removeFromPlay();
+      Crafty.trigger("TextFragmentHitUnit", {text_fragment: this, collision_data: collision_data});
+    }
+    
+  },
+
   _handleStageEdgeCollision: function (evt){
     if(this.hit("BattleStageEdge")){
       this.removeFromPlay();
@@ -306,9 +328,15 @@ Crafty.c("TextFragment", {
     this.unbind("EnterFrame", this._handleStageEdgeCollision);
   },
 
+  _unbindUnitCollisionListeners: function (){
+    this.unbind("EnterFrame", this._handleNPCCollision);
+    this.unbind("EnterFrame", this._handlePlayerCollision);
+  },
+
   _unbindAll: function (){
-    this._unbindStageEdgeCollision();
     this._unbindMovementFunction();
+    this._unbindStageEdgeCollision();
+    this._unbindUnitCollisionListeners();
   },
 
   _wrongInput: function (input){

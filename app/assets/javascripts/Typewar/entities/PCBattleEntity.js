@@ -6,10 +6,11 @@ var PCBattleEntity = BaseEntity.extend({
   initialize: function (){
     var player;
 
-    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerZeroAnim, plz_st0")
+    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision")
     player.attr({ x: 20, y: 180 })
       .battlePlayerZeroAnim()
-      .battlePlayer();
+      .battlePlayer()
+      .collision([[0,0],[60,0],[60,120],[0,120]]);
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
 

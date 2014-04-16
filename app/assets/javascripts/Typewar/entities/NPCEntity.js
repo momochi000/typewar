@@ -15,11 +15,12 @@ var NPCEntity = BaseEntity.extend({
     var entity, self;
     self = this;
     
-    entity = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0")
+    entity = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision")
       .attr({x: 390, y: 210, w: 50, h: 60 })
       .nPCBrain()
       .battleSlimeAnim()
-      .battleNPCEnemy();
+      .battleNPCEnemy()
+      .collision([[0,0],[0,50],[50,60],[0,60]]);
     global_enemy = entity; // DEBUG:
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
