@@ -3,7 +3,8 @@ var global_bg; // DEBUG;
 var ProtoBattleScene = Backbone.Model.extend({
   defaults: {
     scene_id: 'prototype_battle',
-    STAGE_WIDTH: 600
+    STAGE_WIDTH: 450,
+    STAGE_HEIGHT: 240
   },
 
   initialize: function (){
@@ -88,21 +89,24 @@ var ProtoBattleScene = Backbone.Model.extend({
     Sprite.create('slime');
   },
 
-  // TODO: set up the right edge of the screen correctly according to the width of the window
+  // TODO: Add top and bottom border as well
   initStageEdges: function (){
-    var width, height, left_edge, right_edge, stage_width;
+    var height, left_edge, right_edge, stage_width,
+      STAGE_EDGE_LEFT_BARRIER_OFFSET, STAGE_EDGE_RIGHT_BARRIER_OFFSET;
 
-    stage_width = this.get('STAGE_WIDTH');
-    width = Typewar.viewportWidth;
-    height = Typewar.viewportHeight;
+    STAGE_EDGE_LEFT_BARRIER_OFFSET = -80;
+    STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
+
+    stage_width = this.get("STAGE_WIDTH");
+    stage_height = this.get("STAGE_HEIGHT");
 
     left_edge = Crafty.e("2D, DOM, Collision, BattleStageEdge, SolidHitBox") // Left edge
-      .attr({x: 0, y: 0, w: 5, h: height })
-      .collision([[0,0], [0, height], [5, height], [5, 0]]);
+      .attr({x: STAGE_EDGE_LEFT_BARRIER_OFFSET, y: 0, w: 5, h: stage_height })
+      .collision([[0,0], [0, stage_height], [5, stage_height], [5, 0]]);
 
     right_edge = Crafty.e("2D, DOM, Collision, BattleStageEdge, SolidHitBox") // Right edge
-      .attr({x: stage_width, y: 0, w: 5, h: height })
-      .collision([[0,0], [0, height], [5, height], [5, 0]]);
+      .attr({x: stage_width+STAGE_EDGE_RIGHT_BARRIER_OFFSET, y: 0, w: 5, h: stage_height })
+      .collision([[0,0], [0, stage_height], [5, stage_height], [5, 0]]);
 
     this.set('left_edge', left_edge);
     this.set('right_edge', right_edge);

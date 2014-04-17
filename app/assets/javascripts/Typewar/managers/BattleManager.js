@@ -107,21 +107,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this._removeActiveFragment(text_fragment);
   },
 
-  handleFragmentMissed: function (data){
-    var fragment, player, player_ent;
-
-    fragment = ( data['text_fragment'] ? data['text_framgent'] : data );
-    player = this.get('side1')[0];
-    player_ent = player.getEntity();
-
-    if(fragment.attacker == player_ent){
-      //console.log("DEBUG: player fragment went off screen");
-    }else if(fragment.defender == player_ent){
-      //console.log("DEBUG: monster fragment went off screen");
-      this._resolveDefense(fragment);
-    }
-  },
-
   handleTextInput: function (letter_value){
     var active_fragments, live_fragments, self, duped_fragments;
 
@@ -364,13 +349,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     var self;
 
     self = this;
-
     Crafty.bind("TextFragmentExitedStage", function (evt){
-      var index, fragment;
-
-      fragment = evt.text_fragment;
-      self.handleFragmentMissed(fragment);
-      self._moveFragmentToGraveyard(fragment);
+      self._moveFragmentToGraveyard(evt.text_fragment);
     });
   }, 
 
