@@ -19,6 +19,7 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
+//= require Box2dWeb
 //= require backbone/typewar
 //= require crafty
 //= require_tree .
