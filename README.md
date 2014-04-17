@@ -88,16 +88,6 @@ position func?
 
 ## CURRENT
 
-#### BUG: when 2 fragments being with the same text and one wins
-It appears to skip a character.  For example:
-abcdef
-abcdff
-abcdff
-if you type abcd, all 3 fragments should activate.  As soon as you type f, the
-first fragment should deactivate (go back to 'live') and the 2 final ones 
-should have abcdf as completed, but instead will only have abcd still complete.
-Thought: could this be solved the same as the previous problem, by duping one
-of the arrays?
 #### Generate a new smaller vocabulary for player and monsters
 Temporary, since we want to test faster paced action
 #### Add an npc attack that arcs
@@ -106,6 +96,12 @@ Player animation behavior doesn't change
 #### Tweak the difficulty to be pretty hard (before demo to albert)
 #### REFACTOR: ensure all events triggered are CapitalCased
 #### BUG: slime sprite is off
+
+#### BUG: Edge case: multiple fragments with same starting text typod
+NOTE: this algorithm allows the following edge case:
+When multiple fragments are 'active' starting with the same text, e.g.
+'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -179,6 +175,8 @@ offset of the crafty stage.  The camera component should maintain a zoom level
 and be able to translate coordinates in scene space to screen space and vice versa.
 This is may also need to handle setup of the viewport depending on device 
 screen size and orientation etc.  Scaling the game appropriately.
+#### BUG: when two text fragments have the same text, when you finish them only one dies
+Not a high priority
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away
 Need to ensure that they do.
 #### Make the battle over scene overlay on top of the battle scene.
@@ -203,6 +201,18 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: when 2 fragments begin with the same text and one wins
+This is probably an acceptable bug for now... just need to capture it
+This is probably an acceptable bug for now... just need to capture it
+It appears to skip a character.  For example:
+abcdef
+abcdff
+abcdff
+if you type abcd, all 3 fragments should activate.  As soon as you type f, the
+first fragment should deactivate (go back to 'live') and the 2 final ones 
+should have abcdf as completed, but instead will only have abcd still complete.
+Thought: could this be solved the same as the previous problem, by duping one
+of the arrays?
 #### EPIC: Typewar battle evolution
 The (battle) scene initializes the battle manager.
 The battle manager keeps track of the two sides of battle (typically the player

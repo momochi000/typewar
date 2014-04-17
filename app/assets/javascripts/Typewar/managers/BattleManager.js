@@ -87,7 +87,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       text_frag_options.direction = -1;
     }
     //text_frag_options.difficulty_multiplier = 0.01;
-    text_frag_options.difficulty_multiplier = 0.4;
+    //text_frag_options.difficulty_multiplier = 0.4;
+    text_frag_options.difficulty_multiplier = 0.2;
     return text_frag_options;
   },
 
@@ -108,7 +109,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   handleTextInput: function (letter_value){
-    var active_fragments, live_fragments, self, duped_fragments;
+    var self, active_fragments, live_fragments, duped_fragments;
 
     self = this;
     live_fragments = this.getLiveFragments();
@@ -126,29 +127,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         }
       });
     }else{
-      // NOTE: this algorithm allows the following edge case:
-      // When multiple fragments are 'active' starting with the same text, e.g.
-      // 'fool' and 'foolish'.  If you type 'foox', it will deactivate all but 
-      // one of the active text fragments.  This might be acceptable, and we 
-      // can use this to encourage accuracy by banging out combos.
       if(active_fragments.length > 1) {                // if multiple fragments active
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // TODO: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ON MASTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // There's a bug here where if 2 fragments are active, for example
-        // foolish
-        // foolhardy
-        // you'll type 'fool' and both fragments will be active
-        // then you type 'h' expecting the first fragment to deactivate
-        // and the second fragment to highlight 'foolh'
-        // However, foolish will deactivate but nothing will happen with 
-        // foolhardy.
-        // To fix this, we just need to duplicate the active_fragments array
-        // before iterating over it. In the same way a bug was solved in the
-        // above block.
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        _.each(active_fragments, function (curr_frag){ // send text input to all active fragments
+        duped_fragments = active_fragments.slice(0);
+        _.each(duped_fragments, function (curr_frag){ // send text input to all active fragments
           if(!curr_frag.takeInput(letter_value)){ 
             curr_frag.reset()                          // deactivate any which have incorrect input
             self._removeFromArray(active_fragments, curr_frag);
