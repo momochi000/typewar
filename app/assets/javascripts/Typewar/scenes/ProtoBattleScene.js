@@ -13,6 +13,7 @@ var ProtoBattleScene = Backbone.Model.extend({
     self = this;
     Crafty.scene(self.get('scene_id'), function (){
       self.initSprites();
+      self.initPhysics();
       self.loadCombatants();
       self.initBackground();
       self.initStageEdges();
@@ -72,15 +73,23 @@ var ProtoBattleScene = Backbone.Model.extend({
     Crafty.viewport.x -= 30;
   },
 
-  initPC: function (){
-    return new PCBattleEntity();
-  },
-
   initEnemyNPC: function (){
     //var slime_char_sheet = new Typewar.Models.CharacterSheet;
     //slime_char_sheet.set('name', 'Chaos slime');
 
     return new NPCEntity();
+  },
+
+  initPC: function (){
+    return new PCBattleEntity();
+  },
+
+  initPhysics: function (){
+    PTM_RATIO = 2; //32
+
+    Crafty.box2D.init(0, 10, PTM_RATIO, true);
+    world = Crafty.box2D.world;
+    Crafty.box2D.showDebugInfo(); //Start the Box2D debugger
   },
 
   initSprites: function (){
