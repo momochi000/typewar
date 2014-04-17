@@ -50,11 +50,8 @@ Crafty.c("TextFragmentSpawner", {
     var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 
       new_type, new_wiggle, y_offset;
 
-
     options = _.extend({x: this.x, y: this.y, z: this.z}, options);
-
     new_frag = new TextFragmentEntity(options);
-
     new_frag_ent = new_frag.getEntity();
     this._fragment_collection.push(new_frag_ent);
     this._registerFragmentWithBattleManager(new_frag_ent);
@@ -93,23 +90,18 @@ Crafty.c("TextFragmentSpawner", {
   _adjustForWiggle: function (x, y, x_wiggle, y_wiggle){
     var x_new, y_new;
 
-    if(this._coinToss()){
+    if(Typewar.Util.coinToss()){
       x_new = x + Math.random() * x_wiggle;
     } else {
       x_new = x - Math.random() * x_wiggle;
     }
-    if(this._coinToss()){
+    if(Typewar.Util.coinToss()){
       y_new = y + Math.random() * y_wiggle;
     } else {
       y_new = y - Math.random() * y_wiggle;
     }
     return x_new, y_new;
   }, 
-
-  // Randomly returns true or false // TODO: Move to its own module
-  _coinToss: function (){
-    return ( (Math.floor(Math.random()*2)) === 1 );
-  },
 
   _registerFragmentWithBattleManager: function (frag){
     Typewar.Engine.BattleManager.registerFragment(frag);
