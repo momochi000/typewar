@@ -87,6 +87,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       text_frag_options.direction = -1;
     }
     //text_frag_options.difficulty_multiplier = 0.01;
+    text_frag_options.difficulty_multiplier = 0.4;
     return text_frag_options;
   },
 
@@ -217,7 +218,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     var defender, text_fragment;
 
     text_fragment = evt.text_fragment;
-    defender = text_fragment.defender;
+    defender      = text_fragment.defender;
     if(defender.isPlayer()){ // Determine who got hit & resolve combat
       this._resolveDefense(text_fragment);
     }else{
@@ -309,7 +310,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){
       fragment.defender.successfulDefense();
-    } else if(fragment.successPct() > 90){
+    } else if(fragment.successPct() >= 88){
       fragment.defender.partialHit();
       fragment.defender.takeDamage(1);
     } else {

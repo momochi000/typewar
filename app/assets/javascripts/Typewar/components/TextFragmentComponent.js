@@ -168,13 +168,15 @@ Crafty.c("TextFragment", {
   successPct: function (){
     var rating;
 
-    if(!this.is_complete) { return false; }
-    if(this._incorrect_characters.length == 0) { return 100; }
-
-    rating = this._incorrect_characters.length / this._correct_characters.length;
-    rating = 1-rating;
-
-    return (rating*100);
+    //console.log("DEBUG: calculating success Percentage.. =================================> ");
+    //console.log("DEBUG: incorrect_characters -->" + this._incorrect_characters.length);
+    //console.log("DEBUG: correct_characters ---->" + this._correct_characters.length);
+    //console.log("DEBUG: text_length ----------->" + this._text.length);
+    if(this.is_complete) {
+      return (100 * (1 - (this._incorrect_characters.length / this._correct_characters.length)));
+    }else{
+      return (100 * ((this._correct_characters.length - this._incorrect_characters.length) / this._text.length));
+    }
   },
 
   /* The means of feeding characters to the text fragment. Correct characters
