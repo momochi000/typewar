@@ -6,3 +6,5 @@ development
 .DS_Store
 .idea
 db/*.sqlite3
+
+Box2dWeb.js
