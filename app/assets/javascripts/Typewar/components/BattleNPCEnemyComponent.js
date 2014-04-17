@@ -43,24 +43,60 @@ Crafty.c("BattleNPCEnemy", {
         life:     0,
         death:    0
       },
-      animation: "attack2", // TODO: pass this through such that the correct animation plays at the right time
-                            // Monster animation should play on text fragment generation
-      // NOTE / TODO: difficulty multiplier should be passed in as a WPM value
-      // This function must be able to take that WPM value and scale the attack
-      // speed appropriately.
-      positionFunc: function (start_x, start_y, time, options){
-        var spd, dir, diff, x;
-        options = options || {};
-        spd     = 2;
-        dir     = options.direction || this.direction || 1;
-        diff    = options.difficulty_multiplier || this.difficulty_multiplier || 1;
-        x = start_x + dir*time*spd*diff;
-        return { x: x, y: start_y};
+      animation: "attack1", 
+      positionFunc: function (req, opt){
+        var REQUIRED_OPTIONS, x;
+
+        REQUIRED_OPTIONS = ["start_x", "start_y", "time", "context"];
+        _.each(REQUIRED_OPTIONS, function(req_opt){
+          if(!req){ throw "no required options present"; }
+          if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when initialMovement called"; }
+        });
+        opt      = opt || {};
+        opt.spd  = 2;
+        opt.dir  = opt.direction || this.direction || 1;
+        opt.diff = opt.difficulty_multiplier || this.difficulty_multiplier || 1;
+
+        x = req.start_x + opt.dir*req.time*opt.spd*opt.diff;
+        req.context.x = x;
+        req.context.y = req.start_y;
+        return { x: x, y: req.start_y};
       },
       classesFunc: function (time){
         return ["slime"];
       }, 
       hitbox: {w: 50, h: 50}
+    },
+
+    glob: {
+      name: 'glob',
+      properties: {
+        blunt:    3, slashing: 0, piercing: 0, fire:     0, earth:    0, 
+        water:    0, air:      0, light:    0, dark:     0, poison:   2,
+        life:     0, death:    0
+      },
+      animation: "attack2",
+      initialMovement: function (req){
+        var REQUIRED_OPTIONS, force_vector, body_center;
+        REQUIRED_OPTIONS = ["x", "y", "context"];
+        _.each(REQUIRED_OPTIONS, function(req_opt){
+          if(!req){ throw "no required options present"; }
+          if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when initialMovement called"; }
+        });
+
+        force_vector = new b2Vec2(-380, -290);
+        body_center = req.context.body.GetWorldCenter();
+        req.context.body.ApplyForce(force_vector, body_center);
+      },
+      classesFunc: function (time){ return ["slime"]; }, 
+      hitbox: {w: 50, h: 50},
+      box2d: {
+        bodyType: 'dynamic',
+        //density : 0.2,
+        density : 0.1,
+        friction : 2,
+        restitution : 0.1
+      }
     }
   },
 
@@ -101,7 +137,7 @@ Crafty.c("BattleNPCEnemy", {
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
       defender: defender, 
-      attack: this.attacks['standard']
+      attack: this.attacks['glob']
     });
 
     frag = this._fragment_spawner.generateTextFragment({attack_properties: text_fragment_options});

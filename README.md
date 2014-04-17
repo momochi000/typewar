@@ -100,6 +100,7 @@ Temporary, since we want to test faster paced action
 #### Make enemy npc play animation upon their attack
 Player animation behavior doesn't change
 #### Tweak the difficulty to be pretty hard (before demo to albert)
+#### Add a physics border on the ground so text fragments can bounce
 #### REFACTOR: ensure all events triggered are CapitalCased
 #### BUG: slime sprite is off
 #### BUG: Edge case: multiple fragments with same starting text typod
@@ -126,6 +127,8 @@ Animate successful completion
   * opacity 0 with transition (possibly flicker to off)
   * fragment immediately becomes ineffective (collision off)
 any more?
+#### Consider initializing box2d as part of Crafty's init 
+not part of the scene init
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One

@@ -38,14 +38,23 @@ Crafty.c("BattlePlayer", {
       animation: "attack1", // Player attack should happen when text fragment 
                             // is completed (playtest it). This should also
                             // accept an array so the attack can be randomized
-      positionFunc: function (start_x, start_y, time, options){
-        var spd, dir, diff, x;
-        options = options || {};
-        spd     = 2;
-        dir     = options.direction || this.direction || 1;
-        diff    = options.difficulty_multiplier || this.difficulty_multiplier || 1;
-        x = start_x + dir*time*spd*diff;
-        return { x: x, y: start_y};
+      positionFunc: function (req, opt){
+        var REQUIRED_OPTIONS, x;
+
+        REQUIRED_OPTIONS = ["start_x", "start_y", "time", "context"];
+        _.each(REQUIRED_OPTIONS, function(req_opt){
+          if(!req){ throw "no required options present"; }
+          if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when positionFunc called"; }
+        });
+        opt      = opt || {};
+        opt.spd  = 2;
+        opt.dir  = opt.direction || this.direction || 1;
+        opt.diff = opt.difficulty_multiplier || this.difficulty_multiplier || 1;
+
+        x = req.start_x + opt.dir*req.time*opt.spd*opt.diff;
+        req.context.x = x;
+        req.context.y = req.start_y;
+        return { x: x, y: req.start_y};
       },
       classesFunc: function (time){
         return ["player"];

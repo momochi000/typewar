@@ -14,8 +14,8 @@ Crafty.c("Physics2D", {
     this.requires("2D");
   },
 
-  physics2D: function (timestep_size){
-    var self, fps 
+  physics2D: function (){
+    var self, fps;
     self = this;
     fps = Crafty.timer.getFPS();
     

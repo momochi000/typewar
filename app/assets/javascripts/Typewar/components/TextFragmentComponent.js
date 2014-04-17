@@ -205,8 +205,9 @@ Crafty.c("TextFragment", {
   //private
 
   _bindMovementFunction: function (){
-    var self = this;
-    this.bind("EnterFrame", this._handleMovement);
+    if(this._attack_object.positionFunc) { 
+      this.bind("EnterFrame", this._handleMovement);
+    }
   },
 
   _bindStageEdgeCollisionEvent: function (){
@@ -245,7 +246,16 @@ Crafty.c("TextFragment", {
   },
 
   _evalPositionFunc: function (){
-    return this._attack_object.positionFunc(this._start_x, this._start_y, this._currentTime());
+    var req, opt;
+    // TODO: figure out how to configure optional arguments here
+
+    req = {
+      start_x: this._start_x,
+      start_y: this._start_y,
+      time: this._currentTime(),
+      context: this
+    }
+    return this._attack_object.positionFunc(req);
   },
 
   _flickerEffect: function (){
@@ -274,11 +284,7 @@ Crafty.c("TextFragment", {
   },
 
   _handleMovement: function (){
-    var result;
-    result = this._evalPositionFunc();
-    this.x = result.x;
-    this.y = result.y;
-    result = null;
+    this._evalPositionFunc();
   },
 
   _handleNPCCollision: function (evt){
@@ -311,6 +317,9 @@ Crafty.c("TextFragment", {
 
   _initMovement: function (){
     this._bindMovementFunction();
+    if(this._attack_object.initialMovement){ //execute initial movement directive
+      this._attack_object.initialMovement({x: this.x, y: this.y, context: this});
+    }
   },
 
   _recordStartPos: function (){
