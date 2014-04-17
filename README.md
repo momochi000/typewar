@@ -101,15 +101,14 @@ battle.
   * (DONE)hitbox size over time (shape we don't care for now)
 + (DONE)TextFragmentCompleted event should trigger with the text fragment itself as
   an option/argument. More specifically, it's attack object
-
-+ characters have hitboxes
-+ Fragment damage is resolved when the fragment's hitbox intersects with the
++ (DONE)characters have hitboxes
++ (DONE)Fragment damage is resolved when the fragment's hitbox intersects with the
   defender's
-+ player attacks that fail fade away when typed.
-  * opacity 0 with transition (possibly flicker to off)
-  * fragment immediately becomes ineffective (collision off)
-+ enemy attacks are destroyed when typed
-  * damage reduced based on correctness of typing
+
++ enemy attacks damage reduced based on correctness of typing.
+  * What I mean is, If a text fragment is partially typed at the time of impact
+    it should affect the damage dealt/taken.  I believe this already works but
+    must be tested
 + enemy attacks that reach the player do damage
 + fragments that leave the play field are destroyed
 + character vocabulary has to have a wide range of character lengths.
@@ -129,8 +128,10 @@ appropriately such that the travel time corresponds with player typing ability
 recorded and played back as a math function? Can a vector represent a
 position func?
 
+#### Add an npc attack that arcs
 #### Make enemy npc play animation upon their attack
 Player animation behavior doesn't change
+#### Tweak the difficulty to be pretty hard (before demo to albert)
 #### REFACTOR: ensure all events triggered are CapitalCased
 #### Make text fragment TextFragmentExitedStage event pass itself as an arg
 #### Difficulty scale.
@@ -149,6 +150,9 @@ Need ot make several stories out of this
 Animate a successful hit
 Animate a successful defense
 Animate successful completion
++ player attacks that fail fade away when typed.
+  * opacity 0 with transition (possibly flicker to off)
+  * fragment immediately becomes ineffective (collision off)
 any more?
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
