@@ -94,16 +94,7 @@ speed appropriately.
 
 ## CURRENT
 
-#### Generate a new smaller vocabulary for player and monsters
-Temporary, since we want to test faster paced action
-#### Tweak the difficulty to be pretty hard (before demo to albert)
-#### Add a physics border on the ground so text fragments can bounce
-#### REFACTOR: ensure all events triggered are CapitalCased
 #### BUG: slime sprite is off
-#### BUG: Edge case: multiple fragments with same starting text typod
-NOTE: this algorithm allows the following edge case:
-When multiple fragments are 'active' starting with the same text, e.g.
-'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
 #### Add another attack to the monster
 Make a position func that handles an arc path
 Problem with using physics is I can't scale the speed of the attack.
@@ -158,6 +149,11 @@ Calls should only be made on the actual crafty entity
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### BUG: Edge case: multiple fragments with same starting text typod
+NOTE: this algorithm allows the following edge case:
+When multiple fragments are 'active' starting with the same text, e.g.
+'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+#### Add a physics border on the ground so text fragments can bounce
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
@@ -217,6 +213,9 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### REFACTOR: ensure all events triggered are CapitalCased
+#### Generate a new smaller vocabulary for monsters
+Temporary, since we want to test faster paced action
 #### Capture single quotes
 #### BUG: Ran into an issue while playing where key input was no longer registering
 Seems to be while typing a fragment that sinks through the ground

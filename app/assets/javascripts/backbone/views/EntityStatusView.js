@@ -9,7 +9,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
   initialize: function(opts) {
     this.entity = opts.entity;
     // TODO: Figure out how to nicely unbind this to prevent memory leaks
-    this.entity.bind('updateStatus', _.bind(this.render, this));
+    this.entity.bind('UpdateStatus', _.bind(this.render, this));
   },
 
   render: function() {
@@ -26,7 +26,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
   },
 
   deallocate: function (){
-    this.entity.unbind('updateStatus'); // TODO: check to make sure this works
+    this.entity.unbind('UpdateStatus'); // TODO: check to make sure this works
     this.entity = null;
     this.remove();
   },

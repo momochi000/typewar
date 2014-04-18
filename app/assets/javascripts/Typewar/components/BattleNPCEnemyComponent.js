@@ -187,7 +187,7 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   updateStatus: function() {
-    this.trigger("updateStatus");
+    this.trigger("UpdateStatus");
   },
 
   wasMissed: function (){
