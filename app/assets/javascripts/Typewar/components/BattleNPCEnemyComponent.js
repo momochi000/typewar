@@ -50,7 +50,7 @@ Crafty.c("BattleNPCEnemy", {
         REQUIRED_OPTIONS = ["start_x", "start_y", "time", "context"];
         _.each(REQUIRED_OPTIONS, function(req_opt){
           if(!req){ throw "no required options present"; }
-          if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when initialMovement called"; }
+          if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when positionFunc called"; }
         });
         opt      = opt || {};
         opt.spd  = opt.speed || 2;
@@ -77,14 +77,17 @@ Crafty.c("BattleNPCEnemy", {
       },
       animation: "attack2",
       initialMovement: function (req){
-        var REQUIRED_OPTIONS, force_vector, body_center;
+        var REQUIRED_OPTIONS, force_vector, body_center, x_force, y_force;
         REQUIRED_OPTIONS = ["x", "y", "context"];
         _.each(REQUIRED_OPTIONS, function(req_opt){
           if(!req){ throw "no required options present"; }
           if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when initialMovement called"; }
         });
 
-        force_vector = new b2Vec2(-380, -290);
+        x_force = Typewar.Util.randomInt(-320, -470);
+        y_force = Typewar.Util.randomInt(-330, -510);
+        //force_vector = new b2Vec2(-380, -630);
+        force_vector = new b2Vec2(x_force, y_force);
         body_center = req.context.body.GetWorldCenter();
         req.context.body.ApplyForce(force_vector, body_center);
       },
@@ -92,7 +95,6 @@ Crafty.c("BattleNPCEnemy", {
       hitbox: {w: 50, h: 50},
       box2d: {
         bodyType: 'dynamic',
-        //density : 0.2,
         density : 0.1,
         friction : 2,
         restitution : 0.1
