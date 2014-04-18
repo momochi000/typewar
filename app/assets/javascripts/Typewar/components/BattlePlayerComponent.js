@@ -126,7 +126,8 @@ Crafty.c("BattlePlayer", {
   partialHit: function (){
     var self = this;
     console.log("DEBUG: PLAYER: PARTIAL HIT. OW!!! ");
-    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+    //window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+    self.animBlock();
   },
 
   setTarget: function (target){
@@ -136,13 +137,15 @@ Crafty.c("BattlePlayer", {
   successfulDefense: function (){
     var self = this;
     console.log("DEBUG: PLAYER: DEFENDED!!! ");
-    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+    //window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
+    self.animBlock();
   },
 
   successfulHit: function (){
     var self = this;
     console.log("DEBUG: PLAYER: HIT!! GOT ME GOOD D=");
-    window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
+    //window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
+    self.animHit();
   },
 
   takeDamage: function(damage) {
