@@ -95,10 +95,16 @@ speed appropriately.
 ## CURRENT
 
 #### Add an npc attack that arcs
-#### Generate a new smaller vocabulary for player and monsters
-Temporary, since we want to test faster paced action
+Looks like adding box2d might not be the way to go, it doesn't allow for 
+variable speeds. I'm sure I can find some uses for it.
+Design a way to pass optional arguments to positionFunc
+Add randomization so the enemy npc fires attacks of either type
+Make a position func that handles an arc path
+
 #### Make enemy npc play animation upon their attack
 Player animation behavior doesn't change
+#### Generate a new smaller vocabulary for player and monsters
+Temporary, since we want to test faster paced action
 #### Tweak the difficulty to be pretty hard (before demo to albert)
 #### Add a physics border on the ground so text fragments can bounce
 #### REFACTOR: ensure all events triggered are CapitalCased
@@ -114,6 +120,7 @@ difficulty of fighting a particular monster should be based upon the
 stat/level difference between the player and that monster, but the difficulty
 of typing the words (for example) should be scalable outside of that.  Will
 need to make it harder for someone who can type really fast.
+#### REFACTOR: pull out common battle entity behavior into a separate component
 #### Improve damage calculation
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
