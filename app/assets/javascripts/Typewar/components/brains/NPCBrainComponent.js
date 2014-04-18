@@ -20,7 +20,7 @@ Crafty.c("NPCBrain", {
     if(!this._current_target){ return false; }
     this.battle_timer = window.setInterval(function() {
       self.initiateAttackOn(self._current_target);
-    }, 7000);
+    }, 2000);
   },
 
   _deactivate: function (){
