@@ -34,7 +34,7 @@ var TextFragmentEntity = BaseEntity.extend({
     attack_properties = this.get("attack_properties");
     hitbox = attack_properties.hitbox;
     
-    var entity = Crafty.e("2D, DOM, Collision, TextFragment, Box2D")
+    var entity = Crafty.e("2D, DOM, Collision, TextFragment")
       .attr({
         x: this.get('x') || 0, 
         y: this.get('y') || 0, 
@@ -46,7 +46,10 @@ var TextFragmentEntity = BaseEntity.extend({
       })
       .collision(this._generateCollisionPolyFromRect(attack_properties.hitbox));
 
-    if(attack_properties.box2d){ entity.box2d(attack_properties.box2d); }
+    if(attack_properties.box2d){ 
+      entity.addComponent("Box2D");
+      entity.box2d(attack_properties.box2d); 
+    }
     entity.textFragment(this.get("attack_properties"));
     this.set("entity", entity);
     return this;
