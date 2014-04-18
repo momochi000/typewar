@@ -302,11 +302,11 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       var e_ent;
       e_ent = e.getEntity();
       e_ent.setTarget(playerEntity);
-      //e_ent.activateAI();
+      e_ent.activateAI();
     }); 
 
     playerEntity.setTarget(targetEntity);
-    //playerEntity.activateAutoAttack();
+    playerEntity.activateAutoAttack();
   },
 
   _setupCompletedFragmentListener: function (){
