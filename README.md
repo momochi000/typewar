@@ -94,7 +94,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### BUG: slime sprite is off
 #### Add another attack to the monster
 Make a position func that handles an arc path
 Problem with using physics is I can't scale the speed of the attack.
@@ -197,6 +196,7 @@ Better yet, have it listen for a Crafty.pause() where it then does the
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
 way pause will do the right thing.  Will need ot create a Timer object which 
 binds to EnterFrame and increments itself.
+#### REFACTOR: namespace our Sprite sheet properly under typewar 
 #### Esc to bail out of typing a text fragment 
 But only if you have the requisite skill
 #### Consider making text fragments small when live and large when active
@@ -213,6 +213,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### BUG: slime sprite is off
 #### REFACTOR: ensure all events triggered are CapitalCased
 #### Generate a new smaller vocabulary for monsters
 Temporary, since we want to test faster paced action
