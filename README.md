@@ -94,16 +94,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### Add an npc attack that arcs
-Looks like adding box2d might not be the way to go, it doesn't allow for 
-variable speeds. I'm sure I can find some uses for it.
-Design a way to pass optional arguments to positionFunc
-Add randomization so the enemy npc fires attacks of either type
-Fix the force used on the arcing fragment to reach the player
-Add some randomization to the force so it misses some percent of the time
-#### Tighten hitboxes (both of entities and of text fragments)
-#### Make enemy npc play animation upon their attack
-Player animation behavior doesn't change
 #### Generate a new smaller vocabulary for player and monsters
 Temporary, since we want to test faster paced action
 #### Tweak the difficulty to be pretty hard (before demo to albert)
@@ -127,19 +117,23 @@ difficulty of fighting a particular monster should be based upon the
 stat/level difference between the player and that monster, but the difficulty
 of typing the words (for example) should be scalable outside of that.  Will
 need to make it harder for someone who can type really fast.
+#### Tighten hitboxes (both of entities and of text fragments)
 #### REFACTOR: pull out common battle entity behavior into a separate component
 #### Improve damage calculation
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
 resolveDefense private methods in the battle manager
 #### Properly animate text fragment when it transitions to various states
-Need ot make several stories out of this
+Need to make several stories out of this
 Animate a successful hit
 Animate a successful defense
 Animate successful completion
 + player attacks that fail fade away when typed.
+  on second thought don't do this because we're transitioning to the different
+  style of player attacking (or at least testing it out first)
   * opacity 0 with transition (possibly flicker to off)
   * fragment immediately becomes ineffective (collision off)
++ player gets hit 
 any more?
 #### Consider initializing box2d as part of Crafty's init 
 not part of the scene init
@@ -223,6 +217,19 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Capture single quotes
+#### BUG: Ran into an issue while playing where key input was no longer registering
+Seems to be while typing a fragment that sinks through the ground
+Fixed: problem was there was no border along the floor of the stage
+#### Make enemy npc play animation upon their attack
+Player animation behavior doesn't change
+#### Add an npc attack that arcs
+Looks like adding box2d might not be the way to go, it doesn't allow for 
+variable speeds. I'm sure I can find some uses for it.
+Design a way to pass optional arguments to positionFunc
+Add randomization so the enemy npc fires attacks of either type
+Fix the force used on the arcing fragment to reach the player
+Add some randomization to the force so it misses some percent of the time
 #### Make player hit animations play instantly (no delay)
 #### BUG: when 2 fragments begin with the same text and one wins
 This is probably an acceptable bug for now... just need to capture it
