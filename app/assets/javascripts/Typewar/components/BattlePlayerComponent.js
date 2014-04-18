@@ -47,7 +47,7 @@ Crafty.c("BattlePlayer", {
           if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when positionFunc called"; }
         });
         opt      = opt || {};
-        opt.spd  = 2;
+        opt.spd  = opt.speed || 2;
         opt.dir  = opt.direction || this.direction || 1;
         opt.diff = opt.difficulty_multiplier || this.difficulty_multiplier || 1;
 

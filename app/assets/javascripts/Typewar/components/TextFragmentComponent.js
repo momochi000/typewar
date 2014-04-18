@@ -254,8 +254,13 @@ Crafty.c("TextFragment", {
       start_y: this._start_y,
       time: this._currentTime(),
       context: this
+    };
+    opt = {
+      direction: this._attack_object.direction,
+      difficulty_multiplier: this._attack_object.difficulty_multiplier,
+      speed: this._attack_object.speed
     }
-    return this._attack_object.positionFunc(req);
+    return this._attack_object.positionFunc(req,opt);
   },
 
   _flickerEffect: function (){

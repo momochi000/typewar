@@ -53,7 +53,7 @@ Crafty.c("BattleNPCEnemy", {
           if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when initialMovement called"; }
         });
         opt      = opt || {};
-        opt.spd  = 2;
+        opt.spd  = opt.speed || 2;
         opt.dir  = opt.direction || this.direction || 1;
         opt.diff = opt.difficulty_multiplier || this.difficulty_multiplier || 1;
 
@@ -131,13 +131,16 @@ Crafty.c("BattleNPCEnemy", {
     return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
   },
 
-  initiateAttackOn: function (defender){
+  initiateAttackOn: function (defender, attack_type){
     var frag, speed, text_fragment_options;
 
+    if(!attack_type){ 
+      attack_type = _.sample(Object.keys(this.attacks)); 
+    }
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
       defender: defender, 
-      attack: this.attacks['glob']
+      attack: this.attacks[attack_type]
     });
 
     frag = this._fragment_spawner.generateTextFragment({attack_properties: text_fragment_options});
