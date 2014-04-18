@@ -45,7 +45,7 @@ FactoryGirl.define do
     status {{
       hp: 5+rand(25)
     }}
-    vocabulary { Character.generate_vocabulary }
+    vocabulary { Character.generate_vocabulary(2) }
   end
 
   factory :player_lv1, :parent => :character do
