@@ -99,8 +99,9 @@ Looks like adding box2d might not be the way to go, it doesn't allow for
 variable speeds. I'm sure I can find some uses for it.
 Design a way to pass optional arguments to positionFunc
 Add randomization so the enemy npc fires attacks of either type
-Make a position func that handles an arc path
-
+Fix the force used on the arcing fragment to reach the player
+Add some randomization to the force so it misses some percent of the time
+#### Tighten hitboxes (both of entities and of text fragments)
 #### Make enemy npc play animation upon their attack
 Player animation behavior doesn't change
 #### Generate a new smaller vocabulary for player and monsters
@@ -113,6 +114,12 @@ Temporary, since we want to test faster paced action
 NOTE: this algorithm allows the following edge case:
 When multiple fragments are 'active' starting with the same text, e.g.
 'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+#### Add another attack to the monster
+Make a position func that handles an arc path
+Problem with using physics is I can't scale the speed of the attack.
+Gravity's acceleration is fixed and the x speed is pretty much going to be
+constant.  With a parabolic path (or similar) I can adjust the velocity and/or
+acceleration from the battle manager.
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -216,6 +223,7 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Make player hit animations play instantly (no delay)
 #### BUG: when 2 fragments begin with the same text and one wins
 This is probably an acceptable bug for now... just need to capture it
 This is probably an acceptable bug for now... just need to capture it
