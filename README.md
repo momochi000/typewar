@@ -94,45 +94,13 @@ speed appropriately.
 
 ## CURRENT
 
-#### Add another attack to the monster
-Make a position func that handles an arc path
-Problem with using physics is I can't scale the speed of the attack.
-Gravity's acceleration is fixed and the x speed is pretty much going to be
-constant.  With a parabolic path (or similar) I can adjust the velocity and/or
-acceleration from the battle manager.
-#### Difficulty scale.
-Need a system which adjusts the difficulty of the game mechanics.  I want
-difficulty of gameplay to be separate from difficulty of the battle.  The
-difficulty of fighting a particular monster should be based upon the 
-stat/level difference between the player and that monster, but the difficulty
-of typing the words (for example) should be scalable outside of that.  Will
-need to make it harder for someone who can type really fast.
-#### Tighten hitboxes (both of entities and of text fragments)
 #### REFACTOR: pull out common battle entity behavior into a separate component
+#### REFACTOR: Consider initializing box2d as part of Crafty's init 
+not part of the scene init
 #### Improve damage calculation
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
 resolveDefense private methods in the battle manager
-#### Properly animate text fragment when it transitions to various states
-Need to make several stories out of this
-Animate a successful hit
-Animate a successful defense
-Animate successful completion
-+ player attacks that fail fade away when typed.
-  on second thought don't do this because we're transitioning to the different
-  style of player attacking (or at least testing it out first)
-  * opacity 0 with transition (possibly flicker to off)
-  * fragment immediately becomes ineffective (collision off)
-+ player gets hit 
-any more?
-#### Consider initializing box2d as part of Crafty's init 
-not part of the scene init
-#### Display incorrect characters count typed along with correct characters.
-This needs some sort of design such that it's intuitive as to what's happening.
-I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
-counting correct and one incorrect characters.
-#### REFACTOR: Remove all convenience methods from NPC entity backbone model
-Calls should only be made on the actual crafty entity
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -148,10 +116,42 @@ Calls should only be made on the actual crafty entity
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### REFACTOR: Remove all convenience methods from NPC entity backbone model
+Calls should only be made on the actual crafty entity
+#### Display incorrect characters count typed along with correct characters.
+This needs some sort of design such that it's intuitive as to what's happening.
+I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
+counting correct and one incorrect characters.
+#### Difficulty scale.
+Need a system which adjusts the difficulty of the game mechanics.  I want
+difficulty of gameplay to be separate from difficulty of the battle.  The
+difficulty of fighting a particular monster should be based upon the 
+stat/level difference between the player and that monster, but the difficulty
+of typing the words (for example) should be scalable outside of that.  Will
+need to make it harder for someone who can type really fast.
+#### Properly animate text fragment when it transitions to various states
+Need to make several stories out of this
+Animate a successful hit
+Animate a successful defense
+Animate successful completion
++ player attacks that fail fade away when typed.
+  on second thought don't do this because we're transitioning to the different
+  style of player attacking (or at least testing it out first)
+  * opacity 0 with transition (possibly flicker to off)
+  * fragment immediately becomes ineffective (collision off)
++ player gets hit 
+any more?
+#### Tighten hitboxes (both of entities and of text fragments)
 #### BUG: Edge case: multiple fragments with same starting text typod
 NOTE: this algorithm allows the following edge case:
 When multiple fragments are 'active' starting with the same text, e.g.
 'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+#### Add another attack to the monster
+Make a position func that handles an arc path
+Problem with using physics is I can't scale the speed of the attack.
+Gravity's acceleration is fixed and the x speed is pretty much going to be
+constant.  With a parabolic path (or similar) I can adjust the velocity and/or
+acceleration from the battle manager.
 #### Add a physics border on the ground so text fragments can bounce
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
