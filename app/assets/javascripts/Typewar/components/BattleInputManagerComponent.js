@@ -250,6 +250,11 @@ Crafty.c("BattleInputManager", {
       case(Crafty.keys['MINUS']):
         return '-';
       //case(Crafty.keys['PERIOD'])
+      case(222): // ' Single quote
+        return "'";
+      default:
+        //console.log("DEBUG: UNRECOGNIZED KEY DETECTED ----> " + keyCode);
+        return '';
     }
   },
 
