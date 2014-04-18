@@ -86,7 +86,7 @@ Crafty.c("BattleNPCEnemy", {
 
         x_force = Typewar.Util.randomInt(-320, -470);
         y_force = Typewar.Util.randomInt(-330, -510);
-        //force_vector = new b2Vec2(-380, -630);
+        //force_vector = new b2Vec2(-380, -630); //always hits
         force_vector = new b2Vec2(x_force, y_force);
         body_center = req.context.body.GetWorldCenter();
         req.context.body.ApplyForce(force_vector, body_center);
@@ -146,6 +146,7 @@ Crafty.c("BattleNPCEnemy", {
     });
 
     frag = this._fragment_spawner.generateTextFragment({attack_properties: text_fragment_options});
+    this.deliverAttack();
   },
 
   isPlayer: function (){ return false; },

@@ -273,7 +273,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _resolveDefense: function (fragment){
-    fragment.attacker.deliverAttack();
+    //fragment.attacker.deliverAttack();
     if(fragment.wasPerfect()){
       fragment.defender.successfulDefense();
     } else if(fragment.successPct() >= 88){
