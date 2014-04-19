@@ -95,6 +95,9 @@ speed appropriately.
 ## CURRENT
 
 #### REFACTOR: pull out common battle entity behavior into a separate component
+I think there are a few other components which are overloaded with 
+functionality and should be broken up. As part of this, do an audit and create
+additional tasks as necessary.
 #### REFACTOR: Consider initializing box2d as part of Crafty's init 
 not part of the scene init
 #### Improve damage calculation
@@ -116,8 +119,6 @@ resolveDefense private methods in the battle manager
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### REFACTOR: Remove all convenience methods from NPC entity backbone model
-Calls should only be made on the actual crafty entity
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
@@ -213,6 +214,8 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### REFACTOR: Remove all convenience methods from NPC entity backbone model
+Calls should only be made on the actual crafty entity
 #### BUG: slime sprite is off
 #### REFACTOR: ensure all events triggered are CapitalCased
 #### Generate a new smaller vocabulary for monsters

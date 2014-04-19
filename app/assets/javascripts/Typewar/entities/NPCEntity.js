@@ -25,19 +25,13 @@ var NPCEntity = BaseEntity.extend({
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
 
-    /* LEFT OFF: 
+    /* Warning:
      * Got the server to send back a monster with some data.  
      * Everything should just work from here.
-     * Seems to be a problem before starting the battle, I
-     * think I broke something earlier between character
-     * creation and battle start/initialization
-     * It's complaining about (ultimately) enemies not being
-     * initialized when initializing battle manager.
-     * however I know I was passing in both.
-     * 
-     * I speculate the server doesn't respond in time to build
+     *
+     * I worry the server can't respond in time to build
      * the character in time for the battle manager init.
-     * or more accurately, the code marches on while the server
+     * or more succinctly, the code marches on while the server
      * is being contacted/responding.
      * 
      * What I want to try next is doing a lock for 5 seconds or 
@@ -47,26 +41,13 @@ var NPCEntity = BaseEntity.extend({
     return this;
   },
 
-  // TODO: Deprecate
-  activateAI: function (){
-    this.getEntity().activateAI();
-  },
-
   deallocate: function (){
     this.getEntity().deallocate();
     this.clear();
   },
 
-  // TODO: Deprecate
-  deactivateAI: function (){
-    this.getEntity().deactivateAI();
-  },
-
   getFromServer: function (){
     var self = this;
-
-    //console.log("DEBUG: in get from server, about to fetch()");
-    //console.log("DEBUG: do we have a url: "+ this.url + " what about urlRoot? : " + this.urlRoot);
     
     this.fetch({
       success: function (model, response){
