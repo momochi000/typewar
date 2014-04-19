@@ -19,6 +19,7 @@ Crafty.c("BattleCharacter", {
   },
 
   getStatus: function (attribute){
+    if(!attribute){ return this.char_sheet.get("status"); }
     return this.char_sheet.get("status")[attribute];
   },
 
@@ -31,17 +32,18 @@ Crafty.c("BattleCharacter", {
   },
 
   getPercentHP: function (){
-    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
+    return 100 * (this.getStatus('hp') / this.getStatus('max_hp'));
   },
 
   takeDamage: function(damage) {
-    var currentHP, newHP;
+    var char_status;
 
-    currentHP = this.char_sheet.get("status").hp;
-    newHP = currentHP - damage;
-    this.char_sheet.set({status: {hp: newHP}});
+    char_status = this.getStatus();
+    char_status.hp = char_status.hp - damage;
+    this.char_sheet.set({status: char_status});
     this.updateStatus();
-    if(newHP <= 0){ this.die(); }
+    if(char_status.hp <= 0){ this.die(); }
+    char_status = null;
   },
 
   updateStatus: function() {

@@ -42,9 +42,13 @@ FactoryGirl.define do
       cha: 0, 
       wis: 0
     }}
-    status {{
-      hp: 5+rand(25)
-    }}
+    status {
+      hp = 5+rand(25)
+      {
+        hp: hp,
+        max_hp: hp
+      }
+    }
     vocabulary { Character.generate_vocabulary(2) }
   end
 
@@ -61,9 +65,13 @@ FactoryGirl.define do
       cha: 0, 
       wis: 0
     }}
-    status {{
-      hp: 5+rand(25)
-    }}
+    status {
+      hp = 5+rand(25)
+      {
+        hp: hp,
+        max_hp: hp
+      }
+    }
     vocabulary { Character.generate_vocabulary }
   end
 

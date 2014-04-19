@@ -37,7 +37,6 @@ Crafty.c("TextFragmentSpawner", {
    * Valid options:
    * <Object> : attack_object an object containing data around the attack.
    */
-
   generateTextFragment: function (options){
     var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 
       new_type, new_wiggle, y_offset;
