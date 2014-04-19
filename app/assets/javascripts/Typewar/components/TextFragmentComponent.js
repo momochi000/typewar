@@ -31,8 +31,6 @@ var TextFragmentView = Backbone.View.extend({
 });
 
 Crafty.c("TextFragment", {
-  attacker: null,
-  defender: null,
   is_active: false,
   is_complete: false,
   _correct_characters: '',
@@ -50,14 +48,7 @@ Crafty.c("TextFragment", {
 
   textFragment: function (opts){
     this._text                  = opts.text;
-    this.attacker               = opts.attacker;
-    this.defender               = opts.defender;
-    this._attack_object         = opts;
-    this._recordStartTime();
-    this._recordStartPos();
-    this._initMovement();
-    this._bindStageEdgeCollisionEvent();
-    this._bindUnitCollisionListeners();
+    this._classesFunc             = opts.classesFunc;
     return this;
   },
 
@@ -94,7 +85,6 @@ Crafty.c("TextFragment", {
     this.destroy();
   },
 
-  // A test function for debug purposes
   drawSelf: function (){
     if(!this._view) { 
       this._view = new TextFragmentView({entity_id: this.getDomId()});
@@ -108,12 +98,6 @@ Crafty.c("TextFragment", {
     } else {
       // TODO: Render completed text fragments differently
       //  For now, just dont' render completed ones
-
-      //this._view.render({active: this.is_active,
-      //                   typed: this._correct_characters, 
-      //                   missed: this._incorrect_characters, 
-      //                   rest: this._text.slice(this._current_position)});
-
     }
   },
 
@@ -192,21 +176,6 @@ Crafty.c("TextFragment", {
 
   //private
 
-  _bindMovementFunction: function (){
-    if(this._attack_object.positionFunc) { 
-      this.bind("EnterFrame", this._handleMovement);
-    }
-  },
-
-  _bindStageEdgeCollisionEvent: function (){
-    this.bind("EnterFrame", this._handleStageEdgeCollision);
-  },
-
-  _bindUnitCollisionListeners: function (){
-    this.bind("EnterFrame", this._handleNPCCollision);
-    this.bind("EnterFrame", this._handlePlayerCollision);
-  },
-
   _complete: function (){
     this.is_complete = true
     this.deactivate();
@@ -229,28 +198,6 @@ Crafty.c("TextFragment", {
     this._current_position++;
   },
 
-  _currentTime: function (){
-    return (Crafty.frame() - this._startFrame);
-  },
-
-  _evalPositionFunc: function (){
-    var req, opt;
-    // TODO: figure out how to configure optional arguments here
-
-    req = {
-      start_x: this._start_x,
-      start_y: this._start_y,
-      time: this._currentTime(),
-      context: this
-    };
-    opt = {
-      direction: this._attack_object.direction,
-      difficulty_multiplier: this._attack_object.difficulty_multiplier,
-      speed: this._attack_object.speed
-    }
-    return this._attack_object.positionFunc(req,opt);
-  },
-
   _flickerEffect: function (){
     var self, FLICKER_ANIMATION_DURATION;
     self = this;
@@ -265,7 +212,7 @@ Crafty.c("TextFragment", {
   },
 
   _getClasses: function (){
-    return this._classes.concat(this._attack_object.classesFunc(this._currentTime()));
+    return this._classes.concat(this._classesFunc(this._currentTime()));
   },
 
   _getClassesForDom: function (){
@@ -274,73 +221,6 @@ Crafty.c("TextFragment", {
       return(memo + ' ' + curr_class);
     }, '');
     return output;
-  },
-
-  _handleMovement: function (){
-    this._evalPositionFunc();
-  },
-
-  _handleNPCCollision: function (evt){
-    var collision_data;
-    collision_data = this.hit("BattleNPCEnemy")
-    if(collision_data){
-      if(this.attacker.has("BattleNPCEnemy")){return null;} //ignore a collision with the one who spawned the fragment
-      this.removeFromPlay();
-      Crafty.trigger("TextFragmentHitUnit", {text_fragment: this, collision_data: collision_data});
-    }
-  },
-
-  _handlePlayerCollision: function (evt){
-    var collision_data;
-    collision_data = this.hit("BattlePlayer");
-    if(collision_data){
-      if(this.attacker.has("BattlePlayer")){return null;} //ignore a collision with the one who spawned the fragment
-      this.removeFromPlay();
-      Crafty.trigger("TextFragmentHitUnit", {text_fragment: this, collision_data: collision_data});
-    }
-    
-  },
-
-  _handleStageEdgeCollision: function (evt){
-    if(this.hit("BattleStageEdge")){
-      this.removeFromPlay();
-      Crafty.trigger("TextFragmentExitedStage", {text_fragment: this});
-    }
-  },
-
-  _initMovement: function (){
-    this._bindMovementFunction();
-    if(this._attack_object.initialMovement){ //execute initial movement directive
-      this._attack_object.initialMovement({x: this.x, y: this.y, context: this});
-    }
-  },
-
-  _recordStartPos: function (){
-    this._start_x = this.x;
-    this._start_y = this.y;
-  },
-
-  _recordStartTime: function (){
-    this._startFrame = Crafty.frame();
-  },
-
-  _unbindMovementFunction: function (){
-    this.unbind("EnterFrame", this._handleMovement);
-  },
-
-  _unbindStageEdgeCollision: function (){
-    this.unbind("EnterFrame", this._handleStageEdgeCollision);
-  },
-
-  _unbindUnitCollisionListeners: function (){
-    this.unbind("EnterFrame", this._handleNPCCollision);
-    this.unbind("EnterFrame", this._handlePlayerCollision);
-  },
-
-  _unbindAll: function (){
-    this._unbindMovementFunction();
-    this._unbindStageEdgeCollision();
-    this._unbindUnitCollisionListeners();
   },
 
   _wrongInput: function (input){

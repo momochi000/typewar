@@ -94,9 +94,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### REFACTOR: extract text fragment from attack entity
-Occurs to me that a text fragment can be separated from the piece that actually
-flies accross the stage
 #### REFACTOR: pull out common battle entity behavior into a separate component
 I think there are a few other components which are overloaded with 
 functionality and should be broken up. As part of this, do an audit and create
@@ -217,6 +214,9 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### REFACTOR: extract text fragment from attack entity
+Occurs to me that a text fragment can be separated from the piece that actually
+flies accross the stage
 #### REFACTOR: Remove all convenience methods from NPC entity backbone model
 Calls should only be made on the actual crafty entity
 #### BUG: slime sprite is off
