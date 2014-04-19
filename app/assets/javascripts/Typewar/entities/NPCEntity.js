@@ -15,11 +15,12 @@ var NPCEntity = BaseEntity.extend({
     var entity, self;
     self = this;
     
-    entity = Crafty.e("2D, DOM, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision")
+    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision")
       .attr({x: 390, y: 210, w: 42, h: 42 })
-      .nPCBrain()
+      .battleCharacter()
       .battleSlimeAnim()
       .battleNPCEnemy()
+      .nPCBrain()
       .collision([[0,0],[0,50],[50,60],[0,60]]);
     global_enemy = entity; // DEBUG:
 
@@ -51,6 +52,7 @@ var NPCEntity = BaseEntity.extend({
     
     this.fetch({
       success: function (model, response){
+        console.log("SUCCESSFULLY FETCHED NPC FROM SERVER");
         self.processDataFromServer(response);
       },
       error: function (model, response, options){

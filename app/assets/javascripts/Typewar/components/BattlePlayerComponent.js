@@ -1,19 +1,17 @@
 Crafty.c("BattlePlayer", {
-  char_sheet: null,
   _current_target: null,
   _fragment_spawner: null,
   _ANIM_HIT_DELAY: 410,
 
   init: function (){
-    this.requires("2D, BattlePlayerAnimation");
+    this.requires("2D, BattlePlayerAnimation, BattleCharacter");
   },
 
   battlePlayer: function (char_sheet){
-    var self = this;
-
-    this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Player"});
+    if(!this.char_sheet) { 
+      this.char_sheet = new Typewar.Models.CharacterSheet({name: "Player"});
+    }
     this._createFragmentSpawner();
-    this.z = 5;
 
     return this;
   },
@@ -81,29 +79,8 @@ Crafty.c("BattlePlayer", {
     this.destroy();
   },
 
-  deliverAttack: function (){
-    this.animAttack();
-  },
-
   die: function (){
     Crafty.trigger("PlayerDied", {target: this});
-  },
-
-  getStatus: function (attribute){
-    return this.char_sheet.get("status")[attribute];
-  },
-
-  getName: function (){
-    return this.char_sheet.get("name");
-  },
-
-  getVocabulary: function (){
-    return this.char_sheet.get("vocabulary");
-  },
-
-
-  getPercentHP: function (){
-    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
   },
 
   initiateAttackOn: function (defender){
@@ -146,20 +123,6 @@ Crafty.c("BattlePlayer", {
     console.log("DEBUG: PLAYER: HIT!! GOT ME GOOD D=");
     //window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
     self.animHit();
-  },
-
-  takeDamage: function(damage) {
-    var currentHP, newHP;
-
-    currentHP = this.char_sheet.get("status").hp;
-    newHP = currentHP - damage;
-    this.char_sheet.set({status: {hp: newHP}});
-    this.updateStatus();
-    if(newHP <= 0){ this.die(); }
-  },
-
-  updateStatus: function() {
-    this.trigger("UpdateStatus");
   },
 
   wasMissed: function (){ },

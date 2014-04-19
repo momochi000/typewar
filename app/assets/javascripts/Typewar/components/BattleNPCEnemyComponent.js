@@ -11,16 +11,18 @@ Crafty.c("BattleNPCEnemy", {
   _ANIM_HIT_DELAY: 430,
   _fragment_spawner: null,
   _current_target: null,
-  char_sheet: null,
 
   init: function (){
-    this.requires("2D, SpriteAnimation");
+    this.requires("2D, SpriteAnimation, BattleCharacter");
   },
 
   battleNPCEnemy: function (char_sheet){
-    this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
+    //this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
+    if(!this.char_sheet) { 
+      this.char_sheet = new Typewar.Models.CharacterSheet({name :"Slime"});
+    }
     this._createFragmentSpawner();
-    this.z = 5;
+
     return this;
   },
 
@@ -109,28 +111,8 @@ Crafty.c("BattleNPCEnemy", {
     this.destroy();
   },
 
-  deliverAttack: function (){
-    this.animAttack();
-  },
-
   die: function (){
     Crafty.trigger("NPCDied", {target: this});
-  },
-
-  getStatus: function(attribute) {
-    return this.char_sheet.get("status")[attribute];
-  },
-
-  getName: function() {
-    return this.char_sheet.get("name");
-  },
-
-  getVocabulary: function (){
-    return this.char_sheet.get("vocabulary");
-  },
-
-  getPercentHP: function() {
-    return 100 * this.char_sheet.get("status").hp / this.char_sheet.defaults.status.hp;
   },
 
   initiateAttackOn: function (defender, attack_type){
@@ -172,22 +154,6 @@ Crafty.c("BattleNPCEnemy", {
     var self = this;
     console.log("DEBUG: SLIME: HIT!! GOT ME GOOD D=");
     window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
-  },
-
-  takeDamage: function(damage) {
-    var currentHP, newHP;
-
-    damage = damage || 2;
-    currentHP = this.char_sheet.get("status").hp;
-    newHP = currentHP - damage;
-
-    this.char_sheet.set({status: {hp: newHP}});
-    this.updateStatus();
-    if(newHP <= 0){ this.die(); }
-  },
-
-  updateStatus: function() {
-    this.trigger("UpdateStatus");
   },
 
   wasMissed: function (){

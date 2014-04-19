@@ -6,9 +6,10 @@ var PCBattleEntity = BaseEntity.extend({
   initialize: function (){
     var player;
 
-    player = Crafty.e("2D, DOM, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision")
+    player = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision")
     player.attr({ x: 20, y: 180 })
       .battlePlayerZeroAnim()
+      .battleCharacter()
       .battlePlayer()
       .collision([[0,0],[60,0],[60,120],[0,120]]);
 
@@ -32,8 +33,8 @@ var PCBattleEntity = BaseEntity.extend({
 
     this.fetch({
       success: function (model, response){
-        console.log("SUCCESSFUL FETCH FROM SERVER.  MODEL WAS =====> ");
-        console.log(model);
+        console.log("SUCCESSFULLY FETCHED PLAYER FROM SERVER.");
+        //console.log(model);
         self.processDataFromServer(response);
       },
 
