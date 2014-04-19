@@ -83,7 +83,7 @@ recorded and played back as a math function? Can a vector represent a
 position func?
 
 ## Thinking out loud
-Difficulty multiplier should be passed in as a WPM value
+Difficulty multiplier could be passed in as a WPM value
 This function must be able to take that WPM value and scale the attack
 speed appropriately.
 
@@ -94,8 +94,7 @@ speed appropriately.
 
 ## CURRENT
 
-#### Characters have max hp
-Health bar is rendered as a percentage of max hp
+#### Add a tiny bit of delay between monster animation and spawning of fragment
 #### Wire up attack animations to the animation specified in the attack object
 For slime npc, there is an animation attribute in each attack, this should pass
 through to the character on attack and degrade gracefully to randomize attack if
@@ -115,6 +114,8 @@ none provided
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### BUG: seems that box2d elements are not being deallocated on scene change
+Might be the entire entity or just the box2d physics part.
 #### Improve damage calculation
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
@@ -176,7 +177,8 @@ specific skill(s)
 #### Adjust game behavior based on stats from player and npc
 #### Add devise and player model and allow people to create accounts and log in
 #### Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
-#### Clear all TODO's in code
+#### REFACTOR: Clear all TODO's in code
+#### Move 'attacks' definitions server side
 #### Create a module that governs the display of the battle. 
 It needs to handle crafty's zoom level and move things around the scene 
 appropriately.  This should probably go in the Camera component.  Currently, 
@@ -187,8 +189,6 @@ offset of the crafty stage.  The camera component should maintain a zoom level
 and be able to translate coordinates in scene space to screen space and vice versa.
 This is may also need to handle setup of the viewport depending on device 
 screen size and orientation etc.  Scaling the game appropriately.
-#### BUG: when two text fragments have the same text, when you finish them only one dies
-Not a high priority
 #### PERFORMANCE: seems like dom nodes aren't getting properly removed when text fragments go away
 Need to ensure that they do.
 #### Make the battle over scene overlay on top of the battle scene.
@@ -200,13 +200,7 @@ binds to EnterFrame and increments itself.
 #### REFACTOR: namespace our Sprite sheet properly under typewar 
 #### Esc to bail out of typing a text fragment 
 But only if you have the requisite skill
-#### Consider making text fragments small when live and large when active
-#### Build a better method of attaching css classes to text fragments
-See TextFragmentEntity.js for TODO notes.
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
-#### Make player stagger/stumble when one if their text fragments crosses untyped
-#### Try giving the fragments acceleration instead of speed.
-OOh better yet, give some a flat speed and some an accel.
 #### Particle system setup
 #### Rails backend loads text dictionaries and sends them to the game engine
 
@@ -214,6 +208,8 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### Characters have max hp
+Health bar is rendered as a percentage of max hp
 #### REFACTOR: pull out common battle entity behavior into a separate component
 I think there are a few other components which are overloaded with 
 functionality and should be broken up. As part of this, do an audit and create
