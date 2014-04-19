@@ -35,7 +35,6 @@ Crafty.c("TextFragment", {
   defender: null,
   is_active: false,
   is_complete: false,
-  type: 'attack', // TODO: I believe this can also be deprecated since type isn't used anymore
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
@@ -118,19 +117,8 @@ Crafty.c("TextFragment", {
     }
   },
 
-  // TODO: looks like this and isDefense can be deprecated, not used anywhere
-  isAttack: function (){
-    if(this.type === "attack"){ return true; }
-    return false;
-  },
-
   isComplete: function (){ // a convenience method
     return this.is_complete;
-  },
-
-  isDefense: function (){
-    if(this.type === "defense"){ return true; }
-    return false;
   },
 
   // Return true if the given character matches the first one in the text frag
