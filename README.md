@@ -98,8 +98,6 @@ speed appropriately.
 I think there are a few other components which are overloaded with 
 functionality and should be broken up. As part of this, do an audit and create
 additional tasks as necessary.
-#### REFACTOR: Consider initializing box2d as part of Crafty's init 
-not part of the scene init
 #### Improve damage calculation
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
@@ -214,6 +212,8 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### REFACTOR: Consider initializing box2d as part of Crafty's init 
+not part of the scene init
 #### REFACTOR: extract text fragment from attack entity
 Occurs to me that a text fragment can be separated from the piece that actually
 flies accross the stage
