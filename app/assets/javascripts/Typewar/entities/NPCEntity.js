@@ -15,11 +15,12 @@ var NPCEntity = BaseEntity.extend({
     var entity, self;
     self = this;
     
-    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision")
+    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, BattleSlime, NPCBrain, slime_st0, Collision")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
       .battleSlimeAnim()
       .battleNPCEnemy()
+      .battleSlime()
       .nPCBrain()
       .collision([[0,0],[0,50],[50,60],[0,60]]);
     global_enemy = entity; // DEBUG:
@@ -34,9 +35,9 @@ var NPCEntity = BaseEntity.extend({
      * the character in time for the battle manager init.
      * or more succinctly, the code marches on while the server
      * is being contacted/responding.
-     * 
-     * What I want to try next is doing a lock for 5 seconds or 
-     * until the server responds
+     *
+     * This isn't causing a problem now locally, but keep an eye on
+     * this for possible problems in the future
      */
     self.set('entity', entity);
     return this;
@@ -101,5 +102,4 @@ var NPCEntity = BaseEntity.extend({
   setTarget: function (target){
     this.getEntity().setTarget(target.getEntity());
   }
-
 });

@@ -102,6 +102,12 @@ additional tasks as necessary.
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
 resolveDefense private methods in the battle manager
+#### Characters have max hp
+Health bar is rendered as a percentage of max hp
+#### Wire up attack animations to the animation specified in the attack object
+For slime npc, there is an animation attribute in each attack, this should pass
+through to the character on attack and degrade gracefully to randomize attack if
+none provided
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
