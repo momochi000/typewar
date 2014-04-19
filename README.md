@@ -94,14 +94,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### REFACTOR: pull out common battle entity behavior into a separate component
-I think there are a few other components which are overloaded with 
-functionality and should be broken up. As part of this, do an audit and create
-additional tasks as necessary.
-#### Improve damage calculation
-Use the properties of the attack (which will be carried by the text fragment)
-when resolving damage dealt.  Should happen in the resolveAttack and 
-resolveDefense private methods in the battle manager
 #### Characters have max hp
 Health bar is rendered as a percentage of max hp
 #### Wire up attack animations to the animation specified in the attack object
@@ -123,6 +115,10 @@ none provided
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### Improve damage calculation
+Use the properties of the attack (which will be carried by the text fragment)
+when resolving damage dealt.  Should happen in the resolveAttack and 
+resolveDefense private methods in the battle manager
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
@@ -218,6 +214,10 @@ OOh better yet, give some a flat speed and some an accel.
 
 ## DONE
 
+#### REFACTOR: pull out common battle entity behavior into a separate component
+I think there are a few other components which are overloaded with 
+functionality and should be broken up. As part of this, do an audit and create
+additional tasks as necessary.
 #### REFACTOR: Consider initializing box2d as part of Crafty's init 
 not part of the scene init
 #### REFACTOR: extract text fragment from attack entity

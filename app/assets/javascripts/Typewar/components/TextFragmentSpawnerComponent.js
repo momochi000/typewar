@@ -35,15 +35,7 @@ Crafty.c("TextFragmentSpawner", {
    * options defines the attributes and behavior to attach to the newly
    * spawned text fragment.
    * Valid options:
-   *   <string> text   : the text of the fragment
-   *   <string> classes: additional css classes to apply
-   *   <array> offset  : 
-   *   <array> speed   : [x_spd, y_spd]
-   *   <string>type    : a type string to define the type of fragment. Some 
-   *     example types are 'attack' 'defense' 'special' 'combo'
-   *   <array> accel   : [x_accel, y_accel]
-   *   <array> wiggle  : [x_wiggle, y_wiggle]. An amount to randomly shift the
-   *     spawn points of the generated text fragment.
+   * <Object> : attack_object an object containing data around the attack.
    */
 
   generateTextFragment: function (options){
