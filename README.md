@@ -87,18 +87,10 @@ Difficulty multiplier could be passed in as a WPM value
 This function must be able to take that WPM value and scale the attack
 speed appropriately.
 
-
-
-
 ---
 
 ## CURRENT
 
-#### Add a tiny bit of delay between monster animation and spawning of fragment
-#### Wire up attack animations to the animation specified in the attack object
-For slime npc, there is an animation attribute in each attack, this should pass
-through to the character on attack and degrade gracefully to randomize attack if
-none provided
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -158,6 +150,9 @@ acceleration from the battle manager.
 #### Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
 save.
+#### REFACTOR: Create a method to do a wait for (x) frames.
+Instead of doing window.setTimeout everywhere, we should wait for a fixed
+number of frames.
 #### Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 #### Tweak balance so that text flies at the player more smoothly (from the npc)
 #### REFACTOR: make event naming consistent.
@@ -208,6 +203,11 @@ But only if you have the requisite skill
 
 ## DONE
 
+#### Add a tiny bit of delay between monster animation and spawning of fragment
+#### Wire up attack animations to the animation specified in the attack object
+For slime npc, there is an animation attribute in each attack, this should pass
+through to the character on attack and degrade gracefully to randomize attack if
+none provided
 #### Characters have max hp
 Health bar is rendered as a percentage of max hp
 #### REFACTOR: pull out common battle entity behavior into a separate component

@@ -28,11 +28,16 @@ Crafty.c("BattlePlayerZeroAnim", {
     return this;
   },
 
-  animAttack: function (){
+  animAttack: function (anim){
     var attack_name, attack_names;
-    // randomize attack animation
-    attack_names = ["attack1", "attack2", "attack3", "attack4"];
-    attack_name = attack_names[Math.floor(attack_names.length * Math.random())];
+
+    if(!anim){
+      // randomize attack animation
+      attack_names = ["attack1", "attack2", "attack3", "attack4"];
+      attack_name = attack_names[Math.floor(attack_names.length * Math.random())];
+    }else{
+      attack_name = anim;
+    }
     this.stop().animate(attack_name, this._ATTACK_ANIM_SPEED, 0);
   },
 

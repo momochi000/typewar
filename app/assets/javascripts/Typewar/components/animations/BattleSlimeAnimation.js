@@ -21,8 +21,9 @@ Crafty.c("BattleSlimeAnim", {
     return this;
   },
 
-  animAttack: function (){
-    this.stop().animate("attack2", this._ATTACK_ANIM_SPEED, 0);
+  animAttack: function (anim){
+    anim = anim || "attack2";
+    this.stop().animate(anim, this._ATTACK_ANIM_SPEED, 0);
   },
 
   animBlock: function (){

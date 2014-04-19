@@ -9,6 +9,7 @@
 
 Crafty.c("BattleNPCEnemy", {
   _ANIM_HIT_DELAY: 430,
+  _ANIM_ATTACK_DELAY: 200,
   _fragment_spawner: null,
   _current_target: null,
 
@@ -38,19 +39,22 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   initiateAttackOn: function (defender, attack_type){
-    var frag, speed, text_fragment_options;
+    var self, attack, frag, speed, text_fragment_options;
+    self = this;
 
-    if(!attack_type){ 
-      attack_type = _.sample(Object.keys(this.attacks)); 
-    }
+    if(!attack_type){ attack_type = _.sample(Object.keys(this.attacks)); }
+    attack = this.attacks[attack_type];
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
       defender: defender, 
-      attack: this.attacks[attack_type]
+      attack: attack
     });
-
-    frag = this._fragment_spawner.generateTextFragment({attack_properties: text_fragment_options});
-    this.deliverAttack();
+    this.animAttack(attack.animation);
+    window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
+      frag = self._fragment_spawner.generateTextFragment({
+        attack_properties: text_fragment_options
+      });
+    }, this._ANIM_ATTACK_DELAY);
   },
 
   isPlayer: function (){ return false; },

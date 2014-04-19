@@ -14,10 +14,6 @@ Crafty.c("BattleCharacter", {
     return this;
   },
 
-  deliverAttack: function (){
-    this.animAttack();
-  },
-
   getStatus: function (attribute){
     if(!attribute){ return this.char_sheet.get("status"); }
     return this.char_sheet.get("status")[attribute];
