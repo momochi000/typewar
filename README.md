@@ -91,6 +91,35 @@ speed appropriately.
 
 ## CURRENT
 
+
+#### REFACTOR: challenge (bloggable) break TextFragment component up into it's base "components"
+Currently text fragment has some functionality related to holding attack data
+and motion governance. My plan was to pull these out into separate components.
+The problem, however, is that both of these components will need to have 
+cleanup methods for when the entity is removed/destroyed. But what happens when
+two components both have a method named 'cleanup' or 'deallocate' or whatever?
+There will be a collision and one will be overwritten.
+
+After some more research, it looks like crafty's .destroy() method (on entity)
+will unbind all the things so the first action item is to remove most of my
+calls to 'deallocate' and replace them with destroy. Also try to use
+entity.bind('EventName', callback) rather than Crafty.bind and see if there's
+a difference when deallocating/destroying.
+
+The second action item is to find a solution to the deallocate collision 
+problem. I have some possible solutions in mind:
+
+1. Namespace all deallocate methods by the component name itself, for example
+textFragmentDeallocate and textFragmentMovementDeallocate. Then some master
+component for that entity (specifically) can call the requisite deallocates
+2. Set up a deallocator component which registers bindings or more 
+specifically, callbacks to run on deallocation.
+3. Set up event bindings that listen for entity destruction, calling the 
+cleanup callback when that is triggered. The callback can be anonymous, thus
+avoiding the naming collision
+4. The actual solution: Crafty components can define a remove method that
+will be called when the compoenent is removed or the entity is being destroyed.
+
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -106,6 +135,11 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### REFACTOR: extract attack objects out into some class or other better structure
+An attack is something that gets 'new'ed up and initialized with some json of
+options.  These options can be held server side and contains all the data
+necessary to populate the attack including damage amounts/properties, animation
+animationd delay (maybe), attack behavior, mana cost etc etc.
 #### BUG: seems that box2d elements are not being deallocated on scene change
 Might be the entire entity or just the box2d physics part.
 #### Improve damage calculation
@@ -135,6 +169,7 @@ Animate successful completion
   * fragment immediately becomes ineffective (collision off)
 + player gets hit 
 any more?
+
 #### Tighten hitboxes (both of entities and of text fragments)
 #### BUG: Edge case: multiple fragments with same starting text typod
 NOTE: this algorithm allows the following edge case:
@@ -161,7 +196,6 @@ Either camel case or underscored, pick one and run with it
 Need to pass in or identify the source of the damage.  For example when npc 
 dies, the event it publishes/broadcasts should contain info about who killed
 it.
-#### REFACTOR Separate attack and text fragment as distinct components
 #### Combos
 If we go with the player attack slots idea, combos becomes easy. Combos would 
 fit into a specific attack slot and you'd simply type one word and another 
