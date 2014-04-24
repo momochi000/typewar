@@ -10,10 +10,10 @@ Crafty.c("BattlePlayerAnim", {
 
   battlePlayerAnim: function (){
     var self = this;
-    this.animate("ready", 0, 0, 6)
-      .animate("hit", 0, 1, 6)
-      .animate("attack1", 0, 2, 6)
-      .animate("block", 0, 3, 6)
+    this.reel("ready", this._READY_ANIM_SPEED, 0, 0, 6)
+      .reel("hit", this._HIT_ANIM_SPEED, 0, 1, 6)
+      .reel("attack1", this._ATTACK_ANIM_SPEED, 0, 2, 6)
+      .reel("block", this._BLOCK_ANIM_SPEED, 0, 3, 6)
       .bind("EnterFrame", function (e){
         if(!self.isPlaying()){ self.animReady(); }
       });
@@ -21,18 +21,18 @@ Crafty.c("BattlePlayerAnim", {
   },
 
   animAttack: function (){
-    this.stop().animate("attack1", this._ATTACK_ANIM_SPEED, 0);
+    this.animate("attack1", 0);
   },
 
   animBlock: function (){
-    this.stop().animate("block", this._BLOCK_ANIM_SPEED, 0);
+    this.animate("block", 0);
   },
 
   animHit: function (){
-    this.stop().animate("hit", this._HIT_ANIM_SPEED, 0);
+    this.animate("hit", 0);
   }, 
 
   animReady: function (){
-    this.animate("ready", this._READY_ANIM_SPEED, -1);
+    this.animate("ready", -1);
   }
 });

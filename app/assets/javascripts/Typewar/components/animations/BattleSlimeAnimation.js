@@ -1,8 +1,8 @@
 Crafty.c("BattleSlimeAnim", {
-  _ATTACK_ANIM_SPEED: 23,
-  _BLOCK_ANIM_SPEED: 17,
-  _HIT_ANIM_SPEED: 18,
-  _READY_ANIM_SPEED: 39,
+  _ATTACK_ANIM_SPEED: 500,
+  _BLOCK_ANIM_SPEED: 270,
+  _HIT_ANIM_SPEED: 280,
+  _READY_ANIM_SPEED: 600,
 
   init: function (){
     this.requires("SpriteAnimation");
@@ -10,11 +10,11 @@ Crafty.c("BattleSlimeAnim", {
 
   battleSlimeAnim: function (){
     var self = this;
-    this.animate("ready", 0, 0, 4)
-      .animate("hit", 0, 1, 7)
-      .animate("attack1", 0, 2, 7)
-      .animate("attack2", 0, 4, 8)
-      .animate("block", 0, 3, 7)
+    this.reel("ready", this._READY_ANIM_SPEED, 0, 0, 4)
+      .reel("hit", this._HIT_ANIM_SPEED, 0, 1, 7)
+      .reel("attack1", this._ATTACK_ANIM_SPEED, 0, 2, 7)
+      .reel("attack2", this._ATTACK_ANIM_SPEED, 0, 4, 8)
+      .reel("block", this._BLOCK_ANIM_SPEED, 0, 3, 7)
       .bind("EnterFrame", function (e){
         if(!self.isPlaying()){ self.animReady(); }
       });
@@ -23,18 +23,18 @@ Crafty.c("BattleSlimeAnim", {
 
   animAttack: function (anim){
     anim = anim || "attack2";
-    this.stop().animate(anim, this._ATTACK_ANIM_SPEED, 0);
+    this.animate(anim, 0);
   },
 
   animBlock: function (){
-    this.stop().animate("block", this._BLOCK_ANIM_SPEED, 0);
+    this.animate("block", 0);
   },
 
   animHit: function (){
-    this.stop().animate("hit", this._HIT_ANIM_SPEED, 0);
+    this.animate("hit", 0);
   },
 
   animReady: function (){
-    this.animate("ready", this._READY_ANIM_SPEED, -1);
+    this.animate("ready", -1);
   },
 });

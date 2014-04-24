@@ -1,8 +1,9 @@
 Crafty.c("BattlePlayerZeroAnim", {
-  _ATTACK_ANIM_SPEED: 8,
-  _BLOCK_ANIM_SPEED: 18,
-  _HIT_ANIM_SPEED: 32,
-  _READY_ANIM_SPEED: 49,
+  _ATTACK_ANIM_SPEED: 380,
+  _BLOCK_ANIM_SPEED: 480,
+  _HIT_ANIM_SPEED: 320,
+  _READY_ANIM_SPEED: 900,
+  _PLACEHOLDER_ANIM_SPEED: 700,
 
   init: function (){
     this.requires("SpriteAnimation");
@@ -10,16 +11,16 @@ Crafty.c("BattlePlayerZeroAnim", {
 
   battlePlayerZeroAnim: function (){
     var self = this;
-    this.animate("ready", 0, 0, 4)
-      .animate("attack1", 0, 1, 8)
-      .animate("attack2", 0, 2, 6)
-      .animate("attack3", 0, 3, 8)
-      .animate("attack4", 0, 4, 8)
-      .animate("block", 0, 5, 7)
-      .animate("dash", 0, 8, 3)
-      .animate("jump", 0, 9, 6)
-      .animate("enter", 0, 10, 13)
-      .animate("charge", 0, 11, 7)
+    this.reel("ready", this._READY_ANIM_SPEED, 0, 0, 4)
+      .reel("attack1", this._ATTACK_ANIM_SPEED, 0, 1, 8)
+      .reel("attack2", this._ATTACK_ANIM_SPEED, 0, 2, 6)
+      .reel("attack3", this._ATTACK_ANIM_SPEED, 0, 3, 8)
+      .reel("attack4", this._ATTACK_ANIM_SPEED, 0, 4, 8)
+      .reel("block", this._BLOCK_ANIM_SPEED, 0, 5, 7)
+      .reel("dash", this._PLACEHOLDER_ANIM_SPEED, 0, 8, 3)
+      .reel("jump", this._PLACEHOLDER_ANIM_SPEED, 9, 6)
+      .reel("enter", this._PLACEHOLDER_ANIM_SPEED, 10, 13)
+      .reel("charge", this._PLACEHOLDER_ANIM_SPEED, 11, 7)
       .setupHitAnim()
 
       .bind("EnterFrame", function (e){
@@ -38,19 +39,19 @@ Crafty.c("BattlePlayerZeroAnim", {
     }else{
       attack_name = anim;
     }
-    this.stop().animate(attack_name, this._ATTACK_ANIM_SPEED, 0);
+    this.animate(attack_name, 0);
   },
 
   animBlock: function (){
-    this.stop().animate("block", this._BLOCK_ANIM_SPEED, 0);
+    this.animate("block", 0);
   },
 
   animHit: function (){
-    this.stop().animate("hit", this._HIT_ANIM_SPEED, 0);
+    this.animate("hit", 0);
   }, 
 
   animReady: function (){
-    this.animate("ready", this._READY_ANIM_SPEED, -1);
+    this.animate("ready", -1);
   },
 
   // private
@@ -70,7 +71,7 @@ Crafty.c("BattlePlayerZeroAnim", {
       [0,7], [1,7]
     ]
 
-    this.animate("hit", hit_anim_map);
+    this.reel("hit", this._HIT_ANIM_SPEED, hit_anim_map);
     return this;
   }
 });
