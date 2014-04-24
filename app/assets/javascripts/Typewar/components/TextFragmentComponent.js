@@ -1,38 +1,3 @@
-/* TODO: this should move to it's own directory */
-/* There's a potential bug here where two fragments get created with
- * the same DOM id because our unique id generator is pretty garbage
- */
-var TextFragmentView = Backbone.View.extend({
-  tagName: 'div',
-  className: 'text-fragment',
-  _template_id: "#text_fragment_template",
-  render: function (opts){
-    if(!this.id) { 
-      this.id = this._generateUniqueId(); 
-    }
-    if(!_.any($(this.id))){
-      this.$el.html(_.template($(this._template_id).html(), opts));
-      if(this.options.entity_id) {
-        $("#"+this.options.entity_id).append(this.el);
-      } else {
-        $('body').append(this.el);
-      }
-    }
-  },
-
-  // private
-  
-  _generateUniqueId: function (){
-    var u_id;
-    u_id = "text_fragment_" + this._generateRandomVal();
-    return u_id;
-  },
-
-  _generateRandomVal: function (){ // TODO: move into a library or something
-    return Math.floor(Math.random()*1000000);
-  }
-});
-
 Crafty.c("TextFragment", {
   is_active: false,
   is_complete: false,
@@ -40,18 +5,11 @@ Crafty.c("TextFragment", {
   _current_position: null,
   _incorrect_characters: '',
   _text: '',
-  _view: null,
-  _classes: null,
 
   init: function (){
-    this.requires("2D, DOM, Collision");
-    this.current_position = 0;
-    this._classes = [];
   },
 
-  textFragment: function (opts){
-    this._text                  = opts.text;
-    this._classesFunc             = opts.classesFunc;
+  textFragment: function (){
     return this;
   },
 
@@ -71,36 +29,14 @@ Crafty.c("TextFragment", {
     }
   },
 
-  addClass: function (css_class) { // add css class to text fragment
-    this.addClasses([css_class]);
-  },
-  
-  addClasses: function (classes) { // add css classes to text fragment
-    if(!classes.concat || !(classes.length>0)) {throw "Invalid argument to addClasses on TextFragmentComponent, must be array"}
-    this._classes = this._classes.concat(classes);
-  },
-
   deactivate: function (){ 
     this.is_active = false; 
     this.z = 0;
     this._current_position = null;
-    this.drawSelf();
-  },
-
-  drawSelf: function (){
-    if(!this._view) { 
-      this._view = new TextFragmentView({entity_id: this.getDomId()});
-    }
-    if(!this.is_complete) {
-      this._view.render({active: this.is_active,
-                         typed: this._correct_characters, 
-                         missed: this._incorrect_characters, 
-                         rest: this._text.slice(this._current_position),
-                         classes: this._getClassesForDom()});
-    } else {
-      // TODO: Render completed text fragments differently
-      //  For now, just dont' render completed ones
-    }
+    this.drawSelf(); // TODO: refactor calls to drawSelf out into text fragment 
+                     // display component for now it's ok to have them here, 
+                     // it won't break if it calls but there's nothing to 
+                     // display
   },
 
   isComplete: function (){ // a convenience method
@@ -120,7 +56,6 @@ Crafty.c("TextFragment", {
   removeFromPlay: function (){
     this._view.remove();
     this.removeComponent("Collision", true);
-    this.removeComponent("Physics2D", true);
     this.y = -9999999999;
     this.z = -100;
     this._unbindAll();
@@ -196,19 +131,6 @@ Crafty.c("TextFragment", {
     this._current_position++;
   },
 
-  _flickerEffect: function (){
-    var self, FLICKER_ANIMATION_DURATION;
-    self = this;
-    FLICKER_ANIMATION_DURATION = 350;
-    if(this._classes.indexOf('typo') == -1){
-      this._classes.push('typo');
-      window.setTimeout(function (){
-        self._classes = _.without(self._classes, 'typo');
-        self.drawSelf();
-      }, FLICKER_ANIMATION_DURATION);
-    }
-  },
-
   _getClasses: function (){
     return this._classes.concat(this._classesFunc(this._currentTime()));
   },
@@ -223,6 +145,6 @@ Crafty.c("TextFragment", {
 
   _wrongInput: function (input){
     this._incorrect_characters += input;
-    this._flickerEffect();
+    this._flickerEffect(); // TODO: refactor over to the display component
   }
 });

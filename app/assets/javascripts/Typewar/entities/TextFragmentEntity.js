@@ -34,7 +34,7 @@ var TextFragmentEntity = BaseEntity.extend({
     attack_properties = this.get("attack_properties");
     hitbox = attack_properties.hitbox;
     
-    var entity = Crafty.e("2D, DOM, Collision, TextFragment, BattleNPCAttack")
+    var entity = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentDisplay, BattleNPCAttack")
       .attr({
         x: this.get('x') || 0, 
         y: this.get('y') || 0, 
@@ -50,7 +50,8 @@ var TextFragmentEntity = BaseEntity.extend({
       entity.addComponent("Box2D");
       entity.box2d(attack_properties.box2d); 
     }
-    entity.textFragment({text: attack_properties.text, classesFunc: attack_properties.classesFunc})
+    entity.textFragment()
+      .textFragmentDisplay({text: attack_properties.text, classesFunc: attack_properties.classesFunc})
       .battleNPCAttack(attack_properties);
     this.set("entity", entity);
     return this;

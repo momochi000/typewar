@@ -91,6 +91,8 @@ speed appropriately.
 
 ## CURRENT
 
+
+#### Extract display of text fragments out of text fragment component
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -209,12 +211,12 @@ But only if you have the requisite skill
 
 ## DONE
 
-#### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents
+#### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents **skill epic**
 Move deallocate code in components to remove
-#### Upgrade crafty
+#### Upgrade crafty **skill epic**
 Version of crafty we're using now doesn't call remove() on components when
 it's entity is destroyed which we need for the following refactor
-#### REFACTOR: challenge (bloggable) break TextFragment component up into it's base "components"
+#### REFACTOR: challenge (bloggable) break TextFragment component up into it's base "components" **skill epic**
 Currently text fragment has some functionality related to holding attack data
 and motion governance. My plan was to pull these out into separate components.
 The problem, however, is that both of these components will need to have 
