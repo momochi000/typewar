@@ -92,7 +92,6 @@ speed appropriately.
 ## CURRENT
 
 
-#### Extract display of text fragments out of text fragment component
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -211,6 +210,7 @@ But only if you have the requisite skill
 
 ## DONE
 
+#### Extract display of text fragments out of text fragment component
 #### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents **skill epic**
 Move deallocate code in components to remove
 #### Upgrade crafty **skill epic**
