@@ -11,7 +11,7 @@ var PCBattleEntity = BaseEntity.extend({
       .battlePlayerZeroAnim()
       .battleCharacter()
       .battlePlayer()
-      .collision([[0,0],[60,0],[60,120],[0,120]]);
+      .collision([0,0],[60,0],[60,120],[0,120]);
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
 

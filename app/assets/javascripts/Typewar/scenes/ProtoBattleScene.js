@@ -106,15 +106,15 @@ var ProtoBattleScene = Backbone.Model.extend({
 
     left_edge = Crafty.e("2D, DOM, Collision, BattleStageEdge")
       .attr({x: STAGE_EDGE_LEFT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
-      .collision([[0,0], [0, 9000], [5, 9000], [5, 0]]);
+      .collision([0,0], [0, 9000], [5, 9000], [5, 0]);
 
     right_edge = Crafty.e("2D, DOM, Collision, BattleStageEdge")
       .attr({x: stage_width+STAGE_EDGE_RIGHT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
-      .collision([[0,0], [0, 9000], [5, 9000], [5, 0]]);
+      .collision([0,0], [0, 9000], [5, 9000], [5, 0]);
 
     bottom_edge = Crafty.e("2D, DOM, Collision, BattleStageEdge")
       .attr({x: 0, y: stage_height + STAGE_EDGE_FLOOR_BARRIER_OFFSET, w: 9000, h: 5 })
-      .collision([[0,0], [9000, 0], [9000, 5], [0, 5]]);
+      .collision([0,0], [9000, 0], [9000, 5], [0, 5]);
 
     this.set('left_edge', left_edge);
     this.set('right_edge', right_edge);

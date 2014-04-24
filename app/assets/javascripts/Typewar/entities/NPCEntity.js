@@ -22,7 +22,7 @@ var NPCEntity = BaseEntity.extend({
       .battleNPCEnemy()
       .battleSlime()
       .nPCBrain()
-      .collision([[0,0],[0,50],[50,60],[0,60]]);
+      .collision([0,0],[0,50],[50,60],[0,60]);
     global_enemy = entity; // DEBUG:
 
     if(!this.has('skip_fetch')) { this.getFromServer() };

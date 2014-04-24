@@ -73,6 +73,6 @@ var TextFragmentEntity = BaseEntity.extend({
 
   // TODO: put this in a library or something, or maybe make it a crafty module
   _generateCollisionPolyFromRect: function (rect){
-    return [[0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]];
+    return new Crafty.polygon([0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]);
   }
 });
