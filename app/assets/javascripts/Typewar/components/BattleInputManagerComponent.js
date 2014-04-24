@@ -59,6 +59,7 @@ Crafty.c("BattleInputManager", {
 
   _handleBrowserKeyOverrides: function (){
     this._preventBackspaceNavigation();
+    this._preventTabFieldSwitch();
     this._preventSpacebarScroll();
   },
 
@@ -71,6 +72,9 @@ Crafty.c("BattleInputManager", {
 
     if(this._isModifierKey(letter_value)){
       this._handleModifierKeyPressed(letter_value);
+      return;
+    }else if(this._isModeSwitchKey(letter_value)){
+      Typewar.Engine.BattleManager.toggleMode();
       return;
     }
 
@@ -106,6 +110,10 @@ Crafty.c("BattleInputManager", {
     }
   },
 
+  _isModeSwitchKey: function (key_val){
+    return (key_val === 'tab');
+  },
+
   _isModifierKey: function (key_val){
     switch(key_val) {
       case('shift'):
@@ -118,6 +126,14 @@ Crafty.c("BattleInputManager", {
   _preventBackspaceNavigation: function (){
     $(document).on("keydown", function (e) {
       if (e.which === 8 && !$(e.target).is("input, textarea")) {
+        e.preventDefault();
+      }
+    });
+  },
+
+  _preventTabFieldSwitch: function (){
+    $(document).on("keydown", function (e) {
+      if (e.which === 9 && !$(e.target).is("input, textarea")) {
         e.preventDefault();
       }
     });
@@ -136,7 +152,8 @@ Crafty.c("BattleInputManager", {
       case(Crafty.keys['BACKSPACE']):
         // We could do something special with this if we later choose
         return '';
-      //case(Crafty.keys['TAB'])
+      case(Crafty.keys['TAB']):
+        return 'tab';
       case(Crafty.keys['ENTER']):
         return '';
       //case(Crafty.keys['CAPS'])

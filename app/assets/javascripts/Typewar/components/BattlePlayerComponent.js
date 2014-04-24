@@ -17,7 +17,6 @@ Crafty.c("BattlePlayer", {
   },
 
   remove: function (destroyed) {
-    this.deactivateAutoAttack();
     this._fragment_spawner.destroy();
     this._fragment_spawner = null;
   },
@@ -65,17 +64,6 @@ Crafty.c("BattlePlayer", {
       }, 
       hitbox: {w: 50, h: 50}
     }
-  },
-
-  activateAutoAttack: function (){
-    var self = this;
-    this.battle_timer = window.setInterval(function() {
-      self.initiateAttackOn(self._current_target);
-    }, 7000);
-  },
-
-  deactivateAutoAttack: function (){
-    if(this.battle_timer){ window.clearInterval(this.battle_timer); }
   },
 
   die: function (){

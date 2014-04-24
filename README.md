@@ -91,8 +91,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents
-Move deallocate code in components to remove
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -211,6 +209,8 @@ But only if you have the requisite skill
 
 ## DONE
 
+#### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents
+Move deallocate code in components to remove
 #### Upgrade crafty
 Version of crafty we're using now doesn't call remove() on components when
 it's entity is destroyed which we need for the following refactor

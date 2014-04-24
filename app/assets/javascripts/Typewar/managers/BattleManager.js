@@ -12,7 +12,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   defaults: {
     active_text_fragments: [],
     fragment_graveyard: [],
-    live_text_fragments: []
+    live_text_fragments: [],
+    mode: 'defense'
   },
 
   initialize: function (){
@@ -27,7 +28,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this._setupBattleAI();
   },
 
-  calculateDamage: function(opts) { //stub for now, should eventually do some math
+  calculateDamage: function(opts) { // Stub for now, should eventually do some math
     return 2;
   },
 
@@ -109,6 +110,62 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   handleTextInput: function (letter_value){
+    if(this.mode() === "defense"){
+      this._evalDefense(letter_value);
+    }else if (this.mode() === "offense"){
+      this._evalOffense(letter_value);
+    }
+  },
+
+  mode: function (){
+    return this.get("mode");
+  },
+
+  /* Takes a fragment and keeps a reference to it within the manager */
+  registerFragment: function (text_fragment){
+    this.get("live_text_fragments").push(text_fragment);
+  },
+
+  toggleMode: function (){
+    var current_mode
+    current_mode = this.get("mode");
+
+    if(current_mode === "defense"){
+      console.log("BATTLE: switching to offense mode");
+      this.set("mode", "offense");
+    }else if(current_mode === "offense"){
+      console.log("BATTLE: switching to defense mode");
+      this.set("mode", "defense");
+    }else{
+      throw "ERROR: Battlemanager was in an invalid mode";
+    }
+    return this.get("mode");
+  },
+
+  // private
+
+  _bindEventListeners: function (){
+    this._setupCompletedFragmentListener();
+    this._setupFragmentActivatedListener();
+    this._setupFragmentExitStageListener();
+    this._setupFragmentHitEntityListener();
+    this._setupNPCDiedListener();
+    this._setupPlayerDiedListener();
+  },
+
+  _cleanupActiveFragments: function (){
+    this.unset("active_text_fragments");
+  },
+
+  _cleanupFragmentGraveyard: function (){
+    this.unset("fragment_graveyard");
+  },
+
+  _cleanupLiveFragments: function (){
+    this.unset("live_text_fragments"); // NOTE: TESTME__ Is this sufficient? or should we call deallocate on each fragment?
+  },
+
+  _evalDefense: function (letter_value){
     var self, active_fragments, live_fragments, duped_fragments;
 
     self = this;
@@ -143,32 +200,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     duped_fragments = null; //deallocate
   },
 
-  /* Takes a fragment and keeps a reference to it within the manager */
-  registerFragment: function (text_fragment){
-    this.get("live_text_fragments").push(text_fragment);
-  },
-
-  // private
-
-  _bindEventListeners: function (){
-    this._setupCompletedFragmentListener();
-    this._setupFragmentActivatedListener();
-    this._setupFragmentExitStageListener();
-    this._setupFragmentHitEntityListener();
-    this._setupNPCDiedListener();
-    this._setupPlayerDiedListener();
-  },
-
-  _cleanupActiveFragments: function (){
-    this.unset("active_text_fragments");
-  },
-
-  _cleanupFragmentGraveyard: function (){
-    this.unset("fragment_graveyard");
-  },
-
-  _cleanupLiveFragments: function (){
-    this.unset("live_text_fragments"); // NOTE: TESTME__ Is this sufficient? or should we call deallocate on each fragment?
+  _evalOffense: function (letter_value){
+    console.log("DEBUG: EVAL OFFENSE CALLED WITH LETTER --->" + letter_value);
   },
 
   /* Sweep through text fragments registered with this manager and removes
@@ -305,7 +338,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }); 
 
     playerEntity.setTarget(targetEntity);
-    playerEntity.activateAutoAttack();
+    //playerEntity.activateAutoAttack();
   },
 
   _setupCompletedFragmentListener: function (){
