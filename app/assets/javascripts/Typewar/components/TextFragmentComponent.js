@@ -1,4 +1,7 @@
 /* TODO: this should move to it's own directory */
+/* There's a potential bug here where two fragments get created with
+ * the same DOM id because our unique id generator is pretty garbage
+ */
 var TextFragmentView = Backbone.View.extend({
   tagName: 'div',
   className: 'text-fragment',
