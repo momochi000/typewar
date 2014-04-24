@@ -68,8 +68,8 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initCamera: function (){
     Crafty.viewport.scale(2.4);
-    Crafty.viewport.y -= 140;
-    Crafty.viewport.x -= 30;
+    Crafty.viewport.y -= 70;
+    Crafty.viewport.x -= 10;
   },
 
   initEnemyNPC: function (){
