@@ -91,35 +91,8 @@ speed appropriately.
 
 ## CURRENT
 
-
-#### REFACTOR: challenge (bloggable) break TextFragment component up into it's base "components"
-Currently text fragment has some functionality related to holding attack data
-and motion governance. My plan was to pull these out into separate components.
-The problem, however, is that both of these components will need to have 
-cleanup methods for when the entity is removed/destroyed. But what happens when
-two components both have a method named 'cleanup' or 'deallocate' or whatever?
-There will be a collision and one will be overwritten.
-
-After some more research, it looks like crafty's .destroy() method (on entity)
-will unbind all the things so the first action item is to remove most of my
-calls to 'deallocate' and replace them with destroy. Also try to use
-entity.bind('EventName', callback) rather than Crafty.bind and see if there's
-a difference when deallocating/destroying.
-
-The second action item is to find a solution to the deallocate collision 
-problem. I have some possible solutions in mind:
-
-1. Namespace all deallocate methods by the component name itself, for example
-textFragmentDeallocate and textFragmentMovementDeallocate. Then some master
-component for that entity (specifically) can call the requisite deallocates
-2. Set up a deallocator component which registers bindings or more 
-specifically, callbacks to run on deallocation.
-3. Set up event bindings that listen for entity destruction, calling the 
-cleanup callback when that is triggered. The callback can be anonymous, thus
-avoiding the naming collision
-4. The actual solution: Crafty components can define a remove method that
-will be called when the compoenent is removed or the entity is being destroyed.
-
+#### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents
+Move deallocate code in components to remove
 #### Design shift/spike: Player attacks are a set of slots that can be typed anytime
 + Player has a set of slots for attacks
 + The slot is filled with some text which varies depending on the player stats
@@ -150,6 +123,7 @@ resolveDefense private methods in the battle manager
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
 counting correct and one incorrect characters.
+#### REFACTOR: rename 'deallocate' methods to remove everywhere
 #### Difficulty scale.
 Need a system which adjusts the difficulty of the game mechanics.  I want
 difficulty of gameplay to be separate from difficulty of the battle.  The
@@ -236,6 +210,37 @@ But only if you have the requisite skill
 ---
 
 ## DONE
+
+#### Upgrade crafty
+Version of crafty we're using now doesn't call remove() on components when
+it's entity is destroyed which we need for the following refactor
+#### REFACTOR: challenge (bloggable) break TextFragment component up into it's base "components"
+Currently text fragment has some functionality related to holding attack data
+and motion governance. My plan was to pull these out into separate components.
+The problem, however, is that both of these components will need to have 
+cleanup methods for when the entity is removed/destroyed. But what happens when
+two components both have a method named 'cleanup' or 'deallocate' or whatever?
+There will be a collision and one will be overwritten.
+
+After some more research, it looks like crafty's .destroy() method (on entity)
+will unbind all the things so the first action item is to remove most of my
+calls to 'deallocate' and replace them with destroy. Also try to use
+entity.bind('EventName', callback) rather than Crafty.bind and see if there's
+a difference when deallocating/destroying.
+
+The second action item is to find a solution to the deallocate collision 
+problem. I have some possible solutions in mind:
+
+1. Namespace all deallocate methods by the component name itself, for example
+textFragmentDeallocate and textFragmentMovementDeallocate. Then some master
+component for that entity (specifically) can call the requisite deallocates
+2. Set up a deallocator component which registers bindings or more 
+specifically, callbacks to run on deallocation.
+3. Set up event bindings that listen for entity destruction, calling the 
+cleanup callback when that is triggered. The callback can be anonymous, thus
+avoiding the naming collision
+4. The actual solution: Crafty components can define a remove method that
+will be called when the compoenent is removed or the entity is being destroyed.
 
 #### Add a tiny bit of delay between monster animation and spawning of fragment
 #### Wire up attack animations to the animation specified in the attack object

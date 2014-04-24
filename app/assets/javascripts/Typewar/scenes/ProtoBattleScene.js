@@ -33,13 +33,13 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   deallocateCombatants: function (){
-    this.get('combatants').player.deallocate();
-    this.get('combatants').enemies[0].deallocate();
+    this.get('combatants').player.destroy();
+    this.get('combatants').enemies[0].destroy();
     this.unset('combatants');
   },
 
   deallocateInputManager: function (){
-    Typewar.Engine.inputManager.deallocate();
+    Typewar.Engine.inputManager.destroy();
   },
 
   deallocateStageEdges: function (){

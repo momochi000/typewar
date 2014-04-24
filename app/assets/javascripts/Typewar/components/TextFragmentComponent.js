@@ -52,6 +52,12 @@ Crafty.c("TextFragment", {
     return this;
   },
 
+  remove: function (){
+    this.deactivate();
+    this._unbindAll();
+    this._view.remove(); //destroy the view.  May need to unbind additional events by hand
+  },
+
   activate: function (){ 
     if(!this.is_active){
       this._current_position = 0;
@@ -76,13 +82,6 @@ Crafty.c("TextFragment", {
     this.z = 0;
     this._current_position = null;
     this.drawSelf();
-  },
-
-  deallocate: function (){
-    this.deactivate();
-    this._unbindAll();
-    this._view.remove(); //destroy the view.  May need to unbind additional events by hand
-    this.destroy();
   },
 
   drawSelf: function (){

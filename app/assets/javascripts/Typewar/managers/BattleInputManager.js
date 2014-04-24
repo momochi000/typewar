@@ -9,7 +9,7 @@ Typewar.Models.BattleInputManager = Backbone.Model.extend({
   },
 
   deallocate: function (){
-    this.get("input_manager_entity").deallocate();
+    this.get("input_manager_entity").destroy();
     this.unset("input_manager_entity");
   }
 });

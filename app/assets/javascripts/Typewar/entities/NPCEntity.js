@@ -44,7 +44,7 @@ var NPCEntity = BaseEntity.extend({
   },
 
   deallocate: function (){
-    this.getEntity().deallocate();
+    this.getEntity().destroy();
     this.clear();
   },
 

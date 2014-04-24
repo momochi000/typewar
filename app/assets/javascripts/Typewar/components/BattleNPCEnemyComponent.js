@@ -27,11 +27,10 @@ Crafty.c("BattleNPCEnemy", {
     return this;
   },
 
-  deallocate: function (){
+  remove: function (destroyed){
     this.deactivateAI();
-    this._fragment_spawner.deallocate();
+    this._fragment_spawner.destroy();
     this._fragment_spawner = null;
-    this.destroy();
   },
 
   die: function (){

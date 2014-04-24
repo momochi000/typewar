@@ -24,7 +24,7 @@ Crafty.c("TextFragmentSpawner", {
     return this;
   },
 
-  deallocate: function (){
+  remove: function (destroyed){
     Crafty.unbind("TextFragmentCompleted");
     //Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted); //TODO: Test if this works
     this._fragment_collection = null; //NOTE TEST, do we need to deallocate each fragment individually?

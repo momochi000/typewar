@@ -16,6 +16,12 @@ Crafty.c("BattlePlayer", {
     return this;
   },
 
+  remove: function (destroyed) {
+    this.deactivateAutoAttack();
+    this._fragment_spawner.destroy();
+    this._fragment_spawner = null;
+  },
+
   attacks: {
     standard: {
       name: "standard",
@@ -70,13 +76,6 @@ Crafty.c("BattlePlayer", {
 
   deactivateAutoAttack: function (){
     if(this.battle_timer){ window.clearInterval(this.battle_timer); }
-  },
-
-  deallocate: function (){
-    this.deactivateAutoAttack();
-    this._fragment_spawner.deallocate();
-    this._fragment_spawner = null;
-    this.destroy();
   },
 
   die: function (){

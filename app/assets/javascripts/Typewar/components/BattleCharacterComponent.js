@@ -14,6 +14,10 @@ Crafty.c("BattleCharacter", {
     return this;
   },
 
+  remove: function (destroyed){
+    this.z = -9999;
+  },
+
   getStatus: function (attribute){
     if(!attribute){ return this.char_sheet.get("status"); }
     return this.char_sheet.get("status")[attribute];

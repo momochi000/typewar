@@ -31,9 +31,8 @@ Crafty.c("BattleInputManager", {
     return this;
   },
 
-  deallocate: function (){
+  remove: function (destroyed){
     this._detachKeyboardHandler();
-    this.destroy();
   },
 
   // private 
