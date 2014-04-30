@@ -45,6 +45,7 @@ Crafty.c("TextFragmentDisplay", {
 
   textFragmentDisplay: function (opts){
     this._classesFunc    = opts.classesFunc;
+    this._bindIncorrectInput();
     return this;
   },
 
@@ -75,6 +76,10 @@ Crafty.c("TextFragmentDisplay", {
   },
 
   //private
+
+  _bindIncorrectInput: function (){
+    this.bind("InputIncorrect", this._flickerEffect);
+  },
 
   _flickerEffect: function (){
     var self, FLICKER_ANIMATION_DURATION;

@@ -1,3 +1,13 @@
+/* Text fragment component, handles tracking of typing over a string.
+ * Matches input and keeps track of what was typed and how many typos exist etc.
+ * Triggers global events: 
+ *   TextFragmentActivated
+ *   TextFragmentCompleted
+ * Triggers entity events: 
+ *   InputIncorrect 
+ *   InputCorrect
+ *   Completed
+ */
 Crafty.c("TextFragment", {
   is_active: false,
   is_complete: false,
@@ -154,6 +164,6 @@ Crafty.c("TextFragment", {
 
   _wrongInput: function (input){
     this._incorrect_characters += input;
-    this._flickerEffect(); // TODO: refactor over to the display component
+    this.trigger("InputIncorrect");
   }
 });
