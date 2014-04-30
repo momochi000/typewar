@@ -64,6 +64,7 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initBattleManager: function (options){
     Typewar.Engine.BattleManager = new Typewar.Models.BattleManager(options);
+    console.log("DEBUG: initialized battle manager");
   },
 
   initCamera: function (){

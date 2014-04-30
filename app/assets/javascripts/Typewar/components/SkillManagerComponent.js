@@ -1,10 +1,10 @@
 
 /* IN PROGRESS ---------------------------------------------
- *   + Extract classesFunc (display piece) of text fragment
- *     to a separate component(DONE)
- *   + Building state machine for skills(DONE)
- *   + Render view of the skill manager and attached skills
- *   + COMMIT
+ *   + (DONE)Extract classesFunc (display piece) of text fragment
+ *     to a separate component
+ *   + (DONE)Building state machine for skills
+ *   + (DONE) Render view of the skill manager and attached skills
+ *   + (DONE)COMMIT
  *   + Check input passing to text fragment inside the skill
  *   + Render updates of the typed/active skills on keypresses
  *   + Hook in callbacks from text fragment completion

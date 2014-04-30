@@ -17,12 +17,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   initialize: function (){
-    if(!this.has('side1')){
-      throw "BattleManager initialized without side 1";
-    }
-    if(!this.has('side2')){
-      throw "BattleManager initialized without side 2";
-    }
+    if(!this.has('side1')){ throw "BattleManager initialized without side 1"; }
+    if(!this.has('side2')){ throw "BattleManager initialized without side 2"; }
 
     this._bindEventListeners();
     this._setupBattleAI();
@@ -96,14 +92,13 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   // Callback for when a text fragment is completed.
   handleFragmentCompleted: function (text_fragment){
-    var player, player_ent;
+    var player_ent;
 
     /* TODO: this needs to be refactored as the player may not necessarily be
      * side 1. There should be a smarter and more elegane method of obtaining 
      * the player character
      */
-    player = this.get('side1')[0];
-    player_ent = player.getEntity();
+    player_ent = this._getPlayerEntity();
 
     if(text_fragment.attacker == player_ent){
       this._resolveAttack(text_fragment);
@@ -176,10 +171,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   // It should be ready and available once the player is initialized but I'm
   // not sure when is an appropriate time to render it yet.
   _displayPlayerSkills: function (){
-    var player, player_ent;
+    var player_ent;
 
-    player = this.get('side1')[0];
-    player_ent = player.getEntity();
+    player_ent = this._getPlayerEntity();
     console.log("DEBUG: about to render the player's skill manager");
     player_ent.renderSkillManager();
   },
@@ -221,12 +215,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   _evalOffense: function (letter_value){
     console.log("DEBUG: EVAL OFFENSE CALLED WITH LETTER --->" + letter_value);
-  },
-
-  _evalOffense: function (letter_value){
-    // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // pass letters on to skill manager, let that handle activating skills
-    console.log("DEBUG: EVAL OFFENSE CALLED WITH LETTER --->" + letter_value);
+    
   },
 
   /* Sweep through text fragments registered with this manager and removes
@@ -236,6 +225,14 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    */
   _ensureLiveFragmentsClean: function (){
     //TODO: Implement me
+  },
+
+  _getPlayer: function (){
+    return this.get("side1")[0];
+  },
+
+  _getPlayerEntity: function (){
+    return this.get("side1")[0].getEntity();
   },
 
   _handleTextFragmentCollision: function (evt){
@@ -353,7 +350,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     var self, playerEntity, targetEntity;
 
     self = this;
-    playerEntity = this.get("side1")[0].getEntity();
+    playerEntity = this._getPlayerEntity();
     targetEntity = this.get("side2")[0].getEntity();
     _.each(this.get("side2"), function (e){
       var e_ent;

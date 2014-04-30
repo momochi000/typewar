@@ -14,6 +14,7 @@ var PCBattleEntity = BaseEntity.extend({
       .collision([0,0],[60,0],[60,120],[0,120]);
 
     player = this._loadSkills(player);
+    console.log("DEBUG: finished loading skills into the player");
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
 
