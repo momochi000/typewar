@@ -12,6 +12,7 @@ gem 'thin'
 gem "twitter-bootstrap-rails"
 
 group :development, :test do
+  gem 'debugger'
   gem 'rspec-rails'
 end
 
