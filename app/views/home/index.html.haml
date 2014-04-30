@@ -1,5 +1,7 @@
 %h1.title Typewar
+#typewar-game
+  #cr-stage
 - content_for :javascripts do
   :javascript
-    Typewar.initGame(1080,480);
+    Typewar.initGame('#typewar-game', {viewportWidth: 1080, viewportHeight: 480});
     Typewar.startGame();
