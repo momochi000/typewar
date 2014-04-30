@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
+//= require state-machine
 //= require underscore
 //= require underscore.mixin.deepExtend
 //= require backbone
