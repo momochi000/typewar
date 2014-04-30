@@ -39,9 +39,17 @@ Crafty.c("TextFragment", {
                      // display
   },
 
-  isComplete: function (){ // a convenience method
-    return this.is_complete;
+  getTextStatus: function (){
+    return {
+      typed: this._correct_characters, 
+      missed: this._incorrect_characters, 
+      rest: this._text.slice(this._current_position)
+    }
   },
+
+  isActive: function (){ return this.is_active; },
+
+  isComplete: function (){ return this.is_complete; },
 
   // Return true if the given character matches the first one in the text frag
   matchFirstChar: function (chr){
@@ -55,8 +63,8 @@ Crafty.c("TextFragment", {
    */
   removeFromPlay: function (){
     this._view.remove();
-    this.removeComponent("Collision", true);
-    this.y = -9999999999;
+    this.removeComponent("Collision", true); // TODO: these can probably move to the display component
+    this.y = -9999999999; 
     this.z = -100;
     this._unbindAll();
   },
