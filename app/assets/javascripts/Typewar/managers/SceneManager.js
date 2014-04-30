@@ -1,3 +1,5 @@
+// TODO: namespace this properly under Typewar
+
 var SceneManager = Backbone.Model.extend({
   defaults: {scene_map: null},
 

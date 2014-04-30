@@ -63,6 +63,7 @@ Crafty.c("TextFragmentDisplay", {
       this._view = new TextFragmentView({entity_id: this.getDomId()});
     }
     if(!this.is_complete) {
+      // TODO: refactor this to use getTextStatus
       this._view.render({active: this.is_active,
                          typed: this._correct_characters, 
                          missed: this._incorrect_characters, 
