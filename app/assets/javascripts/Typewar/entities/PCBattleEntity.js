@@ -13,6 +13,8 @@ var PCBattleEntity = BaseEntity.extend({
       .battlePlayer()
       .collision([0,0],[60,0],[60,120],[0,120]);
 
+    player = this._loadSkills(player);
+
     if(!this.has('skip_fetch')) { this.getFromServer() };
 
     this.set('entity', player);
@@ -65,5 +67,17 @@ var PCBattleEntity = BaseEntity.extend({
 
     this.getEntity().char_sheet = char_sheet;
     this.getEntity().updateStatus();
+  },
+
+  _loadSkills: function (player_entity){
+    player_entity.addComponent("SkillManager");
+    return player_entity.skillManager({ ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash });
+
+    //return player_entity.skillManager({
+    //  ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
+    //  ZeroLightSlash: Typewar.Data.Skills.ZeroMedSlash,
+    //  ZeroLightSlash: Typewar.Data.Skills.ZeroHardSlash,
+    //  ZeroLightSlash: Typewar.Data.Skills.ZeroUpperSlash,
+    //});
   }
 });

@@ -26,6 +26,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
     this._bindEventListeners();
     this._setupBattleAI();
+    this._displayPlayerSkills();
   },
 
   calculateDamage: function(opts) { // Stub for now, should eventually do some math
@@ -97,6 +98,10 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   handleFragmentCompleted: function (text_fragment){
     var player, player_ent;
 
+    /* TODO: this needs to be refactored as the player may not necessarily be
+     * side 1. There should be a smarter and more elegane method of obtaining 
+     * the player character
+     */
     player = this.get('side1')[0];
     player_ent = player.getEntity();
 
@@ -165,6 +170,20 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this.unset("live_text_fragments"); // NOTE: TESTME__ Is this sufficient? or should we call deallocate on each fragment?
   },
 
+  // TODO: remove me
+  // This function is here temporarily until there is a better place to present
+  // the skill manager view piece.
+  // It should be ready and available once the player is initialized but I'm
+  // not sure when is an appropriate time to render it yet.
+  _displayPlayerSkills: function (){
+    var player, player_ent;
+
+    player = this.get('side1')[0];
+    player_ent = player.getEntity();
+    console.log("DEBUG: about to render the player's skill manager");
+    player_ent.renderSkillManager();
+  },
+
   _evalDefense: function (letter_value){
     var self, active_fragments, live_fragments, duped_fragments;
 
@@ -201,6 +220,12 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _evalOffense: function (letter_value){
+    console.log("DEBUG: EVAL OFFENSE CALLED WITH LETTER --->" + letter_value);
+  },
+
+  _evalOffense: function (letter_value){
+    // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // pass letters on to skill manager, let that handle activating skills
     console.log("DEBUG: EVAL OFFENSE CALLED WITH LETTER --->" + letter_value);
   },
 
