@@ -91,9 +91,8 @@ speed appropriately.
 
 ## CURRENT
 
-
-#### Design shift/spike: Player attacks are a set of slots that can be typed anytime
-+ Player has a set of slots for attacks
+#### EPIC: Player attacks/skills are a set of skill slots that can be typed anytime
++ Player has a set of slots for skills
 + The slot is filled with some text which varies depending on the player stats
   and on their typing speed.
 + Player taps tab to switch between offense and defense
@@ -107,6 +106,12 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### Skill manager component **skill epic**
+Player has a skill manager
+Skill manager has skills (stored in a skillset)
+Skills have text fragments and can accept input
+Skills have state machine and go from ready to active to cooldown to ready
+#### Build text library module/functionality **skill epic**
 #### REFACTOR: extract attack objects out into some class or other better structure
 An attack is something that gets 'new'ed up and initialized with some json of
 options.  These options can be held server side and contains all the data
@@ -210,7 +215,8 @@ But only if you have the requisite skill
 
 ## DONE
 
-#### Extract display of text fragments out of text fragment component
+#### Can switch between offense and defense with tab **skill epic**
+#### Extract display of text fragments out of text fragment component **skill epic**
 #### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents **skill epic**
 Move deallocate code in components to remove
 #### Upgrade crafty **skill epic**
