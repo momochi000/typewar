@@ -1,3 +1,6 @@
-= render :partial => 'backbone_templates/text_fragment'
-= render :partial => 'backbone_templates/status_bar'
-= render :partial => 'backbone_templates/entity_status'
+-# Partial to help render the backbone templates.  Really it's just going to
+-# render some arbitrary files.
+-# Locals: templates(Array) set of templates to render
+
+- templates.each do |t|
+  = render :file => t
