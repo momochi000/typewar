@@ -44,7 +44,6 @@ Crafty.c("TextFragmentDisplay", {
   },
 
   textFragmentDisplay: function (opts){
-    this._text           = opts.text;
     this._classesFunc    = opts.classesFunc;
     return this;
   },

@@ -9,7 +9,8 @@ Crafty.c("TextFragment", {
   init: function (){
   },
 
-  textFragment: function (){
+  textFragment: function (opts){
+    this._text = opts.text;
     return this;
   },
 
