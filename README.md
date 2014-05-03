@@ -106,12 +106,12 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### Move health bars/status to the top of the screen/window
 #### Skill manager component **skill epic**
 Player has a skill manager
 Skill manager has skills (stored in a skillset)
 Skills have text fragments and can accept input
 Skills have state machine and go from ready to active to cooldown to ready
+#### Move health bars/status to the top of the screen/window
 #### Build text library module/functionality **skill epic**
 #### REFACTOR: extract attack objects out into some class or other better structure
 An attack is something that gets 'new'ed up and initialized with some json of
@@ -120,6 +120,7 @@ necessary to populate the attack including damage amounts/properties, animation
 animationd delay (maybe), attack behavior, mana cost etc etc.
 #### BUG: seems that box2d elements are not being deallocated on scene change
 Might be the entire entity or just the box2d physics part.
+#### Add animation between the text fragment typed groups in css
 #### Improve damage calculation
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
@@ -154,6 +155,10 @@ any more?
 NOTE: this algorithm allows the following edge case:
 When multiple fragments are 'active' starting with the same text, e.g.
 'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+#### EPIC: State machine refactor
+##### Comb the desert and identify all the components which would benefit from having a state machine
++ TextFragment
++ Battle modes (attack/defense/items)
 #### Add another attack to the monster
 Make a position func that handles an arc path
 Problem with using physics is I can't scale the speed of the attack.
@@ -205,12 +210,19 @@ Better yet, have it listen for a Crafty.pause() where it then does the
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
 way pause will do the right thing.  Will need ot create a Timer object which 
 binds to EnterFrame and increments itself.
+#### EPIC: Player items are a set of slots that can be typed anytime
+  + Tab to toggle to item 
 #### REFACTOR: namespace our Sprite sheet properly under typewar 
 #### Esc to bail out of typing a text fragment 
 But only if you have the requisite skill
 #### Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 #### Particle system setup
 #### Rails backend loads text dictionaries and sends them to the game engine
+#### Cinematics
+Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
+some other type of scripting system. Perhaps I could include a 
+#### Add state machine to Crafty components.
+I should try to patch Crafty to add state machine to components directly.
 
 ---
 
