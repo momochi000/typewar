@@ -26,8 +26,7 @@ Crafty.c("TextFragment", {
 
   remove: function (){
     this.deactivate();
-    this._unbindAll();
-    this._view.remove(); //destroy the view.  May need to unbind additional events by hand
+    if(this._unbindAll){this._unbindAll();}
   },
 
   activate: function (){ 
@@ -36,7 +35,7 @@ Crafty.c("TextFragment", {
       this.is_active = true; 
       this.z = 99999;
       Crafty.trigger("TextFragmentActivated", this);
-      this.drawSelf();
+      this._triggerRedraw();
     }
   },
 
@@ -44,7 +43,7 @@ Crafty.c("TextFragment", {
     this.is_active = false; 
     this.z = 0;
     this._current_position = null;
-    this.drawSelf(); // TODO: refactor calls to drawSelf out into text fragment 
+    this._triggerRedraw(); // TODO: refactor calls to drawSelf out into text fragment 
                      // display component for now it's ok to have them here, 
                      // it won't break if it calls but there's nothing to 
                      // display
@@ -73,6 +72,7 @@ Crafty.c("TextFragment", {
    * battle scene.
    */
   removeFromPlay: function (){
+    if(this._unbindAll){this._unbindAll();}
   },
 
   reset: function (){
@@ -104,14 +104,17 @@ Crafty.c("TextFragment", {
    * return true if the input was correct else false
    */
   takeInput: function (chr){
+    //console.log("DEBUG: in text fragment component, comparing input...");
+    //console.log("DEBUG: next char ---> " + this._text[this._current_position] );
+    //console.log("DEBUG: char arg ----> " + chr);
     if(this._text[this._current_position] == chr){
       this._correctInput();
       this._checkForCompletion();
-      this.drawSelf();
+      this._triggerRedraw();
       return true
     }else{
       this._wrongInput(chr);
-      this.drawSelf();
+      this._triggerRedraw();
       return false;
     }
   },
@@ -126,10 +129,11 @@ Crafty.c("TextFragment", {
   _complete: function (){
     this.is_complete = true
     this.deactivate();
-    this.drawSelf();
+    this._triggerRedraw();
 
     Crafty.trigger("TextFragmentCompleted", this);
-    this.removeFromPlay();
+    this.trigger("Completed");
+    this.removeFromPlay(); // TODO: this might no longer be needed, we should rely on things binding to the Completed event instead
     return this;
   },
 
@@ -155,6 +159,11 @@ Crafty.c("TextFragment", {
       return(memo + ' ' + curr_class);
     }, '');
     return output;
+  },
+
+  _triggerRedraw: function (){
+    console.log("DEBUG: TEXT FRAGMENT REDRAW TRIGGERING~~~~~~~~");
+    this.trigger("Redraw");
   },
 
   _wrongInput: function (input){

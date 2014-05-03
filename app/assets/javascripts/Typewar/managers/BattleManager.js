@@ -126,6 +126,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this.get("live_text_fragments").push(text_fragment);
   },
 
+  // TODO: this should be refactored with state machine
   toggleMode: function (){
     var current_mode
     current_mode = this.get("mode");
@@ -214,8 +215,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _evalOffense: function (letter_value){
-    console.log("DEBUG: EVAL OFFENSE CALLED WITH LETTER --->" + letter_value);
-    
+    var player_ent;
+    player_ent = this._getPlayerEntity();
+    player_ent.takeInput(letter_value);
   },
 
   /* Sweep through text fragments registered with this manager and removes

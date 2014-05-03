@@ -24,6 +24,9 @@ Typewar.Data.Skills["ZeroLightSlash"] = {
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
+  },
+  onComplete: function (parent_entity){
+    parent_entity.animAttack("attack1");
   }
 };
 

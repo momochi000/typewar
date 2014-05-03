@@ -33,6 +33,9 @@ var TextFragmentView = Backbone.View.extend({
   }
 });
 
+/*TODO: REFACTOR 
+ * rename this to the TextFragmentAttackDisplay or something
+ */
 Crafty.c("TextFragmentDisplay", {
   _view: null,
   _classes: null,
@@ -46,6 +49,7 @@ Crafty.c("TextFragmentDisplay", {
   textFragmentDisplay: function (opts){
     this._classesFunc    = opts.classesFunc;
     this._bindIncorrectInput();
+    this._bindRedrawListener();
     this._bindCompletionListenerForTextFragmentDisplay();
     return this;
   },
@@ -92,6 +96,10 @@ Crafty.c("TextFragmentDisplay", {
 
   _bindIncorrectInput: function (){
     this.bind("InputIncorrect", this._flickerEffect);
+  },
+
+  _bindRedrawListener: function (){
+    this.bind("Redraw", _.bind(this.drawSelf, this));
   },
 
   _flickerEffect: function (){

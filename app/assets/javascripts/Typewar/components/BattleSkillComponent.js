@@ -4,8 +4,6 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
   _template_id: "#battle_skill_template",
 
   initialize: function (opts){
-    console.log("DEBUG: INITIALIZING BattleSkillView with options =====>");
-    console.log(opts);
     if(!opts.entity){ throw "ERROR: Battle Skill View initialized without an entity" };
     this.entity = opts.entity;
     this.text_fragment = opts.text_fragment;
@@ -16,24 +14,15 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
     var text_fragment_opts, view_opts;
 
     view_opts = {};
-    console.log("DEBUG: Rendering BattleSkillView");
-
     text_fragment_opts = this.text_fragment.getTextStatus();
-
     _.extend(view_opts, this.entity, {name: this.entity.skill.name}, text_fragment_opts, opts);
-
-    console.log("DEBUG: options going into the render of battleskill view .... ===> ");
-    console.log(view_opts);
-    console.log("DEBUG: whats' my own id?? ---->"+ this.id);
-    console.log("DEBUG: can we compile the template??? ===>");
     var template = _.template($(this._template_id).html(), view_opts);
-    console.log(template);
-
     this.$el.html(template);
-
-    console.log("DEBUG: finished  render of battle skill view");
-
     return this.$el.html();
+  },
+
+  setTextFragment: function (new_frag){
+    this.text_fragment = new_frag;
   }
 });
 
@@ -47,45 +36,64 @@ Crafty.c("BattleSkill", {
   init: function (){ },
   battleSkill: function (skill){
     this.skill = skill;
+    this.text_fragment_graveyard = [];
     this._generateTextFragment();
     this._attachStateMachine();
     this._initializeView();
+    this._bindRedrawOnTextFragmentUpdate();
     return this;
   },
-  remove: function (){},
 
-  canTakeInput: function (input){
-    return (this.isready() || this.isactive());
+  remove: function (){
+    //remove the view
+    this._view.remove();
   },
 
+  canTakeInput: function (input){
+    return (this.fsm.is("ready") || this.fsm.is("active"));
+  },
+
+  drawSelf: function (){
+    if(this._view){ this._view.render(); }
+  },
+
+  // TODO: REFACTOR: this can move to the individual skill which will be a
+  //   component which will bind to listen to an execute skill event
   executeSkill: function (){
-    console.log("DEBUG: skill executing!!! " + this.skill.name);
+    this.trigger("ExecuteSkill", this.skill);
+    this._cycleTextFragment();
+    this._startCooldownCycle();
   },
 
   getView: function (){
     return this._view;
   },
 
+  // ---------------------- Methods delegated to text fragment
+
   takeInput: function (input){
     if(!this.canTakeInput()){return null;}
     if(this.text_fragment.takeInput(input)){
       if(this.text_fragment.isComplete()){
-        this.executeSkill();
+        this.fsm.complete();
       }
+    }else{
+      console.log("DEBUG: incorrect input");
     }
   },
 
-  // ---------------------- Methods delegated to text fragment
   matchFirstChar: function (chr){
     return this.text_fragment.matchFirstChar(chr);
   },
+
   // ---------------------- End text fragment delegated methods
 
   // private
 
   _attachStateMachine: function (){
-    var fsm;
-    console.log("DEBUG: building state machine for skill component");
+    var fsm, self;
+    self = this;
+
     fsm = StateMachine.create({
       initial: "ready",
       events: [
@@ -95,33 +103,50 @@ Crafty.c("BattleSkill", {
         { name: "prepared", from: "cooling", to: "ready" }
       ],
       callbacks: { 
-        onstart: function (event, from, to){
-          console.log("DEBUG: battle skill has entered active state");
-          console.log(event);
-          console.log(from);
-          console.log(to);
-          console.log("==================");
-        },
+        onstart:         function (event, from, to){ },
+        onready:         function (event, from, to){ self.text_fragment.activate(); },
+        onaftercomplete: function (event, from, to){ self.executeSkill(); },
+        onafterevent:    function (event, from, to){ self.drawSelf(); }
       }
     });
-    console.log("DEBUG: initialized state machine====>");
-    console.log(fsm);
     this.fsm = fsm;
   },
 
+  _bindRedrawOnTextFragmentUpdate: function (){
+    this.text_fragment.bind('Redraw', _.bind(this.drawSelf, this));
+  },
+
+  _cycleTextFragment: function (){
+    this._unbindRedrawOnTextFragmentUpdate();
+    this._moveTextFragmentToGraveyard();
+    this._generateTextFragment();
+    this._view.setTextFragment(this.text_fragment);
+    this._bindRedrawOnTextFragmentUpdate();
+  },
+
+  // TODO: future implementation: text library
   _generateTextFragment: function (){
-    // obtain appropriate text for this skill
-    // will need to come up with a method for doing this.  Text should 
-    // probably be tied to the skill? each skill has some library of text? or not.. i think each skill should have some word difficulty.  I think we need to come up with a word chooser.
-    // A module/algorithm that can search through a dictionary of words (probably just an array) and choose a word given a length and a difficulty rating
-
-
     this.text_fragment = Crafty.e("TextFragment")
       .textFragment({text: 'squeegee'});
   },
 
   _initializeView: function (){
     this._view = new Typewar.Views.BattleSkillView({entity: this, text_fragment: this.text_fragment});
+  },
+
+  _moveTextFragmentToGraveyard: function (){
+    this.text_fragment_graveyard.push(this.text_fragment);
+    this.text_fragment = null;
+  },
+
+  _startCooldownCycle: function (){
+    var self = this;
+    this.timeout(function (){
+      self.fsm.prepared();
+    }, this.skill.cooldown);
+  },
+
+  _unbindRedrawOnTextFragmentUpdate: function (){
+    this.text_fragment.unbind('Redraw');
   }
 });
-
