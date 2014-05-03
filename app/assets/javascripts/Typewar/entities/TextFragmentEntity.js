@@ -50,8 +50,8 @@ var TextFragmentEntity = BaseEntity.extend({
       entity.addComponent("Box2D");
       entity.box2d(attack_properties.box2d); 
     }
-    entity.textFragment()
-      .textFragmentDisplay({text: attack_properties.text, classesFunc: attack_properties.classesFunc})
+    entity.textFragment({text: attack_properties.text})
+      .textFragmentDisplay({classesFunc: attack_properties.classesFunc})
       .battleNPCAttack(attack_properties);
     this.set("entity", entity);
     return this;
