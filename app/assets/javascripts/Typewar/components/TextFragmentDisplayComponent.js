@@ -46,7 +46,12 @@ Crafty.c("TextFragmentDisplay", {
   textFragmentDisplay: function (opts){
     this._classesFunc    = opts.classesFunc;
     this._bindIncorrectInput();
+    this._bindCompletionListenerForTextFragmentDisplay();
     return this;
+  },
+
+  remove: function (){
+    this._view.remove(); //destroy the view.  May need to unbind additional events by hand
   },
 
   addClass: function (css_class) { // add css class to text fragment
@@ -76,6 +81,14 @@ Crafty.c("TextFragmentDisplay", {
   },
 
   //private
+
+  _bindCompletionListenerForTextFragmentDisplay: function (){
+    var self=this;
+    this.bind("Completed", function (){
+      console.log("DEBUG: got completed event in TextFragmentAttackDisplay component");
+      self._view.remove();
+    });
+  },
 
   _bindIncorrectInput: function (){
     this.bind("InputIncorrect", this._flickerEffect);

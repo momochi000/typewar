@@ -5,6 +5,7 @@ Crafty.c("BattleNPCAttack", {
   init: function (){
     this.requires("2D, DOM, Collision");
   },
+
   battleNPCAttack: function (opts){
     this.attacker               = opts.attacker;
     this.defender               = opts.defender;
@@ -14,10 +15,20 @@ Crafty.c("BattleNPCAttack", {
     this._initMovement();
     this._bindStageEdgeCollisionEvent();
     this._bindUnitCollisionListeners();
+    this._bindCompletionListenerForBattleAttack();
     return this;
   },
 
   // private 
+
+  _bindCompletionListenerForBattleAttack: function (){
+    var self=this;
+    this.bind("Completed", function (){
+      self.removeComponent("Collision", true);
+      self.y = -9999999999; 
+      self.z = -100;
+    });
+  },
 
   _bindMovementFunction: function (){
     if(this._attack_object.positionFunc) { 

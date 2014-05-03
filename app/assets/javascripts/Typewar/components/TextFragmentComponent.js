@@ -73,11 +73,6 @@ Crafty.c("TextFragment", {
    * battle scene.
    */
   removeFromPlay: function (){
-    this._view.remove();
-    this.removeComponent("Collision", true); // TODO: these can probably move to the display component
-    this.y = -9999999999; 
-    this.z = -100;
-    this._unbindAll();
   },
 
   reset: function (){
