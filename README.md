@@ -106,6 +106,7 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### Move health bars/status to the top of the screen/window
 #### Skill manager component **skill epic**
 Player has a skill manager
 Skill manager has skills (stored in a skillset)
