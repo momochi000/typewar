@@ -21,49 +21,6 @@ Crafty.c("BattlePlayer", {
     this._fragment_spawner = null;
   },
 
-  attacks: {
-    standard: {
-      name: "standard",
-      properties: {
-        blunt:    0,
-        slashing: 3,
-        piercing: 0,
-        fire:     0,
-        earth:    0,
-        water:    0,
-        air:      0,
-        light:    0,
-        dark:     0,
-        poison:   0,
-        life:     0,
-        death:    0
-      },
-      animation: "attack1", // Player attack should happen when text fragment 
-                            // is completed (playtest it). This should also
-                            // accept an array so the attack can be randomized
-      positionFunc: function (req, opt){
-        var REQUIRED_OPTIONS, x;
-
-        REQUIRED_OPTIONS = ["start_x", "start_y", "time", "context"];
-        _.each(REQUIRED_OPTIONS, function(req_opt){
-          if(!req){ throw "no required options present"; }
-          if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when positionFunc called"; }
-        });
-        opt      = opt || {};
-        opt.spd  = opt.speed || 2;
-        opt.dir  = opt.direction || this.direction || 1;
-        opt.diff = opt.difficulty_multiplier || this.difficulty_multiplier || 1;
-
-        x = req.start_x + opt.dir*req.time*opt.spd*opt.diff;
-        req.context.x = x;
-        req.context.y = req.start_y;
-        return { x: x, y: req.start_y};
-      },
-      classesFunc: function (time){
-        return ["player"];
-      }, 
-      hitbox: {w: 50, h: 50}
-    }
   },
 
   die: function (){
