@@ -12,11 +12,11 @@
  * }
  */
 
-Typewar.Data.Skills = {}
+Typewar.Data.Skills = {};
 
 Typewar.Data.Skills["ZeroLightSlash"] = {
   animation: "attack1",
-  cooldown: 300,
+  cooldown: 700,
   cost: 0,
   name: 'light slash',
   properties: {
@@ -24,9 +24,6 @@ Typewar.Data.Skills["ZeroLightSlash"] = {
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
-  },
-  onComplete: function (parent_entity){
-    parent_entity.animAttack("attack1");
   }
 };
 
@@ -36,7 +33,7 @@ Typewar.Data.Skills["ZeroMedSlash"] = {
     return this;
   },
   animation: "attack2",
-  cooldown: 500,
+  cooldown: 2000,
   cost: 0,
   name: 'medium slash',
   properties: {
@@ -53,7 +50,7 @@ Typewar.Data.Skills["ZeroHardSlash"] = {
     return this;
   },
   animation: "attack3", 
-  cooldown: 1400,
+  cooldown: 5000,
   cost: 0,
   name: 'heavy slash',
   properties: {
@@ -70,7 +67,7 @@ Typewar.Data.Skills["ZeroUpperSlash"] = {
     return this;
   },
   animation: "attack4",
-  cooldown: 800,
+  cooldown: 2200,
   cost: 0,
   name: 'upper slash',
   properties: {

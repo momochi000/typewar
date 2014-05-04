@@ -5,13 +5,15 @@
  *   + (DONE)Building state machine for skills
  *   + (DONE) Render view of the skill manager and attached skills
  *   + (DONE)COMMIT
- *   + Check input passing to text fragment inside the skill
- *   + Render updates of the typed/active skills on keypresses
+ *   + (DONE) Check input passing to text fragment inside the skill
+ *   + (DONE) Render updates of the typed/active skills on keypresses
  *   + Hook in callbacks from text fragment completion
- *   + Ensure callbacks from skill completion do not interfere
+ *   + (DONE) Ensure callbacks from skill completion do not interfere
  *     with callbacks from monster attack completion
  *   + Pull out code from battlemanager around text fragment 
  *     completion for player attack 
+ *   + Add some style for display of the player skills and the text 
+ *     fragments displayed therein
  */
 
 Typewar.Views.SkillManagerView = Backbone.View.extend({
@@ -31,7 +33,7 @@ Typewar.Views.SkillManagerView = Backbone.View.extend({
   },
 
   registerSkillViews: function(views){
-    this._skill_views = views
+    this._skill_views = views;
   },
 
   _existsOnPage: function (){
@@ -51,10 +53,13 @@ Typewar.Views.SkillManagerView = Backbone.View.extend({
  */
 
 Crafty.c("SkillManager", {
+  _ATTACK_OBJECT_GENERATOR: null,
   _skillset: null,
   _view: null,
 
-  init: function (){ },
+  init: function (){ 
+    this._ATTACK_OBJECT_GENERATOR = Typewar.Models.AttackObject;
+  },
 
   skillManager: function (skillset){
     this.populateSkillset(skillset);
@@ -73,12 +78,18 @@ Crafty.c("SkillManager", {
     });
   },
 
-  /* This is a callback which is invoked when a skill is completed.  When a
-   * BattleSkill is completed, it triggers the event this is bound to and 
-   * passes the skill up to here
-   */
-  doSkill: function (skill){
-    skill.onComplete(this);
+  doSkill: function (evt){
+    var attack_obj;
+
+    console.log("DEBUG: SKILL MANAGER: doing the skill, skill from callback is ====>");
+    console.log(evt.skill);
+    this.playAnim(evt.skill.animation);
+    // deplete mana/stamina
+    attack_obj = this._generateAttackObject(evt.skill, evt.text_fragment);
+    console.log("DEBUG: SKILL MANAGER: doing the skill, built attack obj ===>");
+    console.log(attack_obj);
+    Typewar.Engine.BattleManager.resolveAttack(attack_obj);
+    //Typewar.Engine.BattleManager.resolveAttack(this._generateAttackObject(skill));
   },
 
   renderSkillManager: function (){
@@ -103,7 +114,7 @@ Crafty.c("SkillManager", {
           skill.takeInput(input)
           skill.fsm.start();
         };
-      })
+      });
     }
   },
   
@@ -119,6 +130,15 @@ Crafty.c("SkillManager", {
     var self = this;
     _.each(this._skillset, function (skill){
       skill.bind("ExecuteSkill", _.bind(self.doSkill, self));
+    });
+  },
+
+  _generateAttackObject: function (skill, text_fragment){
+    return this._ATTACK_OBJECT_GENERATOR.create({
+      properties: skill.properties,
+      target: this._current_target,
+      attacker: this,
+      text_fragment: text_fragment
     });
   },
 

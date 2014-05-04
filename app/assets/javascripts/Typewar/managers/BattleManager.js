@@ -127,6 +127,25 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     this.get("live_text_fragments").push(text_fragment);
   },
 
+  resolveAttack: function (attack_object){
+    var fragment;
+
+    console.log("DEBUG: BATTLE MANAGER: resolving attack.  Input attack object is =====>");
+    console.log(attack_object);
+
+    fragment =  attack_object.text_fragment;
+    attack_object.attacker.animAttack();
+    if(fragment.wasPerfect()){
+      attack_object.target.successfulHit();
+      attack_object.target.takeDamage(2);
+    } else if(fragment.successPct() > 90){
+      attack_object.target.partialHit();
+      attack_object.target.takeDamage(1);
+    } else {
+      attack_object.target.wasMissed();
+    }
+  },
+
   // TODO: this should be refactored with state machine
   toggleMode: function (){
     var current_mode
@@ -313,19 +332,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       return item;
     } else {
       return null;
-    }
-  },
-
-  _resolveAttack: function (fragment){
-    fragment.attacker.animAttack();
-    if(fragment.wasPerfect()){
-      fragment.defender.successfulHit();
-      fragment.defender.takeDamage(2);
-    } else if(fragment.successPct() > 90){
-      fragment.defender.partialHit();
-      fragment.defender.takeDamage(1);
-    } else {
-      fragment.defender.wasMissed();
     }
   },
 

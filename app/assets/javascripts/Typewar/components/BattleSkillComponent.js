@@ -57,10 +57,11 @@ Crafty.c("BattleSkill", {
     if(this._view){ this._view.render(); }
   },
 
-  // TODO: REFACTOR: this can move to the individual skill which will be a
-  //   component which will bind to listen to an execute skill event
   executeSkill: function (){
-    this.trigger("ExecuteSkill", this.skill);
+    this.trigger("ExecuteSkill", {
+      text_fragment: this.text_fragment, 
+      skill: this.skill
+    });
     this._cycleTextFragment();
     this._startCooldownCycle();
   },

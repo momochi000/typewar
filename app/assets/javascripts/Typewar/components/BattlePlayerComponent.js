@@ -22,20 +22,6 @@ Crafty.c("BattlePlayer", {
     Crafty.trigger("PlayerDied", {target: this});
   },
 
-  initiateAttackOn: function (defender){
-    var frag, speed, text_fragment_options, next_text;
-
-    text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
-      attacker: this,
-      defender: defender,
-      attack: this.attacks['standard']
-    });
-
-    frag = this._fragment_spawner.generateTextFragment({
-      attack_properties: text_fragment_options
-    });
-  },
-
   isPlayer: function (){ return true; },
   isNPC: function (){ return false; },
  

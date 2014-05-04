@@ -54,6 +54,11 @@ Crafty.c("BattlePlayerZeroAnim", {
     this.animate("ready", -1);
   },
 
+  playAnim: function (reel_id){
+    if(!reel_id) {throw "ERROR: No reel id passed to play animation"; }
+    this.animate(reel_id, 0);
+  },
+
   // private
   setupHitAnim: function (){
     var hit_anim_map;
