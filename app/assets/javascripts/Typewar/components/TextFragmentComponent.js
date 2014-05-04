@@ -72,6 +72,7 @@ Crafty.c("TextFragment", {
    * battle scene.
    */
   removeFromPlay: function (){
+    this.trigger("Remove");
     if(this._unbindAll){this._unbindAll();}
   },
 

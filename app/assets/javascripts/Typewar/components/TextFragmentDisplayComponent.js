@@ -51,6 +51,7 @@ Crafty.c("TextFragmentDisplay", {
     this._bindIncorrectInput();
     this._bindRedrawListener();
     this._bindCompletionListenerForTextFragmentDisplay();
+    this._bindRemovalListenerForTextFragmentDisplay();
     return this;
   },
 
@@ -88,11 +89,8 @@ Crafty.c("TextFragmentDisplay", {
 
   _bindCompletionListenerForTextFragmentDisplay: function (){
     var self=this;
-    this.bind("Completed", function (){
-      console.log("DEBUG: got completed event in TextFragmentAttackDisplay component");
-      self._view.remove();
-    });
-  },
+    this.bind("Completed", function (){ self._view.remove(); });
+  }, 
 
   _bindIncorrectInput: function (){
     this.bind("InputIncorrect", this._flickerEffect);
@@ -100,6 +98,11 @@ Crafty.c("TextFragmentDisplay", {
 
   _bindRedrawListener: function (){
     this.bind("Redraw", _.bind(this.drawSelf, this));
+  },
+
+  _bindRemovalListenerForTextFragmentDisplay: function (){
+    var self=this;
+    this.bind("Remove", function (){ self._view.remove(); });
   },
 
   _flickerEffect: function (){

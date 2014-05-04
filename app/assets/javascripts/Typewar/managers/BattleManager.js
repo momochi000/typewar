@@ -84,26 +84,27 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }else{
       text_frag_options.direction = -1;
     }
-    //text_frag_options.difficulty_multiplier = 0.01;
-    //text_frag_options.difficulty_multiplier = 0.4;
     text_frag_options.difficulty_multiplier = 0.2;
     return text_frag_options;
   },
 
   // Callback for when a text fragment is completed.
-  handleFragmentCompleted: function (text_fragment){
-    var player_ent;
+  handleFragmentCompleted: function (attack_object){
+    var player_ent, text_fragment;
 
+    console.log("DEBUG: fragment was completed, passing in attack object?? ===>");
+    console.log(attack_object);
     /* TODO: this needs to be refactored as the player may not necessarily be
-     * side 1. There should be a smarter and more elegane method of obtaining 
+     * side 1. There should be a smarter and more elegant method of obtaining 
      * the player character
      */
     player_ent = this._getPlayerEntity();
+    text_fragment = attack_object.text_fragment;
 
-    if(text_fragment.attacker == player_ent){
-      this._resolveAttack(text_fragment);
-    }else if(text_fragment.defender == player_ent){
-      this._resolveDefense(text_fragment);
+    if(attack_object.attacker == player_ent){
+      this._resolveAttack(attack_object);
+    }else if(attack_object.target == player_ent){
+      this._resolveDefense(attack_object);
     }
 
     this._removeActiveFragment(text_fragment);
@@ -237,17 +238,16 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return this.get("side1")[0].getEntity();
   },
 
-  _handleTextFragmentCollision: function (evt){
-    var defender, text_fragment;
+  _handleTextFragmentCollision: function (evt){ // Event data coming in is expected to be an AttackObject
+    var attack_obj;
 
-    text_fragment = evt.text_fragment;
-    defender      = text_fragment.defender;
-    if(defender.isPlayer()){ // Determine who got hit & resolve combat
-      this._resolveDefense(text_fragment);
+    attack_obj = evt;
+    if(attack_obj.target.isPlayer()){ // Determine who got hit & resolve combat
+      this._resolveDefense(attack_obj);
     }else{
-      this._resolveAttack(text_fragment);
+      this._resolveAttack(attack_obj);
     }
-    this._moveFragmentToGraveyard(text_fragment); // Clear the text fragment
+    this._moveFragmentToGraveyard(attack_obj.text_fragment);
   },
 
   _isSide1: function (entity){
@@ -329,20 +329,22 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }
   },
 
-  _resolveDefense: function (fragment){
+  _resolveDefense: function (attack_obj){
+    var fragment;
+    fragment = attack_obj.text_fragment;
     if(fragment.wasPerfect()){
-      fragment.defender.successfulDefense();
+      attack_obj.target.successfulDefense();
     } else if(fragment.successPct() >= 88){
-      fragment.defender.partialHit();
-      fragment.defender.takeDamage(1);
+      attack_obj.target.partialHit();
+      attack_obj.target.takeDamage(1);
     } else {
-      fragment.defender.successfulHit();
-      fragment.defender.takeDamage(2);
+      attack_obj.target.successfulHit();
+      attack_obj.target.takeDamage(2);
     }
   },
 
-  /* LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * HERE Lies the latest issue: self.get('side1') and self.get('side2')
+  /* TODO: REFACTOR
+   * Here lies an issue: self.get('side1') and self.get('side2')
    * returns a backbone model as is required.
    * self.get('enemies') should return an array of backbone models
    * but instead returns an array of crafty entities. I need to
@@ -366,7 +368,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _setupCompletedFragmentListener: function (){
-    Crafty.bind("TextFragmentCompleted", this.handleFragmentCompleted.bind(this));
+    Crafty.bind("BattleNPCAttackCompleted", this.handleFragmentCompleted.bind(this));
   },
 
   // Move the fragment from the live set to the active fragments set
@@ -377,8 +379,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     Crafty.bind("TextFragmentActivated", function (evt){
       live_fragments_set = self.get("live_text_fragments");
       active_fragments_set = self.get("active_text_fragments");
-      fragment = self._removeFromArray(live_fragments_set, evt)     // remove the fragment from the live array
-      active_fragments_set.push(evt);                           // add the fragment to the active array
+      fragment = self._removeFromArray(live_fragments_set, evt)  // remove the fragment from the live array
+      active_fragments_set.push(evt);                            // add the fragment to the active array
     });
   },
 
@@ -409,7 +411,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _unbindAllListeners: function (){
-    Crafty.unbind("TextFragmentCompleted");
+    Crafty.unbind("BattleNPCAttackCompleted");
     Crafty.unbind("TextFragmentActivated");
     Crafty.unbind("TextFragmentExitedStage");
     Crafty.unbind("TextFragmentHitUnit");

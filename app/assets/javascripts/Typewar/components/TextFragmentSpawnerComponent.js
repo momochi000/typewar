@@ -2,7 +2,7 @@
  * can be generated and fired at the player in rapid succession.
  */
 
-// TODO: do we care about the fragment collection and completed fragment 
+// IN PROGRESS: do we care about the fragment collection and completed fragment 
 // collection inside this component? the battle manager should probably
 // be sufficient to manage that stuff, revisit whether we need this here
 Crafty.c("TextFragmentSpawner", {
@@ -35,7 +35,7 @@ Crafty.c("TextFragmentSpawner", {
    * options defines the attributes and behavior to attach to the newly
    * spawned text fragment.
    * Valid options:
-   * <Object> : attack_object an object containing data around the attack.
+   * <Object> : attack_properties an object containing data around the attack.
    */
   generateTextFragment: function (options){
     var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 

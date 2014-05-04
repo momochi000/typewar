@@ -11,16 +11,11 @@ Crafty.c("BattlePlayer", {
     if(!this.char_sheet) { 
       this.char_sheet = new Typewar.Models.CharacterSheet({name: "Player"});
     }
-    this._createFragmentSpawner();
 
     return this;
   },
 
   remove: function (destroyed) {
-    this._fragment_spawner.destroy();
-    this._fragment_spawner = null;
-  },
-
   },
 
   die: function (){
@@ -56,39 +51,16 @@ Crafty.c("BattlePlayer", {
   },
 
   successfulDefense: function (){
-    var self = this;
     console.log("DEBUG: PLAYER: DEFENDED!!! ");
-    //window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
-    self.animBlock();
+    this.animBlock();
   },
 
   successfulHit: function (){
-    var self = this;
     console.log("DEBUG: PLAYER: HIT!! GOT ME GOOD D=");
-    //window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
-    self.animHit();
+    this.animHit();
   },
 
   wasMissed: function (){ },
 
   // private
-  
-  _createFragmentSpawner: function (){
-    this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
-      .attr({x: this._x, y: this._y})
-      .textFragmentSpawner();
-
-    this.attach(this._fragment_spawner);
-  },
-
-  // Grab a random string from the vocabulary
-  _getWordFromVocabulary: function (){
-    var vocab;
-    vocab = this.getVocabulary();
-    if(vocab && vocab.length > 1){
-      return vocab[Math.floor(Math.random()*vocab.length)];
-    }else{
-      return null;
-    }
-  }
 });
