@@ -5,8 +5,12 @@ Crafty.c("BattleSlime", {
 
   battleSlime: function (){ return this; },
 
-  // TODO: Turn this into an attribute on the model that gets passed to the 
-  // entity on creation
+  /* TODO: Turn this into an attribute on the model that gets passed to the 
+   * entity on creation.
+   *   Also this needs to be standardized somewhere, probably in a backbone 
+   *   model so it can be more easily persisted onto the server. Will also need
+   *   to build a rails model behind it.
+   */
   attacks: {
     standard: {
       name: 'standard',
