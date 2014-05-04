@@ -106,12 +106,24 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### Skill manager component **skill epic**
-Player has a skill manager
-Skill manager has skills (stored in a skillset)
-Skills have text fragments and can accept input
-Skills have state machine and go from ready to active to cooldown to ready
+#### REFACTOR: Better organize attack information.
+Attack information whether from a text fragment or from a player skill should
+be the same object type. Going to try to sketch out what that might look like...
+Example attack data:
+AttackObject = {
+  properties: {...}, // damage properties
+  target: target-ent,
+  attacker: attacking-ent,
+  status-properties: {...}
+}
 #### Move health bars/status to the top of the screen/window
+#### THINK IT OVER -- When player defends the monster attack spins and drops
+the battle enemy attack text fragment thingy (ugh.. i need a better name for
+thisss.) Attach physics to the thing if it doesn't already exist, and add spin
+and raise gravity? or just throw a downward force on it (or reverse force?).
+The quality of your typing determines the force applied back on the fragment.
+try different vectors to see which is more satisfying. Need to add sound,
+particles, and a flash or something.
 #### Build text library module/functionality **skill epic**
 #### REFACTOR: extract attack objects out into some class or other better structure
 An attack is something that gets 'new'ed up and initialized with some json of
@@ -125,6 +137,8 @@ Might be the entire entity or just the box2d physics part.
 Use the properties of the attack (which will be carried by the text fragment)
 when resolving damage dealt.  Should happen in the resolveAttack and 
 resolveDefense private methods in the battle manager
+#### REFACTOR: be consistent with .bind for binding context.
+In some places we're using underscore's bind and other we're using native .bind
 #### Display incorrect characters count typed along with correct characters.
 This needs some sort of design such that it's intuitive as to what's happening.
 I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
@@ -228,6 +242,11 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Skill manager component **skill epic**
+Player has a skill manager
+Skill manager has skills (stored in a skillset)
+Skills have text fragments and can accept input
+Skills have state machine and go from ready to active to cooldown to ready
 #### Can switch between offense and defense with tab **skill epic**
 #### Extract display of text fragments out of text fragment component **skill epic**
 #### REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents **skill epic**
