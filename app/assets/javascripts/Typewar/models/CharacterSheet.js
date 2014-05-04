@@ -30,6 +30,21 @@ Typewar.Models.CharacterSheet = Backbone.Model.extend({
       cha: 0, 
       wis: 0
     },
+
+    properties: {
+      blunt:    0,
+      slashing: 0,
+      piercing: 0,
+      fire:     0,
+      earth:    0,
+      water:    0,
+      air:      0,
+      light:    0,
+      dark:     0,
+      poison:   0,
+      life:     0,
+      death:    0
+    },
     vocabulary: ''
   },
 
