@@ -106,6 +106,9 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### BUG: Switching back to defense mode is broken
+Can switch back but doesn't accept input.  Perhaps now is the time to move to
+state machine for switching
 #### REFACTOR: Better organize attack information.
 Attack information whether from a text fragment or from a player skill should
 be the same object type. Going to try to sketch out what that might look like...
@@ -242,6 +245,11 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### BUG: Javascript breaks on scene change
+Something going on with entities being removed from the DOM (?)
+I suspect it's because we're triggering a Remove event manually, which collides
+with crafty which triggers that on component removal.
+Ok, turns out I was right, it was the triggering of Remove events.
 #### Skill manager component **skill epic**
 Player has a skill manager
 Skill manager has skills (stored in a skillset)

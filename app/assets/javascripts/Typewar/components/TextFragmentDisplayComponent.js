@@ -102,7 +102,7 @@ Crafty.c("TextFragmentDisplay", {
 
   _bindRemovalListenerForTextFragmentDisplay: function (){
     var self=this;
-    this.bind("Remove", function (){ self._view.remove(); });
+    this.bind("RemoveTextFragFromPlay", function (){ self._view.remove(); });
   },
 
   _flickerEffect: function (){

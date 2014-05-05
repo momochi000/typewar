@@ -39,7 +39,7 @@ Crafty.c("BattleNPCAttack", {
   },
 
   _bindRemoveListenerForBattleAttack: function (){
-    this.bind("Remove", _.bind(this._removeFromPlay, this));
+    this.bind("RemoveTextFragFromPlay", _.bind(this._removeFromPlay, this));
   },
 
   _bindStageEdgeCollisionEvent: function (){
@@ -144,7 +144,7 @@ Crafty.c("BattleNPCAttack", {
   },
 
   _unbindRemoveListenerForBattleAttack: function(){
-    this.unbind("Remove", this._removeFromPlay);
+    this.unbind("RemoveTextFragFromPlay", this._removeFromPlay);
   },
 
   _unbindStageEdgeCollision: function (){
