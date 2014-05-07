@@ -100,7 +100,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     text_fragment = attack_object.text_fragment;
 
     if(attack_object.attacker == player_ent){
-      this._resolveAttack(attack_object);
+      this._resolveAttack(attack_object); // TODO: this should be cleaned up
     }else if(attack_object.target == player_ent){
       this._resolveDefense(attack_object);
     }
@@ -132,7 +132,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     //console.log(attack_object);
 
     fragment =  attack_object.text_fragment;
-    attack_object.attacker.animAttack();
     if(fragment.wasPerfect()){
       attack_object.target.successfulHit();
       attack_object.target.takeDamage(2);
@@ -250,7 +249,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     if(attack_obj.target.isPlayer()){ // Determine who got hit & resolve combat
       this._resolveDefense(attack_obj);
     }else{
-      this._resolveAttack(attack_obj);
+      this._resolveAttack(attack_obj); // TODO: this should be cleaned up
     }
     this._moveFragmentToGraveyard(attack_obj.text_fragment);
   },
