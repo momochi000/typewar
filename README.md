@@ -109,6 +109,11 @@ speed appropriately.
 #### BUG: Switching back to defense mode is broken
 Can switch back but doesn't accept input.  Perhaps now is the time to move to
 state machine for switching
+#### Attack skill doesn't seem to be triggering properly 
+just triggers a random attack animation
+#### Don't allow switching modes if a text fragment is active (conditionally)
+should allow this if you have the correct skill or when going from offense to
+defense
 #### REFACTOR: Better organize attack information.
 Attack information whether from a text fragment or from a player skill should
 be the same object type. Going to try to sketch out what that might look like...
