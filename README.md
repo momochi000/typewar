@@ -106,24 +106,10 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### BUG: Switching back to defense mode is broken
-Can switch back but doesn't accept input.  Perhaps now is the time to move to
-state machine for switching
-#### Attack skill doesn't seem to be triggering properly 
-just triggers a random attack animation
+#### Setup/build text library for attack/skill generation **skill epic**
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
 defense
-#### REFACTOR: Better organize attack information.
-Attack information whether from a text fragment or from a player skill should
-be the same object type. Going to try to sketch out what that might look like...
-Example attack data:
-AttackObject = {
-  properties: {...}, // damage properties
-  target: target-ent,
-  attacker: attacking-ent,
-  status-properties: {...}
-}
 #### Move health bars/status to the top of the screen/window
 #### THINK IT OVER -- When player defends the monster attack spins and drops
 the battle enemy attack text fragment thingy (ugh.. i need a better name for
@@ -250,11 +236,26 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Attack skill doesn't seem to be triggering properly 
+just triggers a random attack animation
+#### BUG: Switching back to defense mode is broken
+Can switch back but doesn't accept input.  Perhaps now is the time to move to
+state machine for switching
 #### BUG: Javascript breaks on scene change
 Something going on with entities being removed from the DOM (?)
 I suspect it's because we're triggering a Remove event manually, which collides
 with crafty which triggers that on component removal.
 Ok, turns out I was right, it was the triggering of Remove events.
+#### REFACTOR: Better organize attack information.
+Attack information whether from a text fragment or from a player skill should
+be the same object type. Going to try to sketch out what that might look like...
+Example attack data:
+    AttackObject = {
+      properties: {...}, // damage properties
+      target: target-ent,
+      attacker: attacking-ent,
+      status-properties: {...}
+    }
 #### Skill manager component **skill epic**
 Player has a skill manager
 Skill manager has skills (stored in a skillset)
