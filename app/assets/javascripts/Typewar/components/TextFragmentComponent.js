@@ -163,7 +163,6 @@ Crafty.c("TextFragment", {
   },
 
   _triggerRedraw: function (){
-    console.log("DEBUG: TEXT FRAGMENT REDRAW TRIGGERING~~~~~~~~");
     this.trigger("Redraw");
   },
 

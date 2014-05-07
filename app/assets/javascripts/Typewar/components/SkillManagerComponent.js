@@ -81,15 +81,10 @@ Crafty.c("SkillManager", {
   doSkill: function (evt){
     var attack_obj;
 
-    console.log("DEBUG: SKILL MANAGER: doing the skill, skill from callback is ====>");
-    console.log(evt.skill);
     this.playAnim(evt.skill.animation);
     // deplete mana/stamina
     attack_obj = this._generateAttackObject(evt.skill, evt.text_fragment);
-    console.log("DEBUG: SKILL MANAGER: doing the skill, built attack obj ===>");
-    console.log(attack_obj);
     Typewar.Engine.BattleManager.resolveAttack(attack_obj);
-    //Typewar.Engine.BattleManager.resolveAttack(this._generateAttackObject(skill));
   },
 
   renderSkillManager: function (){

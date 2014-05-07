@@ -38,9 +38,10 @@ Crafty.c("BattleSkill", {
     this.skill = skill;
     this.text_fragment_graveyard = [];
     this._generateTextFragment();
-    this._attachStateMachine();
+    this._setupStateMachine();
     this._initializeView();
     this._bindRedrawOnTextFragmentUpdate();
+    this._bindCombatModeSwitch();
     return this;
   },
 
@@ -73,7 +74,10 @@ Crafty.c("BattleSkill", {
   // ---------------------- Methods delegated to text fragment
 
   takeInput: function (input){
+    console.log("DEBUG: BattleSkillComponent#takeInput  called with input ----> " + input);
     if(!this.canTakeInput()){return null;}
+    //console.log("DEBUG: BattleSkillComponent#takeInput  passing input to the text fragment ------->");
+    //console.log(this.text_fragment);
     if(this.text_fragment.takeInput(input)){
       if(this.text_fragment.isComplete()){
         this.fsm.complete();
@@ -91,11 +95,10 @@ Crafty.c("BattleSkill", {
 
   // private
 
-  _attachStateMachine: function (){
-    var fsm, self;
-    self = this;
+  _setupStateMachine: function (){
+    var self = this;
 
-    fsm = StateMachine.create({
+    this.fsm = StateMachine.create({
       initial: "ready",
       events: [
         { name: "start",    from: "ready",   to: "active" },
@@ -106,11 +109,20 @@ Crafty.c("BattleSkill", {
       callbacks: { 
         onstart:         function (event, from, to){ },
         onready:         function (event, from, to){ self.text_fragment.activate(); },
+        onaftercancel:   function (event, from, to){ self.text_fragment.deactivate(); },
         onaftercomplete: function (event, from, to){ self.executeSkill(); },
         onafterevent:    function (event, from, to){ self.drawSelf(); }
       }
     });
-    this.fsm = fsm;
+  },
+
+  _bindCombatModeSwitch: function (){
+    var self = this;
+    this.bind("SwitchingCombatMode", function (){
+      if(self.fsm.can('cancel')){
+        self.fsm.cancel();
+      }
+    });
   },
 
   _bindRedrawOnTextFragmentUpdate: function (){
@@ -145,6 +157,10 @@ Crafty.c("BattleSkill", {
     this.timeout(function (){
       self.fsm.prepared();
     }, this.skill.cooldown);
+  },
+
+  _unbindCombatModeSwitch: function (){
+    this.unbind("SwitchingCombatMode");
   },
 
   _unbindRedrawOnTextFragmentUpdate: function (){

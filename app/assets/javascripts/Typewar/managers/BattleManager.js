@@ -12,14 +12,14 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   defaults: {
     active_text_fragments: [],
     fragment_graveyard: [],
-    live_text_fragments: [],
-    mode: 'defense'
+    live_text_fragments: []
   },
 
   initialize: function (){
     if(!this.has('side1')){ throw "BattleManager initialized without side 1"; }
     if(!this.has('side2')){ throw "BattleManager initialized without side 2"; }
 
+    this._setupModeFSM();
     this._bindEventListeners();
     this._setupBattleAI();
     this._displayPlayerSkills();
@@ -92,8 +92,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   handleFragmentCompleted: function (attack_object){
     var player_ent, text_fragment;
 
-    console.log("DEBUG: fragment was completed, passing in attack object?? ===>");
-    console.log(attack_object);
     /* TODO: this needs to be refactored as the player may not necessarily be
      * side 1. There should be a smarter and more elegant method of obtaining 
      * the player character
@@ -111,15 +109,15 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   handleTextInput: function (letter_value){
-    if(this.mode() === "defense"){
+    if(this.mode.is("defense")){
       this._evalDefense(letter_value);
-    }else if (this.mode() === "offense"){
+    }else if (this.mode.is("offense")){
       this._evalOffense(letter_value);
     }
   },
 
-  mode: function (){
-    return this.get("mode");
+  getMode: function (){
+    return this.mode.current;
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */
@@ -130,8 +128,8 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   resolveAttack: function (attack_object){
     var fragment;
 
-    console.log("DEBUG: BATTLE MANAGER: resolving attack.  Input attack object is =====>");
-    console.log(attack_object);
+    //console.log("DEBUG: BATTLE MANAGER: resolving attack.  Input attack object is =====>");
+    //console.log(attack_object);
 
     fragment =  attack_object.text_fragment;
     attack_object.attacker.animAttack();
@@ -146,21 +144,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     }
   },
 
-  // TODO: this should be refactored with state machine
   toggleMode: function (){
-    var current_mode
-    current_mode = this.get("mode");
-
-    if(current_mode === "defense"){
-      console.log("BATTLE: switching to offense mode");
-      this.set("mode", "offense");
-    }else if(current_mode === "offense"){
-      console.log("BATTLE: switching to defense mode");
-      this.set("mode", "defense");
-    }else{
-      throw "ERROR: Battlemanager was in an invalid mode";
-    }
-    return this.get("mode");
+    this.mode.toggle();
+    return this.mode.current;
   },
 
   // private
@@ -195,7 +181,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     var player_ent;
 
     player_ent = this._getPlayerEntity();
-    console.log("DEBUG: about to render the player's skill manager");
     player_ent.renderSkillManager();
   },
 
@@ -218,6 +203,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         }
       });
     }else{
+
       if(active_fragments.length > 1) {                // if multiple fragments active
         duped_fragments = active_fragments.slice(0);
         _.each(duped_fragments, function (curr_frag){ // send text input to all active fragments
@@ -386,7 +372,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       live_fragments_set = self.get("live_text_fragments");
       active_fragments_set = self.get("active_text_fragments");
       fragment = self._removeFromArray(live_fragments_set, evt)  // remove the fragment from the live array
-      active_fragments_set.push(evt);                            // add the fragment to the active array
+      if(fragment){ active_fragments_set.push(evt); }            // add the fragment to the active array
     });
   },
 
@@ -401,6 +387,23 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   _setupFragmentHitEntityListener: function (){
     Crafty.bind("TextFragmentHitUnit", this._handleTextFragmentCollision.bind(this));
+  },
+
+  _setupModeFSM: function (){
+    var fsm, self;
+    self=this;
+    fsm = StateMachine.create({
+      initial: "defense",
+      events: [
+        { name: "toggle", from: "defense", to: "offense" },
+        { name: "toggle", from: "offense", to: "defense" }
+        //{ name: "toggle", from: "offense", to: "inventory" },
+      ],
+      callbacks: {
+        onbeforeevent:   function (event, from, to){ Crafty.trigger("SwitchingCombatMode"); }
+      }
+    });
+    this.mode = fsm;
   },
 
   _setupPlayerDiedListener: function (){
