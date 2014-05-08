@@ -1,28 +1,9 @@
+# LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Building this out right now, trying to balance it as we go.
+# scale up the difficulty on basic characters, should have a more even 
+# distribution of weights # add in the calculation for adjacent characters
 module Typewar
   class TextLibrary
-    #CHARACTER_WEIGHTS = {
-    #  # alphabet
-    #  'a' => 1, 'b' => 3, 'c' => 3, 'd' => 1, 'e' => 1, 'f' => 1, 'g' => 1,
-    #  'h' => 1, 'i' => 1, 'j' => 1, 'k' => 1, 'l' => 1, 'm' => 1, 'n' => 2,
-    #  'o' => 2, 'p' => 2, 'q' => 2, 'r' => 1, 's' => 1, 't' => 2, 'u' => 1,
-    #  'v' => 2, 'w' => 2, 'x' => 2, 'y' => 2, 'z' => 2,
-    #  'A' => 2, 'B' => 4, 'C' => 4, 'D' => 2, 'E' => 2, 'F' => 2, 'G' => 2,
-    #  'H' => 2, 'I' => 2, 'J' => 2, 'K' => 2, 'L' => 2, 'M' => 2, 'N' => 3,
-    #  'O' => 3, 'P' => 3, 'Q' => 3, 'R' => 2, 'S' => 2, 'T' => 3, 'U' => 2,
-    #  'V' => 3, 'W' => 2, 'X' => 3, 'Y' => 3, 'Z' => 3, 'Z' => 3,
-    #  # numeric
-    #  '1' => 7, '2' => 6, '3' => 4, '4' => 3, '5' => 5, '6' => 6, '7' => 5,
-    #  '8' => 4, '9' => 4, '0' => 4,
-    #  # symbols
-    #  '~' => 7, '!' => 5, '@' => 5, '#' => 6, '$' => 6, '%' => 8, '^' => 10,
-    #  '&' => 7, '*' => 7, '(' => 6, ')' => 6, '-' => 5, '+' => 7, '_' => 5,
-    #  '=' => 6, '<' => 6, '>' => 6, '[' => 4, ']' => 5, '{' => 6, '}' => 7,
-    #  '|' => 6,
-    #  # punctuation
-    #  '`' => 7, ';' => 1, ':' => 3, '"' => 3, ',' => 2, '.' => 2, '/' => 2,
-    #  '?' => 2, ' ' => 1, '\\' => 5, '\'' => 2
-    #}
-
     CHARACTER_WEIGHTS = {
       # alphabet
       'a' =>  {:weight => 1, :finger => 1   }, 
@@ -133,12 +114,46 @@ module Typewar
     def generate(options={})
       strings = TextSlicer.new(@text).slice #slice the text into array of strings
 
-      # for each string in strings
-      # determine the average character difficulty
-      # modify the difficulty with consecutive letter difficulty
-
+      output = strings.map do |string|
+        {
+          :difficulty => calculate_avg_char_difficulty,
+              :length => string.length,
+                :text => string
+        }
+      end
     end
 
     private
+
+    def calculate_avg_char_difficulty(str)
+      s = str.split ''
+      prev = nil
+      index = 0
+      curr_total = 0
+
+      s.each do |char|
+        #p "DEBUG: curr char----> #{char} . prev char ----> #{prev}"
+        weight_modifier = 0
+        if prev
+          if prev == char
+            weight_modifier = -1
+          elsif CHARACTER_WEIGHTS[prev][:finger] == CHARACTER_WEIGHTS[char][:finger] 
+            weight_modifier = 1
+          end
+        end
+        w = CHARACTER_WEIGHTS[char][:weight]
+        #p "DEBUG given_weight ---> #{w} __ weight_modifier -----> #{weight_modifier} "
+        curr_total += CHARACTER_WEIGHTS[char][:weight] + weight_modifier
+        prev = char
+      end
+
+      #p "DEBUG: total weight of the string --------> #{curr_total}"
+      #p "DEBUG: string length ---------------------> #{str.length}"
+      #out = (curr_total.to_f / str.length).round
+      #p "DEBUG: average weight of the string ------> #{out}"
+      #p "==========================================="
+
+      out
+    end
   end
 end
