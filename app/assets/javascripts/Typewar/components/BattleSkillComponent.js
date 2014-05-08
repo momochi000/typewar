@@ -95,27 +95,6 @@ Crafty.c("BattleSkill", {
 
   // private
 
-  _setupStateMachine: function (){
-    var self = this;
-
-    this.fsm = StateMachine.create({
-      initial: "ready",
-      events: [
-        { name: "start",    from: "ready",   to: "active" },
-        { name: "complete", from: "active",  to: "cooling" },
-        { name: "cancel",   from: "active",  to: "ready" },
-        { name: "prepared", from: "cooling", to: "ready" }
-      ],
-      callbacks: { 
-        onstart:         function (event, from, to){ },
-        onready:         function (event, from, to){ self.text_fragment.activate(); },
-        onaftercancel:   function (event, from, to){ self.text_fragment.deactivate(); },
-        onaftercomplete: function (event, from, to){ self.executeSkill(); },
-        onafterevent:    function (event, from, to){ self.drawSelf(); }
-      }
-    });
-  },
-
   _bindCombatModeSwitch: function (){
     var self = this;
     this.bind("SwitchingCombatMode", function (){
@@ -150,6 +129,27 @@ Crafty.c("BattleSkill", {
   _moveTextFragmentToGraveyard: function (){
     this.text_fragment_graveyard.push(this.text_fragment);
     this.text_fragment = null;
+  },
+
+  _setupStateMachine: function (){
+    var self = this;
+
+    this.fsm = StateMachine.create({
+      initial: "ready",
+      events: [
+        { name: "start",    from: "ready",   to: "active" },
+        { name: "complete", from: "active",  to: "cooling" },
+        { name: "cancel",   from: "active",  to: "ready" },
+        { name: "prepared", from: "cooling", to: "ready" }
+      ],
+      callbacks: { 
+        onstart:         function (event, from, to){ },
+        onready:         function (event, from, to){ self.text_fragment.activate(); },
+        onaftercancel:   function (event, from, to){ self.text_fragment.deactivate(); },
+        onaftercomplete: function (event, from, to){ self.executeSkill(); },
+        onafterevent:    function (event, from, to){ self.drawSelf(); }
+      }
+    });
   },
 
   _startCooldownCycle: function (){
