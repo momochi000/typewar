@@ -37,12 +37,12 @@ Crafty.c("BattleNPCEnemy", {
     Crafty.trigger("NPCDied", {target: this});
   },
 
-  initiateAttackOn: function (defender, attack_type){
+  initiateAttackOn: function (defender, skill){
     var self, attack, frag, speed, text_fragment_options;
     self = this;
 
-    if(!attack_type){ attack_type = _.sample(Object.keys(this.attacks)); }
-    attack = this.attacks[attack_type];
+    if(!skill){ skill = _.sample(Object.keys(this.skills)); }
+    attack = this.skills[skill];
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
       defender: defender, 

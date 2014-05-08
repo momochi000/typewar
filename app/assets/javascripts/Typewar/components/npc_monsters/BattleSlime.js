@@ -10,8 +10,9 @@ Crafty.c("BattleSlime", {
    *   Also this needs to be standardized somewhere, probably in a backbone 
    *   model so it can be more easily persisted onto the server. Will also need
    *   to build a rails model behind it.
+   *   The char sheet should ultimately contain the list of these
    */
-  attacks: {
+  skills: {
     standard: {
       name: 'standard',
       properties: {
@@ -50,7 +51,8 @@ Crafty.c("BattleSlime", {
       classesFunc: function (time){
         return ["slime"];
       }, 
-      hitbox: {w: 50, h: 50}
+      hitbox: {w: 50, h: 50},
+      type: "Projectile"
     },
 
     glob: {
@@ -83,7 +85,8 @@ Crafty.c("BattleSlime", {
         density : 0.1,
         friction : 2,
         restitution : 0.1
-      }
+      },
+      type: "Projectile"
     }
   }
 });
