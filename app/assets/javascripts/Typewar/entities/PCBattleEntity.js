@@ -1,4 +1,5 @@
 var global_player, global_player_m;
+// TODO: Rename to BattleEntityPC and do the same for npc to keep it consistent
 var PCBattleEntity = BaseEntity.extend({
   defaults: { },
   urlRoot: '/characters/players',
