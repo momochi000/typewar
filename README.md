@@ -107,6 +107,23 @@ speed appropriately.
 + Attack animation plays upon successful fragment typing
 
 #### Setup/build text library for attack/skill generation **skill epic**
+Determine difficulty of a particular string
+Input: some block of text
+Output: an array of hashes of this format
+    [
+      {:text => "foo", :length => 3, :difficulty => 1},
+      {:text => "$%^", :length => 3, :difficulty => 6}
+    ]
+This set builds a 'library' of text that we can pick from when choosing text
+fragments based on some length and difficulty requirements requirements.
+Early implementation: Difficulty calculation based on how hard it is to type
+a string quickly and accurately.
+Ideal implementation: Difficulty calculation based on how hard it is for 
+**you** (the player) to type the string based on your typing habits.
+Implementation thoughts ===> 
+Assign a difficulty to each character. Home row letters are 1, hard to reach
+letters are higher up, capital letters add 1 or 2 depending on how easy it is
+to press shift. Numbers are higher, symbols are even higher.
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
 defense
