@@ -38,17 +38,17 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   initiateAttackOn: function (defender, skill){
-    var self, attack, frag, speed, text_fragment_options;
+    var self, skill, frag, speed, text_fragment_options;
     self = this;
 
     if(!skill){ skill = _.sample(Object.keys(this.skills)); }
-    attack = this.skills[skill];
+    skill = this.skills[skill];
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
       defender: defender, 
-      attack: attack
+      skill: skill
     });
-    this.animAttack(attack.animation);
+    this.animAttack(skill.animation);
     window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
       frag = self._fragment_spawner.generateTextFragment({
         attack_properties: text_fragment_options
@@ -93,16 +93,5 @@ Crafty.c("BattleNPCEnemy", {
       .textFragmentSpawner();
 
     this.attach(this._fragment_spawner);
-  },
-
-  // Grab a random string from the vocabulary
-  _getWordFromVocabulary: function (){
-    var vocab;
-    vocab = this.getVocabulary();
-    if(vocab && vocab.length > 1){
-      return vocab[Math.floor(Math.random()*vocab.length)];
-    }else{
-      return null;
-    }
   }
 });

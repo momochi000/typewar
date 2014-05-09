@@ -73,8 +73,9 @@ Crafty.c("SkillManager", {
   },
 
   populateSkillset: function (skills){
+    var self = this;
     this._skillset = _.map(skills, function (skill){
-      return Crafty.e("BattleSkill").battleSkill(skill);
+      return Crafty.e("BattleSkill").battleSkill(skill, self);
     });
   },
 

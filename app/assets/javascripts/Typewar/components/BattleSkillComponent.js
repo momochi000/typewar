@@ -34,8 +34,9 @@ Crafty.c("BattleSkill", {
   _view: null,
 
   init: function (){ },
-  battleSkill: function (skill){
+  battleSkill: function (skill, owner){
     this.skill = skill;
+    this._entity = owner;
     this.text_fragment_graveyard = [];
     this._generateTextFragment();
     this._setupStateMachine();
@@ -116,10 +117,37 @@ Crafty.c("BattleSkill", {
     this._bindRedrawOnTextFragmentUpdate();
   },
 
-  // TODO: future implementation: text library
   _generateTextFragment: function (){
+    var t = this._getTextFromVocabulary({});
+
     this.text_fragment = Crafty.e("TextFragment")
-      .textFragment({text: 'squeegee'});
+      .textFragment({text: t});
+
+    // TODO: need to re set up the fragment spawner later when we want
+    // some skills to kick out fragments
+  },
+
+  _getTextFromVocabulary: function (opts){
+    opts  = opts || {};
+
+    console.log("BattleSkillComponent#_getTextFromVocabulary");
+    return "squeegee";
+
+    // must reach the player from here.. what's the best way?
+    //   text -> skill manager.player.char_sheet.vocab
+    //   this is really bad.
+
+    //   text -> Typewar.BattleManager.handleAttackOn..
+    //   better
+    var obtained = Typewar.BattleManager.prepareSkill({
+      attacker: entity,
+      defender: entity.getTarget(),
+      skill: this.skill
+    });
+
+    console.log("DEBUG: obtained return from the battlemanager =======>");
+    console.log(obtained);
+    console.log("=====================================================>");
   },
 
   _initializeView: function (){

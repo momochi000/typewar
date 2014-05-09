@@ -8,10 +8,7 @@ Crafty.c("BattlePlayer", {
   },
 
   battlePlayer: function (char_sheet){
-    if(!this.char_sheet) { 
-      this.char_sheet = new Typewar.Models.CharacterSheet({name: "Player"});
-    }
-
+    if(!this.char_sheet) { this._buildDefaultCharSheet(); }
     return this;
   },
 
@@ -20,6 +17,10 @@ Crafty.c("BattlePlayer", {
 
   die: function (){
     Crafty.trigger("PlayerDied", {target: this});
+  },
+
+  getTarget: function (){
+    return this._current_target;
   },
 
   isPlayer: function (){ return true; },
@@ -49,4 +50,7 @@ Crafty.c("BattlePlayer", {
   wasMissed: function (){ },
 
   // private
+  _buildDefaultCharSheet: function (){
+    this.char_sheet = new Typewar.Models.CharacterSheet({name: "Player"});
+  }
 });

@@ -55,12 +55,11 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
       
     if(!options.attacker){throw "BattleManager: handleAttack called with no attacker";}
     if(!options.defender){throw "BattleManager: handleAttack called with no defender";}
-    if(!options.attack)  {throw "BattleManager: handleAttack called with no attack specified";}
+    if(!options.skill)  {throw "BattleManager: handleAttack called with no attack specified";}
     attacker = options.attacker;
     defender = options.defender;
-    attack = options.attack; 
+    skill = options.skill; 
 
-    
     // Run it through the battle analyzer to modify the various attributes of 
     // the text fragment options from differences between stats plus modifiers
     // followed by equipment
@@ -72,12 +71,13 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
     // this.BattleAnalyzer.analyze(attacker, defender, environment);
 
-    text_frag_options = _.deepClone(attack)
+    text_frag_options = _.deepClone(skill)
     text_frag_options.attacker = attacker;
     text_frag_options.defender = defender;
     // For now just grab a random word, later we'll need to select text based
     // on some properties of the attack
-    next_text = attacker._getWordFromVocabulary();
+   
+    next_text = this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
     if(next_text) {text_frag_options.text = next_text;}
     if(this._isSide1(attacker)) { 
       text_frag_options.direction = 1;
@@ -118,6 +118,17 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   getMode: function (){
     return this.mode.current;
+  },
+
+  prepareSkill: function (options){
+    if(!options.attacker){throw "BattleManager: prepareSkill called with no attacker";}
+    if(!options.defender){throw "BattleManager: prepareSkill called with no defender";}
+    if(!options.attack)  {throw "BattleManager: prepareSkill called with no attack specified";}
+    attacker = options.attacker;
+    defender = options.defender;
+    attack = options.attack; 
+
+    next_string = this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */
@@ -240,6 +251,20 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   _getPlayerEntity: function (){
     return this.get("side1")[0].getEntity();
+  },
+
+  // Grab a random string from the vocabulary for now.
+  // Later we'll pick an appropriate string based on some options about length
+  // and difficulty
+  _getWordFromVocabulary: function (vocab, options){
+    options = options || {};
+    if(!vocab[0].difficulty){
+      return vocab[Math.floor(Math.random()*vocab.length)];
+    }else{
+      // try to find a string in the vocab close in difficulty and length to that specified
+      var random = vocab[Math.floor(Math.random()*vocab.length)];
+      return random.text;
+    }
   },
 
   _handleTextFragmentCollision: function (evt){ // Event data coming in is expected to be an AttackObject

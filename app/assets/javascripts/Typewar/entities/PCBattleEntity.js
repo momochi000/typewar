@@ -61,7 +61,7 @@ var PCBattleEntity = BaseEntity.extend({
       name:       name || this.name, 
       status:     status,
       stats:      stats,
-      vocabulary: vocab
+      vocabulary: this._generatedVocabulary()
     });
 
     this.getEntity().char_sheet = char_sheet;
@@ -70,13 +70,24 @@ var PCBattleEntity = BaseEntity.extend({
 
   _loadSkills: function (player_entity){
     player_entity.addComponent("SkillManager");
-    return player_entity.skillManager({ ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash });
 
-    //return player_entity.skillManager({
-    //  ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
-    //  ZeroLightSlash: Typewar.Data.Skills.ZeroMedSlash,
-    //  ZeroLightSlash: Typewar.Data.Skills.ZeroHardSlash,
-    //  ZeroLightSlash: Typewar.Data.Skills.ZeroUpperSlash,
-    //});
+    skills = player_entity.char_sheet.skills;
+
+    if(!skills){
+      skills = { ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash };
+//      skills = {
+//        ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
+//        ZeroLightSlash: Typewar.Data.Skills.ZeroMedSlash,
+//        ZeroLightSlash: Typewar.Data.Skills.ZeroHardSlash,
+//        ZeroLightSlash: Typewar.Data.Skills.ZeroUpperSlash,
+//      });
+
+    };
+    return player_entity.skillManager(skills);
+  },
+
+  // This is going to go away, Using it now to test the new vocab structure
+  _generatedVocabulary: function (){
+    return JSON.parse("[{\"difficulty\":1,\"length\":50,\"text\":\"At vero eos et accusamus et iusto odio dignissimos\"},{\"difficulty\":1,\"length\":60,\"text\":\"ducimus qui blanditiis praesentium voluptatum deleniti atque\"},{\"difficulty\":1,\"length\":102,\"text\":\"corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident ,  similique\"},{\"difficulty\":1,\"length\":59,\"text\":\"sunt in culpa qui officia deserunt mollitia animi ,  id est\"},{\"difficulty\":1,\"length\":24,\"text\":\"laborum et dolorum fuga.\"},{\"difficulty\":1,\"length\":36,\"text\":\"Et harum quidem rerum facilis est et\"},{\"difficulty\":1,\"length\":39,\"text\":\"expedita distinctio. Nam libero tempore\"},{\"difficulty\":1,\"length\":77,\"text\":\",  cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod\"},{\"difficulty\":1,\"length\":14,\"text\":\"maxime placeat\"},{\"difficulty\":1,\"length\":17,\"text\":\"facere possimus ,\"},{\"difficulty\":1,\"length\":86,\"text\":\"omnis voluptas assumenda est ,  omnis dolor repellendus. Temporibus autem quibusdam et\"},{\"difficulty\":1,\"length\":93,\"text\":\"aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint\"},{\"difficulty\":1,\"length\":51,\"text\":\"et molestiae non recusandae. Itaque earum rerum hic\"},{\"difficulty\":1,\"length\":27,\"text\":\"tenetur a sapiente delectus\"},{\"difficulty\":1,\"length\":47,\"text\":\",  ut aut reiciendis voluptatibus maiores alias\"},{\"difficulty\":1,\"length\":57,\"text\":\"consequatur aut perferendis doloribus asperiores repellat\"}]");
   }
 });
