@@ -106,11 +106,27 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### Get multiple player skills to appear in skill slots
+#### Apply css classes to skill manager skills based on state
 #### Move skills to the character sheet **skill epic**
 This way skills can be easily loaded from the server. 
 Build in mechanism to allow the model to build a default skillset when no data
 was obtained from the server.
+#### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
+#### Player skills can also generate text fragments
+A compound skill, typing the skill in the skill slot does some whatever effect
+but it also generates a text fragment which flies out from the player. Typing
+that text fragment determines whether the projectile was a hit or miss. Might
+also be used for some nuke spell or something that takes a few steps to 
+complete.
+The skill in the slot might simply be the skill slot number, so just a single
+keypress spawns the fragment to be typed.
+#### REFACTOR: redo the way character sheets are built and come in from server
+They should be assembled from model joins that live over on the rails app
+then passed down to the game engine in json format from a GET request
+then stored into the character model/entity client side and also diced up to 
+build the character
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
 defense
