@@ -116,7 +116,7 @@ module Typewar
 
       output = strings.map do |string|
         {
-          :difficulty => calculate_avg_char_difficulty,
+          :difficulty => calculate_avg_char_difficulty(string),
               :length => string.length,
                 :text => string
         }
@@ -149,7 +149,7 @@ module Typewar
 
       #p "DEBUG: total weight of the string --------> #{curr_total}"
       #p "DEBUG: string length ---------------------> #{str.length}"
-      #out = (curr_total.to_f / str.length).round
+      out = (curr_total.to_f / str.length).round
       #p "DEBUG: average weight of the string ------> #{out}"
       #p "==========================================="
 
