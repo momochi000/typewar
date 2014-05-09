@@ -69,18 +69,21 @@ var PCBattleEntity = BaseEntity.extend({
   },
 
   _loadSkills: function (player_entity){
+    var skills;
+
     player_entity.addComponent("SkillManager");
 
     skills = player_entity.char_sheet.skills;
 
     if(!skills){
-      skills = { ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash };
-//      skills = {
-//        ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
-//        ZeroLightSlash: Typewar.Data.Skills.ZeroMedSlash,
-//        ZeroLightSlash: Typewar.Data.Skills.ZeroHardSlash,
-//        ZeroLightSlash: Typewar.Data.Skills.ZeroUpperSlash,
-//      });
+      //console.log("DEBUG: PCBattleEntity#_loadSkills.  Building up some backup skills to init the skill manager with ============>");
+      skills = {
+        ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
+        ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
+        ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
+        ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
+      };
+      //console.log(skills);
 
     };
     return player_entity.skillManager(skills);

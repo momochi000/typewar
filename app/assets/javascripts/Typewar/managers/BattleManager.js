@@ -123,12 +123,12 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   prepareSkill: function (options){
     if(!options.attacker){throw "BattleManager: prepareSkill called with no attacker";}
     if(!options.defender){throw "BattleManager: prepareSkill called with no defender";}
-    if(!options.attack)  {throw "BattleManager: prepareSkill called with no attack specified";}
+    if(!options.skill)  {throw "BattleManager: prepareSkill called with no attack specified";}
     attacker = options.attacker;
     defender = options.defender;
-    attack = options.attack; 
+    skill = options.skill; 
 
-    next_string = this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
+    return this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
   },
 
   /* Takes a fragment and keeps a reference to it within the manager */

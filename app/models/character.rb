@@ -6,12 +6,14 @@ class Character < ActiveRecord::Base
   serialize :vocabulary, JSON
   serialize :properties, JSON
 
+  # TODO: these relationships will eventually need to exist
+  #has_many :skills
+  #has_many :equipments
+
   scope :slimes,  -> { where(:char_class => 'Slime') }
   scope :players, -> { where(:char_class => 'Player') }
 
   def self.generate_vocabulary(difficulty=3)
-
-
     case difficulty
     when 1
     when 2
@@ -40,7 +42,14 @@ class Character < ActiveRecord::Base
 
   # Return a json to send to the server and be converted into a game character
   # TODO: move this to a decorator
+  # This should build the full character sheet into a single thing
   def to_backbone
-    self.to_json
+    char_sheet.to_json
+  end
+
+  def char_sheet
+    # Build the char sheet out of all the required bits
+    # skills, equips, stats, etc.
+    self #for now..
   end
 end

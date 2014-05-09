@@ -1,3 +1,6 @@
+// TODO: need to re set up the fragment spawner later when we want
+// some skills to kick out fragments
+
 Typewar.Views.BattleSkillView = Backbone.View.extend({
   tagName: "div",
   className: "battle-skill",
@@ -75,7 +78,7 @@ Crafty.c("BattleSkill", {
   // ---------------------- Methods delegated to text fragment
 
   takeInput: function (input){
-    console.log("DEBUG: BattleSkillComponent#takeInput  called with input ----> " + input);
+    //console.log("DEBUG: BattleSkillComponent#takeInput  called with input ----> " + input);
     if(!this.canTakeInput()){return null;}
     //console.log("DEBUG: BattleSkillComponent#takeInput  passing input to the text fragment ------->");
     //console.log(this.text_fragment);
@@ -84,7 +87,7 @@ Crafty.c("BattleSkill", {
         this.fsm.complete();
       }
     }else{
-      console.log("DEBUG: incorrect input");
+      //console.log("DEBUG: incorrect input");
     }
   },
 
@@ -109,9 +112,17 @@ Crafty.c("BattleSkill", {
     this.text_fragment.bind('Redraw', _.bind(this.drawSelf, this));
   },
 
-  _cycleTextFragment: function (){
+  _clearTextFragment: function (){
     this._unbindRedrawOnTextFragmentUpdate();
-    this._moveTextFragmentToGraveyard();
+    this.text_fragment.remove();
+    this.text_fragment = null;
+  },
+
+  _cycleTextFragment: function (){
+    if(this.text_fragment){
+      this._unbindRedrawOnTextFragmentUpdate();
+      this._moveTextFragmentToGraveyard();
+    }
     this._generateTextFragment();
     this._view.setTextFragment(this.text_fragment);
     this._bindRedrawOnTextFragmentUpdate();
@@ -122,36 +133,46 @@ Crafty.c("BattleSkill", {
 
     this.text_fragment = Crafty.e("TextFragment")
       .textFragment({text: t});
-
-    // TODO: need to re set up the fragment spawner later when we want
-    // some skills to kick out fragments
   },
 
   _getTextFromVocabulary: function (opts){
+    var txt;
+
     opts  = opts || {};
+    
+    //return "squeegee";
 
-    console.log("BattleSkillComponent#_getTextFromVocabulary");
-    return "squeegee";
-
-    // must reach the player from here.. what's the best way?
-    //   text -> skill manager.player.char_sheet.vocab
-    //   this is really bad.
-
-    //   text -> Typewar.BattleManager.handleAttackOn..
-    //   better
-    var obtained = Typewar.BattleManager.prepareSkill({
-      attacker: entity,
-      defender: entity.getTarget(),
-      skill: this.skill
-    });
-
-    console.log("DEBUG: obtained return from the battlemanager =======>");
-    console.log(obtained);
-    console.log("=====================================================>");
+    // PROBLEM: trying to set up the first skill here happens before the 
+    // battle manager is even built.
+    if(Typewar.Engine.BattleManager){
+      txt = Typewar.Engine.BattleManager.prepareSkill({
+        attacker: this._entity,
+        defender: this._entity.getTarget(),
+        skill: this.skill
+      });
+    }else{
+      // TODO:
+      // Before battle manager is initialized, set up skills with some random text
+      // Later, we'll replace these text fragments with a call to _generateTextFragment
+      // on a callback that will trigger when the battle manager is ready
+      txt = this._makeRandomString();
+    }
+    return txt
   },
 
   _initializeView: function (){
     this._view = new Typewar.Views.BattleSkillView({entity: this, text_fragment: this.text_fragment});
+  },
+
+  _makeRandomString: function (){
+    var i, possible, text;
+
+    text = "";
+    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( i=0; i < 15; i++ ){
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
   },
 
   _moveTextFragmentToGraveyard: function (){
