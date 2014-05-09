@@ -106,24 +106,11 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### Setup/build text library for attack/skill generation **skill epic**
-Determine difficulty of a particular string
-Input: some block of text
-Output: an array of hashes of this format
-    [
-      {:text => "foo", :length => 3, :difficulty => 1},
-      {:text => "$%^", :length => 3, :difficulty => 6}
-    ]
-This set builds a 'library' of text that we can pick from when choosing text
-fragments based on some length and difficulty requirements requirements.
-Early implementation: Difficulty calculation based on how hard it is to type
-a string quickly and accurately.
-Ideal implementation: Difficulty calculation based on how hard it is for 
-**you** (the player) to type the string based on your typing habits.
-Implementation thoughts ===> 
-Assign a difficulty to each character. Home row letters are 1, hard to reach
-letters are higher up, capital letters add 1 or 2 depending on how easy it is
-to press shift. Numbers are higher, symbols are even higher.
+#### Move skills to the character sheet **skill epic**
+This way skills can be easily loaded from the server. 
+Build in mechanism to allow the model to build a default skillset when no data
+was obtained from the server.
+#### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
 defense
@@ -253,6 +240,24 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Setup/build text library for attack/skill generation **skill epic**
+Determine difficulty of a particular string
+Input: some block of text
+Output: an array of hashes of this format
+    [
+      {:text => "foo", :length => 3, :difficulty => 1},
+      {:text => "$%^", :length => 3, :difficulty => 6}
+    ]
+This set builds a 'library' of text that we can pick from when choosing text
+fragments based on some length and difficulty requirements requirements.
+Early implementation: Difficulty calculation based on how hard it is to type
+a string quickly and accurately.
+Ideal implementation: Difficulty calculation based on how hard it is for 
+**you** (the player) to type the string based on your typing habits.
+Implementation thoughts ===> 
+Assign a difficulty to each character. Home row letters are 1, hard to reach
+letters are higher up, capital letters add 1 or 2 depending on how easy it is
+to press shift. Numbers are higher, symbols are even higher.
 #### Attack skill doesn't seem to be triggering properly 
 just triggers a random attack animation
 #### BUG: Switching back to defense mode is broken
