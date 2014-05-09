@@ -1,7 +1,7 @@
 // TODO: wrap this in a closure
 
 Typewar.Engine = {};
-Typewar.Data = {};
+Typewar.Data = {Skills: {}};
 Typewar.Views = {};
 Typewar.Initializer = (function (Typewar){
   var init,

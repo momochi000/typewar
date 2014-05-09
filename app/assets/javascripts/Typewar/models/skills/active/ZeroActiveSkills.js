@@ -1,6 +1,9 @@
 /* TODO: These skill definitions need to be moved server side.  I'm putting 
  * them here for easy access during development and their structure 
  * should pretty much not change.
+ * 
+ * Well I just proved myself wrong, their structure has already changed and 
+ * skills should be shared between player and npcs.
  */
 
 /* example skill template:
@@ -11,8 +14,6 @@
  *   properties: {...} // property list
  * }
  */
-
-Typewar.Data.Skills = {};
 
 Typewar.Data.Skills["ZeroLightSlash"] = {
   animation: "attack1",
