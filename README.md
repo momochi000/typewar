@@ -106,7 +106,6 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### Get multiple player skills to appear in skill slots
 #### Apply css classes to skill manager skills based on state
 #### Move skills to the character sheet **skill epic**
 This way skills can be easily loaded from the server. 
@@ -256,6 +255,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Get multiple player skills to appear in skill slots **skill epic**
 #### Setup/build text library for attack/skill generation **skill epic**
 Determine difficulty of a particular string
 Input: some block of text
@@ -503,60 +503,60 @@ Seems to be fixed thanks to the above, but need to keep an eye out for it.
 #### Handle capital letters
 #### Change player sprite (current one is crap)
 #### Removing text fragments from the scene once they hit the edge.  
-  Stuck on moving the fragment into the 'graveyard' on the battle manager.  
-  Can't seem to find the fragment that comes back from the event.  However, 
-  I suspect that the fragment has already been dealt with.. no wait it's 
-  not in the graveyard either...  Well, maybe it's still being moved and 
-  so the event is getting triggered many times.  Need to check to ensure 
-  that the fragment is being deactivated properly.  In fact, perhaps it's
-  being more than deactivated, it's being finished, or destroyed 
-  or demolished. It should call deactivate, but also should remove the view,
-  remove the 2D component, remove bindings, stop calculation of position.
+Stuck on moving the fragment into the 'graveyard' on the battle manager.  
+Can't seem to find the fragment that comes back from the event.  However, 
+I suspect that the fragment has already been dealt with.. no wait it's 
+not in the graveyard either...  Well, maybe it's still being moved and 
+so the event is getting triggered many times.  Need to check to ensure 
+that the fragment is being deactivated properly.  In fact, perhaps it's
+being more than deactivated, it's being finished, or destroyed 
+or demolished. It should call deactivate, but also should remove the view,
+remove the 2D component, remove bindings, stop calculation of position.
 #### Move completed text fragments to the graveyard as well.
 #### Remove the 'type me' instruction text from text fragment partials (or make
-  them less obtrusive)
+them less obtrusive)
 #### Add a background.
 #### Allow a method of stopping the AI. It would be nice if we could listen for
-  the Crafty.pause() call and stop and start automatically.
+the Crafty.pause() call and stop and start automatically.
 #### Move the AI to the slime. Extract it out so it's a module I can attach to
-  any monster, even swiching out. Perhaps the monster could have several
-  behaviors that can be toggled. AI has many behaviors.
-  For now, just set the behavior to attack at a constant rate
+any monster, even swiching out. Perhaps the monster could have several
+behaviors that can be toggled. AI has many behaviors.
+For now, just set the behavior to attack at a constant rate
 #### Zoom in on the characters, camera is too far out.
 #### Player attacking the monster sends text fragment from the player to the enemy
 #### Set up simple AI that manages battle flow
 #### Show health status for enemy.
 #### Add defend animation and insert appropriately
 #### REFACTOR: The player should be triggering attacks on the monster(s).
-  Refactor the way attacking and defending works. The text fragments should be
-  labeled with attacker and defender and they should resolve separately and
-  instructions should be sent to each party.
-  There should be a battlecomputer component or module that takes the attacker,
-  the defender, and a completed text fragment and does whatever magical math
-  and our logic to figure out what happened in that round.
-  With this, we can probably ditch the dual spawners on the enemy npc.
+Refactor the way attacking and defending works. The text fragments should be
+labeled with attacker and defender and they should resolve separately and
+instructions should be sent to each party.
+There should be a battlecomputer component or module that takes the attacker,
+the defender, and a completed text fragment and does whatever magical math
+and our logic to figure out what happened in that round.
+With this, we can probably ditch the dual spawners on the enemy npc.
 #### Make player attack do damage to enemy
 #### Attacker and defender should be linked to on each text fragment
 #### Text fragments should answer to TextFragment#success() that reports a percent
-  of how quickly you typed it.
+of how quickly you typed it.
 #### Add second stream of text fragments from enemy (spawner). 
-    Player shouldn't swing sword on successful defense. Only attack
-    Make sure behavior functions correctly on both parties for attack and def.
+Player shouldn't swing sword on successful defense. Only attack
+Make sure behavior functions correctly on both parties for attack and def.
 #### Add second stream of text fragments from enemy (spawner). 
-    Enemy should have two spawners: attack and defense.
-    Modify text fragment spawner to be able to pass in options when generating 
-    a text fragment. Make text fragments able to accept arguments which affect 
-    the way they behave and are displayed.
+Enemy should have two spawners: attack and defense.
+Modify text fragment spawner to be able to pass in options when generating 
+a text fragment. Make text fragments able to accept arguments which affect 
+the way they behave and are displayed.
 #### Give the active text fragment z-index > all others
 #### Add a sprite for the enemy.
-    Add animation for enemy sprite when hit.
-    Add animation for when they attack
+Add animation for enemy sprite when hit.
+Add animation for when they attack
 #### Add hit points to enemy
 #### Move the enemy (in the scene) to the right a bit.
 #### Keep track of the current (active) fragment.  Maybe there should be an
-  active pointer/instance var.
+active pointer/instance var.
 #### When a spawner generates a new fragment, ensure that it doesn't get
-  activated if another fragment is already active
+activated if another fragment is already active
 #### When a fragment is completed, if there is another live fragment, activate
-  the next one in the array.
+the next one in the array.
 #### Finish the first draft of the text fragment component
