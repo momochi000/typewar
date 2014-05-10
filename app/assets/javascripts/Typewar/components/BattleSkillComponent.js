@@ -17,8 +17,13 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
     var text_fragment_opts, view_opts;
 
     view_opts = {};
+    skill_opts = {
+      name: this.entity.skill.name,
+      css_classes: this.entity.fsm.current,
+      skill_slot_num: this.entity.skillSlotNum()
+    }
     text_fragment_opts = this.text_fragment.getTextStatus();
-    _.extend(view_opts, this.entity, {name: this.entity.skill.name}, text_fragment_opts, opts);
+    _.extend(view_opts, this.entity, skill_opts, text_fragment_opts, opts);
     var template = _.template($(this._template_id).html(), view_opts);
     this.$el.html(template);
     return this.$el.html();
@@ -73,6 +78,10 @@ Crafty.c("BattleSkill", {
 
   getView: function (){
     return this._view;
+  },
+
+  skillSlotNum: function (){
+    return this._entity.getSlotNum(this);
   },
 
   // ---------------------- Methods delegated to text fragment

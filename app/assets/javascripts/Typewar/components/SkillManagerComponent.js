@@ -1,21 +1,3 @@
-
-/* IN PROGRESS ---------------------------------------------
- *   + (DONE)Extract classesFunc (display piece) of text fragment
- *     to a separate component
- *   + (DONE)Building state machine for skills
- *   + (DONE) Render view of the skill manager and attached skills
- *   + (DONE)COMMIT
- *   + (DONE) Check input passing to text fragment inside the skill
- *   + (DONE) Render updates of the typed/active skills on keypresses
- *   + Hook in callbacks from text fragment completion
- *   + (DONE) Ensure callbacks from skill completion do not interfere
- *     with callbacks from monster attack completion
- *   + Pull out code from battlemanager around text fragment 
- *     completion for player attack 
- *   + Add some style for display of the player skills and the text 
- *     fragments displayed therein
- */
-
 Typewar.Views.SkillManagerView = Backbone.View.extend({
   tagName: "div",
   className: "skill-manager",
@@ -32,7 +14,7 @@ Typewar.Views.SkillManagerView = Backbone.View.extend({
     });
   },
 
-  registerSkillViews: function(views){
+  registerSkillViews: function (views){
     this._skill_views = views;
   },
 
@@ -86,6 +68,10 @@ Crafty.c("SkillManager", {
     // deplete mana/stamina
     attack_obj = this._generateAttackObject(evt.skill, evt.text_fragment);
     Typewar.Engine.BattleManager.resolveAttack(attack_obj);
+  },
+
+  getSlotNum: function (skill){
+    return this._skillset.indexOf(skill) + 1;
   },
 
   renderSkillManager: function (){

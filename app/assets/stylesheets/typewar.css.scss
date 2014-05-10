@@ -8,6 +8,7 @@
   50% { opacity: 0.0; }
   100% { opacity: 1.0; }
 }             
+
 .text-fragment {}
 .text-fragment-wrapper {
   &.active { 
@@ -51,5 +52,32 @@
     font-family: comic-sans;
     background-color: steel-blue;
     span.rest { background-color: skyblue; }
+  }
+}
+
+.skill-manager-wrapper {
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: aliceblue;
+}
+.battle-skill {
+  width: 20%;
+  display: inline-block;
+  margin: 5px;
+
+  .skill-slot-num {}
+
+  .battle-skill-wrapper {
+    text-align: center;
+    &.ready {background-color: yellowgreen;}
+    &.active {background-color: yellow;}
+    &.cooling {background-color: red;}
+
+    span.typed {
+      font-size: 0.8em;
+    }
+    span.rest {
+      font-size: 1.4em;
+    }
   }
 }
