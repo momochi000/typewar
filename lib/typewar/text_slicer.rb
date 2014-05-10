@@ -9,7 +9,7 @@ module Typewar
     # lower/middle/higher end based on some easing function
     def slice(options={})
       @output = []
-      word_size = (options[:word_size] || 15)-1
+      word_size = (options[:word_size] || 7)-1
       temp = @text.split(/\b/).delete_if(&:blank?)
       until temp.empty?
         @output << temp.pop(rand(word_size) + 1).join(' ')
