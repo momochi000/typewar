@@ -106,13 +106,13 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### Apply css classes to skill manager skills based on state
+#### Move health bars/status to the top of the screen/window
 #### Move skills to the character sheet **skill epic**
 This way skills can be easily loaded from the server. 
 Build in mechanism to allow the model to build a default skillset when no data
 was obtained from the server.
-#### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
+#### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Player skills can also generate text fragments
 A compound skill, typing the skill in the skill slot does some whatever effect
 but it also generates a text fragment which flies out from the player. Typing
@@ -129,20 +129,13 @@ build the character
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
 defense
-#### Move health bars/status to the top of the screen/window
-#### THINK IT OVER -- When player defends the monster attack spins and drops
+#### When player defends the monster attack spins and drops
 the battle enemy attack text fragment thingy (ugh.. i need a better name for
 thisss.) Attach physics to the thing if it doesn't already exist, and add spin
 and raise gravity? or just throw a downward force on it (or reverse force?).
 The quality of your typing determines the force applied back on the fragment.
 try different vectors to see which is more satisfying. Need to add sound,
 particles, and a flash or something.
-#### Build text library module/functionality **skill epic**
-#### REFACTOR: extract attack objects out into some class or other better structure
-An attack is something that gets 'new'ed up and initialized with some json of
-options.  These options can be held server side and contains all the data
-necessary to populate the attack including damage amounts/properties, animation
-animationd delay (maybe), attack behavior, mana cost etc etc.
 #### BUG: seems that box2d elements are not being deallocated on scene change
 Might be the entire entity or just the box2d physics part.
 #### Add animation between the text fragment typed groups in css
@@ -255,6 +248,14 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### REFACTOR: extract attack objects out into some class or other better structure
+An attack is something that gets 'new'ed up and initialized with some json of
+options.  These options can be held server side and contains all the data
+necessary to populate the attack including damage amounts/properties, animation
+animationd delay (maybe), attack behavior, mana cost etc etc.
+These should be called skills actually
+#### Build text library module/functionality **skill epic**
+#### Apply css classes to skill manager skills based on state **skill epic**
 #### Get multiple player skills to appear in skill slots **skill epic**
 #### Setup/build text library for attack/skill generation **skill epic**
 Determine difficulty of a particular string
