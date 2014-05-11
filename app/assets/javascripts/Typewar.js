@@ -55,8 +55,6 @@ Typewar.Initializer = (function (Typewar){
   
 })(Typewar);
 
-
-
 Typewar.initGame = function (container_selector, options){
   Typewar.Initializer.init(container_selector, options);
 };
