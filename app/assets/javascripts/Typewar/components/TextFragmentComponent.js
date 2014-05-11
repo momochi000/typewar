@@ -41,11 +41,11 @@ Crafty.c("TextFragment", {
   deactivate: function (){ 
     this.is_active = false; 
     this.z = 0;
-    this._current_position = null;
+    //this._current_position = null;
     this._triggerRedraw(); // TODO: refactor calls to drawSelf out into text fragment 
-                     // display component for now it's ok to have them here, 
-                     // it won't break if it calls but there's nothing to 
-                     // display
+                           // display component for now it's ok to have them here, 
+                           // it won't break if it calls but there's nothing to 
+                           // display
   },
 
   getTextStatus: function (){
@@ -79,6 +79,7 @@ Crafty.c("TextFragment", {
     this.is_complete = false;
     this._incorrect_characters = '';
     this._correct_characters = '';
+    this._current_position = null;
     this.deactivate();
   },
 
