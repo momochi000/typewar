@@ -85,6 +85,7 @@ Crafty.c("SkillManager", {
       active_skills = this._getActiveSkills();
       if(active_skills.length > 1){ // if 2 or more active, match the next letter and deactivate if next letter doesn't match
         _.each(active_skills, function(skill){
+          active_skills[0].takeInput(input)
         });
       }else{ // if 1 active, match the next letter or accept typo.
         active_skills[0].takeInput(input)
