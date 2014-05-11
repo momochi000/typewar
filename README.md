@@ -106,21 +106,22 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
-#### Move skills to the character sheet **skill epic**
-This way skills can be easily loaded from the server. 
-Build in mechanism to allow the model to build a default skillset when no data
-was obtained from the server.
+#### Display an icon indicating attack/defense mode
+If possible, change the player stance as well
+Move the fsm for attack/defense etc mode onto the player. Probably it's own 
+component. Figure out how to get the battle manager to communicate with this
+component so it does the right thing.
 #### REFACTOR: redo the way character sheets are built and come in from server
 They should be assembled from model joins that live over on the rails app
 then passed down to the game engine in json format from a GET request
 then stored into the character model/entity client side and also diced up to 
 build the character
-#### Move health bars/status to the top of the screen/window
 #### REFACTOR: change skill -> attack spawning to take an id argument
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
+#### Update twitter bootstrap to 3.x.x
 #### Tighten hitboxes (both of entities and of text fragments)
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
@@ -136,7 +137,7 @@ keypress spawns the fragment to be typed.
 Do a run down to see the state of various parts before proceeding:
 + When switching modes while a fragment is active, ensure that it doesn't
   lock up or break the game
-+ 
++ Seems to be broken sometimes, attack mode
 
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
@@ -259,6 +260,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Move health bars/status to the top of the screen/window
 #### REFACTOR: extract attack objects out into some class or other better structure
 An attack is something that gets 'new'ed up and initialized with some json of
 options.  These options can be held server side and contains all the data
