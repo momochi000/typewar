@@ -16,8 +16,7 @@ Crafty.c("TextFragment", {
   _incorrect_characters: '',
   _text: '',
 
-  init: function (){
-  },
+  init: function (){ },
 
   textFragment: function (opts){
     this._text = opts.text;
