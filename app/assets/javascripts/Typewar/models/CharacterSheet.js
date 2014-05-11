@@ -20,6 +20,7 @@ Typewar.Models.CharacterSheet = Backbone.Model.extend({
     status: {
       hp: 20
     },
+
     stats: {
       level: 0,
       str: 0, 
@@ -55,7 +56,8 @@ Typewar.Models.CharacterSheet = Backbone.Model.extend({
       id: this.get("id"),
       name: this.get("name"),
       status: this.get("status"),
-      stats: this.get("stats")
+      stats: this.get("stats"),
+      skills: this.get("skills")
     }
   }
 });

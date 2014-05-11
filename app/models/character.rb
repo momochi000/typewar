@@ -6,9 +6,10 @@ class Character < ActiveRecord::Base
   serialize :vocabulary, JSON
   serialize :properties, JSON
 
+  has_many :skills
   # TODO: these relationships will eventually need to exist
-  #has_many :skills
-  #has_many :equipments
+  # has_many :equipments
+  # has_many :texts
 
   scope :slimes,  -> { where(:char_class => 'Slime') }
   scope :players, -> { where(:char_class => 'Player') }
@@ -37,7 +38,6 @@ class Character < ActiveRecord::Base
         ]
       }.flatten
     end
-    
   end
 
   # Return a json to send to the server and be converted into a game character
@@ -48,8 +48,24 @@ class Character < ActiveRecord::Base
   end
 
   def char_sheet
-    # Build the char sheet out of all the required bits
-    # skills, equips, stats, etc.
-    self #for now..
+    return self #for now..
+    {
+      :properties   => properties,
+      :name         => name,
+      #:skills       => skills_to_hash,
+      :stats        => stats,
+      :status       => status,
+      :vocabulary   => vocabulary
+    }
+  end
+
+  private
+
+  def skills_to_hash
+    s = {}
+    skills.each do |skill|
+      s[skill.name] = skill
+    end
+    s
   end
 end
