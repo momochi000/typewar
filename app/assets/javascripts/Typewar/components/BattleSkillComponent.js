@@ -203,7 +203,7 @@ Crafty.c("BattleSkill", {
       callbacks: { 
         onstart:         function (event, from, to){ },
         onready:         function (event, from, to){ self.text_fragment.activate(); },
-        onaftercancel:   function (event, from, to){ self.text_fragment.deactivate(); },
+        onbeforecancel:  function (event, from, to){ self.text_fragment.reset(); },
         onaftercomplete: function (event, from, to){ self.executeSkill(); },
         onafterevent:    function (event, from, to){ self.drawSelf(); }
       }
