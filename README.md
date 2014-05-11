@@ -260,6 +260,8 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### BUG: If 2 skills start with the same text, it doesn't work 
+#### BUG: If a skill is being typed and you tab out, once you tab back in and try typing it again, it's broken
 #### Move health bars/status to the top of the screen/window
 #### REFACTOR: extract attack objects out into some class or other better structure
 An attack is something that gets 'new'ed up and initialized with some json of
