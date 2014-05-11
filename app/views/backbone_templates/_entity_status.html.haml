@@ -1,7 +1,6 @@
 %script{:type => 'text/template', :id => 'entity-status-template'}
   .status
     .name <%= name %>
-    .mode <%= mode %>
     -#.hp <%= hp %> # bring this back later when it matters
     <div class='progress progress-striped <%= statusHP %>'>
     <div class='bar' style="width: <%= percentHP %>%;"></div>
