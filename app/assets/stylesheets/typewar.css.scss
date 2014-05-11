@@ -81,3 +81,27 @@
     }
   }
 }
+
+.status-bar {
+  //width: 1080px;
+  //margin: 0 auto;
+  position: relative;
+  z-index: 90000000;
+  padding: 0 20px;
+
+  .entity-status {
+    float: left;
+    width: 300px;
+    &:last-child { float: right; }
+
+    .name { 
+      font-weight: bold; 
+      color: white;
+    }
+    .status .progress {
+      background-image: none;
+      background-color: red
+      //background-color: rgba(255,255,255,0);
+    }
+  }
+}

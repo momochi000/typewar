@@ -6,7 +6,8 @@ Typewar.Views.StatusBarView = Backbone.View.extend({
 
   render: function(opts) {
     this.$el.html(_.template($(this._templateId).html(), opts));
-    $('body').append(this.el);
+    //$('body').append(this.el);
+    Typewar.Engine.$container.find('#cr-stage').prepend(this.el);
 
     _.each(this._entityViews, function(view) {
       view.render();

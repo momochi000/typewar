@@ -5,17 +5,3 @@
 .title {
   text-align: center;
 }
-
-.status-bar {
-  width: 1080px;
-  margin: 0 auto;
-
-  .entity-status {
-    float: left;
-    width: 300px;
-    .name { font-weight: bold; }
-    &:last-child {
-      float: right;
-    }
-  }
-}
