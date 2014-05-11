@@ -19,19 +19,12 @@ Typewar.Models.AttackObject = (function (_, $){
   };
 
   create = function (options){
-    var foo;
-    console.log("DEBUG: ATTACKOBJ, create called on AttackObj with options =====>");
-    console.log(options);
-    foo = new AttackObj(options);
-    console.log("DEBUG: ATTACKOBJ, attack object should have been created, ====>");
-    console.log(foo);
-    return foo;
-    //return new AttackObj(options);
+    return new AttackObj(options);
   };
 
   AttackObj = function(opts){
-    if(!opts.attacker){ throw "Attempting to initialize AttackObject without an attacker" ;}
-    if(!opts.target)  { throw "Attempting to initialize AttackObject without a defender" ;}
+    if(!opts.attacker){ throw "Attempting to initialize AttackObject without an attacker"; }
+    if(!opts.target)  { throw "Attempting to initialize AttackObject without a defender"; }
     this.properties    = opts.properties || blankProperties();
     this.target        = opts.target;
     this.attacker      = opts.attacker;
