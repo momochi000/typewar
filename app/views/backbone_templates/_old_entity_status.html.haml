@@ -1,6 +1,7 @@
-%script{:type => 'text/template', :id => 'entity-status-template'}
+%script{:type => 'text/template', :id => 'old-entity-status-template'}
   .status
     .name <%= name %>
+    <img class="mode" src="<%= mode_icon %>" ></img>
     -#.hp <%= hp %> # bring this back later when it matters
     <div class='progress progress-striped <%= statusHP %>'>
     <div class='bar' style="width: <%= percentHP %>%;"></div>

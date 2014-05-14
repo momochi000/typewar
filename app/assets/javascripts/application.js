@@ -12,10 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require twitter/bootstrap
+//= require bootstrap
 //= require turbolinks
 //= require state-machine
 //= require underscore
+//= require underscore_config
 //= require underscore.mixin.deepExtend
 //= require backbone
 //= require backbone_rails_sync

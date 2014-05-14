@@ -1,7 +1,7 @@
 %script{:type => 'text/template', :id => "battle_skill_template"}
-  .skill-slot-num <%= skill_slot_num %>
-  <div class="battle-skill-wrapper <%= css_classes %>">
-  %h4.name <%= name %>
-  %span.typed <%= typed %>
-  %span.rest <%= rest %>
+  .skill-slot-num {{= skill_slot_num }}
+  <div class="battle-skill-wrapper {{= css_classes }}">
+  %h4.name {{= name }}
+  %span.typed {{= typed }}
+  %span.rest {{= rest }}
   </div>
