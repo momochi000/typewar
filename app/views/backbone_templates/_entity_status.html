@@ -1,0 +1,11 @@
+<script type="text/template" id="entity-status-template">
+  <div class="status">
+    <div class="name">{{= name }}</div>
+
+    <img class="mode" src="{{= mode_icon }}" ></img>
+    <!--<div class="hp"> {{= hp }} </div> -->
+    <div class='progress progress-striped'>
+      <div class='progress-bar {{= statusHP }}' role="progressbar" aria-valuenow="{{= percentHP }}" aria-valuemin="0" aria-valuemax="100" style="width: {{= percentHP }}%;"></div>
+    </div>
+  </div>
+</script>

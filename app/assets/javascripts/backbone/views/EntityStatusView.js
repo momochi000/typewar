@@ -16,6 +16,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
     var opts, $found_el;
     opts = {
       hp: this.entity.getStatus("hp"),
+      mode_icon: this.getStanceIcon(),
       name: this.entity.getName(),
       percentHP: this.entity.getPercentHP(),
       statusHP: this.getStatusHP()
@@ -31,16 +32,35 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
     this.remove();
   },
 
-  getStatusHP: function() {
+  getStanceIcon: function (){
+    // Return the appropriate icon for attack or defense etc.
+    var curr_mode;
+
+    curr_mode = Typewar.Engine.BattleManager.getMode();
+    console.log("DEBUG: EntityStatusView#getStanceIcon current_mode is ---->" + curr_mode);
+    //switch(Typewar.Engine.BattleManager.getMode()){
+    switch(curr_mode){
+      case "offense":
+        return "assets/Typewar/icons/crossed-swords.svg"
+        break;
+      case "defense":
+        return "assets/Typewar/icons/checked-shield.svg"
+        break;
+      default:
+        return "assets/Typewar/icons/checked-shield.svg"
+    }
+  },
+
+  getStatusHP: function (){
     var percentHP = this.entity.getPercentHP();
     var statusHP;
 
     if(percentHP < 30) {
-      statusHP = 'progress-danger';
+      statusHP = 'progress-bar-danger';
     } else if (percentHP < 70) {
-      statusHP = 'progress-warning';
+      statusHP = 'progress-bar-warning';
     } else {
-      statusHP = 'progress-success';
+      statusHP = 'progress-bar-success';
     }
 
     return statusHP;
