@@ -34,7 +34,12 @@ Typewar.Initializer = (function (Typewar){
   };
 
   initSceneManager = function (){
-    Typewar.Engine.scenemanager = new SceneManager({scene_map: {battle_scene: ProtoBattleScene, battle_over: BattleOverScene}});
+    Typewar.Engine.scenemanager = new SceneManager({
+      scene_defs: { 
+        battle_scene: ProtoBattleScene, 
+        battle_over: BattleOverScene
+      }
+    });
   };
 
   setupContainer = function (){

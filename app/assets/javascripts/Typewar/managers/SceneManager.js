@@ -1,7 +1,7 @@
 // TODO: namespace this properly under Typewar
 
 var SceneManager = Backbone.Model.extend({
-  defaults: {scene_map: null},
+  defaults: {scene_defs: null},
 
   initialize: function (){},
 
@@ -14,7 +14,7 @@ var SceneManager = Backbone.Model.extend({
 
     args = args || null
     if(this.has('current_scene')){ this.unloadScene(); }
-    desired_scene = this.get('scene_map')[scene_id];
+    desired_scene = this.get('scene_defs')[scene_id];
     new_scene = new desired_scene(args);
     new_scene.play();
     this.set('current_scene', new_scene);
