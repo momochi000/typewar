@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'bootstrap-sass'
+gem 'compass-rails'
 gem 'factory_girl_rails'
 gem 'faker'
 gem 'json'
@@ -9,7 +11,6 @@ gem 'pg'
 gem 'rails-backbone'
 gem "therubyracer"
 gem 'thin'
-gem "twitter-bootstrap-rails"
 
 group :development, :test do
   gem 'debugger'
