@@ -37,6 +37,10 @@ Crafty.c("BattleNPCEnemy", {
     Crafty.trigger("NPCDied", {target: this});
   },
 
+  getStance: function (){
+    return "";
+  },
+
   initiateAttackOn: function (defender, skill){
     var self, skill, frag, speed, text_fragment_options;
     self = this;

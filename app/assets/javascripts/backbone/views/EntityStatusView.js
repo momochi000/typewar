@@ -48,7 +48,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
         break;
       default:
         return "assets/Typewar/icons/checked-shield.svg"
-    }
+    };
   },
 
   getStatusHP: function (){

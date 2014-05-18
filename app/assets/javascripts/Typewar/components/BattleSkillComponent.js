@@ -14,16 +14,9 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
   },
 
   render: function (opts){
-    var text_fragment_opts, view_opts;
+    var view_opts;
 
-    view_opts = {};
-    skill_opts = {
-      name: this.entity.skill.name,
-      css_classes: this.entity.fsm.current,
-      skill_slot_num: this.entity.skillSlotNum()
-    }
-    text_fragment_opts = this.text_fragment.getTextStatus();
-    _.extend(view_opts, this.entity, skill_opts, text_fragment_opts, opts);
+    view_opts = this._buildViewOptions(opts);
     var template = _.template($(this._template_id).html(), view_opts);
     this.$el.html(template);
     return this.$el.html();
@@ -31,6 +24,38 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
 
   setTextFragment: function (new_frag){
     this.text_fragment = new_frag;
+  },
+
+  //private
+
+  _buildViewOptions: function (opts){
+    var skill_opts, text_fragment_opts, view_opts;
+
+    view_opts = {};
+    skill_opts = {
+      name: this.entity.skill.name,
+      css_classes: this.entity.fsm.current,
+      skill_slot_num: this.entity.skillSlotNum()
+    };
+    return _.extend(
+      view_opts, 
+      this.entity, 
+      skill_opts, 
+      this._getTextFragmentOptions(), 
+      opts);
+  },
+  
+  _defaultTextFragmentOptions: function (){
+    return {
+      typed: '', 
+      missed: '', 
+      rest: ''
+    }
+  },
+
+  _getTextFragmentOptions: function (){
+    if(this.text_fragment){ return this.text_fragment.getTextStatus(); }
+    return this._defaultTextFragmentOptions();
   }
 });
 
@@ -46,11 +71,8 @@ Crafty.c("BattleSkill", {
     this.skill = skill;
     this._entity = owner;
     this.text_fragment_graveyard = [];
-    this._generateTextFragment();
     this._setupStateMachine();
     this._initializeView();
-    this._bindRedrawOnTextFragmentUpdate();
-    this._bindCombatModeSwitch();
     return this;
   },
 
@@ -61,10 +83,6 @@ Crafty.c("BattleSkill", {
 
   canTakeInput: function (input){
     return (this.fsm.is("ready") || this.fsm.is("active"));
-  },
-
-  drawSelf: function (){
-    if(this._view){ this._view.render(); }
   },
 
   executeSkill: function (){
@@ -80,6 +98,14 @@ Crafty.c("BattleSkill", {
     return this._view;
   },
 
+  ready: function (){
+    this.fsm.initialize();
+  },
+
+  render: function (){
+    if(this._view){ this._view.render(); }
+  },
+
   skillSlotNum: function (){
     return this._entity.getSlotNum(this);
   },
@@ -87,10 +113,7 @@ Crafty.c("BattleSkill", {
   // ---------------------- Methods delegated to text fragment
 
   takeInput: function (input){
-    //console.log("DEBUG: BattleSkillComponent#takeInput  called with input ----> " + input);
     if(!this.canTakeInput()){return null;}
-    //console.log("DEBUG: BattleSkillComponent#takeInput  passing input to the text fragment ------->");
-    //console.log(this.text_fragment);
     if(this.text_fragment.takeInput(input)){
       if(this.text_fragment.isComplete()){
         this.fsm.complete();
@@ -110,7 +133,7 @@ Crafty.c("BattleSkill", {
 
   _bindCombatModeSwitch: function (){
     var self = this;
-    this.bind("SwitchingCombatMode", function (){
+    this.bind("SwitchedCombatMode", function (){
       if(self.fsm.can('cancel')){
         self.fsm.cancel();
       }
@@ -118,7 +141,7 @@ Crafty.c("BattleSkill", {
   },
 
   _bindRedrawOnTextFragmentUpdate: function (){
-    this.text_fragment.bind('Redraw', _.bind(this.drawSelf, this));
+    this.text_fragment.bind('Redraw', _.bind(this.render, this));
   },
 
   _clearTextFragment: function (){
@@ -139,7 +162,6 @@ Crafty.c("BattleSkill", {
 
   _generateTextFragment: function (){
     var t = this._getTextFromVocabulary({});
-
     this.text_fragment = Crafty.e("TextFragment")
       .textFragment({text: t});
   },
@@ -148,11 +170,6 @@ Crafty.c("BattleSkill", {
     var txt;
 
     opts  = opts || {};
-    
-    //return "squeegee";
-
-    // PROBLEM: trying to set up the first skill here happens before the 
-    // battle manager is even built.
     if(Typewar.Engine.BattleManager){
       txt = Typewar.Engine.BattleManager.prepareSkill({
         attacker: this._entity,
@@ -160,10 +177,6 @@ Crafty.c("BattleSkill", {
         skill: this.skill
       });
     }else{
-      // TODO:
-      // Before battle manager is initialized, set up skills with some random text
-      // Later, we'll replace these text fragments with a call to _generateTextFragment
-      // on a callback that will trigger when the battle manager is ready
       txt = this._makeRandomString();
     }
     return txt
@@ -193,19 +206,26 @@ Crafty.c("BattleSkill", {
     var self = this;
 
     this.fsm = StateMachine.create({
-      initial: "ready",
+      initial: "inactive",
       events: [
-        { name: "start",    from: "ready",   to: "active" },
-        { name: "complete", from: "active",  to: "cooling" },
-        { name: "cancel",   from: "active",  to: "ready" },
-        { name: "prepared", from: "cooling", to: "ready" }
+        { name: "initialize", from: "inactive", to: "ready" },
+        { name: "start",      from: "ready",    to: "active" },
+        { name: "complete",   from: "active",   to: "cooling" },
+        { name: "cancel",     from: "active",   to: "ready" },
+        { name: "prepared",   from: "cooling",  to: "ready" }
       ],
       callbacks: { 
+        onbeforeinitialize:    function (event, from, to){
+          self._generateTextFragment();
+          self._view.setTextFragment(self.text_fragment);
+          self._bindRedrawOnTextFragmentUpdate();
+          self._bindCombatModeSwitch();
+        },
         onstart:         function (event, from, to){ },
         onready:         function (event, from, to){ self.text_fragment.activate(); },
         onbeforecancel:  function (event, from, to){ self.text_fragment.reset(); },
         onaftercomplete: function (event, from, to){ self.executeSkill(); },
-        onafterevent:    function (event, from, to){ self.drawSelf(); }
+        onafterevent:    function (event, from, to){ self.render(); }
       }
     });
   },
@@ -218,7 +238,7 @@ Crafty.c("BattleSkill", {
   },
 
   _unbindCombatModeSwitch: function (){
-    this.unbind("SwitchingCombatMode");
+    this.unbind("SwitchedCombatMode");
   },
 
   _unbindRedrawOnTextFragmentUpdate: function (){

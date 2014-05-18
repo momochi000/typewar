@@ -16,13 +16,12 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   initialize: function (){
-    if(!this.has('side1')){ throw "BattleManager initialized without side 1"; }
-    if(!this.has('side2')){ throw "BattleManager initialized without side 2"; }
+    //if(!this.has('side1')){ throw "BattleManager initialized without side 1"; }
+    //if(!this.has('side2')){ throw "BattleManager initialized without side 2"; }
 
     this._setupModeFSM();
     this._bindEventListeners();
-    this._setupBattleAI();
-    this._displayPlayerSkills();
+    //this._setupBattleAI();
   },
 
   calculateDamage: function(opts) { // Stub for now, should eventually do some math
@@ -122,7 +121,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   prepareSkill: function (options){
     if(!options.attacker){throw "BattleManager: prepareSkill called with no attacker";}
-    if(!options.defender){throw "BattleManager: prepareSkill called with no defender";}
     if(!options.skill)  {throw "BattleManager: prepareSkill called with no attack specified";}
     attacker = options.attacker;
     defender = options.defender;
@@ -131,16 +129,21 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
   },
 
+  registerEnemies: function (entities){
+    this.set("side2", entities);
+  },
+
   /* Takes a fragment and keeps a reference to it within the manager */
   registerFragment: function (text_fragment){
     this.get("live_text_fragments").push(text_fragment);
   },
 
+  registerPlayer: function (entity){
+    this.set("side1", [entity]);
+  },
+
   resolveAttack: function (attack_object){
     var fragment;
-
-    //console.log("DEBUG: BATTLE MANAGER: resolving attack.  Input attack object is =====>");
-    //console.log(attack_object);
 
     fragment =  attack_object.text_fragment;
     if(fragment.wasPerfect()){
@@ -180,18 +183,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   _cleanupLiveFragments: function (){
     this.unset("live_text_fragments"); // NOTE: TESTME__ Is this sufficient? or should we call deallocate on each fragment?
-  },
-
-  // TODO: remove me
-  // This function is here temporarily until there is a better place to present
-  // the skill manager view piece.
-  // It should be ready and available once the player is initialized but I'm
-  // not sure when is an appropriate time to render it yet.
-  _displayPlayerSkills: function (){
-    var player_ent;
-
-    player_ent = this._getPlayerEntity();
-    player_ent.renderSkillManager();
   },
 
   _evalDefense: function (letter_value){
@@ -258,6 +249,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   // and difficulty
   _getWordFromVocabulary: function (vocab, options){
     options = options || {};
+
     if(!vocab[0].difficulty){
       return vocab[Math.floor(Math.random()*vocab.length)];
     }else{
@@ -367,24 +359,25 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
    * trace back where that is being set and fix it.
    */
   _setupBattleAI: function (){
-    var self, playerEntity, targetEntity;
+    this._setupPlayerAI();
+    this._setupEnemyAI();
+  },
 
-    self = this;
-    playerEntity = this._getPlayerEntity();
+  _setupCompletedFragmentListener: function (){
+    Crafty.bind("BattleNPCAttackCompleted", this.handleFragmentCompleted.bind(this));
+  },
+
+  _setupEnemyAI: function (){
+    var playerEntity, targetEntity;
+
     targetEntity = this.get("side2")[0].getEntity();
+    playerEntity = this._getPlayerEntity();
     _.each(this.get("side2"), function (e){
       var e_ent;
       e_ent = e.getEntity();
       e_ent.setTarget(playerEntity);
       e_ent.activateAI();
     }); 
-
-    playerEntity.setTarget(targetEntity);
-    //playerEntity.activateAutoAttack();
-  },
-
-  _setupCompletedFragmentListener: function (){
-    Crafty.bind("BattleNPCAttackCompleted", this.handleFragmentCompleted.bind(this));
   },
 
   // Move the fragment from the live set to the active fragments set
@@ -424,10 +417,19 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         //{ name: "toggle", from: "offense", to: "inventory" },
       ],
       callbacks: {
-        onbeforeevent:   function (event, from, to){ Crafty.trigger("SwitchingCombatMode"); }
+        onafterevent:   function (event, from, to){ Crafty.trigger("SwitchedCombatMode", to); }
       }
     });
     this.mode = fsm;
+  },
+
+  _setupPlayerAI: function (){
+    var playerEntity, targetEntity;
+
+    playerEntity = this._getPlayerEntity();
+    targetEntity = this.get("side2")[0].getEntity();
+    playerEntity.setTarget(targetEntity);
+    playerEntity.prepareSkills();
   },
 
   _setupPlayerDiedListener: function (){

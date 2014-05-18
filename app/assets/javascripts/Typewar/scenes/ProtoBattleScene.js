@@ -12,15 +12,26 @@ var ProtoBattleScene = Backbone.Model.extend({
 
     self = this;
     Crafty.scene(self.get('scene_id'), function (){
+      var chars_loaded_promise;
+
       self.initSprites();
-      self.loadCombatants();
       self.initBackground();
       self.initStageEdges();
       self.initCamera();
-      self.initBattleManager({side1: [self.get('combatants').player], side2: self.get("combatants").enemies });
-      self.initStatusBar(self.get('combatants').player, self.get('combatants').enemies[0]);
-      self.initInputManager();
+      self.initBattleManager();
+
+      self.initCombatants().then(function (response){
+        self.initUI();
+        self.activateBattleAI();
+        self.initInputManager();
+      }, function (error){
+        alert('bail');
+      });
     });
+  },
+
+  activateBattleAI: function (){
+    Typewar.Engine.BattleManager._setupBattleAI();
   },
 
   deallocateBattleManager: function (){
@@ -64,13 +75,33 @@ var ProtoBattleScene = Backbone.Model.extend({
 
   initBattleManager: function (options){
     Typewar.Engine.BattleManager = new Typewar.Models.BattleManager(options);
-    console.log("DEBUG: initialized battle manager");
   },
 
   initCamera: function (){
     Crafty.viewport.scale(2.4);
     Crafty.viewport.y -= 70;
     Crafty.viewport.x -= 10;
+  },
+
+  initCombatants: function (){
+    var enemy_npc, player, combatants, self;
+
+    self = this;
+
+    return new Promise( function (fulfill, reject){
+      self.initPC().then( function (pc_model) {
+        player = pc_model;
+        return self.initEnemyNPC();
+      }, function (error){
+      }).then( function (npc_model) {
+        enemy_npc = npc_model
+        combatants = {player: player, enemies: [enemy_npc]};
+        self.set('combatants', combatants);
+        self._addCombatantsToBattleManager();
+        fulfill();
+      }, function (error){
+      });
+    });
   },
 
   initEnemyNPC: function (){
@@ -80,8 +111,36 @@ var ProtoBattleScene = Backbone.Model.extend({
     return new NPCEntity();
   },
 
+  initInputManager: function (){
+    Typewar.Engine.inputManager = new Typewar.Models.BattleInputManager;
+  },
+
   initPC: function (){
-    return new PCBattleEntity();
+    var pc_model, promise;
+
+    pc_model = new PCBattleEntity();
+    promise = pc_model.getFromServer();
+    return promise;
+
+    //return new PCBattleEntity();
+  },
+
+  initSkillManager: function (){
+    var player_entity;
+
+    player_entity = this.get("combatants").player.getEntity();
+
+    player_entity.addComponent("SkillManager");
+    // Skills for debugging
+    skills = {
+      ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
+      ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
+      ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
+      ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
+    };
+
+    player_entity.skillManager(skills);
+    player_entity.renderSkillManager();
   },
 
   initSprites: function (){
@@ -122,27 +181,21 @@ var ProtoBattleScene = Backbone.Model.extend({
     this.set('bottom_edge', bottom_edge);
   },
 
-  initInputManager: function (){
-    Typewar.Engine.inputManager = new Typewar.Models.BattleInputManager;
-  },
+  initStatusBar: function() {
+    var player, enemy, statusBar;
 
-  initStatusBar: function(player, enemy) {
-    var statusBar = new Typewar.Views.StatusBarView();
+    player = this.get("combatants").player;
+    enemy = this.get("combatants").enemies[0];
+    statusBar = new Typewar.Views.StatusBarView();
     statusBar.render();
     statusBar.addEntity(player.getEntity());
     statusBar.addEntity(enemy.getEntity());
     this.set('status_bar', statusBar);
   },
 
-  loadCombatants: function (){
-    var enemy_npc, player, combatants;
-
-    enemy_npc = this.initEnemyNPC();
-    player = this.initPC();
-
-    combatants = {player: player, enemies: [enemy_npc]};
-    this.set('combatants', combatants);
-    return combatants;
+  initUI: function (){
+    this.initSkillManager();
+    this.initStatusBar();
   },
 
   play: function (){
@@ -161,5 +214,11 @@ var ProtoBattleScene = Backbone.Model.extend({
     this.deallocateBattleManager();
     this.deallocateStatusBar();
     this.deallocateInputManager();
+  },
+
+  // private
+  _addCombatantsToBattleManager: function (){
+    Typewar.Engine.BattleManager.registerPlayer(this.get('combatants').player);
+    Typewar.Engine.BattleManager.registerEnemies(this.get('combatants').enemies);
   }
 });
