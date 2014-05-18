@@ -44,7 +44,13 @@ Crafty.c("SkillManager", {
   },
 
   skillManager: function (skillset){
-    this.populateSkillset(skillset);
+    if(skillset){
+      this.populateSkillset(skillset);
+    }else if(this.char_sheet.skills){
+      this.populateSkillset(this.char_sheet.skills);
+    }else{
+      throw "SkillManagerComponent: attempting to initialize SkillManager without any skills";
+    }
     this._bindSkillCompleteListeners();
     this._initializeView();
     return this;
@@ -58,6 +64,12 @@ Crafty.c("SkillManager", {
     var self = this;
     this._skillset = _.map(skills, function (skill){
       return Crafty.e("BattleSkill").battleSkill(skill, self);
+    });
+  },
+
+  prepareSkills: function (){
+    _.each(this._skillset, function (skill){
+      skill.ready();
     });
   },
 
@@ -142,7 +154,8 @@ Crafty.c("SkillManager", {
 
     this._view = new Typewar.Views.SkillManagerView({id: 'battle-skillset'});
     skill_views = _.map(this._skillset, function (curr_skill){ 
-      return curr_skill.getView() 
+      curr_skill.render();
+      return curr_skill.getView();
     });
     this._view.registerSkillViews(skill_views);
   }

@@ -1,10 +1,12 @@
 Crafty.c("BattlePlayer", {
+  _ANIM_HIT_DELAY: 410,
   _current_target: null,
   _fragment_spawner: null,
-  _ANIM_HIT_DELAY: 410,
+  stance: 'defense',
 
   init: function (){
     this.requires("2D, BattlePlayerAnimation, BattleCharacter");
+    this._bindChangeStance();
   },
 
   battlePlayer: function (char_sheet){
@@ -12,11 +14,14 @@ Crafty.c("BattlePlayer", {
     return this;
   },
 
-  remove: function (destroyed) {
-  },
+  remove: function (destroyed) { },
 
   die: function (){
     Crafty.trigger("PlayerDied", {target: this});
+  },
+
+  getStance: function (){
+    return this.stance;
   },
 
   getTarget: function (){
@@ -50,7 +55,20 @@ Crafty.c("BattlePlayer", {
   wasMissed: function (){ },
 
   // private
+
+  _bindChangeStance: function (){
+    var self = this;
+    this.bind("SwitchedCombatMode", function (evt){
+      self.stance = evt.mode;
+      self.updateStatus();
+    });
+  }, 
+
   _buildDefaultCharSheet: function (){
     this.char_sheet = new Typewar.Models.CharacterSheet({name: "Player"});
+  },
+
+  _unbindChangeStance: function (){
+    this.unbind("SwitchedCombatMode");
   }
 });

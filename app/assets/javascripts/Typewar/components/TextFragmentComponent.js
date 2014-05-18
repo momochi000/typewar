@@ -50,9 +50,9 @@ Crafty.c("TextFragment", {
 
   getTextStatus: function (){
     return {
-      typed: this._correct_characters, 
-      missed: this._incorrect_characters, 
-      rest: this._text.slice(this._current_position)
+      typed: this._correct_characters || '',  
+      missed: this._incorrect_characters || '', 
+      rest: this._text.slice(this._current_position || '')
     }
   },
 

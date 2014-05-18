@@ -15,30 +15,19 @@ var NPCEntity = BaseEntity.extend({
     var entity, self;
     self = this;
     
-    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, BattleSlime, NPCBrain, slime_st0, Collision")
+    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, BattleSlime, NPCBrain, slime_st0, Collision, BattleStatus")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
-      .battleSlimeAnim()
       .battleNPCEnemy()
       .battleSlime()
+      .battleSlimeAnim()
+      //.battleStatus()
       .nPCBrain()
       .collision([0,0],[0,50],[50,60],[0,60]);
     global_enemy = entity; // DEBUG:
 
     if(!this.has('skip_fetch')) { this.getFromServer() };
 
-    /* Warning:
-     * Got the server to send back a monster with some data.  
-     * Everything should just work from here.
-     *
-     * I worry the server can't respond in time to build
-     * the character in time for the battle manager init.
-     * or more succinctly, the code marches on while the server
-     * is being contacted/responding.
-     *
-     * This isn't causing a problem now locally, but keep an eye on
-     * this for possible problems in the future
-     */
     self.set('entity', entity);
     return this;
   },
