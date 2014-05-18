@@ -111,6 +111,17 @@ If possible, change the player stance as well
 Move the fsm for attack/defense etc mode onto the player. Probably it's own 
 component. Figure out how to get the battle manager to communicate with this
 component so it does the right thing.
+#### Extract status view into a component that can be added to an entity
+#### Write a library for battle icons
+I'll fill them in as I need them but it'll be good to have the framework in 
+place
+#### Create tracker project for this and convert readme to slurper format
+#### BUG: Skill with comma as text fragment is broken
+Occaisionally a skill gets a single comma for its text fragment text. In this 
+case it accepts the first input then breaks.
+#### REFACTOR: rewrite the way battle manager stores and references battle entities
+#### On crafty.pause, pause AI and stuff
+Pausing crafty fires a Paused event that we can listen to to do the things.
 #### REFACTOR: redo the way character sheets are built and come in from server
 They should be assembled from model joins that live over on the rails app
 then passed down to the game engine in json format from a GET request
@@ -121,7 +132,7 @@ Currently, text fragments contain code for the position function or some
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
-#### Update twitter bootstrap to 3.x.x
+#### Remove turbolinks
 #### Tighten hitboxes (both of entities and of text fragments)
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
@@ -258,8 +269,17 @@ I should try to patch Crafty to add state machine to components directly.
 
 ---
 
+## Entered into Tracker
+
+---
+
 ## DONE
 
+#### Fix broken javascript from bootstrap
+Some librar(y|ies) from bootstrap isn't being included somehow
+#### Fix status bars
+#### Update twitter bootstrap to 3.x.x
+#### Fuck off twitter-bootstrap-rails, I want sass
 #### BUG: If 2 skills start with the same text, it doesn't work 
 #### BUG: If a skill is being typed and you tab out, once you tab back in and try typing it again, it's broken
 #### Move health bars/status to the top of the screen/window
