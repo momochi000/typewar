@@ -91,19 +91,10 @@ speed appropriately.
 
 ## CURRENT
 
-#### Write a library for battle icons
-I'll fill them in as I need them but it'll be good to have the framework in 
-place
-#### Display an icon indicating attack/defense mode
-If possible, change the player stance as well
-Move the fsm for attack/defense etc mode onto the player. Probably it's own 
-component. Figure out how to get the battle manager to communicate with this
-component so it does the right thing.
-#### Create tracker project for this and convert readme to slurper format
 #### BUG: Skill with comma as text fragment is broken
 Occaisionally a skill gets a single comma for its text fragment text. In this 
 case it accepts the first input then breaks.
-#### REFACTOR: rewrite the way battle manager stores and references battle entities
+#### Create tracker project for this and convert readme to slurper format
 #### On crafty.pause, pause AI and stuff
 Pausing crafty fires a Paused event that we can listen to to do the things.
 #### REFACTOR: redo the way character sheets are built and come in from server
@@ -119,6 +110,7 @@ an id (string) that gets passed in as part of the skill.
 #### Remove turbolinks
 #### Tighten hitboxes (both of entities and of text fragments)
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
+#### REFACTOR: rewrite the way battle manager stores and references battle entities
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Player skills can also generate text fragments
 A compound skill, typing the skill in the skill slot does some whatever effect
@@ -134,6 +126,9 @@ Do a run down to see the state of various parts before proceeding:
   lock up or break the game
 + Seems to be broken sometimes, attack mode
 
+#### Write a library for battle icons
+I'll fill them in as I need them but it'll be good to have the framework in 
+place
 #### Don't allow switching modes if a text fragment is active (conditionally)
 should allow this if you have the correct skill or when going from offense to
 defense
@@ -259,6 +254,11 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Display an icon indicating attack/defense mode
+If possible, change the player stance as well
+Move the fsm for attack/defense etc mode onto the player. Probably it's own 
+component. Figure out how to get the battle manager to communicate with this
+component so it does the right thing.
 #### EPIC: Player attacks/skills are a set of skill slots that can be typed anytime
 + Player has a set of slots for skills
 + The slot is filled with some text which varies depending on the player stats
