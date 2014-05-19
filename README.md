@@ -91,21 +91,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### EPIC: Player attacks/skills are a set of skill slots that can be typed anytime
-+ Player has a set of slots for skills
-+ The slot is filled with some text which varies depending on the player stats
-  and on their typing speed.
-+ Player taps tab to switch between offense and defense
-+ Different classes can have different skills/spells that can have various 
-  effects
-  * healing
-  * area damage
-  * damage over time
-  * helper/option
-+ Enemy hitting the player could break their attack depending on attack type,
-  player stats/def/etc, player skills (passive or active)
-+ Attack animation plays upon successful fragment typing
-
 #### Write a library for battle icons
 I'll fill them in as I need them but it'll be good to have the framework in 
 place
@@ -273,6 +258,21 @@ I should try to patch Crafty to add state machine to components directly.
 ---
 
 ## DONE
+
+#### EPIC: Player attacks/skills are a set of skill slots that can be typed anytime
++ Player has a set of slots for skills
++ The slot is filled with some text which varies depending on the player stats
+  and on their typing speed.
++ Player taps tab to switch between offense and defense
++ Different classes can have different skills/spells that can have various 
+  effects
+  * healing
+  * area damage
+  * damage over time
+  * helper/option
++ Enemy hitting the player could break their attack depending on attack type,
+  player stats/def/etc, player skills (passive or active)
++ Attack animation plays upon successful fragment typing
 
 #### Extract status view into a component that can be added to an entity
 #### Fix broken javascript from bootstrap
