@@ -17,10 +17,10 @@ Typewar.Views.StatusBarView = Backbone.View.extend({
   },
 
   addEntity: function(entity) {
-    var new_view = new Typewar.Views.EntityStatusView({entity: entity, id: 'entity-status-'+entity[0]})
-    new_view.render();
-    this._entityViews.push(new_view);
-    this.$el.append(new_view.$el);
+    if(!entity.status_view){ return null; }
+    this._entityViews.push(entity.status_view);
+    this.$el.append(entity.status_view.$el);
+    return entity.status_view;
   },
 
   deallocate: function (){

@@ -21,7 +21,7 @@ var NPCEntity = BaseEntity.extend({
       .battleNPCEnemy()
       .battleSlime()
       .battleSlimeAnim()
-      //.battleStatus()
+      .battleStatus()
       .nPCBrain()
       .collision([0,0],[0,50],[50,60],[0,60]);
     global_enemy = entity; // DEBUG:

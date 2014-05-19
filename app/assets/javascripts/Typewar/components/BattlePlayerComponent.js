@@ -59,7 +59,7 @@ Crafty.c("BattlePlayer", {
   _bindChangeStance: function (){
     var self = this;
     this.bind("SwitchedCombatMode", function (evt){
-      self.stance = evt.mode;
+      self.stance = evt;
       self.updateStatus();
     });
   }, 
