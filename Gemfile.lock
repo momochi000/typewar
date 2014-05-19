@@ -80,11 +80,6 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.0)
-    less (2.3.2)
-      commonjs (~> 0.2.6)
-    less-rails (2.3.3)
-      actionpack (>= 3.1)
-      less (~> 2.3.1)
     libv8 (3.11.8.17)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -189,7 +184,6 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   json
-  less-rails
   pg
   pry-rails
   rails (= 4.0.0)

@@ -6,7 +6,6 @@ gem 'factory_girl_rails'
 gem 'faker'
 gem 'json'
 gem 'haml'
-gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem 'pg'
 gem 'rails-backbone'
 gem "therubyracer"
