@@ -26,6 +26,8 @@ var ProtoBattleScene = Backbone.Model.extend({
         self.initInputManager();
       }, function (error){
         alert('bail');
+      }).catch( function (error){
+        console.log("ERROR: there was an error during or after initializing combatants", error);
       });
     });
   },
@@ -93,6 +95,7 @@ var ProtoBattleScene = Backbone.Model.extend({
         player = pc_model;
         return self.initEnemyNPC();
       }, function (error){
+        console.log("ERROR: there was an error initializing the player character", error);
       }).then( function (npc_model) {
         enemy_npc = npc_model
         combatants = {player: player, enemies: [enemy_npc]};
@@ -100,6 +103,9 @@ var ProtoBattleScene = Backbone.Model.extend({
         self._addCombatantsToBattleManager();
         fulfill();
       }, function (error){
+        console.log("ERROR: there was an error initializing the npc", error);
+      }).catch( function (error){
+        console.log("ERROR: there was an error initializing the player or NPC and adding them to the battle manager", error);
       });
     });
   },
