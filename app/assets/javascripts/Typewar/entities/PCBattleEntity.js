@@ -14,7 +14,7 @@ var PCBattleEntity = BaseEntity.extend({
       .battlePlayerZeroAnim()
       .battleCharacter()
       .battlePlayer()
-      //.battleStatus()
+      .battleStatus()
       .collision([0,0],[60,0],[60,120],[0,120]);
 
     //player = this._loadSkills(player);
