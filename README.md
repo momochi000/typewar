@@ -106,15 +106,14 @@ speed appropriately.
   player stats/def/etc, player skills (passive or active)
 + Attack animation plays upon successful fragment typing
 
+#### Write a library for battle icons
+I'll fill them in as I need them but it'll be good to have the framework in 
+place
 #### Display an icon indicating attack/defense mode
 If possible, change the player stance as well
 Move the fsm for attack/defense etc mode onto the player. Probably it's own 
 component. Figure out how to get the battle manager to communicate with this
 component so it does the right thing.
-#### Extract status view into a component that can be added to an entity
-#### Write a library for battle icons
-I'll fill them in as I need them but it'll be good to have the framework in 
-place
 #### Create tracker project for this and convert readme to slurper format
 #### BUG: Skill with comma as text fragment is broken
 Occaisionally a skill gets a single comma for its text fragment text. In this 
@@ -275,6 +274,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Extract status view into a component that can be added to an entity
 #### Fix broken javascript from bootstrap
 Some librar(y|ies) from bootstrap isn't being included somehow
 #### Fix status bars
