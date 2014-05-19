@@ -146,6 +146,7 @@ Crafty.c("BattleInputManager", {
   },
 
   _translateKeyToLetter: function (keyCode){
+    console.log("DEBUG: GOT A KEY INPUT ----> keycode ----->"+keyCode);
     switch(keyCode) {
       case(Crafty.keys['BACKSPACE']):
         // We could do something special with this if we later choose
@@ -253,18 +254,21 @@ Crafty.c("BattleInputManager", {
       //case(Crafty.keys['MULTIPLY'])
       //case(Crafty.keys['ADD'])
       //case(Crafty.keys['SUBSTRACT'])
-      //case(Crafty.keys['DECIMAL'])
+      case(Crafty.keys['DECIMAL']):
+        return ".";
       //case(Crafty.keys['DIVIDE'])
       case(Crafty.keys['SHIFT']):
-        return 'shift';
+        return "shift";
       //case(Crafty.keys['CTRL'])
       //case(Crafty.keys['ALT'])
       //case(Crafty.keys['PLUS'])
       case(Crafty.keys['COMMA']):
-        return ',';
+        return ",";
       case(Crafty.keys['MINUS']):
-        return '-';
+        return "-";
       //case(Crafty.keys['PERIOD'])
+      case(190): // . period
+        return ".";
       case(222): // ' Single quote
         return "'";
       default:

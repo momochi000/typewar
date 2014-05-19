@@ -211,6 +211,7 @@ Crafty.c("BattleSkill", {
         { name: "initialize", from: "inactive", to: "ready" },
         { name: "start",      from: "ready",    to: "active" },
         { name: "complete",   from: "active",   to: "cooling" },
+        { name: "complete",   from: "ready",    to: "cooling" },
         { name: "cancel",     from: "active",   to: "ready" },
         { name: "prepared",   from: "cooling",  to: "ready" }
       ],
