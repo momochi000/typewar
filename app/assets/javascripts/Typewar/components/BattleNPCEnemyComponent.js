@@ -38,7 +38,7 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   getStance: function (){
-    return "";
+    return "offense";
   },
 
   initiateAttackOn: function (defender, skill){
