@@ -91,12 +91,7 @@ speed appropriately.
 
 ## CURRENT
 
-#### BUG: Skill with comma as text fragment is broken
-Occaisionally a skill gets a single comma for its text fragment text. In this 
-case it accepts the first input then breaks.
-#### Create tracker project for this and convert readme to slurper format
-#### On crafty.pause, pause AI and stuff
-Pausing crafty fires a Paused event that we can listen to to do the things.
+#### Text librarian
 #### REFACTOR: redo the way character sheets are built and come in from server
 They should be assembled from model joins that live over on the rails app
 then passed down to the game engine in json format from a GET request
@@ -126,6 +121,9 @@ Do a run down to see the state of various parts before proceeding:
   lock up or break the game
 + Seems to be broken sometimes, attack mode
 
+#### BUG: With a single character skill fragment, there is an error when the skill completes
+it goes from state ready to cooldown which throws an error, the game seems to
+work however so this is low priority
 #### Write a library for battle icons
 I'll fill them in as I need them but it'll be good to have the framework in 
 place
@@ -254,6 +252,12 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### On crafty.pause, pause AI and stuff
+Pausing crafty fires a Paused event that we can listen to to do the things.
+#### BUG: Skill with comma as text fragment is broken
+Occaisionally a skill gets a single comma for its text fragment text. In this 
+case it accepts the first input then breaks. this bug is fixed with some 
+caveats
 #### Display an icon indicating attack/defense mode
 If possible, change the player stance as well
 Move the fsm for attack/defense etc mode onto the player. Probably it's own 
