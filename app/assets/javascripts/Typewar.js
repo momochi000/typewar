@@ -3,6 +3,7 @@
 Typewar.Engine = {};
 Typewar.Data = {Skills: {}};
 Typewar.Views = {};
+Typewar.Util = {};
 Typewar.Initializer = (function (Typewar){
   var init,
     // private class methods

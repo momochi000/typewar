@@ -1,4 +1,4 @@
-Typewar.Util = (function (){
+Typewar.Util = _.extend({}, Typewar.Util, ( function (){
   var coinToss, randomInt;
 
   coinToss = function (){
@@ -16,4 +16,4 @@ Typewar.Util = (function (){
     coinToss: coinToss,
     randomInt: randomInt
   };
-})();
+})());
