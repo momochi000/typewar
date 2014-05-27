@@ -8,3 +8,6 @@ development
 db/*.sqlite3
 
 Box2dWeb.js
+
+app/assets/javascripts/jasmine_examples
+spec/javascripts/jasmine_examples
