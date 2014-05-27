@@ -13,6 +13,7 @@ gem 'thin'
 
 group :development, :test do
   gem 'debugger'
+  gem 'jasmine'
   gem 'rspec-rails'
 end
 

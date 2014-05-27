@@ -40,7 +40,6 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     columnize (0.8.9)
-    commonjs (0.2.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -73,6 +72,12 @@ GEM
       tilt
     hike (1.2.3)
     i18n (0.6.4)
+    jasmine (2.0.2)
+      jasmine-core (~> 2.0.0)
+      phantomjs
+      rack (>= 1.2.1)
+      rake
+    jasmine-core (2.0.0)
     jbuilder (1.4.2)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -89,6 +94,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.7.7)
     pg (0.17.1)
+    phantomjs (1.9.7.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -181,6 +187,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   haml
+  jasmine
   jbuilder (~> 1.2)
   jquery-rails
   json
