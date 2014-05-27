@@ -267,8 +267,12 @@ Crafty.c("BattleInputManager", {
       case(Crafty.keys['MINUS']):
         return "-";
       //case(Crafty.keys['PERIOD'])
+      case(186): // : colon
+        return ":";
       case(190): // . period
         return ".";
+      case(191): // ? question mark
+        return "?";
       case(222): // ' Single quote
         return "'";
       default:
