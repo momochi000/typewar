@@ -47,15 +47,19 @@ class Character < ActiveRecord::Base
   end
 
   def char_sheet
-    return self #for now..
+    #return self #for now..
     {
       :properties   => properties,
       :name         => name,
       #:skills       => skills_to_hash,
       :stats        => stats,
       :status       => status,
-      :vocabulary   => vocabulary
+      :vocabulary   => get_vocabulary
     }
+  end
+
+  def get_vocabulary
+    Text.all.sample.generate_library
   end
 
   private

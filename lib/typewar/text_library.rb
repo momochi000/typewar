@@ -1,7 +1,5 @@
-# LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Building this out right now, trying to balance it as we go.
-# scale up the difficulty on basic characters, should have a more even 
-# distribution of weights # add in the calculation for adjacent characters
+# TODO: scale up the difficulty on basic characters, should have a more even 
+# distribution of weights.
 module Typewar
   class TextLibrary
     CHARACTER_WEIGHTS = {
@@ -102,8 +100,9 @@ module Typewar
       '/' =>  {:weight => 2, :finger => 10  }, 
       '?' =>  {:weight => 2, :finger => 10  }, 
       ' ' =>  {:weight => 1, :finger => 6   }, 
+      '\n' =>  {:weight => 1, :finger => 6  }, 
       '\\' => {:weight => 6, :finger => 10  }, 
-      '\'' => {:weight => 2, :finger => 10  }
+      "'" =>  {:weight => 2, :finger => 10  }
     }
 
     def initialize(text)
@@ -112,9 +111,14 @@ module Typewar
 
     # Return a library of text
     def generate(options={})
-      strings = TextSlicer.new(@text).slice #slice the text into array of strings
+      strings = TextSlicer.new(@text).slice
+      strings = strings.
+        map{|s|sanitize_string(s)}.
+        map{|s|format_string(s)}.
+        compact.
+        delete_if{|s|s.blank?}
 
-      output = strings.map do |string|
+      strings.map do |string|
         {
           :difficulty => calculate_avg_char_difficulty(string),
               :length => string.length,
@@ -126,13 +130,12 @@ module Typewar
     private
 
     def calculate_avg_char_difficulty(str)
-      s = str.split ''
+      s = str.split('')
       prev = nil
       index = 0
       curr_total = 0
 
       s.each do |char|
-        #p "DEBUG: curr char----> #{char} . prev char ----> #{prev}"
         weight_modifier = 0
         if prev
           if prev == char
@@ -141,19 +144,31 @@ module Typewar
             weight_modifier = 1
           end
         end
-        w = CHARACTER_WEIGHTS[char][:weight]
-        #p "DEBUG given_weight ---> #{w} __ weight_modifier -----> #{weight_modifier} "
         curr_total += CHARACTER_WEIGHTS[char][:weight] + weight_modifier
         prev = char
       end
 
-      #p "DEBUG: total weight of the string --------> #{curr_total}"
-      #p "DEBUG: string length ---------------------> #{str.length}"
-      out = (curr_total.to_f / str.length).round
-      #p "DEBUG: average weight of the string ------> #{out}"
-      #p "==========================================="
+      (curr_total.to_f / str.length).round
+    end
 
-      out
+    def format_string(str)
+      str.
+        gsub(/^[[:punct:]]/, '').
+        gsub(/\s+([[:punct:]])/, '\1').
+        gsub(/^\s+/, '').
+        gsub(/\s+$/, '').
+        gsub(/\s*’\s*/,"'").
+        gsub(/\s*"\s*/,'"').
+        gsub(/\s*\-\s*/,"-")
+    end
+
+    def sanitize_string(str)
+      str.
+        gsub(/\n/,'').
+        gsub(/—/,'-').
+        gsub(/\s+/, ' ').
+        gsub('…', '...').
+        gsub('“', '"').gsub('”', '"')
     end
   end
 end
