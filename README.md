@@ -91,19 +91,13 @@ speed appropriately.
 
 ## CURRENT
 
-#### Text librarian
-#### REFACTOR: redo the way character sheets are built and come in from server
-They should be assembled from model joins that live over on the rails app
-then passed down to the game engine in json format from a GET request
-then stored into the character model/entity client side and also diced up to 
-build the character
+#### Remove turbolinks
+#### Tighten hitboxes (both of entities and of text fragments)
 #### REFACTOR: change skill -> attack spawning to take an id argument
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
-#### Remove turbolinks
-#### Tighten hitboxes (both of entities and of text fragments)
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### REFACTOR: rewrite the way battle manager stores and references battle entities
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
@@ -121,6 +115,11 @@ Do a run down to see the state of various parts before proceeding:
   lock up or break the game
 + Seems to be broken sometimes, attack mode
 
+#### REFACTOR: redo the way character sheets are built and come in from server
+They should be assembled from model joins that live over on the rails app
+then passed down to the game engine in json format from a GET request
+then stored into the character model/entity client side and also diced up to 
+build the character
 #### BUG: With a single character skill fragment, there is an error when the skill completes
 it goes from state ready to cooldown which throws an error, the game seems to
 work however so this is low priority
@@ -252,6 +251,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Text librarian
 #### On crafty.pause, pause AI and stuff
 Pausing crafty fires a Paused event that we can listen to to do the things.
 #### BUG: Skill with comma as text fragment is broken
