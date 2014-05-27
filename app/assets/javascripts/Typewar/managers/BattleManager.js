@@ -244,19 +244,12 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     return this.get("side1")[0].getEntity();
   },
 
-  // Grab a random string from the vocabulary for now.
-  // Later we'll pick an appropriate string based on some options about length
-  // and difficulty
   _getWordFromVocabulary: function (vocab, options){
+    var output;
     options = options || {};
 
-    if(!vocab[0].difficulty){
-      return vocab[Math.floor(Math.random()*vocab.length)];
-    }else{
-      // try to find a string in the vocab close in difficulty and length to that specified
-      var random = vocab[Math.floor(Math.random()*vocab.length)];
-      return random.text;
-    }
+    output = Typewar.Util.TextLibrarian.retrieve(vocab, options);
+    return output;
   },
 
   _handleTextFragmentCollision: function (evt){ // Event data coming in is expected to be an AttackObject
