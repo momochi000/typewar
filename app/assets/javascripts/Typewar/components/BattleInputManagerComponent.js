@@ -267,8 +267,9 @@ Crafty.c("BattleInputManager", {
       case(Crafty.keys['MINUS']):
         return "-";
       //case(Crafty.keys['PERIOD'])
-      case(186): // : colon
-        return ":";
+      case(186): // ; semicolon
+        if(this.is_shift_key_down) { return ":" }
+        return ";";
       case(190): // . period
         return ".";
       case(191): // ? question mark
