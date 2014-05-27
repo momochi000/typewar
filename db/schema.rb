@@ -20,11 +20,17 @@ ActiveRecord::Schema.define(version: 20140412061436) do
     t.string   "name"
     t.string   "char_class"
     t.text     "stats"
-    t.text     "vocabulary"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "status",     default: ""
     t.text     "properties"
+  end
+
+
+  create_table "texts", force: true do |t|
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

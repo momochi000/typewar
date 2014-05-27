@@ -49,7 +49,6 @@ FactoryGirl.define do
         max_hp: hp
       }
     }
-    vocabulary { Character.generate_vocabulary(2) }
   end
 
   factory :player_lv1, :parent => :character do
@@ -72,7 +71,6 @@ FactoryGirl.define do
         max_hp: hp
       }
     }
-    vocabulary { Character.generate_vocabulary }
   end
 
   #factory :medium_slime do

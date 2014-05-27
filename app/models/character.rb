@@ -3,7 +3,6 @@ require 'json'
 class Character < ActiveRecord::Base
   serialize :stats, JSON
   serialize :status, JSON
-  serialize :vocabulary, JSON
   serialize :properties, JSON
 
   has_many :skills
