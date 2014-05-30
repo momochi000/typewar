@@ -204,7 +204,6 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
         }
       });
     }else{
-
       if(active_fragments.length > 1) {                // if multiple fragments active
         duped_fragments = active_fragments.slice(0);
         _.each(duped_fragments, function (curr_frag){ // send text input to all active fragments
@@ -222,9 +221,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _evalOffense: function (letter_value){
-    var player_ent;
-    player_ent = this._getPlayerEntity();
-    player_ent.takeInput(letter_value);
+    this._getPlayerEntity.takeInput(letter_value);
   },
 
   /* Sweep through text fragments registered with this manager and removes
