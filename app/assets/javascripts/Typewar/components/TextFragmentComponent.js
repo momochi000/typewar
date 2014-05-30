@@ -48,6 +48,14 @@ Crafty.c("TextFragment", {
                            // display
   },
 
+  getNextChar: function (){
+    return this._text[this._current_position];
+  },
+
+  getText: function (){
+    return this._text;
+  },
+
   getTextStatus: function (){
     return {
       typed: this._correct_characters || '',  
@@ -63,6 +71,10 @@ Crafty.c("TextFragment", {
   // Return true if the given character matches the first one in the text frag
   matchFirstChar: function (chr){
     return (this._text[0] == chr);
+  },
+
+  matchNextChar: function (chr){
+    return (this.getNextChar() == chr);
   },
 
   /* We want to call this when the fragment is no longer to be displayed.

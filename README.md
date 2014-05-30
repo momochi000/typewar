@@ -91,16 +91,17 @@ speed appropriately.
 
 ## CURRENT
 
-#### Remove turbolinks
+#### Adjust skills and monster attacks to obtain appropriately sized strings
+#### When battle ends, clear out the skill manager view and it's children
 #### Tighten hitboxes (both of entities and of text fragments)
 #### REFACTOR: change skill -> attack spawning to take an id argument
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
-#### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### REFACTOR: rewrite the way battle manager stores and references battle entities
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
+#### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### Player skills can also generate text fragments
 A compound skill, typing the skill in the skill slot does some whatever effect
 but it also generates a text fragment which flies out from the player. Typing
@@ -251,6 +252,10 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### BUG: when 2 skills start with the same text, they don't activate properly
+Ensure 2 skills can't have the same exact text
+When 2 begin with the same text, ensure they behave properly when typed
+#### Remove turbolinks
 #### Text librarian
 #### On crafty.pause, pause AI and stuff
 Pausing crafty fires a Paused event that we can listen to to do the things.

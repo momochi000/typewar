@@ -146,7 +146,7 @@ Crafty.c("BattleInputManager", {
   },
 
   _translateKeyToLetter: function (keyCode){
-    console.log("DEBUG: GOT A KEY INPUT ----> keycode ----->"+keyCode);
+    //console.log("DEBUG: GOT A KEY INPUT ----> keycode ----->"+keyCode);
     switch(keyCode) {
       case(Crafty.keys['BACKSPACE']):
         // We could do something special with this if we later choose

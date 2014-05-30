@@ -77,12 +77,16 @@ Crafty.c("BattleSkill", {
   },
 
   remove: function (){
-    //remove the view
-    this._view.remove();
+    this._view.remove(); //remove the view
   },
 
   canTakeInput: function (input){
     return (this.fsm.is("ready") || this.fsm.is("active"));
+  },
+
+  currentText: function (){
+    if(!this.text_fragment) { return null; }
+    return this.text_fragment.getText();
   },
 
   executeSkill: function (){
@@ -118,13 +122,19 @@ Crafty.c("BattleSkill", {
       if(this.text_fragment.isComplete()){
         this.fsm.complete();
       }
+      return true;
     }else{
       //console.log("DEBUG: incorrect input");
+      return false;
     }
   },
 
   matchFirstChar: function (chr){
     return this.text_fragment.matchFirstChar(chr);
+  },
+
+  matchNextChar: function (chr){
+    return this.text_fragment.matchNextChar(chr);
   },
 
   // ---------------------- End text fragment delegated methods
@@ -161,7 +171,20 @@ Crafty.c("BattleSkill", {
   },
 
   _generateTextFragment: function (){
-    var t = this._getTextFromVocabulary({});
+    var t, matches, loop_count, GUARD_INFINITE_LOOP;
+
+    GUARD_INFINITE_LOOP = 20;
+    for(loop_count = 0;;){
+      t = this._getTextFromVocabulary({});
+      matches = _.filter(this._entity.getCurrentSkillTexts(), function (curr_text){
+        return curr_text == t;
+      });
+      if(matches.length < 1){ break; }
+      if(loop_count > GUARD_INFINITE_LOOP){ 
+        t = this._makeRandomString();
+        break;
+      }
+    }
     this.text_fragment = Crafty.e("TextFragment")
       .textFragment({text: t});
   },

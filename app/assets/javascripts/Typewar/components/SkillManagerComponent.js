@@ -86,6 +86,12 @@ Crafty.c("SkillManager", {
     return this._skillset.indexOf(skill) + 1;
   },
 
+  getCurrentSkillTexts: function (){
+    return _.map(this._skillset, function (skill){
+      return skill.currentText();
+    });
+  },
+
   renderSkillManager: function (){
     this._view.render();
   },
@@ -96,9 +102,16 @@ Crafty.c("SkillManager", {
     if(this._anyActiveSkills()){
       active_skills = this._getActiveSkills();
       if(active_skills.length > 1){ // if 2 or more active, match the next letter and deactivate if next letter doesn't match
-        _.each(active_skills, function(skill){
-          active_skills[0].takeInput(input)
-        });
+        // Check if any single skill matches
+        if(this._anySkillsMatchInput(active_skills, input)){
+          // If progress is made in a skill but another has a typo, bail out of that other one.
+          _.each(active_skills, function(skill){
+            if(skill.takeInput(input)){  // correct input
+            }else{ //incorrect input
+              skill.fsm.cancel(); // TODO: knowing about the fsm here is a smell and should be refactored
+            }
+          });
+        }
       }else{ // if 1 active, match the next letter or accept typo.
         active_skills[0].takeInput(input)
       }
@@ -119,6 +132,16 @@ Crafty.c("SkillManager", {
     return _.some(this._skillset, function (skill){
       return skill.fsm.is("active");
     });
+  },
+
+  _anySkillsMatchInput: function (skills, input){
+    var matcher;
+
+    matcher = _.find(skills, function (curr_skill){
+      return curr_skill.matchNextChar(input);
+    });
+    if(matcher){ return true; }
+    return false;
   },
 
   _bindSkillCompleteListeners: function (){
