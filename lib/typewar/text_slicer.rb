@@ -1,6 +1,6 @@
 module Typewar
   class TextSlicer
-    DEFAULT_NUM_WORDS_TO_SLICE = 4
+    DEFAULT_NUM_WORDS_TO_SLICE = 6
 
     def initialize(input)
       @input = input

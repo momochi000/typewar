@@ -20,6 +20,12 @@ Typewar.Data.Skills["ZeroLightSlash"] = {
   cooldown: 700,
   cost: 0,
   name: 'light slash',
+  text_options: {
+    min_length: 4,
+    max_length: 22,
+    min_difficulty: 1,
+    max_difficulty: 3
+  },
   properties: {
     blunt:    0, slashing: 1, piercing: 0,
     fire:     0, earth:    0, water:    0,
@@ -37,6 +43,12 @@ Typewar.Data.Skills["ZeroMedSlash"] = {
   cooldown: 2000,
   cost: 0,
   name: 'medium slash',
+  text_options: {
+    min_length: 9,
+    max_length: 30,
+    min_difficulty: 2,
+    max_difficulty: 5
+  },
   properties: {
     blunt:    0, slashing: 2, piercing: 0,
     fire:     0, earth:    0, water:    0,
@@ -47,13 +59,19 @@ Typewar.Data.Skills["ZeroMedSlash"] = {
 
 Typewar.Data.Skills["ZeroHardSlash"] = {
   init: function (){ },
-  zeroMedSlash: function (){
+  zeroHardSlash: function (){
     return this;
   },
   animation: "attack3", 
   cooldown: 5000,
   cost: 0,
   name: 'heavy slash',
+  text_options: {
+    min_length: 20,
+    max_length: 40,
+    min_difficulty: 2,
+    max_difficulty: 7
+  },
   properties: {
     blunt:    0, slashing: 3, piercing: 0,
     fire:     0, earth:    0, water:    0,
@@ -64,13 +82,19 @@ Typewar.Data.Skills["ZeroHardSlash"] = {
 
 Typewar.Data.Skills["ZeroUpperSlash"] = {
   init: function (){ },
-  zeroMedSlash: function (){
+  zeroUpperSlash: function (){
     return this;
   },
   animation: "attack4",
   cooldown: 2200,
   cost: 0,
   name: 'upper slash',
+  text_options: {
+    min_length: 9,
+    max_length: 30,
+    min_difficulty: 2,
+    max_difficulty: 5
+  },
   properties: {
     blunt:    0, slashing: 2, piercing: 0,
     fire:     0, earth:    0, water:    0,

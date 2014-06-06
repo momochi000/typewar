@@ -19,12 +19,12 @@ Typewar.Util.TextLibrarian = ( function (_){
 
     if(!library){ throw "ERROR: TextLibrarian.retrieve called without a text library"; }
     if(!options){ options = {} };
-    options["difficulty"]       = options["difficulty"] || 1;
-    options["min_difficulty"]   = options["min_difficulty"] || null;
-    options["max_difficulty"]   = options["max_difficulty"] || null;
-    options["length"]           = options["length"] || (Math.random()*140);
-    options["min_length"]       = options["min_length"] || null;
-    options["max_length"]       = options["max_length"] || null;
+    options["difficulty"]       = options["difficulty"]         || 1;
+    options["min_difficulty"]   = options["min_difficulty"]     || null;
+    options["max_difficulty"]   = options["max_difficulty"]     || null;
+    options["length"]           = options["length"]             || (Math.random()*140);
+    options["min_length"]       = options["min_length"]         || null;
+    options["max_length"]       = options["max_length"]         || null;
 
     return getTextFromLibrary(library, options);
   };
@@ -36,6 +36,7 @@ Typewar.Util.TextLibrarian = ( function (_){
 
     output = filterLength(library, options);
     output = filterDifficulty(output, options);
+
 
     if(output.length < MIN_LIB_RESULT_SIZE){
       output = obtainNextBestFit(library, options);
@@ -69,6 +70,7 @@ Typewar.Util.TextLibrarian = ( function (_){
       min_length = options.length;
       max_length = options.length;
     }
+
     return _.filter(library, function (curr_item){
       return (
         curr_item.length >= min_length &&

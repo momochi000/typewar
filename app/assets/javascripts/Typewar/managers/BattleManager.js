@@ -123,10 +123,10 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     if(!options.attacker){throw "BattleManager: prepareSkill called with no attacker";}
     if(!options.skill)  {throw "BattleManager: prepareSkill called with no attack specified";}
     attacker = options.attacker;
-    defender = options.defender;
+    // defender = options.defender; // currently not used, but maybe later..?
     skill = options.skill; 
 
-    return this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
+    return this._getWordFromVocabulary(attacker.getVocabulary(), skill.text_options);
   },
 
   registerEnemies: function (entities){
@@ -221,7 +221,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   },
 
   _evalOffense: function (letter_value){
-    this._getPlayerEntity.takeInput(letter_value);
+    this._getPlayerEntity().takeInput(letter_value);
   },
 
   /* Sweep through text fragments registered with this manager and removes
