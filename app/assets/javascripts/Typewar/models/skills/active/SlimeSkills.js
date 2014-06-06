@@ -28,7 +28,13 @@ Typewar.Data.Skills["SlimeStandard"] = {
     return ["slime"];
   }, 
   hitbox: {w: 50, h: 50},
-  type: "Projectile"
+  type: "Projectile",
+  text_options: {
+    min_length: 9,
+    max_length: 25,
+    min_difficulty: 1,
+    max_difficulty: 4
+  }
 };
 
 Typewar.Data.Skills["SlimeGlob"] = {
@@ -62,5 +68,11 @@ Typewar.Data.Skills["SlimeGlob"] = {
     friction : 2,
     restitution : 0.1
   },
-  type: "Projectile"
+  type: "Projectile",
+  text_options: {
+    min_length: 5,
+    max_length: 15,
+    min_difficulty: 1,
+    max_difficulty: 2
+  }
 };

@@ -76,7 +76,7 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     // For now just grab a random word, later we'll need to select text based
     // on some properties of the attack
    
-    next_text = this._getWordFromVocabulary(attacker.getVocabulary(), {difficulty: 2, length: 40});
+    next_text = this._getWordFromVocabulary(attacker.getVocabulary(), text_frag_options.text_options);
     if(next_text) {text_frag_options.text = next_text;}
     if(this._isSide1(attacker)) { 
       text_frag_options.direction = 1;

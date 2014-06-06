@@ -10,7 +10,6 @@ Crafty.c("BattleSlime", {
 
   // private 
 
-
   _getSkillsFromCharSheet: function (){
     this.skills = this.char_sheet.skills
   },
@@ -18,10 +17,10 @@ Crafty.c("BattleSlime", {
   _initializeSkills: function (){
     this.skills = {}
     if(this.char_sheet.skills){
-      console.log("DEBUG: BattleSlime#_initializeSkills:  Loading skills from char sheet");
+      //console.log("DEBUG: BattleSlime#_initializeSkills:  Loading skills from char sheet");
       this._getSkillsFromCharSheet();
     }else{
-      console.log("DEBUG: BattleSlime#_initializeSkills:  Loading default skills");
+      //console.log("DEBUG: BattleSlime#_initializeSkills:  Loading default skills");
       this._loadDefaultSkills();
     }
   },
