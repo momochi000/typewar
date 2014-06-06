@@ -172,6 +172,7 @@ Crafty.c("BattleInputManager", {
       case(Crafty.keys['0']): 
         return '0';
       case(Crafty.keys['1']):
+        if(this.is_shift_key_down) { return "!" }
         return '1';
       case(Crafty.keys['2']):
         return '2';

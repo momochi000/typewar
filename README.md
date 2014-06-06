@@ -91,8 +91,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### Adjust skills and monster attacks to obtain appropriately sized strings
-#### Add exclamation point
 #### BUG: when 2 text fragments have the same text
 On defense when typing them, if you typo, it resets both.
 For now this might be ok...
@@ -256,6 +254,8 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Add exclamation point
+#### Adjust skills and monster attacks to obtain appropriately sized strings
 #### BUG: when 2 skills start with the same text, they don't activate properly
 Ensure 2 skills can't have the same exact text
 When 2 begin with the same text, ensure they behave properly when typed
