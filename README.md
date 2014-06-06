@@ -92,6 +92,10 @@ speed appropriately.
 ## CURRENT
 
 #### Adjust skills and monster attacks to obtain appropriately sized strings
+#### Add exclamation point
+#### BUG: when 2 text fragments have the same text
+On defense when typing them, if you typo, it resets both.
+For now this might be ok...
 #### When battle ends, clear out the skill manager view and it's children
 #### Tighten hitboxes (both of entities and of text fragments)
 #### REFACTOR: change skill -> attack spawning to take an id argument
