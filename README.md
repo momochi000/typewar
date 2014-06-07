@@ -91,17 +91,23 @@ speed appropriately.
 
 ## CURRENT
 
+#### Build up the site around typewar
+#### Create a button that starts and restarts the game
+#### Deploy typewar
+#### Play the button tapping gif somewhere while a text fragment is being typed
+#### Play some audio hit on each keypress
+#### Play slash sound on attack
+#### Play smack sound on npc hit
+#### Play smack sound on player hit
+#### Display flash + particles on hit of either
+#### Tighten hitboxes (both of entities and of text fragments)
 #### BUG: when 2 text fragments have the same text
 On defense when typing them, if you typo, it resets both.
-For now this might be ok...
-#### When battle ends, clear out the skill manager view and it's children
-#### Tighten hitboxes (both of entities and of text fragments)
 #### REFACTOR: change skill -> attack spawning to take an id argument
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
-#### REFACTOR: rewrite the way battle manager stores and references battle entities
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
 #### Player skills can also generate text fragments
@@ -112,6 +118,7 @@ also be used for some nuke spell or something that takes a few steps to
 complete.
 The skill in the slot might simply be the skill slot number, so just a single
 keypress spawns the fragment to be typed.
+#### REFACTOR: rewrite the way battle manager stores and references battle entities
 #### GAMEPLAY CHECKLIST
 Do a run down to see the state of various parts before proceeding:
 + When switching modes while a fragment is active, ensure that it doesn't
@@ -130,8 +137,7 @@ work however so this is low priority
 I'll fill them in as I need them but it'll be good to have the framework in 
 place
 #### Don't allow switching modes if a text fragment is active (conditionally)
-should allow this if you have the correct skill or when going from offense to
-defense
+Should allow this only if you have the correct skill
 #### When player defends the monster attack spins and drops
 the battle enemy attack text fragment thingy (ugh.. i need a better name for
 thisss.) Attach physics to the thing if it doesn't already exist, and add spin
@@ -254,6 +260,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### When battle ends, clear out the skill manager view and it's children
 #### Add exclamation point
 #### Adjust skills and monster attacks to obtain appropriately sized strings
 #### BUG: when 2 skills start with the same text, they don't activate properly
