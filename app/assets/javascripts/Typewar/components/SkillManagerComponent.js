@@ -57,6 +57,7 @@ Crafty.c("SkillManager", {
   },
 
   remove: function (){ 
+    this._view.remove();
     this._skillset = null;
   },
 
