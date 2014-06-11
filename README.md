@@ -91,8 +91,7 @@ speed appropriately.
 
 ## CURRENT
 
-#### Build up the site around typewar
-#### Create a button that starts and restarts the game
+#### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Deploy typewar
 #### Play the button tapping gif somewhere while a text fragment is being typed
 #### Play some audio hit on each keypress
@@ -108,8 +107,10 @@ Currently, text fragments contain code for the position function or some
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
-#### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### Store a few char sheets in javascript and load them by default if no sheet comes from the server
+#### BUG: if the game stops/scene changes, text fragments aren't destroyed
+#### Build up the site around typewar
+#### Create a button that starts and restarts the game
 #### Player skills can also generate text fragments
 A compound skill, typing the skill in the skill slot does some whatever effect
 but it also generates a text fragment which flies out from the player. Typing
