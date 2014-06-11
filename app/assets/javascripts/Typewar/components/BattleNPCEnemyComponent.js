@@ -22,6 +22,7 @@ Crafty.c("BattleNPCEnemy", {
     if(!this.char_sheet) { 
       this.char_sheet = new Typewar.Models.CharacterSheet({name :"Slime"});
     }
+    this._fragment_timers = [];
     this._createFragmentSpawner();
 
     return this;
@@ -29,6 +30,7 @@ Crafty.c("BattleNPCEnemy", {
 
   remove: function (destroyed){
     this.deactivateAI();
+    this._clearFragmentTimers();
     this._fragment_spawner.destroy();
     this._fragment_spawner = null;
   },
@@ -53,11 +55,11 @@ Crafty.c("BattleNPCEnemy", {
       skill: skill
     });
     this.animAttack(skill.animation);
-    window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
+    this._fragment_timers.push(window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
       frag = self._fragment_spawner.generateTextFragment({
         attack_properties: text_fragment_options
       });
-    }, this._ANIM_ATTACK_DELAY);
+    }, this._ANIM_ATTACK_DELAY));
   },
 
   isPlayer: function (){ return false; },
@@ -90,6 +92,14 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   //private 
+
+  _clearFragmentTimers: function (){
+    _.each(this._fragment_timers, function (t_id){
+      window.clearTimeout(t_id);
+    });
+    delete this._fragment_timers;
+    this._fragment_timers = null;
+  },
 
   _createFragmentSpawner: function (){
     this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
