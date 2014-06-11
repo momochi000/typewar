@@ -1,17 +1,15 @@
 // TODO: wrap this in a closure
 
+
 Typewar.Engine = {};
 Typewar.Data = {Skills: {}};
 Typewar.Views = {};
 Typewar.Util = {};
-Typewar.Initializer = (function (Typewar){
-  var init,
-    // private class methods
-      setupContainer, initCrafty, initBox2d, initSceneManager,
-    // private class variables
-      container_selector, options, viewportWidth, viewportHeight;
-  
-  init = function (container, opts){
+
+Typewar.Game = (function (Crafty, $, _, Backbone, Typewar){
+  var container_selector, options
+
+  function init(container, opts){
     container_selector = container;
     options = opts;
 
@@ -21,20 +19,40 @@ Typewar.Initializer = (function (Typewar){
     initSceneManager();
   };
 
-  initBox2d = function (){
-    var PTM_RATIO = 2; //32
-    Crafty.box2D.init(0, 10, PTM_RATIO, true);
-    world = Crafty.box2D.world;
-    //Crafty.box2D.showDebugInfo(); //Start the Box2D debugger
+  function start(){
+    Typewar.Engine.scenemanager.loadScene('battle_scene');
   };
 
-  initCrafty = function (){
+  function stop(){
+
+    // unload the scene
+    // reset box2d?
+    Typewar.Engine.scenemanager.unloadScene();
+    // reset any external resources
+  };
+
+  function restart(){
+    stop();
+    start();
+  };
+
+  // private
+
+  function initCrafty(){
     Crafty.init(viewportWidth, viewportHeight);
     Crafty.viewport.init(viewportWidth, viewportHeight);
     Crafty.background("blue");
   };
 
-  initSceneManager = function (){
+  function initBox2d(){
+    var PTM_RATIO = 2; //32
+
+    Crafty.box2D.init(0, 10, PTM_RATIO, true);
+    world = Crafty.box2D.world;
+    //Crafty.box2D.showDebugInfo(); //Start the Box2D debugger
+  };
+
+  function initSceneManager(){
     Typewar.Engine.scenemanager = new SceneManager({
       scene_defs: { 
         battle_scene: ProtoBattleScene, 
@@ -43,7 +61,7 @@ Typewar.Initializer = (function (Typewar){
     });
   };
 
-  setupContainer = function (){
+  function setupContainer(){
     container_selector = container_selector       || 'body';
     viewportWidth      = options.viewportWidth    || 1080;
     viewportHeight     = options.viewportHeight   || 480;
@@ -57,19 +75,10 @@ Typewar.Initializer = (function (Typewar){
     });
   };
 
-  return {init: init};
-  
-})(Typewar);
-
-Typewar.initGame = function (container_selector, options){
-  Typewar.Initializer.init(container_selector, options);
-};
-
-Typewar.startGame = function (){ 
-  Typewar.Engine.scenemanager.loadScene('battle_scene');
-};
-
-Typewar.battleOver = function (is_win){
-  is_win = is_win || false;
-  Typewar.Engine.scenemanager.loadScene('battle_over', {is_win: is_win});
-};
+  return {
+    init: init,
+    start: start,
+    stop: stop,
+    restart: restart
+  };
+})(Crafty, $, _, Backbone, Typewar);

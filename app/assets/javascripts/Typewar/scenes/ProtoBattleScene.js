@@ -46,8 +46,10 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   deallocateCombatants: function (){
-    this.get('combatants').player.destroy();
-    this.get('combatants').enemies[0].destroy();
+    this.get('combatants').player.deallocate();
+    _.each(this.get('combatants').enemies, function (enemy){
+      enemy.deallocate();
+    });
     this.unset('combatants');
   },
 

@@ -1,0 +1,11 @@
+- content_for :head do
+  = render_backbone_templates
+
+- content_for :javascripts do
+  :javascript
+    Typewar.Game.init('#typewar-game', {viewportWidth: 1080, viewportHeight: 480});
+    Typewar.Game.start();
+
+#typewar-game
+  #cr-stage
+
