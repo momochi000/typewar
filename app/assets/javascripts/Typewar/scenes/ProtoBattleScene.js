@@ -132,21 +132,10 @@ var ProtoBattleScene = Backbone.Model.extend({
   },
 
   initSkillManager: function (){
-    var player_entity;
+    var player;
 
-    player_entity = this.get("combatants").player.getEntity();
-
-    player_entity.addComponent("SkillManager");
-    // Skills for debugging
-    skills = {
-      ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
-      ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
-      ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
-      ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
-    };
-
-    player_entity.skillManager(skills);
-    player_entity.renderSkillManager();
+    player = this.get("combatants").player;
+    player.initSkills();
   },
 
   initSprites: function (){

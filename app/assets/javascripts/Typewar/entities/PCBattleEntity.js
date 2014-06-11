@@ -52,6 +52,22 @@ var PCBattleEntity = BaseEntity.extend({
     });
   },
 
+  initSkills: function (){
+    var skills, ent;
+
+    ent = this.get("entity")
+    ent.addComponent("SkillManager");
+    // TODO: These are just some hard coded placeholder skills, ultimately we 
+    // should load skills from the character sheet which comes from the server
+    skills = {
+      ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
+      ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
+      ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
+      ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
+    };
+    ent.skillManager(skills);
+  },
+
   //private
 
   // This is going to go away, Using it now to test the new vocab structure

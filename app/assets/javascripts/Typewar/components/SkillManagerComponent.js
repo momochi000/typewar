@@ -53,6 +53,7 @@ Crafty.c("SkillManager", {
     }
     this._bindSkillCompleteListeners();
     this._initializeView();
+    this.renderSkillManager();
     return this;
   },
 
