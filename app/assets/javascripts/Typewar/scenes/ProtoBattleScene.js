@@ -129,8 +129,6 @@ var ProtoBattleScene = Backbone.Model.extend({
     pc_model = new PCBattleEntity();
     promise = pc_model.getFromServer();
     return promise;
-
-    //return new PCBattleEntity();
   },
 
   initSkillManager: function (){
