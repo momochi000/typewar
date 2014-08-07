@@ -95,7 +95,7 @@ Crafty.c("BattleSkill", {
       skill: this.skill
     });
     this._cycleTextFragment();
-    this._startCooldownCycle();
+    this._startCooldownCycle(); //TODO: perhaps this should move to the state machine
   },
 
   getView: function (){

@@ -5,6 +5,7 @@
  * Events Triggered:
  * updateStatus ===========> When the status of the npc changes
  * enemy_died =============> When this monster dies
+ * TODO: Make these events use consistent style
  */
 
 Crafty.c("BattleNPCEnemy", {
@@ -44,17 +45,19 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   initiateAttackOn: function (defender, skill){
-    var self, skill, frag, speed, text_fragment_options;
+    var self, skill, frag, speed, text_fragment_options, skill_data;
     self = this;
 
-    if(!skill){ skill = _.sample(Object.keys(this.skills)); }
-    skill = this.skills[skill];
+    if(!skill){ skill = this.getRandomReadySkill(); }
+    if(!skill){ return; } // Do not attack if no skill available
+
+    skill_data = skill.activate();
     text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
       attacker: this, 
       defender: defender, 
-      skill: skill
+      skill: skill_data
     });
-    this.animAttack(skill.animation);
+    this.animAttack(skill_data.animation);
     this._fragment_timers.push(window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
       frag = self._fragment_spawner.generateTextFragment({
         attack_properties: text_fragment_options

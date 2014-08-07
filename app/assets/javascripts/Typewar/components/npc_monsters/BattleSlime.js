@@ -1,3 +1,7 @@
+// TODO: Marked for deletion
+//   Monsters are no longer a component, but instead some data coming from
+//   a character sheet
+
 Crafty.c("BattleSlime", {
   init: function (){ 
     this.requires("2D, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim");
@@ -11,22 +15,20 @@ Crafty.c("BattleSlime", {
   // private 
 
   _getSkillsFromCharSheet: function (){
-    this.skills = this.char_sheet.skills
+    if(this.char_sheet.skills){ return this.char_sheet.skills; }
+    return null;
   },
 
   _initializeSkills: function (){
-    this.skills = {}
-    if(this.char_sheet.skills){
-      //console.log("DEBUG: BattleSlime#_initializeSkills:  Loading skills from char sheet");
-      this._getSkillsFromCharSheet();
-    }else{
-      //console.log("DEBUG: BattleSlime#_initializeSkills:  Loading default skills");
-      this._loadDefaultSkills();
-    }
+    this.skills = this._getSkillsFromCharSheet() || this._buildDefaultSkills();
   },
 
-  _loadDefaultSkills: function (){
-    this.skills.SlimeStandard = Typewar.Data.Skills["SlimeStandard"];
-    this.skills.SlimeGlob = Typewar.Data.Skills["SlimeGlob"];
+  _buildDefaultSkills: function (){
+    var skills;
+
+    skills = {};
+    skills.SlimeStandard = Typewar.Data.Skills["SlimeStandard"];
+    skills.SlimeGlob     = Typewar.Data.Skills["SlimeGlob"];
+    return skills;
   }
 });

@@ -15,20 +15,22 @@ var NPCEntity = BaseEntity.extend({
     var entity, self;
     self = this;
     
-    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, BattleSlime, NPCBrain, slime_st0, Collision, BattleStatus")
+    entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
       .battleNPCEnemy()
-      .battleSlime()
       .battleSlimeAnim()
       .battleStatus()
       .nPCBrain()
       .collision([0,0],[0,50],[50,60],[0,60]);
     global_enemy = entity; // DEBUG:
 
-    if(!this.has('skip_fetch')) { this.getFromServer() };
+    this.set('entity', entity);
 
-    self.set('entity', entity);
+    promise = this.getFromServer();
+    promise.then( function (){
+      self._setupSkills();
+    });
     return this;
   },
 
@@ -40,15 +42,19 @@ var NPCEntity = BaseEntity.extend({
   getFromServer: function (){
     var self = this;
     
-    this.fetch({
-      success: function (model, response){
-        console.log("SUCCESSFULLY FETCHED NPC FROM SERVER");
-        self.processDataFromServer(response);
-      },
-      error: function (model, response, options){
-        console.log("DEBUG: error obtaining npc data from server. Response was ==>");
-        console.log(response);
-      }
+    return new Promise(function (fulfill, reject){
+      self.fetch({
+        success: function (model, response){
+          console.log("SUCCESSFULLY FETCHED NPC FROM SERVER");
+          self.processDataFromServer(response);
+          fulfill();
+        },
+        error: function (model, response, options){
+          console.log("ERROR: error obtaining npc data from server. Response was ==>");
+          console.log(response);
+          reject();
+        }
+      });
     });
   },
 
@@ -87,5 +93,20 @@ var NPCEntity = BaseEntity.extend({
    */
   setTarget: function (target){
     this.getEntity().setTarget(target.getEntity());
+  },
+
+  //private
+
+  _setupSkills: function (){
+    if(this.get("skills")){
+      this.getEntity().addComponent("NPCSkillManager").
+        nPCSkillManager(this.get('skills'));
+    }else{ // Default skills if none provided in the server call
+      this.getEntity().addComponent("NPCSkillManager").
+        nPCSkillManager({
+          SlimeStandard: Typewar.Data.Skills.SlimeStandard,
+          SlimeGlob: Typewar.Data.Skills.SlimeGlob
+        });
+    }
   }
 });

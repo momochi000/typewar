@@ -5,10 +5,12 @@ var BaseEntity = Backbone.Model.extend({
   initialize: function (){
     //I guess we'll override this in any custom models that need
   },
-  getEntity : function (){    
+
+  getEntity: function (){    
     return this.get('entity');      
   },
-  remove : function (){       
+
+  remove: function (){       
     var entity = this.getEntity();  
 
     if (entity){

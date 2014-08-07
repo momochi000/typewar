@@ -1,6 +1,6 @@
 Crafty.c("NPCBrain", {
   init: function (){
-    this.requires("BattleNPCEnemy");
+    this.requires("BattleNPCEnemy, NPCSkillManager");
   },
 
   nPCBrain: function (){ 
@@ -31,8 +31,6 @@ Crafty.c("NPCBrain", {
   // private
 
   _aiCycle: function (){
-    // check to see which skills are available.
-    // decide whether or not to fire one.
     this.initiateAttackOn(this._current_target);
   },
 
@@ -53,7 +51,7 @@ Crafty.c("NPCBrain", {
       if(self._is_active){
         self._aiCycle();
       }
-    }, 100);
+    }, 1000);
   },
 
   _unbindAIOnPause: function (){

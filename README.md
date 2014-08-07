@@ -91,7 +91,7 @@ speed appropriately.
 
 ## CURRENT
 
-#### Make NPC (brain) choose from skills to use and give those skills cooldowns
+#### BUG: End game doesn't work anymore (need to expose scene transitions again)
 #### Deploy typewar
 #### Play the button tapping gif somewhere while a text fragment is being typed
 #### Play some audio hit on each keypress
@@ -100,6 +100,9 @@ speed appropriately.
 #### Play smack sound on player hit
 #### Display flash + particles on hit of either
 #### Tighten hitboxes (both of entities and of text fragments)
+#### Make NPC skills carry info about animation delay
+They hold the info about which animation already
+This might need to be done to player skills as well if not already
 #### BUG: when 2 text fragments have the same text
 On defense when typing them, if you typo, it resets both.
 #### REFACTOR: change skill -> attack spawning to take an id argument
@@ -261,6 +264,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### When battle ends, clear out the skill manager view and it's children
 #### Add exclamation point
 #### Adjust skills and monster attacks to obtain appropriately sized strings

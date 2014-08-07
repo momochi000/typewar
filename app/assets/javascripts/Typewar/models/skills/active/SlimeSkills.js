@@ -6,6 +6,7 @@ Typewar.Data.Skills["SlimeStandard"] = {
     dark:     0, poison:   0, life:     0, death:    0
   },
   animation: "attack1", 
+  cooldown: 700,
   positionFunc: function (req, opt){
     var REQUIRED_OPTIONS, x;
 
@@ -40,11 +41,12 @@ Typewar.Data.Skills["SlimeStandard"] = {
 Typewar.Data.Skills["SlimeGlob"] = {
   name: 'glob',
   properties: {
-    blunt:    3, slashing: 0, piercing: 0, fire:     0, 
-    earth:    0, water:    0, air:      0, light:    0, 
+    blunt:    3, slashing: 0, piercing: 0, fire:     0,
+    earth:    0, water:    0, air:      0, light:    0,
     dark:     0, poison:   2, life:     0, death:    0
   },
   animation: "attack2",
+  cooldown: 3000,
   initialMovement: function (req){
     var REQUIRED_OPTIONS, force_vector, body_center, x_force, y_force;
     REQUIRED_OPTIONS = ["x", "y", "context"];
