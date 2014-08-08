@@ -92,6 +92,14 @@ speed appropriately.
 ## CURRENT
 
 #### BUG: End game doesn't work anymore (need to expose scene transitions again)
+#### REFACTOR: Fix namespacing of all managers
+#### REFACTOR: Backbone models should live inside of entities/components
+The only reason to need a backbone model is to make contact with the server
+or to encapsulate some more abstract data/functionality.  I shouldn't mix and
+match patterns with some objects being created by Backbone model but there 
+being a crafty entity inside of it and some simply being Crafty entities.
+Everything should be a crafty entity and if there is some need for a backbone
+model it can live inside the entity.
 #### Deploy typewar
 #### Play the button tapping gif somewhere while a text fragment is being typed
 #### Play some audio hit on each keypress
