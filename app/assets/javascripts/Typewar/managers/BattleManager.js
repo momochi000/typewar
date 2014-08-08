@@ -422,16 +422,25 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
     playerEntity.prepareSkills();
   },
 
+  //TODO: battleOver needs to be fleshed out more
+  //  contact the server
+  //  expose battle end conditions (player win/lose?)
+  //  send typing/battle data to server
+  //    Collect all typing data from text fragments which were typed.
+  //    we can just stub this out for now.
+  //  Transition to a battle over scene
+  //
+  //////////////////////////////////////////////////
   _setupPlayerDiedListener: function (){
     Crafty.bind("PlayerDied", function (e){
-      Typewar.battleOver(false);
+      Typewar.Engine.battlemanager.transition("victory");
     });
   },
 
   // For now this just assumes monster dead = battle over
   _setupNPCDiedListener: function (){
     Crafty.bind("NPCDied", function (e){
-      Typewar.battleOver(true);
+      Typewar.Engine.battlemanager.transition("defeat");
     });
   },
 

@@ -1,6 +1,6 @@
 var global_bg; // DEBUG;
 
-var ProtoBattleScene = Backbone.Model.extend({
+Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   defaults: {
     scene_id: 'prototype_battle',
     STAGE_WIDTH: 450,

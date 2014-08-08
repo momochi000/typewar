@@ -1,8 +1,7 @@
 // TODO: wrap this in a closure
 
-
-Typewar.Engine = {};
-Typewar.Data = {Skills: {}};
+Typewar.Engine = {Managers: {}};
+Typewar.Data = {Skills: {}, Scenes: {}};
 Typewar.Views = {};
 Typewar.Util = {};
 
@@ -17,14 +16,14 @@ Typewar.Game = (function (Crafty, $, _, Backbone, Typewar){
     initCrafty();
     initBox2d();
     initSceneManager();
+    initGameManager();
   };
 
   function start(){
-    Typewar.Engine.scenemanager.loadScene('battle_scene');
+    Typewar.Engine.gamemanager.start();
   };
 
   function stop(){
-
     // unload the scene
     // reset box2d?
     Typewar.Engine.scenemanager.unloadScene();
@@ -53,13 +52,12 @@ Typewar.Game = (function (Crafty, $, _, Backbone, Typewar){
   };
 
   function initSceneManager(){
-    Typewar.Engine.scenemanager = new SceneManager({
-      scene_defs: { 
-        battle_scene: ProtoBattleScene, 
-        battle_over: BattleOverScene
-      }
-    });
+    Typewar.Engine.scenemanager = new Typewar.Engine.Managers.SceneManager();
   };
+
+  function initGameManager(){
+    Typewar.Engine.gamemanager = new Typewar.Engine.Managers.GameManager();
+  }
 
   function setupContainer(){
     container_selector = container_selector       || 'body';
