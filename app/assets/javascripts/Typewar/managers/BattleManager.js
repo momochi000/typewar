@@ -433,14 +433,14 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
   //////////////////////////////////////////////////
   _setupPlayerDiedListener: function (){
     Crafty.bind("PlayerDied", function (e){
-      Typewar.Engine.battlemanager.transition("victory");
+      Typewar.Engine.gamemanager.transition("defeat");
     });
   },
 
   // For now this just assumes monster dead = battle over
   _setupNPCDiedListener: function (){
     Crafty.bind("NPCDied", function (e){
-      Typewar.Engine.battlemanager.transition("defeat");
+      Typewar.Engine.gamemanager.transition("victory");
     });
   },
 
