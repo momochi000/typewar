@@ -59,7 +59,6 @@ Typewar.Engine.Managers.GameManager = Backbone.Model.extend({
     var next_scene_class;
 
     next_scene_class = this.get("scene_graph")[scene_id].scene_data;
-    debugger;
     return Typewar.Data.Scenes[next_scene_class];
   },
   
