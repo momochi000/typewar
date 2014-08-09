@@ -91,8 +91,9 @@ speed appropriately.
 
 ## CURRENT
 
-#### BUG: End game doesn't work anymore (need to expose scene transitions again)
 #### REFACTOR: Fix namespacing of all managers
+#### Setup system to collect typing data when the battle ends
+Can just be stubbed for now
 #### REFACTOR: Backbone models should live inside of entities/components
 The only reason to need a backbone model is to make contact with the server
 or to encapsulate some more abstract data/functionality.  I shouldn't mix and
@@ -272,6 +273,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### BUG: End game doesn't work anymore (need to expose scene transitions again)
 #### Make NPC (brain) choose from skills to use and give those skills cooldowns
 #### When battle ends, clear out the skill manager view and it's children
 #### Add exclamation point
