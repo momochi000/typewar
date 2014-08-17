@@ -33,11 +33,11 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   activateBattleAI: function (){
-    Typewar.Engine.BattleManager._setupBattleAI();
+    Typewar.Engine.battlemanager._setupBattleAI();
   },
 
   deallocateBattleManager: function (){
-    Typewar.Engine.BattleManager.destroy();
+    Typewar.Engine.battlemanager.destroy();
   },
 
   deallocateBG: function (){
@@ -78,7 +78,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   initBattleManager: function (options){
-    Typewar.Engine.BattleManager = new Typewar.Models.BattleManager(options);
+    Typewar.Engine.battlemanager = new Typewar.Engine.Managers.BattleManager(options);
   },
 
   initCamera: function (){
@@ -213,7 +213,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
 
   // private
   _addCombatantsToBattleManager: function (){
-    Typewar.Engine.BattleManager.registerPlayer(this.get('combatants').player);
-    Typewar.Engine.BattleManager.registerEnemies(this.get('combatants').enemies);
+    Typewar.Engine.battlemanager.registerPlayer(this.get('combatants').player);
+    Typewar.Engine.battlemanager.registerEnemies(this.get('combatants').enemies);
   }
 });

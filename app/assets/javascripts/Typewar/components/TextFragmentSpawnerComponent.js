@@ -95,6 +95,6 @@ Crafty.c("TextFragmentSpawner", {
   }, 
 
   _registerFragmentWithBattleManager: function (frag){
-    Typewar.Engine.BattleManager.registerFragment(frag);
+    Typewar.Engine.battlemanager.registerFragment(frag);
   }
 });

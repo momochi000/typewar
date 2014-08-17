@@ -81,7 +81,7 @@ Crafty.c("SkillManager", {
     this.playAnim(evt.skill.animation);
     // deplete mana/stamina
     attack_obj = this._generateAttackObject(evt.skill, evt.text_fragment);
-    Typewar.Engine.BattleManager.resolveAttack(attack_obj);
+    Typewar.Engine.battlemanager.resolveAttack(attack_obj);
   },
 
   getSlotNum: function (skill){

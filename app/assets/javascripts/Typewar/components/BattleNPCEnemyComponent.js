@@ -52,7 +52,7 @@ Crafty.c("BattleNPCEnemy", {
     if(!skill){ return; } // Do not attack if no skill available
 
     skill_data = skill.activate();
-    text_fragment_options = Typewar.Engine.BattleManager.handleAttack({
+    text_fragment_options = Typewar.Engine.battlemanager.handleAttack({
       attacker: this, 
       defender: defender, 
       skill: skill_data

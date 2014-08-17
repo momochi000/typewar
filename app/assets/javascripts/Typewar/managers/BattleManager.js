@@ -8,7 +8,7 @@
  * their respective models.
  */
 
-Typewar.Models.BattleManager = Backbone.Model.extend({
+Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
   defaults: {
     active_text_fragments: [],
     fragment_graveyard: [],
@@ -424,11 +424,9 @@ Typewar.Models.BattleManager = Backbone.Model.extend({
 
   //TODO: battleOver needs to be fleshed out more
   //  contact the server
-  //  expose battle end conditions (player win/lose?)
   //  send typing/battle data to server
   //    Collect all typing data from text fragments which were typed.
   //    we can just stub this out for now.
-  //  Transition to a battle over scene
   //
   //////////////////////////////////////////////////
   _setupPlayerDiedListener: function (){

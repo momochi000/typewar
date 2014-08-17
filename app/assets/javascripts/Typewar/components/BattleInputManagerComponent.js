@@ -73,11 +73,11 @@ Crafty.c("BattleInputManager", {
     if(this._isModifierKey(letter_value)){
       return this._handleModifierKeyPressed(letter_value);
     }else if(this._isModeSwitchKey(letter_value)){
-      return Typewar.Engine.BattleManager.toggleMode();
+      return Typewar.Engine.battlemanager.toggleMode();
     }
 
     letter_value = this._applyModifierKeys(letter_value);
-    Typewar.Engine.BattleManager.handleTextInput(letter_value);
+    Typewar.Engine.battlemanager.handleTextInput(letter_value);
   },
 
   _handleKeyRelease: function (keyEvent){

@@ -193,8 +193,8 @@ Crafty.c("BattleSkill", {
     var txt;
 
     opts  = opts || {};
-    if(Typewar.Engine.BattleManager){
-      txt = Typewar.Engine.BattleManager.prepareSkill({
+    if(Typewar.Engine.battlemanager){
+      txt = Typewar.Engine.battlemanager.prepareSkill({
         attacker: this._entity,
         defender: this._entity.getTarget(),
         skill: this.skill

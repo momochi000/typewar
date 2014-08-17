@@ -559,7 +559,7 @@ correct active fragments.
 On further investigation, my guess was correct: A text fragment had exited the 
 battle area but was not deallocated.  Next experiment, we want to see if a 
 text fragment is correctly being destroyed when it leaves the battle arena.
-Will need to check Typewar.Engine.BattleManager.getAllLiveFragments() and 
+Will need to check Typewar.Engine.battlemanager.getAllLiveFragments() and 
 ensure it's size is always equal to the number of fragments we see on screen.
 
 I think I see the problem now.  When a text fragment goes live (enters the 
