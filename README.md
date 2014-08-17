@@ -91,8 +91,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### Setup system to collect typing data when the battle ends
-Can just be stubbed for now
 #### REFACTOR: Backbone models should live inside of entities/components
 The only reason to need a backbone model is to make contact with the server
 or to encapsulate some more abstract data/functionality.  I shouldn't mix and
@@ -100,7 +98,13 @@ match patterns with some objects being created by Backbone model but there
 being a crafty entity inside of it and some simply being Crafty entities.
 Everything should be a crafty entity and if there is some need for a backbone
 model it can live inside the entity.
+* Text Fragment
+* Player Entity
+* NPC Entity
+
 #### Deploy typewar
+#### Setup system to collect typing data when the battle ends
+Can just be stubbed for now
 #### Play the button tapping gif somewhere while a text fragment is being typed
 #### Play some audio hit on each keypress
 #### Play slash sound on attack
@@ -199,6 +203,7 @@ When multiple fragments are 'active' starting with the same text, e.g.
 ##### Comb the desert and identify all the components which would benefit from having a state machine
 + TextFragment
 + Battle modes (attack/defense/items)
+
 #### Add another attack to the monster
 Make a position func that handles an arc path
 Problem with using physics is I can't scale the speed of the attack.
@@ -252,6 +257,7 @@ way pause will do the right thing.  Will need ot create a Timer object which
 binds to EnterFrame and increments itself.
 #### EPIC: Player items are a set of slots that can be typed anytime
   + Tab to toggle to item 
+
 #### REFACTOR: namespace our Sprite sheet properly under typewar 
 #### Esc to bail out of typing a text fragment 
 But only if you have the requisite skill
