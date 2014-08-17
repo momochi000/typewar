@@ -54,7 +54,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   deallocateInputManager: function (){
-    Typewar.Engine.inputManager.destroy();
+    Typewar.Engine.inputmanager.destroy();
   },
 
   deallocateStageEdges: function (){
@@ -120,7 +120,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   initInputManager: function (){
-    Typewar.Engine.inputManager = new Typewar.Models.BattleInputManager;
+    Typewar.Engine.inputmanager = new Typewar.Models.BattleInputManager;
   },
 
   initPC: function (){
