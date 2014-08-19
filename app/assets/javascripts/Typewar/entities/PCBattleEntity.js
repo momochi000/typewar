@@ -1,28 +1,12 @@
-var global_player, global_player_m;
 // TODO: Rename to BattleEntityPC and do the same for npc to keep it consistent
 var PCBattleEntity = BaseEntity.extend({
   defaults: { },
   urlRoot: '/characters/players',
 
   initialize: function (){
-    var player, self;
-
-    self = this;
-
-    player = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus")
-    player.attr({ x: 20, y: 180 })
-      .battlePlayerZeroAnim()
-      .battleCharacter()
-      .battlePlayer()
-      .battleStatus()
-      .collision([0,0],[60,0],[60,120],[0,120]);
-
-    //player = this._loadSkills(player);
-
-    this.set('entity', player);
-
-    global_player = player; // FOR DEBUGGING
-    global_player_m = this;
+    if(!this.has('entity')) { 
+      throw new Error("Error: attempted to create a new PCBattle model without a crafty entity");
+    }
     return this;
   },
 

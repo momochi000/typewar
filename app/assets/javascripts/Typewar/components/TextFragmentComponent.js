@@ -8,6 +8,7 @@
  *   InputCorrect
  *   Completed
  */
+
 Crafty.c("TextFragment", {
   is_active: false,
   is_complete: false,

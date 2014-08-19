@@ -19,7 +19,6 @@
  *    content.
  */
 
-
 var TextFragmentModel = BaseEntity.extend({
   defaults: { },
 

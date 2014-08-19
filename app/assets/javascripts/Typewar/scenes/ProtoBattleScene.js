@@ -124,9 +124,17 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   initPC: function (){
-    var pc_model, promise;
+    var pc_ent, pc_model, promise;
 
-    pc_model = new PCBattleEntity();
+    pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus")
+    pc_ent.attr({ x: 20, y: 180 })
+      .battlePlayerZeroAnim()
+      .battleCharacter()
+      .battlePlayer()
+      .battleStatus()
+      .collision([0,0],[60,0],[60,120],[0,120]);
+
+    pc_model = new PCBattleEntity({entity: pc_ent});
     promise = pc_model.getFromServer();
     return promise;
   },

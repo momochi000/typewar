@@ -98,7 +98,7 @@ match patterns with some objects being created by Backbone model but there
 being a crafty entity inside of it and some simply being Crafty entities.
 Everything should be a crafty entity and if there is some need for a backbone
 model it can live inside the entity.
-* Text Fragment
+* Text Fragment (DONE)
 * Player Entity
 * NPC Entity
 
