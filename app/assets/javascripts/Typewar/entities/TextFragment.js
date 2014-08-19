@@ -7,11 +7,9 @@
  * TODO: instead of registering a completed callback, fire a completed event.
  * 
  * There are three parts that make this work:
- * 1) Backbone model - The model wraps the entire functionality and provides
- *    an easy interface to interacting with the text fragments.  It also allows
- *    for easily gathering text fragments into a Collection
- * 2) Crafty component/entity - The crafty piece lives inside and ties itself
- *    into the game engine.  Registering events and talking with other Crafty
+ * 1) Backbone model - The backbone model lives inside the crafty entity and
+ *    will provide a mechanism(s) for communicating to the server
+ * 2) Crafty component/entity - Registers events and talking with other Crafty
  *    components in order to interact with other bits of the 'game'.  It also
  *    handles some of the rendering and keeping track of collisions/motion/
  *    keyboard inputs, etc.
