@@ -117,6 +117,7 @@ They hold the info about which animation already
 This might need to be done to player skills as well if not already
 #### BUG: when 2 text fragments have the same text
 On defense when typing them, if you typo, it resets both.
+#### Add some wiggle to the slime normal attack so the text frargments don\'t appear all in line
 #### REFACTOR: change skill -> attack spawning to take an id argument
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 

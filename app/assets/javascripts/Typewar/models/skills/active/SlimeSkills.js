@@ -12,8 +12,8 @@ Typewar.Data.Skills["SlimeStandard"] = {
 
     REQUIRED_OPTIONS = ["start_x", "start_y", "time", "context"];
     _.each(REQUIRED_OPTIONS, function(req_opt){
-      if(!req){ throw "no required options present"; }
-      if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when positionFunc called"; }
+      if(!req){ throw new Error("no required options present"); }
+      if(!req[req_opt]) { throw new Error("Missing required argument __ "+ req_opt +" __ when positionFunc called"); }
     });
     opt      = opt || {};
     opt.spd  = opt.speed || 2;
@@ -51,8 +51,8 @@ Typewar.Data.Skills["SlimeGlob"] = {
     var REQUIRED_OPTIONS, force_vector, body_center, x_force, y_force;
     REQUIRED_OPTIONS = ["x", "y", "context"];
     _.each(REQUIRED_OPTIONS, function(req_opt){
-      if(!req){ throw "no required options present"; }
-      if(!req[req_opt]) { throw "Missing required argument __ "+ req_opt +" __ when initialMovement called"; }
+      if(!req){ throw new Error("no required options present"); }
+      if(!req[req_opt]) { throw new Error("Missing required argument __ "+ req_opt +" __ when initialMovement called"); }
     });
 
     x_force = Typewar.Util.randomInt(-320, -470);

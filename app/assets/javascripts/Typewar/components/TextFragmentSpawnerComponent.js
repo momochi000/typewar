@@ -38,15 +38,39 @@ Crafty.c("TextFragmentSpawner", {
    * <Object> : attack_properties an object containing data around the attack.
    */
   generateTextFragment: function (options){
-    var new_accel, x_new, y_new, new_frag, new_frag_ent, new_text, new_speed, 
+    var new_accel, x_new, y_new, new_frag, new_text, new_speed, 
       new_type, new_wiggle, y_offset;
 
     options = _.extend({x: this.x, y: this.y, z: this.z}, options);
-    new_frag = new TextFragmentEntity(options);
-    new_frag_ent = new_frag.getEntity();
-    this._fragment_collection.push(new_frag_ent);
-    this._registerFragmentWithBattleManager(new_frag_ent);
-    new_frag_ent.drawSelf();
+
+    console.log("DEBUG: generating a text fragment.... with options ------>", options );
+    attack_properties = options.attack_properties;
+    hitbox = attack_properties.hitbox;
+    
+    var new_frag = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentDisplay, BattleNPCAttack")
+      .attr({
+        x: this.x || 0, 
+        y: this.y || 0, 
+        z: this.z || 0, 
+        //w: hitbox.w || 5, 
+        //h: hitbox.h || 5
+        w: 5, 
+        h: 5
+      })
+      .collision(this._generateCollisionPolyFromRect(attack_properties.hitbox))
+
+    if(attack_properties.box2d){ 
+      new_frag.addComponent("Box2D");
+      new_frag.box2d(attack_properties.box2d); 
+    }
+
+    new_frag.textFragment({text: attack_properties.text})
+      .textFragmentDisplay({classesFunc: attack_properties.classesFunc})
+      .battleNPCAttack(attack_properties);
+
+    this._fragment_collection.push(new_frag);
+    this._registerFragmentWithBattleManager(new_frag);
+    new_frag.drawSelf();
 
     return new_frag;
   },
@@ -94,6 +118,10 @@ Crafty.c("TextFragmentSpawner", {
     return x_new, y_new;
   }, 
 
+  // TODO: put this in a library or something, or maybe make it a crafty module
+  _generateCollisionPolyFromRect: function (rect){
+    return new Crafty.polygon([0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]);
+  },
   _registerFragmentWithBattleManager: function (frag){
     Typewar.Engine.battlemanager.registerFragment(frag);
   }

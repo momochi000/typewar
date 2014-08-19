@@ -11,6 +11,7 @@
 Crafty.c("TextFragment", {
   is_active: false,
   is_complete: false,
+  _backbone_model: null,
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
@@ -20,6 +21,8 @@ Crafty.c("TextFragment", {
 
   textFragment: function (opts){
     this._text = opts.text;
+
+    this._backbone_model = new TextFragmentModel({entity: this});
     return this;
   },
 

@@ -1,6 +1,5 @@
 /* Text Fragment Module.
- * 
- * This code creates text fragments which are typed by the user.
+ *
  * When the text fragment is activated, it obtains a keyboard listener
  * which watches for input from the user.  It then keeps track of correct
  * and incorrect characters typed by the user.  When the fragment has been
@@ -23,37 +22,10 @@
  */
 
 
-var TextFragmentEntity = BaseEntity.extend({
-  defaults: {
-    text: 'Default text, please initialize with real text'
-  },
+var TextFragmentModel = BaseEntity.extend({
+  defaults: { },
 
   initialize: function (){
-    var attack_properties, hitbox;
-
-    attack_properties = this.get("attack_properties");
-    hitbox = attack_properties.hitbox;
-    
-    var entity = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentDisplay, BattleNPCAttack")
-      .attr({
-        x: this.get('x') || 0, 
-        y: this.get('y') || 0, 
-        z: this.get('z') || 0, 
-        //w: hitbox.w || 5, 
-        //h: hitbox.h || 5
-        w: 5, 
-        h: 5
-      })
-      .collision(this._generateCollisionPolyFromRect(attack_properties.hitbox))
-
-    if(attack_properties.box2d){ 
-      entity.addComponent("Box2D");
-      entity.box2d(attack_properties.box2d); 
-    }
-    entity.textFragment({text: attack_properties.text})
-      .textFragmentDisplay({classesFunc: attack_properties.classesFunc})
-      .battleNPCAttack(attack_properties);
-    this.set("entity", entity);
     return this;
   },
 
@@ -70,10 +42,5 @@ var TextFragmentEntity = BaseEntity.extend({
     entity = this.getEntity();
     entity.deactivate();
     entity.destroy();
-  },
-
-  // TODO: put this in a library or something, or maybe make it a crafty module
-  _generateCollisionPolyFromRect: function (rect){
-    return new Crafty.polygon([0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]);
   }
 });
