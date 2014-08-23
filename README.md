@@ -91,17 +91,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### REFACTOR: Backbone models should live inside of entities/components
-The only reason to need a backbone model is to make contact with the server
-or to encapsulate some more abstract data/functionality.  I shouldn't mix and
-match patterns with some objects being created by Backbone model but there 
-being a crafty entity inside of it and some simply being Crafty entities.
-Everything should be a crafty entity and if there is some need for a backbone
-model it can live inside the entity.
-* Text Fragment (DONE)
-* Player Entity
-* NPC Entity
-
 #### Deploy typewar
 #### Setup system to collect typing data when the battle ends
 Can just be stubbed for now
@@ -278,6 +267,17 @@ I should try to patch Crafty to add state machine to components directly.
 ---
 
 ## DONE
+
+#### REFACTOR: Backbone models should live inside of entities/components
+The only reason to need a backbone model is to make contact with the server
+or to encapsulate some more abstract data/functionality.  I shouldn't mix and
+match patterns with some objects being created by Backbone model but there 
+being a crafty entity inside of it and some simply being Crafty entities.
+Everything should be a crafty entity and if there is some need for a backbone
+model it can live inside the entity.
+* Text Fragment (DONE)
+* Player Entity
+* NPC Entity
 
 #### REFACTOR: Fix namespacing of all managers
 #### BUG: End game doesn't work anymore (need to expose scene transitions again)
