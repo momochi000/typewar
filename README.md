@@ -94,6 +94,7 @@ speed appropriately.
 #### Deploy typewar
 #### Setup system to collect typing data when the battle ends
 Can just be stubbed for now
+#### Design sound module
 #### Play the button tapping gif somewhere while a text fragment is being typed
 #### Play some audio hit on each keypress
 #### Play slash sound on attack
@@ -259,10 +260,6 @@ Cinematics as a concept I'd like to be able to do outside of crafty.  Or with
 some other type of scripting system. Perhaps I could include a 
 #### Add state machine to Crafty components.
 I should try to patch Crafty to add state machine to components directly.
-
----
-
-## Entered into Tracker
 
 ---
 
