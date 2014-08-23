@@ -13,6 +13,7 @@ Crafty.c("BattleNPCEnemy", {
   _ANIM_ATTACK_DELAY: 200,
   _fragment_spawner: null,
   _current_target: null,
+  _backbone_model: null,
 
   init: function (){
     this.requires("2D, SpriteAnimation, BattleCharacter");
@@ -25,6 +26,7 @@ Crafty.c("BattleNPCEnemy", {
     }
     this._fragment_timers = [];
     this._createFragmentSpawner();
+    this._initBackboneModel();
 
     return this;
   },
@@ -34,6 +36,7 @@ Crafty.c("BattleNPCEnemy", {
     this._clearFragmentTimers();
     this._fragment_spawner.destroy();
     this._fragment_spawner = null;
+    this._backbone_model.deallocate();
   },
 
   die: function (){
@@ -44,12 +47,17 @@ Crafty.c("BattleNPCEnemy", {
     return "offense";
   },
 
+  getFromServer: function (){
+    return this._backbone_model.getFromServer();
+  },
+
   initiateAttackOn: function (defender, skill){
     var self, skill, frag, speed, text_fragment_options, skill_data;
     self = this;
 
     if(!skill){ skill = this.getRandomReadySkill(); }
     if(!skill){ return; } // Do not attack if no skill available
+
 
     skill_data = skill.activate();
     text_fragment_options = Typewar.Engine.battlemanager.handleAttack({
@@ -110,5 +118,24 @@ Crafty.c("BattleNPCEnemy", {
       .textFragmentSpawner();
 
     this.attach(this._fragment_spawner);
+  },
+
+  _initBackboneModel: function (){
+    this._backbone_model = new NPCEntity({entity: this});
+  },
+
+  _setupBattleNPCSkills: function (){
+    var skills_from_server = this.char_sheet.get("skills");
+
+    if(skills_from_server){
+      this.addComponent("NPCSkillManager").
+        nPCSkillManager(skills_from_server);
+    }else{ // Default skills if none provided in the server call
+      this.addComponent("NPCSkillManager").
+        nPCSkillManager({
+          SlimeStandard: Typewar.Data.Skills.SlimeStandard,
+          SlimeGlob: Typewar.Data.Skills.SlimeGlob
+        });
+    }
   }
 });

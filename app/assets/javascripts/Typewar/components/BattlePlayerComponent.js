@@ -11,13 +11,20 @@ Crafty.c("BattlePlayer", {
 
   battlePlayer: function (char_sheet){
     if(!this.char_sheet) { this._buildDefaultCharSheet(); }
+    this._initBackboneModel();
     return this;
   },
 
-  remove: function (destroyed) { },
+  remove: function (destroyed) { 
+    this._backbone_model.deallocate();
+  },
 
   die: function (){
     Crafty.trigger("PlayerDied", {target: this});
+  },
+
+  getFromServer: function (){
+    return this._backbone_model.getFromServer();
   },
 
   getStance: function (){
@@ -26,6 +33,20 @@ Crafty.c("BattlePlayer", {
 
   getTarget: function (){
     return this._current_target;
+  },
+
+  initSkills: function (){
+    var skills;
+
+    this.addComponent("SkillManager");
+    // TODO: These are just some hard coded placeholder skills, ultimately we 
+    // should load skills from the character sheet which comes from the server
+    this.skillManager({
+      ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
+      ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
+      ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
+      ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
+    });
   },
 
   isPlayer: function (){ return true; },
@@ -66,6 +87,10 @@ Crafty.c("BattlePlayer", {
 
   _buildDefaultCharSheet: function (){
     this.char_sheet = new Typewar.Models.CharacterSheet({name: "Player"});
+  },
+
+  _initBackboneModel: function (){
+    this._backbone_model = new PCBattleEntity({entity: this});
   },
 
   _unbindChangeStance: function (){

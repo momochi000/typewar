@@ -11,7 +11,6 @@ var PCBattleEntity = BaseEntity.extend({
   },
 
   deallocate: function (){
-    this.getEntity().destroy();
     this.clear();
   },
 
@@ -22,7 +21,8 @@ var PCBattleEntity = BaseEntity.extend({
       self.fetch({
         success: function (model, response){
           console.log("SUCCESSFULLY FETCHED PLAYER FROM SERVER.");
-          fulfill(self._processDataFromServer(response));
+          self._processDataFromServer(response);
+          fulfill(self.getEntity());
         },
 
         error: function (model, response, options) {
@@ -34,22 +34,6 @@ var PCBattleEntity = BaseEntity.extend({
         }
       });
     });
-  },
-
-  initSkills: function (){
-    var skills, ent;
-
-    ent = this.get("entity")
-    ent.addComponent("SkillManager");
-    // TODO: These are just some hard coded placeholder skills, ultimately we 
-    // should load skills from the character sheet which comes from the server
-    skills = {
-      ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
-      ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
-      ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
-      ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
-    };
-    ent.skillManager(skills);
   },
 
   //private
@@ -77,6 +61,5 @@ var PCBattleEntity = BaseEntity.extend({
 
     this.getEntity().char_sheet = char_sheet;
     this.getEntity().updateStatus();
-    return this;
   }
 });

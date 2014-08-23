@@ -21,7 +21,6 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
 
     this._setupModeFSM();
     this._bindEventListeners();
-    //this._setupBattleAI();
   },
 
   calculateDamage: function(opts) { // Stub for now, should eventually do some math
@@ -51,7 +50,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
   handleAttack: function (options){
     var attacker, defender, attack, 
       text_frag_options;
-      
+
     if(!options.attacker){throw "BattleManager: handleAttack called with no attacker";}
     if(!options.defender){throw "BattleManager: handleAttack called with no defender";}
     if(!options.skill)  {throw "BattleManager: handleAttack called with no attack specified";}
@@ -233,12 +232,8 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
     //TODO: Implement me
   },
 
-  _getPlayer: function (){
-    return this.get("side1")[0];
-  },
-
   _getPlayerEntity: function (){
-    return this.get("side1")[0].getEntity();
+    return this.get("side1")[0];
   },
 
   _getWordFromVocabulary: function (vocab, options){
@@ -263,8 +258,8 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
 
   _isSide1: function (entity){
     var side1_ents, side2_ents;
-    side1_ents = _.map(this.get("side1"), function (model){ return model.getEntity() });
-    side2_ents = _.map(this.get("side2"), function (model){ return model.getEntity() });
+    side1_ents = _.map(this.get("side1"), function (model){ return model });
+    side2_ents = _.map(this.get("side2"), function (model){ return model });
     if(_.contains(side1_ents, entity)){
       return true;
     }else if(_.contains(side2_ents, entity)){
@@ -360,11 +355,11 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
   _setupEnemyAI: function (){
     var playerEntity, targetEntity;
 
-    targetEntity = this.get("side2")[0].getEntity();
+    targetEntity = this.get("side2")[0];
     playerEntity = this._getPlayerEntity();
     _.each(this.get("side2"), function (e){
       var e_ent;
-      e_ent = e.getEntity();
+      e_ent = e;
       e_ent.setTarget(playerEntity);
       e_ent.activateAI();
     }); 
@@ -417,7 +412,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
     var playerEntity, targetEntity;
 
     playerEntity = this._getPlayerEntity();
-    targetEntity = this.get("side2")[0].getEntity();
+    targetEntity = this.get("side2")[0];
     playerEntity.setTarget(targetEntity);
     playerEntity.prepareSkills();
   },

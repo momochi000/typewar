@@ -2,6 +2,7 @@
 
 Crafty.c("BattleCharacter", {
   char_sheet: null,
+  _backbone_model: null,
 
   init: function (){
     this.requires("2D");

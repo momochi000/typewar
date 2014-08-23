@@ -25,9 +25,9 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
         self.activateBattleAI();
         self.initInputManager();
       }, function (error){
+        throw new Error(error);
         alert('bail');
       }).catch( function (error){
-        console.log("ERROR: there was an error during or after initializing combatants", error);
       });
     });
   },
@@ -46,9 +46,9 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   deallocateCombatants: function (){
-    this.get('combatants').player.deallocate();
+    this.get('combatants').player.destroy();
     _.each(this.get('combatants').enemies, function (enemy){
-      enemy.deallocate();
+      enemy.destroy();
     });
     this.unset('combatants');
   },
@@ -93,15 +93,15 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
     self = this;
 
     return new Promise( function (fulfill, reject){
-      self.initPC().then( function (pc_model) {
-        player = pc_model;
+      self.initPC().then( function (pc_entity) {
+        player = pc_entity;
         return self.initEnemyNPC();
       }, function (error){
         console.log("ERROR: there was an error initializing the player character", error);
-      }).then( function (npc_model) {
-        enemy_npc = npc_model
+      }).then( function (npc_entity) {
+        enemy_npc = npc_entity;
         combatants = {player: player, enemies: [enemy_npc]};
-        self.set('combatants', combatants);
+        self.set("combatants", combatants);
         self._addCombatantsToBattleManager();
         fulfill();
       }, function (error){
@@ -113,10 +113,25 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   initEnemyNPC: function (){
-    //var slime_char_sheet = new Typewar.Models.CharacterSheet;
-    //slime_char_sheet.set('name', 'Chaos slime');
+    var enemy_entity;
+    //return new NPCEntity();
 
-    return new NPCEntity();
+     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus")
+      .attr({x: 390, y: 210, w: 42, h: 42 })
+      .battleCharacter()
+      .battleNPCEnemy()
+      .battleSlimeAnim()
+      .battleStatus()
+      .nPCBrain()
+      .collision([0,0],[0,50],[50,60],[0,60]);
+
+    promise = enemy_entity.getFromServer();
+
+    promise.then( function (){
+      enemy_entity._setupBattleNPCSkills();
+    });
+
+    return promise;
   },
 
   initInputManager: function (){
@@ -134,8 +149,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
       .battleStatus()
       .collision([0,0],[60,0],[60,120],[0,120]);
 
-    pc_model = new PCBattleEntity({entity: pc_ent});
-    promise = pc_model.getFromServer();
+    promise = pc_ent.getFromServer();
     return promise;
   },
 
@@ -191,8 +205,8 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
     enemy = this.get("combatants").enemies[0];
     statusBar = new Typewar.Views.StatusBarView();
     statusBar.render();
-    statusBar.addEntity(player.getEntity());
-    statusBar.addEntity(enemy.getEntity());
+    statusBar.addEntity(player);
+    statusBar.addEntity(enemy);
     this.set('status_bar', statusBar);
   },
 
