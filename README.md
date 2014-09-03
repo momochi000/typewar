@@ -91,15 +91,13 @@ speed appropriately.
 
 ## CURRENT
 
-#### Deploy typewar
-#### Setup system to collect typing data when the battle ends
-Can just be stubbed for now
-#### Design sound module
-#### Play the button tapping gif somewhere while a text fragment is being typed
 #### Play some audio hit on each keypress
 #### Play slash sound on attack
 #### Play smack sound on npc hit
 #### Play smack sound on player hit
+#### Fix typewar deploy
+#### Setup system to collect typing data when the battle ends
+Can just be stubbed for now
 #### Display flash + particles on hit of either
 #### Tighten hitboxes (both of entities and of text fragments)
 #### Make NPC skills carry info about animation delay
@@ -265,6 +263,9 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Design sound module
+#### Play the button tapping gif somewhere while a text fragment is being typed
+#### Deploy typewar
 #### REFACTOR: Backbone models should live inside of entities/components
 The only reason to need a backbone model is to make contact with the server
 or to encapsulate some more abstract data/functionality.  I shouldn't mix and

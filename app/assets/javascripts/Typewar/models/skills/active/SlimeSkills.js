@@ -35,6 +35,9 @@ Typewar.Data.Skills["SlimeStandard"] = {
     max_length: 25,
     min_difficulty: 1,
     max_difficulty: 4
+  },
+  sound: {
+    "standard_attack": "audio/xxx.mp3" // placeholder..
   }
 };
 

@@ -16,6 +16,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
 
       self.initSprites();
       self.initBackground();
+      self.initAudio();
       self.initStageEdges();
       self.initCamera();
       self.initBattleManager();
@@ -66,6 +67,12 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
 
   deallocateStatusBar: function (){
     this.get('status_bar').deallocate();
+  },
+
+  initAudio: function (){
+    // TODO: move this manager to the set of managers
+    console.log("DEBUG: initializing audio~~~~~~~~~~");
+    Typewar.Engine.audiomanager = Crafty.e("AudioManager").audioManager();
   },
 
   initBackground: function (){
