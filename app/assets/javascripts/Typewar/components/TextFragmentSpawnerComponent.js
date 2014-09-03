@@ -43,7 +43,6 @@ Crafty.c("TextFragmentSpawner", {
 
     options = _.extend({x: this.x, y: this.y, z: this.z}, options);
 
-    console.log("DEBUG: generating a text fragment.... with options ------>", options );
     attack_properties = options.attack_properties;
     hitbox = attack_properties.hitbox;
     
