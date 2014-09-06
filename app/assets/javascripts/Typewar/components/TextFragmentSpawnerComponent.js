@@ -2,15 +2,11 @@
  * can be generated and fired at the player in rapid succession.
  */
 
-// IN PROGRESS: do we care about the fragment collection and completed fragment 
-// collection inside this component? the battle manager should probably
-// be sufficient to manage that stuff, revisit whether we need this here
 Crafty.c("TextFragmentSpawner", {
   _fragment_collection: null,
   _completed_fragment_collection: null,
   _current_fragment: null,
   _current_fragment_index: null,
-  _parent: null, // TODO: deprecate?? don't think this is used
 
   init: function (){
     this.requires("2D, Collision");
@@ -27,7 +23,7 @@ Crafty.c("TextFragmentSpawner", {
   remove: function (destroyed){
     Crafty.unbind("TextFragmentCompleted");
     //Crafty.unbind("TextFragmentCompleted", this.textFragmentCompleted); //TODO: Test if this works
-    this._fragment_collection = null; //NOTE TEST, do we need to deallocate each fragment individually?
+    this._fragment_collection = null; //TODO: do we need to deallocate each fragment individually?
     this._completed_fragment_collection = null;
   },
 

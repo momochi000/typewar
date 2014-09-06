@@ -91,7 +91,6 @@ speed appropriately.
 
 ## CURRENT
 
-#### Play some audio hit on each keypress
 #### Play slash sound on attack
 #### Play smack sound on npc hit
 #### Play smack sound on player hit
@@ -263,8 +262,8 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Play some audio hit on each keypress
 #### Design sound module
-#### Play the button tapping gif somewhere while a text fragment is being typed
 #### Deploy typewar
 #### REFACTOR: Backbone models should live inside of entities/components
 The only reason to need a backbone model is to make contact with the server
