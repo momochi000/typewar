@@ -91,12 +91,11 @@ speed appropriately.
 
 ## CURRENT
 
-#### Setup system to collect typing data when the battle ends
-Can just be stubbed for now
-when the scene ends, call out to the things that manage text fragments and ask them for stats
-So far, that's skill manager and battlemanager
 #### BUG: sounds keep playing after the battle has ended
 Looks like a text fragment might be lingering after
+#### Send typing data to the server.
+Server should be able to calculate average WPM and error rate
+#### Design system to adjust game difficulty based on WPM argument
 #### Play a different sound when a typo happens
 #### BUG: double quote also triggers single quote when typing
 #### Enable double quote
@@ -271,6 +270,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Setup system to collect typing data when the battle ends
 #### Play some audio hit on each keypress
 #### Design sound module
 #### Deploy typewar
