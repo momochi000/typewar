@@ -91,12 +91,21 @@ speed appropriately.
 
 ## CURRENT
 
+#### Setup system to collect typing data when the battle ends
+Can just be stubbed for now
+when the scene ends, call out to the things that manage text fragments and ask them for stats
+So far, that's skill manager and battlemanager
+#### BUG: sounds keep playing after the battle has ended
+Looks like a text fragment might be lingering after
+#### Play a different sound when a typo happens
+#### BUG: double quote also triggers single quote when typing
+#### Enable double quote
+#### Change declarations of audio assets to use proper rails asset references
+Instead of /assets/blah.wav, audio/blah.wav
 #### Play slash sound on attack
 #### Play smack sound on npc hit
 #### Play smack sound on player hit
 #### Fix typewar deploy
-#### Setup system to collect typing data when the battle ends
-Can just be stubbed for now
 #### Display flash + particles on hit of either
 #### Tighten hitboxes (both of entities and of text fragments)
 #### Make NPC skills carry info about animation delay
