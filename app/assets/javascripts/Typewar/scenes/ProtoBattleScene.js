@@ -231,6 +231,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   }, 
 
   stop: function (){
+    this._analyzeTypingData();
     this.deallocateCombatants();
     this.deallocateBG();
     this.deallocateStageEdges();
@@ -244,5 +245,13 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   _addCombatantsToBattleManager: function (){
     Typewar.Engine.battlemanager.registerPlayer(this.get('combatants').player);
     Typewar.Engine.battlemanager.registerEnemies(this.get('combatants').enemies);
+  },
+
+  _analyzeTypingData: function (){
+    var typing_analyzer;
+
+    typing_analyzer = new Typewar.Engine.Managers.TypingStatsManager()
+    typing_analyzer.analyze();
+    // TODO: send this data back up to the server
   }
 });

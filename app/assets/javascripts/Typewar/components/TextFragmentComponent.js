@@ -12,7 +12,7 @@
 Crafty.c("TextFragment", {
   is_active: false,
   is_complete: false,
-  _backbone_model: null,
+  _backbone_model: null, // TODO: Marked for deletion
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
@@ -22,8 +22,7 @@ Crafty.c("TextFragment", {
 
   textFragment: function (opts){
     this._text = opts.text;
-
-    this._backbone_model = new TextFragmentModel({entity: this});
+    this._backbone_model = new TextFragmentModel({entity: this}); // TODO: Marked for deletion
     return this;
   },
 
@@ -36,6 +35,7 @@ Crafty.c("TextFragment", {
     if(!this.is_active){
       this._current_position = 0;
       this.is_active = true; 
+      this._tagStartedTimestamp();
       this.z = 99999;
       Crafty.trigger("TextFragmentActivated", this);
       this._triggerRedraw();
@@ -52,13 +52,11 @@ Crafty.c("TextFragment", {
                            // display
   },
 
-  getNextChar: function (){
-    return this._text[this._current_position];
-  },
+  errorCount: function (){ return this._incorrect_characters.length; },
 
-  getText: function (){
-    return this._text;
-  },
+  getNextChar: function (){ return this._text[this._current_position]; },
+
+  getText: function (){ return this._text; },
 
   getTextStatus: function (){
     return {
@@ -72,14 +70,12 @@ Crafty.c("TextFragment", {
 
   isComplete: function (){ return this.is_complete; },
 
-  // Return true if the given character matches the first one in the text frag
-  matchFirstChar: function (chr){
-    return (this._text[0] == chr);
-  },
+  textLength: function (){ return this._text.length; },
 
-  matchNextChar: function (chr){
-    return (this.getNextChar() == chr);
-  },
+  // Return true if the given character matches the first one in the text frag
+  matchFirstChar: function (chr){ return (this._text[0] == chr); },
+
+  matchNextChar: function (chr){ return (this.getNextChar() == chr); },
 
   /* We want to call this when the fragment is no longer to be displayed.
    * The fragment doesn't get destroyed yet, it may have reached the player or
@@ -96,6 +92,7 @@ Crafty.c("TextFragment", {
     this._incorrect_characters = '';
     this._correct_characters = '';
     this._current_position = null;
+    this._clearTimestamps();
     this.deactivate();
   },
 
@@ -143,21 +140,27 @@ Crafty.c("TextFragment", {
 
   //private
 
+  _checkForCompletion: function (){
+    if(this._correct_characters.length == this._text.length){
+      this._complete();
+    }
+  },
+
+  _clearTimestamps: function (){
+    this.completed_at = null;
+    this.started_at = null;
+  },
+
   _complete: function (){
     this.is_complete = true
     this.deactivate();
+    this._tagCompletedTimestamp();
     this._triggerRedraw();
 
     Crafty.trigger("TextFragmentCompleted", this);
     this.trigger("Completed");
     this.removeFromPlay(); // TODO: this might no longer be needed, we should rely on things binding to the Completed event instead
     return this;
-  },
-
-  _checkForCompletion: function (){
-    if(this._correct_characters.length == this._text.length){
-      this._complete();
-    }
   },
 
   _correctInput: function (input){
@@ -178,9 +181,13 @@ Crafty.c("TextFragment", {
     return output;
   },
 
-  _triggerRedraw: function (){
-    this.trigger("Redraw");
+  //_tagStartedTimestamp: function (){ this.started_at = new Date(); },
+  _tagStartedTimestamp: function (){ 
+    this.started_at = new Date(); 
   },
+  _tagCompletedTimestamp: function (){ this.completed_at = new Date(); },
+
+  _triggerRedraw: function (){ this.trigger("Redraw"); },
 
   _wrongInput: function (input){
     this._incorrect_characters += input;
