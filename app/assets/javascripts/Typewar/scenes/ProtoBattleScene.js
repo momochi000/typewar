@@ -70,9 +70,8 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   },
 
   initAudio: function (){
-    // TODO: move this manager to the set of managers
-    console.log("DEBUG: initializing audio~~~~~~~~~~");
     Typewar.Engine.audiomanager = Crafty.e("AudioManager").audioManager();
+    Typewar.Engine.audiomanager.initAudioModule("input");
   },
 
   initBackground: function (){

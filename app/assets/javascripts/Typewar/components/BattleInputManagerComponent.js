@@ -24,7 +24,6 @@
 Crafty.c("BattleInputManager", {
   init: function (){ 
     this.is_shift_key_down = false;
-    this._initAudio();
   },
 
   battleInputManager: function (){
@@ -76,7 +75,6 @@ Crafty.c("BattleInputManager", {
     }
 
     letter_value = this._applyModifierKeys(letter_value);
-    Crafty.trigger("sound_effect", "letter_typed");
     Typewar.Engine.battlemanager.handleTextInput(letter_value);
   },
 
@@ -106,12 +104,6 @@ Crafty.c("BattleInputManager", {
       default:
         return false;
     }
-  },
-
-  _initAudio: function (){
-    Crafty.audio.add({
-      letter_typed: ["assets/typewriter-key-1.mp3", "assets/typewriter-key-1.wav"]
-    })
   },
 
   _isModeSwitchKey: function (key_val){

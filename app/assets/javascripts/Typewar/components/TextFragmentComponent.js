@@ -167,6 +167,7 @@ Crafty.c("TextFragment", {
     // TODO: validate input? check the input against the current position in _text
     this._correct_characters += this._text[this._current_position];
     this._current_position++;
+    Crafty.trigger("sound_effect", "letter_typed");
   },
 
   _getClasses: function (){
