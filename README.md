@@ -91,11 +91,13 @@ speed appropriately.
 
 ## CURRENT
 
-#### BUG: sounds keep playing after the battle has ended
-Looks like a text fragment might be lingering after
+#### Design system to adjust game difficulty based on WPM argument
 #### Send typing data to the server.
 Server should be able to calculate average WPM and error rate
-#### Design system to adjust game difficulty based on WPM argument
+#### REFACTOR: move instantiated managers and engine components to their own namespaces
+Typewar.Engine.battlemanager -> Typewar.Engine.Active.battlemanager or some such..
+#### BUG: sounds keep playing after the battle has ended
+Looks like a text fragment might be lingering after
 #### Play a different sound when a typo happens
 #### BUG: double quote also triggers single quote when typing
 #### Enable double quote
