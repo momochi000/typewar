@@ -1,9 +1,6 @@
-/* TODO: These skill definitions need to be moved server side.  I'm putting 
- * them here for easy access during development and their structure 
- * should pretty much not change.
- * 
- * Well I just proved myself wrong, their structure has already changed and 
- * skills should be shared between player and npcs.
+/* TODO: Separate player skills and NPC skills into distinct namespaces
+ *
+ * Skill definitions can stay here but the server can declare skills by skill id
  */
 
 /* example skill template:
@@ -11,6 +8,8 @@
  *   animation: 'reel_id',//optional
  *   cooldown: xx<integer>,
  *   cost: 0 <integer>,
+ *   name: 'human readable name',
+ *   text_options: {...}, // options for text fragment generation
  *   properties: {...} // property list
  * }
  */

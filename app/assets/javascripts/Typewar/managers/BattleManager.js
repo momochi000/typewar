@@ -16,6 +16,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
   },
 
   initialize: function (){
+    // TODO: Is this still necessary here??
     //if(!this.has('side1')){ throw "BattleManager initialized without side 1"; }
     //if(!this.has('side2')){ throw "BattleManager initialized without side 2"; }
 
@@ -53,7 +54,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
 
     if(!options.attacker){throw "BattleManager: handleAttack called with no attacker";}
     if(!options.defender){throw "BattleManager: handleAttack called with no defender";}
-    if(!options.skill)  {throw "BattleManager: handleAttack called with no attack specified";}
+    if(!options.skill)   {throw "BattleManager: handleAttack called with no attack specified";}
     attacker = options.attacker;
     defender = options.defender;
     skill = options.skill; 
@@ -69,7 +70,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
 
     // this.BattleAnalyzer.analyze(attacker, defender, environment);
 
-    text_frag_options = _.deepClone(skill)
+    text_frag_options = _.deepClone(skill);
     text_frag_options.attacker = attacker;
     text_frag_options.defender = defender;
     // For now just grab a random word, later we'll need to select text based
@@ -77,7 +78,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
    
     next_text = this._getWordFromVocabulary(attacker.getVocabulary(), text_frag_options.text_options);
     if(next_text) {text_frag_options.text = next_text;}
-    if(this._isSide1(attacker)) { 
+    if(this._isSide1(attacker)) {
       text_frag_options.direction = 1;
     }else{
       text_frag_options.direction = -1;

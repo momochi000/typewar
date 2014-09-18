@@ -10,7 +10,7 @@ Crafty.c("NPCSkill", {
     if(!skill_data) {
       throw "ERROR: attempting to initialize NPCSkill component without any skill data";
     }
-    this.skill_data = skill_data;
+    this._initSkillData(skill_data);
     this._setupStateMachine();
     return this;
   },
@@ -28,12 +28,16 @@ Crafty.c("NPCSkill", {
   },
 
   // private
-  //
+
   _beginCooldown: function (){
     var self = this;
     this.timeout(function (){
       self.fsm.prepare();
     }, this.skill_data.cooldown);
+  },
+
+  _initSkillData: function (skill_data){
+    this.skill_data = skill_data;
   },
 
   _setupStateMachine: function (){
