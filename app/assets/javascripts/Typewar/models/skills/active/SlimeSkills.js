@@ -1,3 +1,10 @@
+/* TODO: Evaluate if this makes sense..
+ *   remove start_x and start_y from required options.  Text fragments should 
+ *   always be spawned from the x,y of the spawner.  If there needs to be some 
+ *   offset, then it can be part of the position function
+ *
+ */
+
 Typewar.Data.Skills["SlimeStandard"] = {
   name: 'standard',
   properties: {
