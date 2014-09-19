@@ -16,10 +16,6 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
   },
 
   initialize: function (){
-    // TODO: Is this still necessary here??
-    //if(!this.has('side1')){ throw "BattleManager initialized without side 1"; }
-    //if(!this.has('side2')){ throw "BattleManager initialized without side 2"; }
-
     this._setupModeFSM();
     this._bindEventListeners();
   },
