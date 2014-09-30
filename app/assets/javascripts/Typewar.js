@@ -4,6 +4,7 @@ Typewar.Engine = {Managers: {}};
 Typewar.Data = {Skills: {}, Scenes: {}};
 Typewar.Views = {};
 Typewar.Util = {};
+Typewar.Models = {Skills: {}};
 
 Typewar.Game = (function (Crafty, $, _, Backbone, Typewar){
   var container_selector, options

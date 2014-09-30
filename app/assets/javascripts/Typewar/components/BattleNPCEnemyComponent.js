@@ -132,10 +132,7 @@ Crafty.c("BattleNPCEnemy", {
         nPCSkillManager(skills_from_server);
     }else{ // Default skills if none provided in the server call
       this.addComponent("NPCSkillManager").
-        nPCSkillManager({
-          SlimeStandard: Typewar.Data.Skills.SlimeStandard,
-          SlimeGlob: Typewar.Data.Skills.SlimeGlob
-        });
+        nPCSkillManager(["SlimeStandard", "SlimeGlob"]);
     }
   }
 });
