@@ -130,9 +130,10 @@ Crafty.c("BattleNPCEnemy", {
     if(skills_from_server){
       this.addComponent("NPCSkillManager").
         nPCSkillManager(skills_from_server);
-    }else{ // Default skills if none provided in the server call
-      this.addComponent("NPCSkillManager").
-        nPCSkillManager(["SlimeStandard", "SlimeGlob"]);
+    }else if(this.initDefaultSkills){ // Default skills which should come from monster specific component if the server doesn't provide any skills
+      this.initDefaultSkills();
+    }else{ 
+      throw new Error("Attempting to setup battle NPC with no skills");
     }
   }
 });

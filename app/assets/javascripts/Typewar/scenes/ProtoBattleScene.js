@@ -122,7 +122,7 @@ Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
     var enemy_entity;
     //return new NPCEntity();
 
-     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus")
+     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleSlime")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
       .battleNPCEnemy()
