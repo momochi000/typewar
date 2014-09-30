@@ -86,14 +86,6 @@ position func?
 
 ## CURRENT
 
-#### REFACTOR: change skills into backbone models
-+ Create a base skill
-  * Base skill is an interface that declares how skills are to be used
-  * Most skills consist of only data
-  * Skills will override their getters in order to accommodate difficulty adjustments
-+ Change existing skills into backbone models that inherit from base
-+ Adjust skill manager to initialize skill models correctly
-
 #### Design system to adjust game difficulty based on WPM argument
 + Add WPM field on NPC (component) which can be set on init 
 + Add difficulty scale/multiplier to skill (component)
@@ -278,6 +270,14 @@ I should try to patch Crafty to add state machine to components directly.
 ---
 
 ## DONE
+
+#### REFACTOR: change skills into backbone models
++ Create a base skill
+  * Base skill is an interface that declares how skills are to be used
+  * Most skills consist of only data
+  * Skills will override their getters in order to accommodate difficulty adjustments
++ Change existing skills into backbone models that inherit from base
++ Adjust skill manager to initialize skill models correctly
 
 #### Setup system to collect typing data when the battle ends
 #### Play some audio hit on each keypress
