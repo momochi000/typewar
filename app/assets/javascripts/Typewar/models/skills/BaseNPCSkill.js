@@ -10,6 +10,7 @@ Typewar.Models.Skills.BaseNPCSkill = Backbone.Model.extend({
     box2d: {},
     classesFunc: function (){ },
     cooldown: 0,
+    difficulty: 1,
     hitbox: {w: 0, h: 0},
     initialMovement: function (){ },
     name: "",
@@ -29,33 +30,33 @@ Typewar.Models.Skills.BaseNPCSkill = Backbone.Model.extend({
     type: ""
   },
 
-  getAnimation:       function (difficulty){ return this.get("animation");      },
-  getBox2d:           function (difficulty){ return this.get("box2d");          },
-  getClassesFunc:     function (difficulty){ return this.get("classesFunc");    },
-  getCooldown:        function (difficulty){ return this.get("cooldown");       },
-  getHitbox:          function (difficulty){ return this.get("hitbox");         },
-  getInitialMovement: function (difficulty){ return this.get("initialMovement");},
-  getName:            function (difficulty){ return this.get("name");           },
-  getPositionFunc:    function (difficulty){ return this.get("positionFunc");   },
-  getProperties:      function (difficulty){ return this.get("properties");     },
-  getSound:           function (difficulty){ return this.get("sound");          },
-  getTextOptions:     function (difficulty){ return this.get("text_options");   },
-  getType:            function (difficulty){ return this.get("type");           },
+  getAnimation:       function (){ return this.get("animation");      },
+  getBox2d:           function (){ return this.get("box2d");          },
+  getClassesFunc:     function (){ return this.get("classesFunc");    },
+  getCooldown:        function (){ return this.get("cooldown");       },
+  getHitbox:          function (){ return this.get("hitbox");         },
+  getInitialMovement: function (){ return this.get("initialMovement");},
+  getName:            function (){ return this.get("name");           },
+  getPositionFunc:    function (){ return this.get("positionFunc");   },
+  getProperties:      function (){ return this.get("properties");     },
+  getSound:           function (){ return this.get("sound");          },
+  getTextOptions:     function (){ return this.get("text_options");   },
+  getType:            function (){ return this.get("type");           },
 
-  getSkillAttributes: function (difficulty) {
+  getSkillAttributes: function () {
     return {
-      animation:      this.getAnimation(difficulty),
-      box2d:          this.getBox2d(difficulty),
-      classesFunc:    this.getClassesFunc(difficulty),
-      cooldown:       this.getCooldown(difficulty),
-      hitbox:         this.getHitbox(difficulty),
-      initialMovement:this.getInitialMovement(difficulty),
-      name:           this.getName(difficulty),
-      properties:     this.getProperties(difficulty),
-      positionFunc:   this.getPositionFunc(difficulty),
-      sound:          this.getSound(difficulty),
-      text_options:   this.getTextOptions(difficulty),
-      type:           this.getType(difficulty)
+      animation:      this.getAnimation(),
+      box2d:          this.getBox2d(),
+      classesFunc:    this.getClassesFunc(),
+      cooldown:       this.getCooldown(),
+      hitbox:         this.getHitbox(),
+      initialMovement:this.getInitialMovement(),
+      name:           this.getName(),
+      properties:     this.getProperties(),
+      positionFunc:   this.getPositionFunc(),
+      sound:          this.getSound(),
+      text_options:   this.getTextOptions(),
+      type:           this.getType()
     }
   }
 });

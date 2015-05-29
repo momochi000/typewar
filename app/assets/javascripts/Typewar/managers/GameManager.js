@@ -28,7 +28,22 @@ Typewar.Engine.Managers.GameManager = Backbone.Model.extend({
     }
   },
 
+  getPlayerWPM: function (){
+    //return Typewar.Engine._player_wpm;
+    return 45;
+  },
+
   initialize: function (){},
+
+  retrievePlayerWPM: function (){
+    // contact server and retrieve wpm rating
+    // setPlayerWPM(retrieved_wpm);
+    // return getPlayerWPM();
+  },
+
+  setPlayerWPM: function (new_wpm){
+    Typewar.Engine._player_wpm = new_wpm;
+  },
 
   start: function (initial_scene){
     if(!initial_scene) { 

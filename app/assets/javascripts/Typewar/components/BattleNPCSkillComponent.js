@@ -7,11 +7,11 @@ Crafty.c("NPCSkill", {
     this.skill = null;
   },
 
-  nPCSkill: function (skill_id){
+  nPCSkill: function (skill_id, difficulty){
     if(!skill_id) {
       throw "ERROR: attempting to initialize NPCSkill component without any skill data";
     }
-    this._initSkill(skill_id);
+    this._initSkill(skill_id, difficulty);
     this._setupStateMachine();
     return this;
   },
@@ -25,7 +25,8 @@ Crafty.c("NPCSkill", {
   },
 
   getSkillData: function (){
-    return this.skill.getSkillAttributes();
+    // IN PROGRESS: this needs to obtain the difficulty modifier
+    return this.skill.getSkillAttributes(); 
   },
 
   isReady: function (){
@@ -41,8 +42,8 @@ Crafty.c("NPCSkill", {
     }, this.getSkillData().cooldown);
   },
 
-  _initSkill: function (skill_id){
-    this.skill = new Typewar.Data.Skills[skill_id]();
+  _initSkill: function (skill_id, difficulty){
+    this.skill = new Typewar.Data.Skills[skill_id]({difficulty: (difficulty || 1)});
   },
 
   _setupStateMachine: function (){
