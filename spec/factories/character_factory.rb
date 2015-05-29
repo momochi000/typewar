@@ -29,7 +29,7 @@ FactoryGirl.define do
     }}
   end
 
-  factory :easy_slime, :parent => :character do
+  factory :easy_slime, :parent => :character, :class => 'NPC' do
     name { Faker::Name.name }
     char_class 'Slime'
     stats {{
@@ -51,7 +51,7 @@ FactoryGirl.define do
     }
   end
 
-  factory :player_lv1, :parent => :character do
+  factory :player_lv1, :parent => :character, :class => 'PlayerCharacter' do
     name { Faker::Name.name }
     char_class 'Player'
     stats {{
