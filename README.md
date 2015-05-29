@@ -91,8 +91,17 @@ position func?
 + Add difficulty scale/multiplier to skill (component)
 + Make npc skill component more intelligent in how it generates attack arguments
 
+#### Make rake db:dcmps only work on dev
+#### REFACTOR: Player and NPC models to be proper STI subclasses of Character
+#### REFACTOR: Closure around Typewar.js
+#### Make a has and belongs to many between Character and Text
 #### Send typing data to the server.
 Server should be able to calculate average WPM and error rate
+#### Make text fragments appear on a single line
+#### UI/UX: Text fragments are truncated until typed.
+Show the first ~10 characters so the player can get their fingers in motion but
+only show the rest once it's the active fragment.  This will keep the screen
+from getting as crowded
 #### REFACTOR: move instantiated managers and engine components to their own namespaces
 Typewar.Engine.battlemanager -> Typewar.Engine.Active.battlemanager or some such..
 #### BUG: sounds keep playing after the battle has ended
