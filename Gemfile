@@ -4,12 +4,15 @@ gem 'bootstrap-sass'
 gem 'compass-rails'
 gem 'factory_girl_rails'
 gem 'faker'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'json'
 gem 'haml'
 gem 'pg'
 gem 'rails-backbone'
 gem "therubyracer"
 gem 'thin'
+
 
 group :development, :test do
   gem 'debugger'
@@ -39,9 +42,6 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
