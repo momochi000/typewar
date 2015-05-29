@@ -1,5 +1,8 @@
 # TODO: scale up the difficulty on basic characters, should have a more even 
 # distribution of weights.
+# Make a csv of this and import it to a spreadsheet.  Should help me visualize
+# what the difficulty curve of characters is. I want to see a bell curve around
+# where the home keys are
 module Typewar
   class TextLibrary
     CHARACTER_WEIGHTS = {

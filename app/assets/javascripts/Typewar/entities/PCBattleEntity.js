@@ -28,7 +28,7 @@ var PCBattleEntity = BaseEntity.extend({
         error: function (model, response, options) {
           console.log("ERROR OBTAINING PLAYER DATA FROM SERVER. RESPONSE WAS ==> ");
           console.log(response);
-          console.log("model ====> ");
+          console.log("model ==================================================> ");
           console.log(model);
           reject(response);
         }
