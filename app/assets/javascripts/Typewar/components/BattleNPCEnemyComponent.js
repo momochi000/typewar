@@ -58,7 +58,6 @@ Crafty.c("BattleNPCEnemy", {
     if(!skill){ skill = this.getRandomReadySkill(); }
     if(!skill){ return; } // Do not attack if no skill available
 
-
     skill_data = skill.activate();
     text_fragment_options = Typewar.Engine.battlemanager.handleAttack({
       attacker: this, 

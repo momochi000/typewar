@@ -68,7 +68,7 @@ Crafty.c("BattleNPCAttack", {
       direction: this._attack_properties.direction,
       difficulty_multiplier: this._attack_properties.difficulty_multiplier,
       speed: this._attack_properties.speed
-    }
+    };
     return this._attack_properties.positionFunc(req,opt);
   },
 

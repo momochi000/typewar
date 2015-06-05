@@ -414,6 +414,7 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
     playerEntity.prepareSkills();
   },
 
+  //////////////////////////////////////////////////
   //TODO: battleOver needs to be fleshed out more
   //  contact the server
   //  send typing/battle data to server
