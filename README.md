@@ -90,7 +90,10 @@ position func?
 + Add WPM field on NPC (component) which can be set on init 
 + Add difficulty scale/multiplier to skill (component)
 + Make npc skill component more intelligent in how it generates attack arguments
++ REFACTOR: pull position func out of skill attributes and make it a function
++ REFACTOR: AttackObject should carry a clone of the skill itself
 
+#### REFACTOR: All events should follow a consistent style (see backbone)
 #### Make rake db:dcmps only work on dev
 #### REFACTOR: Player and NPC models to be proper STI subclasses of Character
 #### REFACTOR: Closure around Typewar.js
