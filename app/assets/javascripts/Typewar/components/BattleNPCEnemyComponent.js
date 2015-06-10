@@ -27,6 +27,7 @@ Crafty.c("BattleNPCEnemy", {
     this._fragment_timers = [];
     this._createFragmentSpawner();
     this._initBackboneModel();
+    this._bindAIListners();
 
     return this;
   },
@@ -102,6 +103,13 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   //private 
+
+  _bindAIListners: function (){
+    var self = this;
+    this.bind("initiateAttackOn", function (target){
+      self.initiateAttackOn(target);
+    });
+  },
 
   _clearFragmentTimers: function (){
     _.each(this._fragment_timers, function (t_id){

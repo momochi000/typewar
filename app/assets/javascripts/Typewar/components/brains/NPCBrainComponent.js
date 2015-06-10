@@ -31,7 +31,7 @@ Crafty.c("NPCBrain", {
   // private
 
   _aiCycle: function (){
-    this.initiateAttackOn(this._current_target);
+    this.trigger("initiateAttackOn", this._current_target);
   },
 
   _bindAIOnPause: function (){
