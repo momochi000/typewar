@@ -1,4 +1,5 @@
 var global_bg; // DEBUG;
+// REFACTOR: Make most of the methods in here private
 
 Typewar.Data.Scenes.ProtoBattleScene = Backbone.Model.extend({
   defaults: {
