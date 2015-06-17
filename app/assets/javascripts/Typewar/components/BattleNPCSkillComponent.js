@@ -25,7 +25,6 @@ Crafty.c("NPCSkill", {
   },
 
   getSkillData: function (){
-    // IN PROGRESS: this needs to obtain the difficulty modifier
     return this.skill.getSkillAttributes(); 
   },
 

@@ -79,6 +79,9 @@ Typewar.Engine.Managers.BattleManager = Backbone.Model.extend({
     }else{
       text_frag_options.direction = -1;
     }
+    // At this point we calculate the difficulty multiplier applied to the
+    // attack based on the typing speed of the player. It then calculates
+    // a multiplier for the difficulty
     text_frag_options.difficulty_multiplier = 0.2;
     return text_frag_options;
   },
