@@ -93,10 +93,18 @@ typing data.  Maybe what I'm doing is fine.  Player data should be stored on
 the server so it could be saved and loaded etc.  
 
 Ohh, what I should do is encapsulate every communication with the server such 
-that those operations can be replaced on client side.  For example: saving the
+that those operations can be replaced client side.  For example: saving the
 player character hits the server with updated stats/etc but as a mobile app
 the player is serialized locally.  Will need to think about how to implement
 this.
+
+The tutorial should be a typing tutor. Introducing players fight by fight to
+learning how to type using increasing amounts of letters.  OOh.. dungeons 
+have monsters of a given set of letters.  Each monster has a limited vocabulary
+simple ones like slimes and rats could be 1-3 letters or of words consisting of
+'easy' letters (home row etc).
+Could progress from home row adding letters until they can do the whole alphabet
+pretty much like mavis beacon's progression.
 
 ---
 
