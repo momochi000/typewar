@@ -110,15 +110,8 @@ pretty much like mavis beacon's progression.
 
 ## CURRENT
 
-#### Design system to adjust game difficulty based on WPM argument
-+ (DONE)Add difficulty scale/multiplier to skill (component)
-+ REFACTOR:(DONE) pull position func out of skill attributes and make it a function
-+ REFACTOR:(DONE) AttackObject should carry a clone of the skill itself
-+ REFACTOR: get rid of getSkillData and getSkillAttributes.  
-  That interface should be implemented on the skill itself and this extra layer
-  can be removed.
-
 #### Abandon dynamic skill adjustment.
+Draw a map of the codebase (use the surface?)
 Make the necessary updates to the roadmap
 
 #### REFACTOR: All events should follow a consistent style (see backbone)
@@ -310,6 +303,11 @@ I should try to patch Crafty to add state machine to components directly.
 ---
 
 ## DONE
+
+#### Design system to adjust game difficulty based on WPM argument
++ (DONE)Add difficulty scale/multiplier to skill (component)
++ REFACTOR:(DONE) pull position func out of skill attributes and make it a function
++ REFACTOR:(DONE) AttackObject should carry a clone of the skill itself
 
 #### Make rake db:dcmps only work on dev
 #### REFACTOR: change skills into backbone models
