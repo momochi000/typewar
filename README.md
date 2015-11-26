@@ -118,8 +118,10 @@ pretty much like mavis beacon's progression.
   That interface should be implemented on the skill itself and this extra layer
   can be removed.
 
+#### Abandon dynamic skill adjustment.
+Make the necessary updates to the roadmap
+
 #### REFACTOR: All events should follow a consistent style (see backbone)
-#### Make rake db:dcmps only work on dev
 #### REFACTOR: Make component file names match component names
 #### REFACTOR: Player and NPC models to be proper STI subclasses of Character
 #### REFACTOR: Closure around Typewar.js
@@ -309,6 +311,7 @@ I should try to patch Crafty to add state machine to components directly.
 
 ## DONE
 
+#### Make rake db:dcmps only work on dev
 #### REFACTOR: change skills into backbone models
 + Create a base skill
   * Base skill is an interface that declares how skills are to be used

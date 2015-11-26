@@ -1,6 +1,7 @@
 namespace :db do
   desc "drop create migrate prepare seed"
-  task :dcmps do
+  task :dcmps => :environment do
+    return unless Rails.env.development?
     puts " --- Dropping database --- "
     Rake::Task['db:drop'].invoke
     puts " --- Creating database --- "
