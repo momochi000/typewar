@@ -3,7 +3,9 @@
   %head
     %title Typewar
     = stylesheet_link_tag "application", media: "all"
-    = javascript_include_tag "application"
+    -#= javascript_include_tag "application"
+    = javascript_pack_tag "application"
+    = yield :javascript_packs
     = csrf_meta_tags
     = yield :head
   %body

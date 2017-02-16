@@ -1,0 +1,609 @@
+* Current
+** TODO Get game code refactored over to webpack
+*** TODO Reasses basic structure of app
+*** TODO Figure out how to organize code using es6 structures
+*** TODO Get crafty working
+    Maybe crafty can be served from asset pipeline via vendor/assets/javascripts
+*** TODO Move over basic functionality (start the game)
+*** TODO Display the background
+*** TODO Load the engine
+*** TODO Load the player
+*** TODO load keyboard bindings
+*** TODO Load the NPC (without any ai or action)
+*** TODO Fire a single text fragment
+*** TODO Setup box2d
+*** TODO Fix AI to fire text fragments continuously
+* Backlog
+** TODO Get the game working again
+** TODO Abandon dynamic skill adjustment
+   Still want to do things like capture player stats (wpm, error avg, etc)
+** TODO Adjust difficulty
+   The way it was when I could barely beat it.
+* Roadmap
+** TODO Change templating engine
+   Move away from Backbone
+** TODO Remove backbone
+** TODO All events should follow a consistent style (see backbone) :refactor:
+** TODO Make component file names match component names :refactor: 
+** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
+** TODO Closure around Typewar.js :refactor:
+** TODO Make a has and belongs to many between Character and Text
+** TODO Send typing data to the server
+   Server should be able to calculate average WPM and error rate
+** TODO Make text fragments appear on a single line
+** TODO UI/UX: Text fragments are truncated until typed.
+Show the first ~10 characters so the player can get their fingers in motion but
+only show the rest once it's the active fragment.  This will keep the screen
+from getting as crowded
+** TODO move instantiated managers and engine components to their own namespaces :refactor:
+Typewar.Engine.battlemanager -> Typewar.Engine.Active.battlemanager or some such..
+** TODO BUG: sounds keep playing after the battle has ended
+Looks like a text fragment might be lingering after
+** TODO Play a different sound when a typo happens
+** TODO BUG: double quote also triggers single quote when typing
+** TODO Enable double quote
+** TODO Change declarations of audio assets to use proper rails asset references
+Instead of /assets/blah.wav, audio/blah.wav
+** TODO Play slash sound on attack
+** TODO Play smack sound on npc hit
+** TODO Play smack sound on player hit
+** TODO Fix typewar deploy
+** TODO Display flash + particles on hit of either
+** TODO Tighten hitboxes (both of entities and of text fragments)
+** TODO Make NPC skills carry info about animation delay
+They hold the info about which animation already
+This might need to be done to player skills as well if not already
+** TODO BUG: when 2 text fragments have the same text
+On defense when typing them, if you typo, it resets both.
+** TODO Add some wiggle to the slime normal attack so the text frargments don\'t appear all in line
+** TODO change skill -> attack spawning to take an id argument :refactor:
+Currently, text fragments contain code for the position function or some 
+physics declarations and an initial impulse etc.  Instead, move those 
+definitions behind some module or class structure and address them via
+an id (string) that gets passed in as part of the skill.
+** TODO Store a few char sheets in javascript and load them by default if no sheet comes from the server
+** TODO BUG: if the game stops/scene changes, text fragments aren't destroyed
+** TODO Build up the site around typewar
+** TODO Create a button that starts and restarts the game
+** TODO Player skills can also generate text fragments
+A compound skill, typing the skill in the skill slot does some whatever effect
+but it also generates a text fragment which flies out from the player. Typing
+that text fragment determines whether the projectile was a hit or miss. Might
+also be used for some nuke spell or something that takes a few steps to 
+complete.
+The skill in the slot might simply be the skill slot number, so just a single
+keypress spawns the fragment to be typed.
+** TODO rewrite the way battle manager stores and references battle entities :refactor:
+** TODO GAMEPLAY CHECKLIST
+Do a run down to see the state of various parts before proceeding:
++ When switching modes while a fragment is active, ensure that it doesn't
+  lock up or break the game
++ Seems to be broken sometimes, attack mode
+
+** TODO redo the way character sheets are built and come in from server :refactor:
+They should be assembled from model joins that live over on the rails app
+then passed down to the game engine in json format from a GET request
+then stored into the character model/entity client side and also diced up to 
+build the character
+** TODO BUG: With a single character skill fragment, there is an error when the skill completes
+it goes from state ready to cooldown which throws an error, the game seems to
+work however so this is low priority
+** TODO Write a library for battle icons
+I'll fill them in as I need them but it'll be good to have the framework in 
+place
+** TODO Don't allow switching modes if a text fragment is active (conditionally)
+Should allow this only if you have the correct skill
+** TODO When player defends the monster attack spins and drops
+the battle enemy attack text fragment thingy (ugh.. i need a better name for
+thisss.) Attach physics to the thing if it doesn't already exist, and add spin
+and raise gravity? or just throw a downward force on it (or reverse force?).
+The quality of your typing determines the force applied back on the fragment.
+try different vectors to see which is more satisfying. Need to add sound,
+particles, and a flash or something.
+** TODO BUG: seems that box2d elements are not being deallocated on scene change
+Might be the entire entity or just the box2d physics part.
+** TODO Add animation between the text fragment typed groups in css
+** TODO Improve damage calculation
+Use the properties of the attack (which will be carried by the text fragment)
+when resolving damage dealt.  Should happen in the resolveAttack and 
+resolveDefense private methods in the battle manager
+** TODO be consistent with .bind for binding context. :refactor:
+   In some places we're using underscore's bind and other we're using native .bind
+** TODO Display incorrect characters count typed along with correct characters.
+This needs some sort of design such that it's intuitive as to what's happening.
+I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
+counting correct and one incorrect characters.
+** TODO rename 'deallocate' methods to remove everywhere :refactor:
+** TODO Difficulty scale.
+Need a system which adjusts the difficulty of the game mechanics.  I want
+difficulty of gameplay to be separate from difficulty of the battle.  The
+difficulty of fighting a particular monster should be based upon the 
+stat/level difference between the player and that monster, but the difficulty
+of typing the words (for example) should be scalable outside of that.  Will
+need to make it harder for someone who can type really fast.
+** TODO Properly animate text fragment when it transitions to various states
+Need to make several stories out of this
+Animate a successful hit
+Animate a successful defense
+Animate successful completion
++ player attacks that fail fade away when typed.
+  on second thought don't do this because we're transitioning to the different
+  style of player attacking (or at least testing it out first)
+  * opacity 0 with transition (possibly flicker to off)
+  * fragment immediately becomes ineffective (collision off)
++ player gets hit 
+any more?
+
+** TODO Edge case: multiple fragments with same starting text typod :bug:
+NOTE: this algorithm allows the following edge case:
+When multiple fragments are 'active' starting with the same text, e.g.
+'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+** TODO EPIC: State machine refactor
+** TODO Comb the desert and identify all the components which would benefit from having a state machine
++ TextFragment
++ Battle modes (attack/defense/items)
+
+** TODO Add another attack to the monster
+Make a position func that handles an arc path
+Problem with using physics is I can't scale the speed of the attack.
+Gravity's acceleration is fixed and the x speed is pretty much going to be
+constant.  With a parabolic path (or similar) I can adjust the velocity and/or
+acceleration from the battle manager.
+** TODO Add a physics border on the ground so text fragments can bounce
+** TODO Gather stats on player typing.
+Create an object for each keypress with a timestamp. Send back to server and 
+save.
+** TODO Create a method to do a wait for (x) frames. :refactor:
+Instead of doing window.setTimeout everywhere, we should wait for a fixed
+number of frames.
+** TODO Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
+** TODO Tweak balance so that text flies at the player more smoothly (from the npc)
+** TODO make event naming consistent. :refactor:
+Either camel case or underscored, pick one and run with it
+** TODO the way npc and players take damage :refactor:
+Need to pass in or identify the source of the damage.  For example when npc 
+dies, the event it publishes/broadcasts should contain info about who killed
+it.
+** TODO Combos
+If we go with the player attack slots idea, combos becomes easy. Combos would 
+fit into a specific attack slot and you'd simply type one word and another 
+would replace it which if you typed it quickly enough (could have a timer or
+meter that empties out) then the combo continues. Typos would break the combo
+Some combos (or all) would be broken by getting hit unless you had some 
+specific skill(s)
+** TODO Adjust game behavior based on stats from player and npc
+** TODO Add devise and player model and allow people to create accounts and log in
+** TODO Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
+** TODO Clear all TODO's in code :refactor:
+** TODO Move 'attacks' definitions server side
+** TODO Create a module that governs the display of the battle. 
+It needs to handle crafty's zoom level and move things around the scene 
+appropriately.  This should probably go in the Camera component.  Currently, 
+we want to set a higher zoom level because the 2d sprites we're using are 
+small and on any decent display are too tiny and hard to see.  We want to 
+scale up the scene but this means we have to move all the entities and the 
+offset of the crafty stage.  The camera component should maintain a zoom level 
+and be able to translate coordinates in scene space to screen space and vice versa.
+This is may also need to handle setup of the viewport depending on device 
+screen size and orientation etc.  Scaling the game appropriately.
+** TODO seems like dom nodes aren't getting properly removed when text fragments go away :performance:
+Need to ensure that they do.
+** TODO Make the battle over scene overlay on top of the battle scene.
+** TODO Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments
+Better yet, have it listen for a Crafty.pause() where it then does the 
+appropriate.  Better yet, make the timers count by Crafty frames.  This 
+way pause will do the right thing.  Will need ot create a Timer object which 
+binds to EnterFrame and increments itself.
+** TODO EPIC: Player items are a set of slots that can be typed anytime
+  + Tab to toggle to item 
+
+** TODO namespace our Sprite sheet properly under typewar :refactor:
+** TODO Esc to bail out of typing a text fragment 
+But only if you have the requisite skill
+** TODO Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
+** TODO Particle system setup
+** TODO Rails backend loads text dictionaries and sends them to the game engine
+** TODO Cinematics
+Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
+some other type of scripting system. Perhaps I could include a 
+** TODO Add state machine to Crafty components.
+I should try to patch Crafty to add state machine to components directly.
+* Icebox
+* Done
+** DONE Use webpack (via webpacker)
+   CLOSED: [2017-02-15 Wed 17:24]
+*** DONE Install webpacker
+    CLOSED: [2017-02-15 Wed 16:54]
+*** DONE Setup until webpack dev server runs
+    CLOSED: [2017-02-15 Wed 16:54]
+*** DONE Get es6 working
+    CLOSED: [2017-02-15 Wed 17:24]
+** DONE Upgrade to Rails 5
+   CLOSED: [2017-02-15 Wed 16:52]
+** DONE Design system to adjust game difficulty based on WPM argument
++ (DONE)Add difficulty scale/multiplier to skill (component)
++ REFACTOR:(DONE) pull position func out of skill attributes and make it a function
++ REFACTOR:(DONE) AttackObject should carry a clone of the skill itself
+
+** DONE Make rake db:dcmps only work on dev
+** DONE REFACTOR: change skills into backbone models
++ Create a base skill
+  * Base skill is an interface that declares how skills are to be used
+  * Most skills consist of only data
+  * Skills will override their getters in order to accommodate difficulty adjustments
++ Change existing skills into backbone models that inherit from base
++ Adjust skill manager to initialize skill models correctly
+
+** DONE Setup system to collect typing data when the battle ends
+** DONE Play some audio hit on each keypress
+** DONE Design sound module
+** DONE Deploy typewar
+** DONE REFACTOR: Backbone models should live inside of entities/components
+The only reason to need a backbone model is to make contact with the server
+or to encapsulate some more abstract data/functionality.  I shouldn't mix and
+match patterns with some objects being created by Backbone model but there 
+being a crafty entity inside of it and some simply being Crafty entities.
+Everything should be a crafty entity and if there is some need for a backbone
+model it can live inside the entity.
+** DONE Text Fragment
+** DONE Player Entity
+** DONE NPC Entity
+** DONE REFACTOR: Fix namespacing of all managers
+** DONE BUG: End game doesn't work anymore (need to expose scene transitions again)
+** DONE Make NPC (brain) choose from skills to use and give those skills cooldowns
+** DONE When battle ends, clear out the skill manager view and it's children
+** DONE Add exclamation point
+** DONE Adjust skills and monster attacks to obtain appropriately sized strings
+** DONE BUG: when 2 skills start with the same text, they don't activate properly
+Ensure 2 skills can't have the same exact text
+When 2 begin with the same text, ensure they behave properly when typed
+** DONE Remove turbolinks
+** DONE Text librarian
+** DONE On crafty.pause, pause AI and stuff
+Pausing crafty fires a Paused event that we can listen to to do the things.
+** DONE BUG: Skill with comma as text fragment is broken
+Occaisionally a skill gets a single comma for its text fragment text. In this 
+case it accepts the first input then breaks. this bug is fixed with some 
+caveats
+** DONE Display an icon indicating attack/defense mode
+If possible, change the player stance as well
+Move the fsm for attack/defense etc mode onto the player. Probably it's own 
+component. Figure out how to get the battle manager to communicate with this
+component so it does the right thing.
+** DONE EPIC: Player attacks/skills are a set of skill slots that can be typed anytime
++ Player has a set of slots for skills
++ The slot is filled with some text which varies depending on the player stats
+  and on their typing speed.
++ Player taps tab to switch between offense and defense
++ Different classes can have different skills/spells that can have various 
+  effects
+  * healing
+  * area damage
+  * damage over time
+  * helper/option
++ Enemy hitting the player could break their attack depending on attack type,
+  player stats/def/etc, player skills (passive or active)
++ Attack animation plays upon successful fragment typing
+
+** DONE Extract status view into a component that can be added to an entity
+** DONE Fix broken javascript from bootstrap
+Some librar(y|ies) from bootstrap isn't being included somehow
+** DONE Fix status bars
+** DONE Update twitter bootstrap to 3.x.x
+** DONE Fuck off twitter-bootstrap-rails, I want sass
+** DONE BUG: If 2 skills start with the same text, it doesn't work 
+** DONE BUG: If a skill is being typed and you tab out, once you tab back in and try typing it again, it's broken
+** DONE Move health bars/status to the top of the screen/window
+** DONE REFACTOR: extract attack objects out into some class or other better structure
+An attack is something that gets 'new'ed up and initialized with some json of
+options.  These options can be held server side and contains all the data
+necessary to populate the attack including damage amounts/properties, animation
+animationd delay (maybe), attack behavior, mana cost etc etc.
+These should be called skills actually
+** DONE Build text library module/functionality **skill epic**
+** DONE Apply css classes to skill manager skills based on state **skill epic**
+** DONE Get multiple player skills to appear in skill slots **skill epic**
+** DONE Setup/build text library for attack/skill generation **skill epic**
+Determine difficulty of a particular string
+Input: some block of text
+Output: an array of hashes of this format
+    [
+      {:text => "foo", :length => 3, :difficulty => 1},
+      {:text => "$%^", :length => 3, :difficulty => 6}
+    ]
+This set builds a 'library' of text that we can pick from when choosing text
+fragments based on some length and difficulty requirements requirements.
+Early implementation: Difficulty calculation based on how hard it is to type
+a string quickly and accurately.
+Ideal implementation: Difficulty calculation based on how hard it is for 
+**you** (the player) to type the string based on your typing habits.
+Implementation thoughts ===> 
+Assign a difficulty to each character. Home row letters are 1, hard to reach
+letters are higher up, capital letters add 1 or 2 depending on how easy it is
+to press shift. Numbers are higher, symbols are even higher.
+** DONE Attack skill doesn't seem to be triggering properly 
+just triggers a random attack animation
+** DONE BUG: Switching back to defense mode is broken
+Can switch back but doesn't accept input.  Perhaps now is the time to move to
+state machine for switching
+** DONE BUG: Javascript breaks on scene change
+Something going on with entities being removed from the DOM (?)
+I suspect it's because we're triggering a Remove event manually, which collides
+with crafty which triggers that on component removal.
+Ok, turns out I was right, it was the triggering of Remove events.
+** DONE REFACTOR: Better organize attack information.
+Attack information whether from a text fragment or from a player skill should
+be the same object type. Going to try to sketch out what that might look like...
+Example attack data:
+    AttackObject = {
+      properties: {...}, // damage properties
+      target: target-ent,
+      attacker: attacking-ent,
+      status-properties: {...}
+    }
+** DONE Skill manager component **skill epic**
+Player has a skill manager
+Skill manager has skills (stored in a skillset)
+Skills have text fragments and can accept input
+Skills have state machine and go from ready to active to cooldown to ready
+** DONE Can switch between offense and defense with tab **skill epic**
+** DONE Extract display of text fragments out of text fragment component **skill epic**
+** DONE REFACTOR: replace calls to 'deallocate' with calls to remove in comopnents **skill epic**
+Move deallocate code in components to remove
+** DONE Upgrade crafty **skill epic**
+Version of crafty we're using now doesn't call remove() on components when
+it's entity is destroyed which we need for the following refactor
+** DONE REFACTOR: challenge (bloggable) break TextFragment component up into it's base "components" **skill epic**
+Currently text fragment has some functionality related to holding attack data
+and motion governance. My plan was to pull these out into separate components.
+The problem, however, is that both of these components will need to have 
+cleanup methods for when the entity is removed/destroyed. But what happens when
+two components both have a method named 'cleanup' or 'deallocate' or whatever?
+There will be a collision and one will be overwritten.
+
+After some more research, it looks like crafty's .destroy() method (on entity)
+will unbind all the things so the first action item is to remove most of my
+calls to 'deallocate' and replace them with destroy. Also try to use
+entity.bind('EventName', callback) rather than Crafty.bind and see if there's
+a difference when deallocating/destroying.
+
+The second action item is to find a solution to the deallocate collision 
+problem. I have some possible solutions in mind:
+
+1. Namespace all deallocate methods by the component name itself, for example
+textFragmentDeallocate and textFragmentMovementDeallocate. Then some master
+component for that entity (specifically) can call the requisite deallocates
+2. Set up a deallocator component which registers bindings or more 
+specifically, callbacks to run on deallocation.
+3. Set up event bindings that listen for entity destruction, calling the 
+cleanup callback when that is triggered. The callback can be anonymous, thus
+avoiding the naming collision
+4. The actual solution: Crafty components can define a remove method that
+will be called when the compoenent is removed or the entity is being destroyed.
+
+** DONE Add a tiny bit of delay between monster animation and spawning of fragment
+** DONE Wire up attack animations to the animation specified in the attack object
+For slime npc, there is an animation attribute in each attack, this should pass
+through to the character on attack and degrade gracefully to randomize attack if
+none provided
+** DONE Characters have max hp
+Health bar is rendered as a percentage of max hp
+** DONE REFACTOR: pull out common battle entity behavior into a separate component
+I think there are a few other components which are overloaded with 
+functionality and should be broken up. As part of this, do an audit and create
+additional tasks as necessary.
+** DONE REFACTOR: Consider initializing box2d as part of Crafty's init 
+not part of the scene init
+** DONE REFACTOR: extract text fragment from attack entity
+Occurs to me that a text fragment can be separated from the piece that actually
+flies accross the stage
+** DONE REFACTOR: Remove all convenience methods from NPC entity backbone model
+Calls should only be made on the actual crafty entity
+** DONE BUG: slime sprite is off
+** DONE REFACTOR: ensure all events triggered are CapitalCased
+** DONE Generate a new smaller vocabulary for monsters
+Temporary, since we want to test faster paced action
+** DONE Capture single quotes
+** DONE BUG: Ran into an issue while playing where key input was no longer registering
+Seems to be while typing a fragment that sinks through the ground
+Fixed: problem was there was no border along the floor of the stage
+** DONE Make enemy npc play animation upon their attack
+Player animation behavior doesn't change
+** DONE Add an npc attack that arcs
+Looks like adding box2d might not be the way to go, it doesn't allow for 
+variable speeds. I'm sure I can find some uses for it.
+Design a way to pass optional arguments to positionFunc
+Add randomization so the enemy npc fires attacks of either type
+Fix the force used on the arcing fragment to reach the player
+Add some randomization to the force so it misses some percent of the time
+** DONE Make player hit animations play instantly (no delay)
+** DONE BUG: when 2 fragments begin with the same text and one wins
+This is probably an acceptable bug for now... just need to capture it
+This is probably an acceptable bug for now... just need to capture it
+It appears to skip a character.  For example:
+abcdef
+abcdff
+abcdff
+if you type abcd, all 3 fragments should activate.  As soon as you type f, the
+first fragment should deactivate (go back to 'live') and the 2 final ones 
+should have abcdf as completed, but instead will only have abcd still complete.
+Thought: could this be solved the same as the previous problem, by duping one
+of the arrays?
+** DONE EPIC: Typewar battle evolution
+The (battle) scene initializes the battle manager.
+The battle manager keeps track of the two sides of battle (typically the player
+and opponents). The battle manager has the attack manager module which 
+determines how to generate text fragments based on difficulty level, stat
+differences between the players, etc etc.
+It's also eventually going to keep track of any environmental effects during
+battle.
+
++ (DONE)player/npc.initiateAttackOn should call the battle manager
+  Battle manager then generates options for the text fragment spawner
++ (DONE)player is assigned a number of attacks (the AI will have to know about
+  these)
++ (DONE)player generates attack object from stored attacks.
+  * (DONE)stored attack contains:
+  * (DONE)position func
+  * (DONE)classes func
+  * (DONE)hitbox over time (just constant for now)
++ (DONE)attack object is used to build initial fragment property list
+  * (DONE)player attributes + attack profile = initial fragment prop list
++ (DONE)Fragment is created with a property list
++ (DONE)Fragment's behavior is governed by that property list
+  * (DONE)damage object
+  * (DONE)text
+  * (DONE)position over time
+  * (DONE)classes(css) over time
+  * (DONE)hitbox size over time (shape we don't care for now)
++ (DONE)TextFragmentCompleted event should trigger with the text fragment itself as
+  an option/argument. More specifically, it's attack object
++ (DONE)characters have hitboxes
++ (DONE)Fragment damage is resolved when the fragment's hitbox intersects with the
+  defender's
++ (DONE)enemy attacks damage reduced based on correctness of typing.
+  * What I mean is, If a text fragment is partially typed at the time of impact
+    it should affect the damage dealt/taken.  I believe this already works but
+    must be tested
++ (DONE)enemy attacks that reach the player do damage
++ (DONE)fragments that leave the play field are destroyed
+** DONE Decrase the time between on/off within the flicker
+** DONE BUG: when player dies, it doesn't do the game over screen
+** DONE BUG: player text appears too high on the screen sometimes
+** DONE BUG: when 2 fragments starting with the same text are typed, when one wins
+For example:
+    South Dakota
+    South Carolina
+Once you type 'South ' now you press D, South Carolina deactivates but it won't
+register the D press for south dakota.
+This feature just seems to be broken.
+My ramblings investigating this issue: 
+I've turned off player and npc battle ai so I can manually send text
+fragments through the console.  Using initiateAttackOn() from each of them
+I'll send abcdefg from player and abcdfff from monster.
+I should be able to type a and have both activate but it isn't doing it.
+
+Upon further investigation, it looks like what's happening is the first
+live fragment gets processed (activate). then the event gets triggered
+TextFragmentActivated which in this manager moves it out of the live array
+and into active.  This happens before the second fragment can be processed
+and we're done ?? wait no.. that doesn't sound right.  it should still run
+over the _ .each loop......
+more digging needed
+
+Upon further investigation, what I theorize is happening is that _ .each
+is (may be) doing a traditional for loop, looping over the array until
+the itor is >= array length.  The shuffling of the arrays pushes one
+item out of the live array into the active array so now the length is
+equal to the itor and the loop bails out. I'll need to verify because the
+implementation sets a variable length = obj.length so i'm thinking it 
+shouldn't keep checking object length but instead cache that value
+
+Final investigation, after digging into underscore, it looks like _ .each
+uses native [].forEach if available.  [].forEach will not visit each item
+in the array if the array is modified during execution.
+** DONE Fix the issue with the text fragment width
+The width should probably be set to the length of the string or something
+Might need some javascript to set the width of the text fragment wrapper
+** DONE Create a battle over scene for the winner
+Create a scene manager that handles loading different scenes
+The scene manager lives inside the core engine which handles the logistics of
+setting up and breaking down the various game modes
+** DONE Use a different attack animation from slime (something more visible)
+** DONE Hook up the player character to retrieve data from the server including a vocabulary
+** DONE Don't show incorrect characters, just flash red or something.
+** DONE BUG: Prevent spacebar from scrolling down.
+I want to bundle up all the browser keyboard control overrides.  Do this in the
+same place that I handle backspace override.
+** DONE BUG: Disregard returns
+** DONE Distinguish somehow the difference between player cast text fragments and npc sent ones (appearance)..
+** DONE BUG: when multiple fragments are 'active' deactivate any that get a wrong input
+** DONE Improve the way text fragments display, make them show spaces properly
+** DONE BUG: backspace triggers back in the browser
+** DONE Handle dashes
+** DONE BUG: player/enemy health switches places. Whoever takes more damage appears on the right
+** DONE The player should be able to activate any text fragment by typing.
+Need a text input manager that watches for keyboard inputs and selects the
+correct active fragments.
+  + Handle the case where multiple fragments start with the same word.
+    - I think we'll want to defer this and allow different skills to handle
+    this situation in various ways.
+  + Need to clean up fragments when dead (at least put them in the graveyard)
+  + Ensure the proper arrays get the right fragments placed in them
+** DONE BUG: Enemy name doesn't display
+** DONE BUG: when a fragment that you're currently typing goes off screen, it never releases the keyboard focus (need to unbind)
+On further investigation, my guess was correct: A text fragment had exited the 
+battle area but was not deallocated.  Next experiment, we want to see if a 
+text fragment is correctly being destroyed when it leaves the battle arena.
+Will need to check Typewar.Engine.battlemanager.getAllLiveFragments() and 
+ensure it's size is always equal to the number of fragments we see on screen.
+
+I think I see the problem now.  When a text fragment goes live (enters the 
+live queue), it does not get destroyed when it goes off the screen edge.  Now
+let's trace why this might be.
+
+I believe this bug is fixed but will need to keep an eye out for it because I
+cannot verify this.
+** DONE BUG: there is a bug where the input manager stops accepting inputs.
+Seems to be fixed thanks to the above, but need to keep an eye out for it.
+** DONE Switch to postgres to prepare for heroku deploy
+** DONE Handle capital letters
+** DONE Change player sprite (current one is crap)
+** DONE Removing text fragments from the scene once they hit the edge.  
+Stuck on moving the fragment into the 'graveyard' on the battle manager.  
+Can't seem to find the fragment that comes back from the event.  However, 
+I suspect that the fragment has already been dealt with.. no wait it's 
+not in the graveyard either...  Well, maybe it's still being moved and 
+so the event is getting triggered many times.  Need to check to ensure 
+that the fragment is being deactivated properly.  In fact, perhaps it's
+being more than deactivated, it's being finished, or destroyed 
+or demolished. It should call deactivate, but also should remove the view,
+remove the 2D component, remove bindings, stop calculation of position.
+** DONE Move completed text fragments to the graveyard as well.
+** DONE Remove the 'type me' instruction text from text fragment partials (or make
+them less obtrusive)
+** DONE Add a background.
+** DONE Allow a method of stopping the AI. It would be nice if we could listen for
+the Crafty.pause() call and stop and start automatically.
+** DONE Move the AI to the slime. Extract it out so it's a module I can attach to
+any monster, even swiching out. Perhaps the monster could have several
+behaviors that can be toggled. AI has many behaviors.
+For now, just set the behavior to attack at a constant rate
+** DONE Zoom in on the characters, camera is too far out.
+** DONE Player attacking the monster sends text fragment from the player to the enemy
+** DONE Set up simple AI that manages battle flow
+** DONE Show health status for enemy.
+** DONE Add defend animation and insert appropriately
+** DONE REFACTOR: The player should be triggering attacks on the monster(s).
+Refactor the way attacking and defending works. The text fragments should be
+labeled with attacker and defender and they should resolve separately and
+instructions should be sent to each party.
+There should be a battlecomputer component or module that takes the attacker,
+the defender, and a completed text fragment and does whatever magical math
+and our logic to figure out what happened in that round.
+With this, we can probably ditch the dual spawners on the enemy npc.
+** DONE Make player attack do damage to enemy
+** DONE Attacker and defender should be linked to on each text fragment
+** DONE Text fragments should answer to TextFragment#success() that reports a percent
+of how quickly you typed it.
+** DONE Add second stream of text fragments from enemy (spawner). 
+Player shouldn't swing sword on successful defense. Only attack
+Make sure behavior functions correctly on both parties for attack and def.
+** DONE Add second stream of text fragments from enemy (spawner). 
+Enemy should have two spawners: attack and defense.
+Modify text fragment spawner to be able to pass in options when generating 
+a text fragment. Make text fragments able to accept arguments which affect 
+the way they behave and are displayed.
+** DONE Give the active text fragment z-index > all others
+** DONE Add a sprite for the enemy.
+Add animation for enemy sprite when hit.
+Add animation for when they attack
+** DONE Add hit points to enemy
+** DONE Move the enemy (in the scene) to the right a bit.
+** DONE Keep track of the current (active) fragment.  Maybe there should be an
+active pointer/instance var.
+** DONE When a spawner generates a new fragment, ensure that it doesn't get
+activated if another fragment is already active
+** DONE When a fragment is completed, if there is another live fragment, activate
+the next one in the array.
+** DONE Finish the first draft of the text fragment component
