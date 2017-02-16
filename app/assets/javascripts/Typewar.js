@@ -1,5 +1,3 @@
-// TODO: wrap this in a closure
-
 Typewar.Engine = {Managers: {}};
 Typewar.Data = {Skills: {}, Scenes: {}};
 Typewar.Views = {};
