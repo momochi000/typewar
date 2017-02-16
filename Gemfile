@@ -14,6 +14,7 @@ gem 'pg'
 gem 'rails-backbone'
 gem "therubyracer"
 gem 'thin'
+gem 'webpacker', github: 'rails/webpacker'
 
 group :development do
   gem 'pry-rails'
