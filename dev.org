@@ -1,6 +1,12 @@
 * Current
-** TODO Get the game working again
+** TODO Use webpack (via webpacker)
+*** DONE Install webpacker
+    CLOSED: [2017-02-15 Wed 16:54]
+*** DONE Setup until webpack dev server runs
+    CLOSED: [2017-02-15 Wed 16:54]
+*** TODO Get es6 working
 * Backlog
+** TODO Get the game working again
 ** TODO Abandon dynamic skill adjustment
    Still want to do things like capture player stats (wpm, error avg, etc)
 ** TODO Adjust difficulty
@@ -193,6 +199,8 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Upgrade to Rails 5
+   CLOSED: [2017-02-15 Wed 16:52]
 ** DONE Design system to adjust game difficulty based on WPM argument
 + (DONE)Add difficulty scale/multiplier to skill (component)
 + REFACTOR:(DONE) pull position func out of skill attributes and make it a function
