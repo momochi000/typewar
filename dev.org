@@ -1,10 +1,5 @@
 * Current
-** TODO Use webpack (via webpacker)
-*** DONE Install webpacker
-    CLOSED: [2017-02-15 Wed 16:54]
-*** DONE Setup until webpack dev server runs
-    CLOSED: [2017-02-15 Wed 16:54]
-*** TODO Get es6 working
+** TODO Get game code refactored over to webpack
 * Backlog
 ** TODO Get the game working again
 ** TODO Abandon dynamic skill adjustment
@@ -12,6 +7,9 @@
 ** TODO Adjust difficulty
    The way it was when I could barely beat it.
 * Roadmap
+** TODO Change templating engine
+   Move away from Backbone
+** TODO Remove backbone
 ** TODO All events should follow a consistent style (see backbone) :refactor:
 ** TODO Make component file names match component names :refactor: 
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
@@ -199,6 +197,14 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Use webpack (via webpacker)
+   CLOSED: [2017-02-15 Wed 17:24]
+*** DONE Install webpacker
+    CLOSED: [2017-02-15 Wed 16:54]
+*** DONE Setup until webpack dev server runs
+    CLOSED: [2017-02-15 Wed 16:54]
+*** DONE Get es6 working
+    CLOSED: [2017-02-15 Wed 17:24]
 ** DONE Upgrade to Rails 5
    CLOSED: [2017-02-15 Wed 16:52]
 ** DONE Design system to adjust game difficulty based on WPM argument
