@@ -1,5 +1,18 @@
 * Current
 ** TODO Get game code refactored over to webpack
+*** TODO Reasses basic structure of app
+*** TODO Figure out how to organize code using es6 structures
+*** TODO Get crafty working
+    Maybe crafty can be served from asset pipeline via vendor/assets/javascripts
+*** TODO Move over basic functionality (start the game)
+*** TODO Display the background
+*** TODO Load the engine
+*** TODO Load the player
+*** TODO load keyboard bindings
+*** TODO Load the NPC (without any ai or action)
+*** TODO Fire a single text fragment
+*** TODO Setup box2d
+*** TODO Fix AI to fire text fragments continuously
 * Backlog
 ** TODO Get the game working again
 ** TODO Abandon dynamic skill adjustment
