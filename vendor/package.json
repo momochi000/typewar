@@ -11,5 +11,9 @@
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",
     "webpack-merge": "^2.6.1"
+  },
+  "dependencies": {
+    "expose-loader": "^0.7.3",
+    "jquery": "^3.1.1"
   }
 }
