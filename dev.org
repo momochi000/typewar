@@ -1,8 +1,11 @@
 * Current
 ** TODO Get game code refactored over to webpack
-*** TODO Reasses basic structure of app
-*** TODO Figure out how to organize code using es6 structures
-*** TODO Get crafty working
+*** DONE Reasses basic structure of app
+    CLOSED: [2017-02-16 Thu 18:18]
+*** DONE Figure out how to organize code using es6 structures
+    CLOSED: [2017-02-16 Thu 18:18]
+*** DONE Get crafty working
+    CLOSED: [2017-02-16 Thu 18:18]
     Maybe crafty can be served from asset pipeline via vendor/assets/javascripts
 *** TODO Move over basic functionality (start the game)
 *** TODO Display the background

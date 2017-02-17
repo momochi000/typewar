@@ -1,7 +1,10 @@
 import TypewarMain from './typewar/typewar_main'
-
-console.log("DEBUG: Loading Typewar entry point ");
+require("expose-loader?$!expose-loader?jQuery!jquery");
 
 window.onload = (evt) => {
-  new TypewarMain();
+  var $typewar_container;
+
+  $typewar_container = $("[data-typewar-container]")
+  if($typewar_container.length != 1){ return; }
+  new TypewarMain($typewar_container[0]);
 };

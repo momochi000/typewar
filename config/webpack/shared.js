@@ -46,7 +46,8 @@ module.exports = {
     extensions: [ '.js', '.coffee' ],
     modules: [
       path.resolve('../app/javascript'),
-      path.resolve('../vendor/node_modules')
+      path.resolve('../vendor/node_modules'),
+      path.resolve('../vendor/assets/javascripts')
     ]
   },
 
