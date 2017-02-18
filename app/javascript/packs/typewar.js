@@ -1,5 +1,7 @@
 import TypewarMain from './typewar/typewar_main'
 require("expose-loader?$!expose-loader?jQuery!jquery");
+require("expose-loader?_!lodash");
+
 
 window.onload = (evt) => {
   var $typewar_container;

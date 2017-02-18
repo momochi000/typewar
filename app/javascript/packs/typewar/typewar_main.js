@@ -1,3 +1,4 @@
+import GameManager from "./managers/game_manager"
 require('crafty');
 
 export default class TypewarMain {
@@ -14,10 +15,9 @@ export default class TypewarMain {
     this._setupContainer();
     this._initCrafty();
     //_initBox2d();
-    //_initSceneManager();
-    //_initGameManager();
+    this._initManagers();
 
-    //Typewar.Engine.gamemanager.start();
+    this.managers.gameManager.start();
   }
 
   _initBox2d(){
@@ -33,15 +33,12 @@ export default class TypewarMain {
     Crafty.init(this.viewportWidth, this.viewportHeight);
     Crafty.viewport.init(this.viewportWidth, this.viewportHeight);
     Crafty.background("blue");
-  };
-
-  _initGameManager(){
-    Typewar.Engine.gamemanager = new GameManager();
   }
 
-  _initSceneManager(){
-    Typewar.Engine.scenemanager = new SceneManager();
-  };
+  _initManagers(){
+    this.managers = {};
+    this.managers.gameManager = new GameManager(this.managers.sceneManager);
+  }
 
   _setupContainer(){
     switch(this.options.containerSize){
