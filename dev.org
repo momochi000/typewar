@@ -7,9 +7,15 @@
 *** DONE Get crafty working
     CLOSED: [2017-02-16 Thu 18:18]
     Maybe crafty can be served from asset pipeline via vendor/assets/javascripts
-*** TODO Move over basic functionality (start the game)
-*** TODO Display the background
+*** DONE Move over basic functionality (start the game)
+    CLOSED: [2017-02-17 Fri 18:44]
+*** DONE Display the background
+    CLOSED: [2017-02-17 Fri 18:44]
 *** TODO Load the engine
+**** TODO Load the battle manager
+**** TODO Load the input manager
+**** TODO Ensure input manager is processing input
+**** TODO Load the thing that creates text fragments
 *** TODO Load the player
 *** TODO load keyboard bindings
 *** TODO Load the NPC (without any ai or action)
