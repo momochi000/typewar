@@ -38,6 +38,16 @@ export default class ProtoBattleScene {
       //      self.initAudio();
       self.initStageEdges();
       self.initCamera();
+
+
+      // GET STARTED HERE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      // Load any additional assets
+      // Register the system processing function
+      Crafty.
+
+
+
+      
       self.initBattleManager();
 
       self.initCombatants().then(function (response){

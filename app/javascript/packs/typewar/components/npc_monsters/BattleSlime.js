@@ -8,7 +8,6 @@ Crafty.c("BattleSlime", {
   battleSlime: function (){ },
   initDefaultSkills: function (){
     this.addComponent("NPCSkillManager").
-      //      nPCSkillManager(["SlimeStandard", "SlimeGlob"]);
-      nPCSkillManager(["SlimeStandard"]);
+      nPCSkillManager(["SlimeStandard", "SlimeGlob"]);
   }
 });
