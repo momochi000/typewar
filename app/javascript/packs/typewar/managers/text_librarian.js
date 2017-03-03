@@ -3,18 +3,11 @@
  * difficulty and length
  */
 
+const MIN_LIB_RESULT_SIZE = 10;
 
-Typewar.Util.TextLibrarian = ( function (_){
-  var retrieve,
-  // private methods
-    getTextFromLibrary, filterDifficulty, filterLength, obtainNextBestFit,
-    findNearestSegments,
-  // Constants
-    MIN_LIB_RESULT_SIZE;
+export default class TextLibrarian {
 
-  MIN_LIB_RESULT_SIZE = 10;
-
-  retrieve = function (library, options){
+  static retrieve(library, options){
     var found_text_segments;
 
     if(!library){ throw "ERROR: TextLibrarian.retrieve called without a text library"; }
@@ -26,25 +19,25 @@ Typewar.Util.TextLibrarian = ( function (_){
     options["min_length"]       = options["min_length"]         || null;
     options["max_length"]       = options["max_length"]         || null;
 
-    return getTextFromLibrary(library, options);
-  };
+    return this.getTextFromLibrary(library, options);
+  }
 
   // private 
 
-  getTextFromLibrary = function (library, options){
+  static getTextFromLibrary(library, options){
     var output;
 
-    output = filterLength(library, options);
-    output = filterDifficulty(output, options);
+    output = this.filterLength(library, options);
+    output = this.filterDifficulty(output, options);
 
 
     if(output.length < MIN_LIB_RESULT_SIZE){
-      output = obtainNextBestFit(library, options);
+      output = this.obtainNextBestFit(library, options);
     }
     return _.sample(output).text;
-  };
+  }
 
-  filterDifficulty = function (library, options){
+  static filterDifficulty(library, options){
     var min_diff, max_diff;
 
     min_diff = options.min_difficulty;
@@ -59,9 +52,9 @@ Typewar.Util.TextLibrarian = ( function (_){
         curr_item.difficulty <= max_diff
       );
     });
-  };
+  }
 
-  filterLength = function (library, options){
+  static filterLength(library, options){
     var min_length, max_length;
 
     min_length = options.min_length;
@@ -77,10 +70,10 @@ Typewar.Util.TextLibrarian = ( function (_){
         curr_item.length <= max_length
       );
     });
-  };
+  }
 
   // Assumes a sorted library of text segments
-  findNearestSegments = function (library, num_to_find){
+  static findNearestSegments(library, num_to_find){
     var closest_match, output, itor, local_lib;
 
     output = [];
@@ -88,7 +81,7 @@ Typewar.Util.TextLibrarian = ( function (_){
     if(local_lib.length <= MIN_LIB_RESULT_SIZE){
       return local_lib;
     }
-    closest_match = binarySearchLibrary(local_lib, num_to_find, 0, local_lib.length-1, null);
+    closest_match = this.binarySearchLibrary(local_lib, num_to_find, 0, local_lib.length-1, null);
 
     for(itor = 0; output.length < MIN_LIB_RESULT_SIZE; itor++){
       if(!closest_match || closest_match < 0){ throw "ERROR: " };
@@ -101,10 +94,10 @@ Typewar.Util.TextLibrarian = ( function (_){
     }
 
     return output;
-  };
+  }
 
-  binarySearchLibrary = function (library, target, min_idx, max_idx, prev_idx){
-    var next_val, next_idx, prev_val, next_val_dist_from_target, next_try_idx;
+  static binarySearchLibrary(library, target, min_idx, max_idx, prev_idx){
+    var min_val, max_val, next_val, next_idx, prev_val, next_val_dist_from_target, next_try_idx, prev_val_dist_from_target, next_val_dist_from_target;
 
     if(!library || library.length === 0){
       throw "ERROR: binarySearchLibrary called without a valid library";
@@ -136,47 +129,47 @@ Typewar.Util.TextLibrarian = ( function (_){
 
     if(!prev_val) { // We're on the first call to this recursive, so go ahead and try again
       if(next_val.length > target) { 
-        return binarySearchLibrary(library, target, min_idx, next_idx, next_idx);
+        return this.binarySearchLibrary(library, target, min_idx, next_idx, next_idx);
       }else if(next_val.length < target) {
-        return binarySearchLibrary(library, target, next_idx, max_idx, next_idx);
+        return this.binarySearchLibrary(library, target, next_idx, max_idx, next_idx);
       }else{
         throw "Error: Comparison of current search value with target failed";
       }
     }
 
     // If the previous value is closer to the target than the current value, return the previous
-    next_val_dist_from_target = distanceFromTarget(next_val, target);
-    prev_val_dist_from_target = distanceFromTarget(prev_val, target);
+    next_val_dist_from_target = this.distanceFromTarget(next_val, target);
+    prev_val_dist_from_target = this.distanceFromTarget(prev_val, target);
     if(next_val_dist_from_target >= prev_val_dist_from_target) { return prev_idx; }
 
     if(max_idx === min_idx || max_idx === min_idx+1) { return prev_idx; }
 
     // Base case
     if(next_val.length > target) { 
-      return binarySearchLibrary(library, target, min_idx, next_idx, next_idx);
+      return this.binarySearchLibrary(library, target, min_idx, next_idx, next_idx);
     }else if(next_val.length < target) {
-      return binarySearchLibrary(library, target, next_idx, max_idx, next_idx);
+      return this.binarySearchLibrary(library, target, next_idx, max_idx, next_idx);
     }else{
       throw "Error: Comparison of current search value with target failed";
     }
-  };
+  }
 
-  distanceFromTarget = function (current, target){
+  static distanceFromTarget(current, target){
     return (target.length - target);
   }
 
-  obtainNextBestFit = function (library, options){
+  static obtainNextBestFit(library, options){
     var output;
 
     output = _.sortBy(library, "difficulty");
     output = _.sortBy(output, "length");
-    return findNearestSegments(output, MIN_LIB_RESULT_SIZE);
-  };
+    return this.findNearestSegments(output, MIN_LIB_RESULT_SIZE);
+  }
 
-  return {
-     binarySearchLibrary: binarySearchLibrary,
-     findNearestSegments: findNearestSegments,
-       obtainNextBestFit: obtainNextBestFit,
-                retrieve: retrieve,
-  };
-})(_);
+  //return {
+  //   binarySearchLibrary: binarySearchLibrary,
+  //   findNearestSegments: findNearestSegments,
+  //     obtainNextBestFit: obtainNextBestFit,
+  //              retrieve: retrieve,
+  //};
+}

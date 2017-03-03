@@ -1,9 +1,16 @@
 // TODO: need to re set up the fragment spawner later when we want
 // some skills to kick out fragments
 
+import Backbone from "backbone"
+import TextLibrarian from "../managers/text_librarian"
+
 require('crafty');
 
-Typewar.Views.BattleSkillView = Backbone.View.extend({
+var Handlebars = require('handlebars');
+var StateMachine = require("javascript-state-machine");
+require("./TextFragmentComponent");
+
+var BattleSkillView = Backbone.View.extend({
   tagName: "div",
   className: "battle-skill",
   _template_id: "#battle_skill_template",
@@ -13,14 +20,15 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
     this.entity = opts.entity;
     this.text_fragment = opts.text_fragment;
     this.id = 'battle-skill-'+this.entity[0];
+    this._template = Handlebars.compile($(this._template_id).html());
   },
 
   render: function (opts){
-    var view_opts;
+    var html, view_opts;
 
     view_opts = this._buildViewOptions(opts);
-    var template = _.template($(this._template_id).html(), view_opts);
-    this.$el.html(template);
+    html = this._template(view_opts);
+    this.$el.html(html);
     return this.$el.html();
   },
 
@@ -60,6 +68,8 @@ Typewar.Views.BattleSkillView = Backbone.View.extend({
     return this._defaultTextFragmentOptions();
   }
 });
+
+
 
 Crafty.c("BattleSkill", {
   skill: null,
@@ -109,7 +119,8 @@ Crafty.c("BattleSkill", {
   },
 
   render: function (){
-    if(this._view){ this._view.render(); }
+    if(!this._view){ return; }
+    this._view.render();
   },
 
   skillSlotNum: function (){
@@ -126,7 +137,6 @@ Crafty.c("BattleSkill", {
       }
       return true;
     }else{
-      //console.log("DEBUG: incorrect input");
       return false;
     }
   },
@@ -194,21 +204,11 @@ Crafty.c("BattleSkill", {
   _getTextFromVocabulary: function (opts){
     var txt;
 
-    opts  = opts || {};
-    if(Typewar.Engine.battlemanager){
-      txt = Typewar.Engine.battlemanager.prepareSkill({
-        attacker: this._entity,
-        defender: this._entity.getTarget(),
-        skill: this.skill
-      });
-    }else{
-      txt = this._makeRandomString();
-    }
-    return txt
+    return TextLibrarian.retrieve(this._entity.getVocabulary(), this.skill.textOptions);
   },
 
   _initializeView: function (){
-    this._view = new Typewar.Views.BattleSkillView({entity: this, text_fragment: this.text_fragment});
+    this._view = new BattleSkillView({entity: this, text_fragment: this.text_fragment});
   },
 
   _makeRandomString: function (){
@@ -242,6 +242,7 @@ Crafty.c("BattleSkill", {
       ],
       callbacks: { 
         onbeforeinitialize:    function (event, from, to){
+          console.log("DEBUG: BattleSkillComponent state machine onbeforeinitialize.  We need to be getting here");
           self._generateTextFragment();
           self._view.setTextFragment(self.text_fragment);
           self._bindRedrawOnTextFragmentUpdate();

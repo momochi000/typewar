@@ -13,7 +13,6 @@
 //= require jquery2
 //= require jquery_ujs
 //= require bootstrap
-//= require state-machine
 //= require underscore-min
 //= require underscore_config
 //= require underscore.mixin.deepExtend

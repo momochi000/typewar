@@ -2,22 +2,29 @@
 /* There's a potential bug here where two fragments get created with
  * the same DOM id because our unique id generator is pretty garbage
  */
+
+import Backbone from "backbone"
+
 require('crafty');
+
+var Handlebars = require("handlebars");
 
 var TextFragmentView = Backbone.View.extend({
   tagName: 'div',
   className: 'text-fragment',
-  _template_id: "#text_fragment_template",
+  _templateId: "#text_fragment_template",
+  initialize: function (options){
+    this.options = options;
+    this._template = Handlebars.compile($(this._templateId).html());
+  },
   render: function (opts){
-    if(!this.id) { 
-      this.id = this._generateUniqueId(); 
-    }
-    if(!_.any($(this.id))){
-      this.$el.html(_.template($(this._template_id).html(), opts));
-      if(this.options.entity_id) {
-        $("#"+this.options.entity_id).append(this.el);
-      } else {
-        $('body').append(this.el);
+    if(!this.id) { this.id = this._generateUniqueId(); }
+
+    opts.activeClass = opts.active ? 'active' : 'inactive'
+    if($(this.id).length === 0){
+      this.$el.html(this._template(opts));
+      if(this.options.entityId) {
+        $("#"+this.options.entityId).append(this.$el);
       }
     }
   },
@@ -72,7 +79,7 @@ Crafty.c("TextFragmentDisplay", {
 
   drawSelf: function (){
     if(!this._view) { 
-      this._view = new TextFragmentView({entity_id: this.getDomId()});
+      this._view = new TextFragmentView({entityId: this.getDomId()});
     }
     if(!this.is_complete) {
       // TODO: refactor this to use getTextStatus
@@ -80,7 +87,7 @@ Crafty.c("TextFragmentDisplay", {
                          typed: this._correct_characters, 
                          missed: this._incorrect_characters, 
                          rest: this._text.slice(this._current_position),
-                         classes: this._getClassesForDom()});
+                         cssClasses: this._getClassesForDom()});
     } else {
       // TODO: Render completed text fragments differently
       //  For now, just dont' render completed ones

@@ -2,18 +2,19 @@
  * Contains some additional logic to control skill cooldowns
  * Is meant to be expanded when necessary to include additional functionality
  */
-require('crafty');
+require("crafty");
+var StateMachine = require("javascript-state-machine");
 
 Crafty.c("NPCSkill", {
   init: function (){ 
     this.skill = null;
   },
 
-  nPCSkill: function (skill_id, difficulty){
-    if(!skill_id) {
+  nPCSkill: function (skill, difficulty){
+    if(!skill) {
       throw "ERROR: attempting to initialize NPCSkill component without any skill data";
     }
-    this._initSkill(skill_id, difficulty);
+    this._initSkill(skill, difficulty);
     this._setupStateMachine();
     return this;
   },
@@ -43,8 +44,8 @@ Crafty.c("NPCSkill", {
     }, this.getSkillData().cooldown);
   },
 
-  _initSkill: function (skill_id, difficulty){
-    this.skill = new Typewar.Data.Skills[skill_id]({difficulty: (difficulty || 1)});
+  _initSkill: function (skill, difficulty){
+    this.skill = new skill({difficulty: (difficulty || 1)});
   },
 
   _setupStateMachine: function (){

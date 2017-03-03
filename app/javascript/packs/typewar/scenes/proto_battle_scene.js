@@ -1,8 +1,17 @@
 import Sprite from "../assets/sprite"
 import Background from "../assets/background"
 import BattleManager from "../managers/battle_manager"
+import BattleInputManager from "../managers/battle_input_manager"
+import StatusBarView from "../views/status_bar_view"
 
 require("../components/BattleBackgroundComponent");
+require("../components/BattleStatusView");
+require("../components/characters/battle/BattleCharacterComponent");
+require("../components/characters/battle/BattlePlayerComponent");
+require("../components/animations/BattlePlayerZeroAnimation");
+require("../components/characters/battle/BattleNPCEnemyComponent");
+require("../components/animations/BattleSlimeAnimation");
+require("../components/brains/NPCBrainComponent");
 
 const STAGE_EDGE_BORDER_WIDTH = 9000;
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = -80;
@@ -31,34 +40,17 @@ export default class ProtoBattleScene {
       self.initCamera();
       self.initBattleManager();
 
-      // LEFT OFF 2 ------------------------------------------------------------
-      // ----------------------------------------------------------------------
-      //   Let's reexamine if there is really a need to put these in promises.
-      //   It's really hightened the complexity and I'm not sure if it's necessary
-      //
-      //   From what I remember, I put it there because the player and npc data
-      //   could (or would) come from the server, and so the game would need to
-      //   wait for that to continue loading other things or else it would break.
-      //
-      //   Perhaps web workers could facilitate this...
-      //   What might be better is a loader module (BattleLoadingScene?) that
-      //   kicks off background workers which load all the necessary systems and
-      //   assets, keeping track of their status.  When they're all green, then
-      //   the loader is done and hands off it's data over to the battle manager
-      //
-      //   Another thing to think about is to place all data into some top level
-      //   store similar to the way flux handles it's store.
-      // ----------------------------------------------------------------------
-      // ----------------------------------------------------------------------
-      //      self.initCombatants().then(function (response){
-      //        self.initUI();
-      //        self.activateBattleAI();
-      //        self.initInputManager();
-      //      }, function (error){
-      //        throw new Error(error);
-      //        alert('bail');
-      //      }).catch( function (error){
-      //      });
+      self.initCombatants().then(function (response){
+        console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
+        self.initUI();
+        self.activateBattleAI();
+        self.initInputManager();
+      }, function (error){
+        throw new Error(error);
+        alert('Failed to initialize combatants for some reason..');
+      }).catch( function (error){
+        console.log("DEBUG: ERROR IN PROMISE GROUP~~~~~~~---->", error);
+      });
     });
   }
 
@@ -67,7 +59,7 @@ export default class ProtoBattleScene {
   }
 
   activateBattleAI(){
-    Typewar.Engine.battlemanager._setupBattleAI();
+    this._battleManager._setupBattleAI();
   }
 
   deallocateBattleManager(){
@@ -101,7 +93,7 @@ export default class ProtoBattleScene {
   }
 
   deallocateStatusBar(){
-    this._statusBar.deallocate();
+    throw new Error("Not implmemented error");
   }
 
   initAudio(){
@@ -135,33 +127,33 @@ export default class ProtoBattleScene {
 
     self = this;
 
-    return new Promise( function (fulfill, reject){
-      self.initPC().then( function (pc_entity) {
+    return new Promise( (fulfill, reject) => {
+      self.initPC().then((pc_entity) => {
         player = pc_entity;
         return self.initEnemyNPC();
-      }, function (error){
+      }, (error) => {
         console.log("ERROR: there was an error initializing the player character", error);
-      }).then( function (npc_entity) {
+      }).then((npc_entity) => {
         enemy_npc = npc_entity;
-        this._combatants = {player: player, enemies: [enemy_npc]};
+        self._combatants = {player: player, enemies: [enemy_npc]};
         self._addCombatantsToBattleManager();
         fulfill();
-      }, function (error){
+      }, (error) => {
         console.log("ERROR: there was an error initializing the npc", error);
-      }).catch( function (error){
+      }).catch( (error) => {
         console.log("ERROR: there was an error initializing the player or NPC and adding them to the battle manager", error);
       });
     });
   }
 
   initEnemyNPC(){
-    var enemy_entity;
+    var enemy_entity, promise;
     //return new NPCEntity();
 
-     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleSlime")
+     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleSlime")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
-      .battleNPCEnemy()
+      .battleNPCEnemy(null, this._battleManager)
       .battleSlimeAnim()
       .battleStatus()
       .nPCBrain()
@@ -169,21 +161,20 @@ export default class ProtoBattleScene {
 
     promise = enemy_entity.getFromServer();
 
-    promise.then( function (){
-      enemy_entity._setupBattleNPCSkills();
+    return promise.then( () => {
+      enemy_entity.setupBattleNPCSkills(); // TODO SMELLY, this is calling a private function.  Let's make this better
+      return enemy_entity;
     });
-
-    return promise;
   }
 
   initInputManager(){
-    Typewar.Engine.inputmanager = new Typewar.Models.BattleInputManager;
+    this._inputManager = new BattleInputManager(this._battleManager);
   }
 
   initPC(){
     var pc_ent, pc_model, promise;
 
-    pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus")
+    pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus");
     pc_ent.attr({ x: 20, y: 180 })
       .battlePlayerZeroAnim()
       .battleCharacter()
@@ -191,8 +182,7 @@ export default class ProtoBattleScene {
       .battleStatus()
       .collision([0,0],[60,0],[60,120],[0,120]);
 
-    promise = pc_ent.getFromServer();
-    return promise;
+    return pc_ent.getFromServer();
   }
 
   initSkillManager(){
@@ -233,10 +223,10 @@ export default class ProtoBattleScene {
 
     player = this._combatants.player;
     enemy = this._combatants.enemies[0];
-    statusBar = new Typewar.Views.StatusBarView();
+    statusBar = new StatusBarView();
+    statusBar.insertChild(player.statusView);
+    statusBar.insertChild(enemy.statusView);
     statusBar.render();
-    statusBar.addEntity(player);
-    statusBar.addEntity(enemy);
     this._statusBar = statusBar;
   }
 

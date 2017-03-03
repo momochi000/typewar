@@ -1,6 +1,10 @@
+/* TODO everything wrong here, the file name doesn't correspond to the view
+ * name nor the component name. The view should also be split into its own file
+*/
+import Backbone from 'backbone'
 require('crafty');
 
-Typewar.Views.EntityStatusView = Backbone.View.extend({
+var EntityStatusView = Backbone.View.extend({
   tagName: 'div',
   className: 'entity-status',
   _templateId: '#entity-status-template',
@@ -24,7 +28,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
     _.extend(opts, input_opts);
 
     this.$el.html(_.template($(this._templateId).html(), opts));
-    return this;
+    return this.$el;
   },
 
   deallocate: function (){
@@ -34,10 +38,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
 
   getModeIcon: function (){
     // Return the appropriate icon for attack or defense etc.
-    var curr_mode;
-
-    curr_mode = this.entity.getStance();
-    switch(curr_mode){
+    switch(this.entity.getStance()){
       case "offense":
         return "assets/Typewar/icons/crossed-swords.svg"
         break;
@@ -71,7 +72,7 @@ Typewar.Views.EntityStatusView = Backbone.View.extend({
 Crafty.c("BattleStatus", {
   init: function(){ this.requires("BattleCharacter"); },
   battleStatus: function (){
-    this.status_view = new Typewar.Views.EntityStatusView({entity: this, id: 'entity-status-'+this[0]});
+    this.statusView = new EntityStatusView({entity: this, id: 'entity-status-'+this[0]});
     this._bindRerenderViewOnStatusUpdate();
     return this;
   },
@@ -85,7 +86,7 @@ Crafty.c("BattleStatus", {
       percentHP: this.getPercentHP()
     };
 
-    this.status_view.render(view_opts);
+    this.statusView.render(view_opts);
   },
 
   // private

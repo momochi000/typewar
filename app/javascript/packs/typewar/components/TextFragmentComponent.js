@@ -9,6 +9,8 @@
  *   Completed
  */
 
+import TextFragment from "../entities/text_fragment"
+
 require('crafty');
 
 Crafty.c("TextFragment", {
@@ -24,7 +26,7 @@ Crafty.c("TextFragment", {
 
   textFragment: function (opts){
     this._text = opts.text;
-    this._backbone_model = new TextFragmentModel({entity: this}); // TODO: Marked for deletion
+    this._backbone_model = new TextFragment({entity: this}); // TODO: Marked for deletion
     return this;
   },
 
@@ -120,9 +122,17 @@ Crafty.c("TextFragment", {
    * return true if the input was correct else false
    */
   takeInput: function (chr){
-    //console.log("DEBUG: in text fragment component, comparing input...");
-    //console.log("DEBUG: next char ---> " + this._text[this._current_position] );
-    //console.log("DEBUG: char arg ----> " + chr);
+    console.log("DEBUG: in text fragment component, comparing input...");
+    console.log("DEBUG: next char ---> " + this._text[this._current_position] );
+    console.log("DEBUG: char arg ----> " + chr);
+
+    // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // it looks like this is pretty buggy. the next text fragment was reporting that input
+    // was undefined. After the first text fragment was correctly typed
+    //
+    //
+    // Now might be the time that i start refactoring into the new ECS system
+
     if(this._text[this._current_position] == chr){
       this._correctInput();
       this._checkForCompletion();

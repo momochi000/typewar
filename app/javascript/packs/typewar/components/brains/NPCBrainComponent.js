@@ -53,7 +53,7 @@ Crafty.c("NPCBrain", {
       if(self._is_active){
         self._aiCycle();
       }
-    }, 1000);
+    }, 5000);
   },
 
   _unbindAIOnPause: function (){

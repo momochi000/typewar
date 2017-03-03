@@ -1,3 +1,5 @@
+import AttackObject from "../models/attack_object";
+
 require('crafty');
 
 Crafty.c("BattleNPCAttack", {
@@ -6,7 +8,6 @@ Crafty.c("BattleNPCAttack", {
 
   init: function (){
     this.requires("2D, DOM, Collision");
-    this._ATTACK_OBJECT_GENERATOR = Typewar.Models.AttackObject;
   },
 
   battleNPCAttack: function (opts){
@@ -75,7 +76,7 @@ Crafty.c("BattleNPCAttack", {
   },
 
   _generateAttackObject: function (){
-    return this._ATTACK_OBJECT_GENERATOR.create({
+    return new AttackObject({
       properties: this._attack_properties.properties,
       target: this.defender,
       attacker: this.attacker,

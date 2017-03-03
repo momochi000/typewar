@@ -7,6 +7,6 @@ module BackboneHelper
   private
 
   def get_all_backbone_templates
-    Dir[File.join(%w(app views backbone_templates ** *.html*))]
+    Dir[File.join(%w(app views handlebars_templates ** *.html*))]
   end
 end

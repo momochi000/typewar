@@ -3,15 +3,15 @@
 require('crafty');
 
 Crafty.c("BattleCharacter", {
-  char_sheet: null,
-  _backbone_model: null,
+  charSheet: null,
+  _model: null,
 
   init: function (){
     this.requires("2D");
   },
 
-  battleCharacter: function (char_sheet){
-    this.char_sheet = char_sheet;
+  battleCharacter: function (charSheet){
+    this.charSheet = charSheet;
     this.z = 5;
 
     return this;
@@ -21,21 +21,20 @@ Crafty.c("BattleCharacter", {
     this.z = -9999;
   },
 
-  getStatus: function (attribute){
-    if(!attribute){ return this.char_sheet.get("status"); }
-    return this.char_sheet.get("status")[attribute];
+  getStatus: function (){
+    return this.charSheet.data.status;
   },
 
   getName: function (){
-    return this.char_sheet.get("name");
+    return this.charSheet.data.name;
   },
 
   getVocabulary: function (){
-    return this.char_sheet.get("vocabulary");
+    return this.charSheet.data.vocabulary;
   },
 
   getPercentHP: function (){
-    return 100 * (this.getStatus('hp') / this.getStatus('max_hp'));
+    return 100 * (this.getStatus().hp / this.getStatus().maxHp);
   },
 
   takeDamage: function(damage) {
@@ -43,7 +42,7 @@ Crafty.c("BattleCharacter", {
 
     char_status = this.getStatus();
     char_status.hp = char_status.hp - damage;
-    this.char_sheet.set({status: char_status});
+    this.charSheet.data.status = char_status;
     this.updateStatus();
     if(char_status.hp <= 0){ this.die(); }
     char_status = null;

@@ -8,16 +8,19 @@
  * their respective models.
  */
 
-// TODO: REFACTOR -> use package manager to install this
+import TextLibrarian from "./text_librarian"
 var StateMachine = require("javascript-state-machine");
+
 export default class BattleManager {
   constructor(){
+    console.log("DEBUG: BEGIN initializing BattleManager");
     this._activeTextFragments = [];
     this._fragmentGraveyard = [];
     this._liveTextFragments = [];
 
     this._setupModeFSM();
     this._bindEventListeners();
+    console.log("DEBUG: DONE initializing BattleManager");
   }
 
   calculateDamage(opts) { // Stub for now, should eventually do some math
@@ -53,8 +56,8 @@ export default class BattleManager {
    * text fragment appropriately before sending it flying.
    */
   handleAttack(options){
-    var attacker, defender, attack, 
-      text_frag_options;
+    var attacker, defender, attack, skill,
+      text_frag_options, next_text;
 
     if(!options.attacker){throw new Error("BattleManager: handleAttack called with no attacker");}
     if(!options.defender){throw new Error("BattleManager: handleAttack called with no defender");}
@@ -74,13 +77,13 @@ export default class BattleManager {
 
     // this.BattleAnalyzer.analyze(attacker, defender, environment);
 
-    text_frag_options = _.deepClone(skill);
+    text_frag_options = _.cloneDeep(skill);
     text_frag_options.attacker = attacker;
     text_frag_options.defender = defender;
     // For now just grab a random word, later we'll need to select text based
     // on some properties of the attack
    
-    next_text = this._getWordFromVocabulary(attacker.getVocabulary(), text_frag_options.text_options);
+    next_text = this._getWordFromVocabulary(attacker.getVocabulary(), text_frag_options.textOptions);
     if(next_text) {text_frag_options.text = next_text;}
     if(this._isSide1(attacker)) {
       text_frag_options.direction = 1;
@@ -133,11 +136,11 @@ export default class BattleManager {
     // defender = options.defender; // currently not used, but maybe later..?
     skill = options.skill; 
 
-    return this._getWordFromVocabulary(attacker.getVocabulary(), skill.text_options);
+    return this._getWordFromVocabulary(attacker.getVocabulary(), skill.textOptions);
   }
 
   registerEnemies(entities){
-    this.set("side2", entities);
+    this._side2 = entities;
   }
 
   /* Takes a fragment and keeps a reference to it within the manager */
@@ -146,7 +149,7 @@ export default class BattleManager {
   }
 
   registerPlayer(entity){
-    this.set("side1", [entity]);
+    this._side1 = [entity];
   }
 
   resolveAttack(attack_object){
@@ -241,14 +244,14 @@ export default class BattleManager {
   }
 
   _getPlayerEntity(){
-    return this.get("side1")[0];
+    return this._side1[0];
   }
 
   _getWordFromVocabulary(vocab, options){
     var output;
     options = options || {};
 
-    output = Typewar.Util.TextLibrarian.retrieve(vocab, options);
+    output = TextLibrarian.retrieve(vocab, options);
     return output;
   }
 
@@ -266,11 +269,11 @@ export default class BattleManager {
 
   _isSide1(entity){
     var side1_ents, side2_ents;
-    side1_ents = _.map(this.get("side1"), function (model){ return model });
-    side2_ents = _.map(this.get("side2"), function (model){ return model });
-    if(_.contains(side1_ents, entity)){
+    side1_ents = _.map(this._side1, function (model){ return model });
+    side2_ents = _.map(this._side2, function (model){ return model });
+    if(_.includes(side1_ents, entity)){
       return true;
-    }else if(_.contains(side2_ents, entity)){
+    }else if(_.includes(side2_ents, entity)){
       return false;
     }else{
       throw "ERROR: private method isSide1 in BattleManager called with invalid argument: is neither side 1 or 2";
@@ -292,7 +295,7 @@ export default class BattleManager {
       //console.log("DEBUG: Removing fragment from active to graveyard XXXXXXXXXXXXXX");
       fragment.deactivate();
       graveyard.push(fragment);
-    }else if(_.contains(graveyard, fragment)){
+    }else if(_.includes(graveyard, fragment)){
       //console.log("DEBUG: found the fragment in the graveyard, this is probably double searching somehwere");
     } else {
       throw "ERROR: fragment not found within active or live fragments";
@@ -364,9 +367,9 @@ export default class BattleManager {
   _setupEnemyAI(){
     var playerEntity, targetEntity;
 
-    targetEntity = this.get("side2")[0];
+    targetEntity = this._side2[0];
     playerEntity = this._getPlayerEntity();
-    _.each(this.get("side2"), function (e){
+    _.each(this._side2, function (e){
       var e_ent;
       e_ent = e;
       e_ent.setTarget(playerEntity);
@@ -421,7 +424,7 @@ export default class BattleManager {
     var playerEntity, targetEntity;
 
     playerEntity = this._getPlayerEntity();
-    targetEntity = this.get("side2")[0];
+    targetEntity = this._side2[0];
     playerEntity.setTarget(targetEntity);
     playerEntity.prepareSkills();
   }

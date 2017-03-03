@@ -8,27 +8,33 @@
  * TODO: Make these events use consistent style
  */
 
-require('crafty');
+import BattleEntityNPC from "../../../entities/battle_entity_npc"
+import CharacterSheet from "../../../models/character_sheet"
 
-Crafty.c("BattleNPCEnemy", {
+require('crafty');
+require("../../TextFragmentSpawnerComponent");
+require("../../BattleNPCSkillManagerComponent");
+
+Crafty.c("BattleNPCSlime", {
   _ANIM_HIT_DELAY: 430,
   _ANIM_ATTACK_DELAY: 200,
   _fragment_spawner: null,
   _current_target: null,
-  _backbone_model: null,
+  _model: null,
 
   init: function (){
     this.requires("2D, SpriteAnimation, BattleCharacter");
   },
 
-  battleNPCEnemy: function (char_sheet){
-    //this.char_sheet = char_sheet || new Typewar.Models.CharacterSheet({name: "Slime"});
-    if(!this.char_sheet) { 
-      this.char_sheet = new Typewar.Models.CharacterSheet({name :"Slime"});
+  battleNPCEnemy: function (charSheet, battleManagerRef){
+    //this.charSheet = charSheet || new Typewar.Models.CharacterSheet({name: "Slime"});
+    if(!this.charSheet) { 
+      this.charSheet = new CharacterSheet({name :"Slime"});
     }
+    this._battleManagerReference = battleManagerRef;
     this._fragment_timers = [];
     this._createFragmentSpawner();
-    this._initBackboneModel();
+    this._initModel();
     this._bindAIListners();
 
     return this;
@@ -39,7 +45,8 @@ Crafty.c("BattleNPCEnemy", {
     this._clearFragmentTimers();
     this._fragment_spawner.destroy();
     this._fragment_spawner = null;
-    this._backbone_model.deallocate();
+    this._model.deallocate();
+    this._model = null;
   },
 
   die: function (){
@@ -51,7 +58,7 @@ Crafty.c("BattleNPCEnemy", {
   },
 
   getFromServer: function (){
-    return this._backbone_model.getFromServer();
+    return this._model.getFromServer();
   },
 
   initiateAttackOn: function (defender, skill){
@@ -62,7 +69,7 @@ Crafty.c("BattleNPCEnemy", {
     if(!skill){ return; } // Do not attack if no skill available
 
     skill_data = skill.activate();
-    text_fragment_options = Typewar.Engine.battlemanager.handleAttack({
+    text_fragment_options = this._battleManagerReference.handleAttack({
       attacker: this, 
       defender: defender, 
       skill: skill_data
@@ -72,6 +79,7 @@ Crafty.c("BattleNPCEnemy", {
       frag = self._fragment_spawner.generateTextFragment({
         attack_properties: text_fragment_options
       });
+      console.log("DEBUG: did the fragment get created?? --->", frag);
     }, this._ANIM_ATTACK_DELAY));
   },
 
@@ -86,6 +94,19 @@ Crafty.c("BattleNPCEnemy", {
 
   setTarget: function (target){
     this._current_target = target;
+  },
+
+  setupBattleNPCSkills: function (){
+    var skills = this.charSheet.data.skills;
+
+    if(skills){
+      this.addComponent("NPCSkillManager").
+        nPCSkillManager(skills);
+    }else if(this.initDefaultSkills){ // Default skills which should come from monster specific component if the server doesn't provide any skills
+      this.initDefaultSkills();
+    }else{ 
+      throw new Error("Attempting to setup battle NPC with no skills");
+    }
   },
 
   successfulDefense: function (){
@@ -124,25 +145,13 @@ Crafty.c("BattleNPCEnemy", {
   _createFragmentSpawner: function (){
     this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
       .attr({x: this._x, y: this._y})
-      .textFragmentSpawner();
+      .textFragmentSpawner(this._battleManagerReference);
 
     this.attach(this._fragment_spawner);
   },
 
-  _initBackboneModel: function (){
-    this._backbone_model = new NPCEntity({entity: this});
-  },
-
-  _setupBattleNPCSkills: function (){
-    var skills_from_server = this.char_sheet.get("skills");
-
-    if(skills_from_server){
-      this.addComponent("NPCSkillManager").
-        nPCSkillManager(skills_from_server);
-    }else if(this.initDefaultSkills){ // Default skills which should come from monster specific component if the server doesn't provide any skills
-      this.initDefaultSkills();
-    }else{ 
-      throw new Error("Attempting to setup battle NPC with no skills");
-    }
+  _initModel: function (){
+    this._model = new BattleEntityNPC({entity: this});
   }
+
 });

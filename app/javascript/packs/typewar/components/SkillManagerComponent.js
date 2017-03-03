@@ -1,6 +1,14 @@
-require('crafty');
+import Backbone from "backbone"
+import AttackObject from "../models/attack_object"
 
-Typewar.Views.SkillManagerView = Backbone.View.extend({
+require("crafty");
+require("./BattleSkillComponent");
+
+  // LEFT OFF NOTE: Don't seem to be using handlebars here.. how can this render? need to fix
+
+const SKILL_MANAGER_VIEW_CONTAINER = "#typewar-skill-manager-wrap";
+
+var SkillManagerView = Backbone.View.extend({
   tagName: "div",
   className: "skill-manager",
   _template_id: "#skill_manager_template",
@@ -25,7 +33,7 @@ Typewar.Views.SkillManagerView = Backbone.View.extend({
   },
 
   _insertIntoPage: function (){
-    Typewar.Engine.$container.append(this.$el);
+    $(SKILL_MANAGER_VIEW_CONTAINER).append(this.$el);
   }
 });
 
@@ -37,13 +45,10 @@ Typewar.Views.SkillManagerView = Backbone.View.extend({
  */
 
 Crafty.c("SkillManager", {
-  _ATTACK_OBJECT_GENERATOR: null,
   _skillset: null,
   _view: null,
 
-  init: function (){ 
-    this._ATTACK_OBJECT_GENERATOR = Typewar.Models.AttackObject;
-  },
+  init: function (){ },
 
   skillManager: function (skillset){
     if(skillset){
@@ -156,7 +161,7 @@ Crafty.c("SkillManager", {
   },
 
   _generateAttackObject: function (skill, text_fragment){
-    return this._ATTACK_OBJECT_GENERATOR.create({
+    return new AttackObject({
       properties: skill.properties,
       target: this._current_target,
       attacker: this,
@@ -179,7 +184,7 @@ Crafty.c("SkillManager", {
   _initializeView: function (){
     var skill_views;
 
-    this._view = new Typewar.Views.SkillManagerView({id: 'battle-skillset'});
+    this._view = new SkillManagerView({id: 'battle-skillset'});
     skill_views = _.map(this._skillset, function (curr_skill){ 
       curr_skill.render();
       return curr_skill.getView();

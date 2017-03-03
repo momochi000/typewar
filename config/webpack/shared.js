@@ -43,6 +43,9 @@ module.exports = {
   plugins: [],
 
   resolve: {
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.min.js'
+    },
     extensions: [ '.js', '.coffee' ],
     modules: [
       path.resolve('../app/javascript'),

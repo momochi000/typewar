@@ -1,7 +1,10 @@
 /* A component that creates and manages text fragments so that many
  * can be generated and fired at the player in rapid succession.
  */
-require('crafty');
+
+require("crafty");
+require("./TextFragmentDisplayComponent");
+require("./BattleNPCAttackComponent");
 
 Crafty.c("TextFragmentSpawner", {
   _fragment_collection: null,
@@ -15,9 +18,10 @@ Crafty.c("TextFragmentSpawner", {
     this._completed_fragment_collection = [];
   },
 
-  textFragmentSpawner: function (){
+  textFragmentSpawner: function (battleManagerRef){
     // TODO: Need to revisit if this is working or not and refactor.
     Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
+    this._battleManagerReference = battleManagerRef;
     return this;
   },
 
@@ -55,7 +59,9 @@ Crafty.c("TextFragmentSpawner", {
       })
       .collision(this._generateCollisionPolyFromRect(attack_properties.hitbox))
 
-    if(attack_properties.box2d){ 
+    console.log("DEBUG: in text fragment spawner, generating text fragment.  Options are ---------->", options);
+    console.log("DEBUG: in text fragment spawner, generating text fragment.  box2d properties  are ---------->", attack_properties.box2d);
+    if(!_.isEmpty(attack_properties.box2d)){ 
       new_frag.addComponent("Box2D");
       new_frag.box2d(attack_properties.box2d); 
     }
@@ -67,6 +73,8 @@ Crafty.c("TextFragmentSpawner", {
     this._fragment_collection.push(new_frag);
     this._registerFragmentWithBattleManager(new_frag);
     new_frag.drawSelf();
+
+    console.log("DEBUG: TextFragmentSpawner here! generated a new fragment.  Now returning it --------->", new_frag);
 
     return new_frag;
   },
@@ -118,7 +126,8 @@ Crafty.c("TextFragmentSpawner", {
   _generateCollisionPolyFromRect: function (rect){
     return new Crafty.polygon([0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]);
   },
+
   _registerFragmentWithBattleManager: function (frag){
-    Typewar.Engine.battlemanager.registerFragment(frag);
+    this._battleManagerReference.registerFragment(frag);
   }
 });

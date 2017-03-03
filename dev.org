@@ -11,26 +11,72 @@
     CLOSED: [2017-02-17 Fri 18:44]
 *** DONE Display the background
     CLOSED: [2017-02-17 Fri 18:44]
-*** TODO Load the engine
-**** TODO Load the battle manager
-**** TODO Load the input manager
-**** TODO Ensure input manager is processing input
-**** TODO Load the thing that creates text fragments
-*** TODO Load the player
+*** DONE Load the engine
+    CLOSED: [2017-02-22 Wed 11:44]
+**** DONE Load the battle manager
+     CLOSED: [2017-02-22 Wed 11:43]
+*** DONE Load the player
+    CLOSED: [2017-02-23 Thu 16:07]
+**** TODO Stub out getFromServer()
+     This was certainly a YAGNI design
+*** DONE Load the NPC (without any ai or action)
+    CLOSED: [2017-02-23 Thu 16:08]
+**** DONE Stub out getFromServer()
+     CLOSED: [2017-02-23 Thu 16:08]
+     This was certainly a YAGNI design
+*** TODO Load the input manager
+*** TODO Ensure input manager is processing input
+*** TODO Load the thing that creates text fragments
 *** TODO load keyboard bindings
-*** TODO Load the NPC (without any ai or action)
 *** TODO Fire a single text fragment
 *** TODO Setup box2d
 *** TODO Fix AI to fire text fragments continuously
 * Backlog
 ** TODO Get the game working again
+** TODO pull views out into their own files and abstract as necessary :refactor:
+** TODO Architecture overhaul :refactor:
+   Let's use entity component system from the overwatch talk
+   Also pull all game state data into an immutable data store
+   ok it doesn't have to be immutable, but it probably should be
+   All the systems are registered with the scene
+   every frame, the engine loops over every system and runs it's function
+   each system loops over relavent component tuples and processes them
+   any state updates will be pushed into a pending updates queue
+   at the end of the frame, the updates will all be applied to the
+   data store.
+
+   All component data gets moved off to the global game state
+   Components just maintain pointers to their relavent data within
+   the state store.
+
+   How to reconcile when multiple systems alter the same info?
+   e.g. you move forward but are hit by a projectile which moves you
+   back at the same time? I guess they could just both be applied
+   maybe you move +5 in the x axis and -2 so the net move is +3
+   
+   What about if your status changes twice?
+   Lets say you were poisoned, then you cured the poison but at the
+   same frame you were poisoned again?  The order these are applied
+   matter a lot. I think there will need to be an apply update function
+   or utilty which will govern the actual update.  Maybe I'm overthinking
+   this and I can just apply them in arbitrary order and any collisions
+   that do occur will be so infrequent that it won't matter in the
+   context of this game
 ** TODO Abandon dynamic skill adjustment
+   The game will instead feature a linear difficulty progression of monster to monster
+   Simply a matter of how quickly and accurately you can type = how far you go
    Still want to do things like capture player stats (wpm, error avg, etc)
 ** TODO Adjust difficulty
    The way it was when I could barely beat it.
+** TODO Deploy
+** TODO Rename this project
 * Roadmap
+** TODO Move the stance icon to float above the player
 ** TODO Change templating engine
    Move away from Backbone
+** TODO Reexamine how game data is stored
+   I should like to have a single json to store all the data.
+** TODO Research use of web workers
 ** TODO Remove backbone
 ** TODO All events should follow a consistent style (see backbone) :refactor:
 ** TODO Make component file names match component names :refactor: 

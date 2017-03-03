@@ -28,7 +28,8 @@ Crafty.c("BattleInputManager", {
     this.is_shift_key_down = false;
   },
 
-  battleInputManager: function (){
+  battleInputManager: function (battleManagerRef){
+    this._battleManagerReference = battleManagerRef;
     this._attachKeyboardHandler(); // bind a keyboard input
     return this;
   },
@@ -70,23 +71,14 @@ Crafty.c("BattleInputManager", {
 
     letter_value = this._translateKeyToLetter(keyEvent.key);
 
-    // LEFT OFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // So far, the battle scene is being initialized and everything
-    // is loading correctly up until the player and npcs are initialized
-    //
-    // First, ensure that this component is working properly, then
-    // initialize the player and npc.
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     if(this._isModifierKey(letter_value)){
       return this._handleModifierKeyPressed(letter_value);
     }else if(this._isModeSwitchKey(letter_value)){
-      return Typewar.Engine.battlemanager.toggleMode();
+      return this._battleManagerReference.toggleMode();
     }
 
     letter_value = this._applyModifierKeys(letter_value);
-    Typewar.Engine.battlemanager.handleTextInput(letter_value);
+    this._battleManagerReference.handleTextInput(letter_value);
   },
 
   _handleKeyRelease: function (keyEvent){
