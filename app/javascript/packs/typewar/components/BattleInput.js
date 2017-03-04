@@ -71,12 +71,9 @@ Crafty.c("BattleInput", {
 
     if(this._isModifierKey(letter_value)){
       return this._handleModifierKeyPressed(letter_value);
-      //    }else if(this._isModeSwitchKey(letter_value)){
-      //      return this.toggleStance();
     }
 
     this._inputQueue.push(letter_value);
-    //    this._battleManagerReference.handleTextInput(letter_value);
   },
 
   _handleKeyRelease: function (keyEvent){
@@ -106,10 +103,6 @@ Crafty.c("BattleInput", {
         return false;
     }
   },
-
-  //  _isModeSwitchKey: function (key_val){
-  //    return (key_val === 'tab');
-  //  },
 
   _isModifierKey: function (key_val){
     switch(key_val) {

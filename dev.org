@@ -42,6 +42,7 @@
     Previously, BattleSkill had posession of a text fragment.  Now BattleSkill
     should also be a text fragment
 
+**** TODO Delete the comments I left over from the last commit
 **** TODO Skill manager should store a set of skills on init
 **** TODO Skill manager generates an entity for each skill
 **** TODO Skill entities are also text fragments

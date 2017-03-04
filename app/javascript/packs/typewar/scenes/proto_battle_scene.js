@@ -43,14 +43,10 @@ export default class ProtoBattleScene {
       self.initStageEdges();
       self.initCamera();
 
-
-      //      self.initBattleManager();
-
       self.initCombatants().then(function (response){
         console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
         //        self.initUI();
         //        self.activateBattleAI();
-        //        self.initInputManager();
         self.initSystems();
         self.registerSystems();
       }, function (error){
@@ -284,11 +280,6 @@ export default class ProtoBattleScene {
   }
 
   // private
-  //  _addCombatantsToBattleManager(){
-  //    // TODO: This looks rather smelly. Probably refactor.
-  //    this._battleManager.registerPlayer(this._combatants.player);
-  //    this._battleManager.registerEnemies(this._combatants.enemies);
-  //  }
 
   _analyzeTypingData(){
     var typing_analyzer;
