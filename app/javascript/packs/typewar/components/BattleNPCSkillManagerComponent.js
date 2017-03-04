@@ -58,15 +58,6 @@ Crafty.c("NPCSkillManager", {
     this._skills = [];
     self = this;
 
-    // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //
-    // Track down why I can't seem to type the text fragment fully (it partly 
-    // works)
-    // Track down why the game simply stops after a few seconds
-    // track down why the box2d skill isn't working
-    // ensure the monster is able to fire both skills
-    // ensure you can type the things properly
-    // refactor npc to be something more specific
     _.each(skills, function (skill){
       var new_skill;
       new_skill = Crafty.e("NPCSkill")

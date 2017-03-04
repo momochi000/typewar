@@ -1,11 +1,15 @@
 import Sprite from "../assets/sprite"
 import Background from "../assets/background"
 import BattleManager from "../managers/battle_manager"
-import BattleInputManager from "../managers/battle_input_manager"
+//import BattleInputManager from "../managers/battle_input_manager"
 import StatusBarView from "../views/status_bar_view"
+
+import {initInputSystem, inputSystem} from "../systems/input_system"
+import * as ZeroSkills from "../../../models/skills/player/zero_active_skills"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleStatusView");
+require("../components/BattleStance");
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattlePlayerComponent");
 require("../components/animations/BattlePlayerZeroAnimation");
@@ -38,13 +42,17 @@ export default class ProtoBattleScene {
       //      self.initAudio();
       self.initStageEdges();
       self.initCamera();
-      self.initBattleManager();
+
+
+      //      self.initBattleManager();
 
       self.initCombatants().then(function (response){
         console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
-        self.initUI();
-        self.activateBattleAI();
-        self.initInputManager();
+        //        self.initUI();
+        //        self.activateBattleAI();
+        //        self.initInputManager();
+        self.initSystems();
+        self.registerSystems();
       }, function (error){
         throw new Error(error);
         alert('Failed to initialize combatants for some reason..');
@@ -136,7 +144,7 @@ export default class ProtoBattleScene {
       }).then((npc_entity) => {
         enemy_npc = npc_entity;
         self._combatants = {player: player, enemies: [enemy_npc]};
-        self._addCombatantsToBattleManager();
+        //        self._addCombatantsToBattleManager();
         fulfill();
       }, (error) => {
         console.log("ERROR: there was an error initializing the npc", error);
@@ -174,7 +182,7 @@ export default class ProtoBattleScene {
   initPC(){
     var pc_ent, pc_model, promise;
 
-    pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus");
+    pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
     pc_ent.attr({ x: 20, y: 180 })
       .battlePlayerZeroAnim()
       .battleCharacter()
@@ -189,7 +197,16 @@ export default class ProtoBattleScene {
     var player;
 
     player = this._combatants.player;
-    player.initSkills();
+
+    player.addComponent("SkillManager");
+    // TODO: These are just some hard coded placeholder skills, ultimately we
+    // will want to pull these in from somewhere
+    player.skillManager([
+      ZeroSkills.ZeroLightSlash,
+      ZeroSkills.ZeroMedSlash,
+      ZeroSkills.ZeroHardSlash, 
+      ZeroSkills.ZeroUpperSlash
+    ]);
   }
 
   initSprites(){
@@ -230,6 +247,10 @@ export default class ProtoBattleScene {
     this._statusBar = statusBar;
   }
 
+  initSystems(){
+    initInputSystem(Crafty);
+  }
+
   initUI(){
     this.initSkillManager();
     this.initStatusBar();
@@ -239,9 +260,17 @@ export default class ProtoBattleScene {
     Crafty.scene(this._scene_id);
   }
 
+  registerSystems(){
+    Crafty.bind("EnterFrame", this.runSystems);
+  }
+
   resetCamera(){
     Crafty.viewport.scale(1);
   } 
+
+  runSystems(frame, dt){
+    inputSystem(Crafty);
+  }
 
   stop(){
     this._analyzeTypingData();
@@ -255,11 +284,11 @@ export default class ProtoBattleScene {
   }
 
   // private
-  _addCombatantsToBattleManager(){
-    // TODO: This looks rather smelly. Probably refactor.
-    this._battleManager.registerPlayer(this._combatants.player);
-    this._battleManager.registerEnemies(this._combatants.enemies);
-  }
+  //  _addCombatantsToBattleManager(){
+  //    // TODO: This looks rather smelly. Probably refactor.
+  //    this._battleManager.registerPlayer(this._combatants.player);
+  //    this._battleManager.registerEnemies(this._combatants.enemies);
+  //  }
 
   _analyzeTypingData(){
     var typing_analyzer;

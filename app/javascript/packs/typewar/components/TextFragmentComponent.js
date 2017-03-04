@@ -9,20 +9,22 @@
  *   Completed
  */
 
+// TODO
+// Need to use a state machine to govern whether the fragment is active or complete
+// don't try to use bools like i am curently
+//
 import TextFragment from "../entities/text_fragment"
 
 require('crafty');
 
 Crafty.c("TextFragment", {
-  is_active: false,
-  is_complete: false,
+  _isActive: false,
+  _isComplete: false,
   _backbone_model: null, // TODO: Marked for deletion
   _correct_characters: '',
   _current_position: null,
   _incorrect_characters: '',
   _text: '',
-
-  init: function (){ },
 
   textFragment: function (opts){
     this._text = opts.text;
@@ -36,9 +38,9 @@ Crafty.c("TextFragment", {
   },
 
   activate: function (){ 
-    if(!this.is_active){
+    if(!this._isActive){
       this._current_position = 0;
-      this.is_active = true; 
+      this._isActive = true; 
       this._tagStartedTimestamp();
       this.z = 99999;
       Crafty.trigger("TextFragmentActivated", this);
@@ -47,7 +49,7 @@ Crafty.c("TextFragment", {
   },
 
   deactivate: function (){ 
-    this.is_active = false; 
+    this._isActive = false; 
     this.z = 0;
     //this._current_position = null;
     this._triggerRedraw(); // TODO: refactor calls to drawSelf out into text fragment 
@@ -70,9 +72,9 @@ Crafty.c("TextFragment", {
     }
   },
 
-  isActive: function (){ return this.is_active; },
+  isActive: function (){ return this._isActive; },
 
-  isComplete: function (){ return this.is_complete; },
+  isComplete: function (){ return this._isComplete; },
 
   textLength: function (){ return this._text.length; },
 
@@ -92,7 +94,7 @@ Crafty.c("TextFragment", {
   },
 
   reset: function (){
-    this.is_complete = false;
+    this._isComplete = false;
     this._incorrect_characters = '';
     this._correct_characters = '';
     this._current_position = null;
@@ -109,7 +111,7 @@ Crafty.c("TextFragment", {
   successPct: function (){
     var rating;
 
-    if(this.is_complete) {
+    if(this._isComplete) {
       return (100 * (1 - (this._incorrect_characters.length / this._correct_characters.length)));
     }else{
       return (100 * ((this._correct_characters.length - this._incorrect_characters.length) / this._text.length));
@@ -129,8 +131,6 @@ Crafty.c("TextFragment", {
     // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // it looks like this is pretty buggy. the next text fragment was reporting that input
     // was undefined. After the first text fragment was correctly typed
-    //
-    //
     // Now might be the time that i start refactoring into the new ECS system
 
     if(this._text[this._current_position] == chr){
@@ -164,7 +164,7 @@ Crafty.c("TextFragment", {
   },
 
   _complete: function (){
-    this.is_complete = true
+    this._isComplete = true
     this.deactivate();
     this._tagCompletedTimestamp();
     this._triggerRedraw();
@@ -207,3 +207,4 @@ Crafty.c("TextFragment", {
     this.trigger("InputIncorrect");
   }
 });
+

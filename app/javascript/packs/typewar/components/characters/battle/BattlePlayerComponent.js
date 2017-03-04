@@ -1,6 +1,5 @@
 import BattleEntityPC from "../../../entities/battle_entity_pc"
 import CharacterSheet from "../../../models/character_sheet"
-import * as ZeroSkills from "../../../models/skills/player/zero_active_skills"
 
 require("crafty");
 require("./BattleCharacterComponent");
@@ -48,27 +47,6 @@ Crafty.c("BattlePlayer", {
 
   getTarget: function (){
     return this._current_target;
-  },
-
-  initSkills: function (){
-    var skills;
-
-    console.log("DEBUG: In  initSkills on the BattlePlayer component....");
-    this.addComponent("SkillManager");
-    // TODO: These are just some hard coded placeholder skills, ultimately we 
-    //this.skillManager({
-    //  ZeroLightSlash: Typewar.Data.Skills.ZeroLightSlash,
-    //  ZeroMedSlash: Typewar.Data.Skills.ZeroMedSlash,
-    //  ZeroHardSlash: Typewar.Data.Skills.ZeroHardSlash,
-    //  ZeroUpperSlash: Typewar.Data.Skills.ZeroUpperSlash
-    //});
-    this.skillManager([
-      ZeroSkills.ZeroLightSlash,
-      ZeroSkills.ZeroMedSlash,
-      ZeroSkills.ZeroHardSlash, 
-      ZeroSkills.ZeroUpperSlash
-    ]);
-    console.log("DEBUG: end initSkills on BattlePlayer component...");
   },
 
   isPlayer: function (){ return true; },

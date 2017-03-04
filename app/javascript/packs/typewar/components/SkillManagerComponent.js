@@ -2,7 +2,7 @@ import Backbone from "backbone"
 import AttackObject from "../models/attack_object"
 
 require("crafty");
-require("./BattleSkillComponent");
+require("./BattlePCSkill");
 
   // LEFT OFF NOTE: Don't seem to be using handlebars here.. how can this render? need to fix
 
@@ -72,7 +72,7 @@ Crafty.c("SkillManager", {
   populateSkillset: function (skills){
     var self = this;
     this._skillset = _.map(skills, function (skill){
-      return Crafty.e("BattleSkill").battleSkill(skill, self);
+      return Crafty.e("BattlePCSkill").battlePCSkill(skill, self);
     });
   },
 

@@ -10,7 +10,7 @@ var Handlebars = require('handlebars');
 var StateMachine = require("javascript-state-machine");
 require("./TextFragmentComponent");
 
-var BattleSkillView = Backbone.View.extend({
+var BattlePCSkillView = Backbone.View.extend({
   tagName: "div",
   className: "battle-skill",
   _template_id: "#battle_skill_template",
@@ -71,7 +71,7 @@ var BattleSkillView = Backbone.View.extend({
 
 
 
-Crafty.c("BattleSkill", {
+Crafty.c("BattlePCSkill", {
   skill: null,
   text_fragment: null,
   text_fragment_graveyard: null,
@@ -79,7 +79,7 @@ Crafty.c("BattleSkill", {
   _view: null,
 
   init: function (){ },
-  battleSkill: function (skill, owner){
+  battlePCSkill: function (skill, owner){
     this.skill = skill;
     this._entity = owner;
     this.text_fragment_graveyard = [];
@@ -197,7 +197,7 @@ Crafty.c("BattleSkill", {
         break;
       }
     }
-    this.text_fragment = Crafty.e("TextFragment")
+    this.text_fragment = Crafty.e("TextFragment BattlePCSkillTextFragment")
       .textFragment({text: t});
   },
 
@@ -208,7 +208,7 @@ Crafty.c("BattleSkill", {
   },
 
   _initializeView: function (){
-    this._view = new BattleSkillView({entity: this, text_fragment: this.text_fragment});
+    this._view = new BattlePCSkillView({entity: this, text_fragment: this.text_fragment});
   },
 
   _makeRandomString: function (){
@@ -242,7 +242,7 @@ Crafty.c("BattleSkill", {
       ],
       callbacks: { 
         onbeforeinitialize:    function (event, from, to){
-          console.log("DEBUG: BattleSkillComponent state machine onbeforeinitialize.  We need to be getting here");
+          console.log("DEBUG: BattlePCSkillComponent state machine onbeforeinitialize.  We need to be getting here");
           self._generateTextFragment();
           self._view.setTextFragment(self.text_fragment);
           self._bindRedrawOnTextFragmentUpdate();

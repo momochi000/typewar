@@ -21,17 +21,23 @@
  * 
  */
 
+import { COMMANDS, CMD_CHANGE_STANCE } from "../util/command_constants"
+
 require('crafty');
 
-Crafty.c("BattleInputManager", {
+Crafty.c("BattleInput", {
   init: function (){ 
+    this._inputQueue = [];
     this.is_shift_key_down = false;
   },
 
-  battleInputManager: function (battleManagerRef){
-    this._battleManagerReference = battleManagerRef;
+  battleInput: function (){
     this._attachKeyboardHandler(); // bind a keyboard input
     return this;
+  },
+
+  getInputQueue: function (){
+    return this._inputQueue;
   },
 
   remove: function (destroyed){
@@ -39,14 +45,6 @@ Crafty.c("BattleInputManager", {
   },
 
   // private 
-
-  _applyModifierKeys: function (letter_value){
-    if(this.is_shift_key_down){
-      return letter_value.toUpperCase();
-    }else{
-      return letter_value;
-    }
-  },
 
   _attachKeyboardHandler: function (){
     this.bind('KeyDown', this._handleKeyPress);
@@ -73,12 +71,12 @@ Crafty.c("BattleInputManager", {
 
     if(this._isModifierKey(letter_value)){
       return this._handleModifierKeyPressed(letter_value);
-    }else if(this._isModeSwitchKey(letter_value)){
-      return this._battleManagerReference.toggleMode();
+      //    }else if(this._isModeSwitchKey(letter_value)){
+      //      return this.toggleStance();
     }
 
-    letter_value = this._applyModifierKeys(letter_value);
-    this._battleManagerReference.handleTextInput(letter_value);
+    this._inputQueue.push(letter_value);
+    //    this._battleManagerReference.handleTextInput(letter_value);
   },
 
   _handleKeyRelease: function (keyEvent){
@@ -109,9 +107,9 @@ Crafty.c("BattleInputManager", {
     }
   },
 
-  _isModeSwitchKey: function (key_val){
-    return (key_val === 'tab');
-  },
+  //  _isModeSwitchKey: function (key_val){
+  //    return (key_val === 'tab');
+  //  },
 
   _isModifierKey: function (key_val){
     switch(key_val) {
@@ -153,7 +151,7 @@ Crafty.c("BattleInputManager", {
         // We could do something special with this if we later choose
         return '';
       case(Crafty.keys['TAB']):
-        return 'tab';
+        return COMMANDS['tab']
       case(Crafty.keys['ENTER']):
         return '';
       //case(Crafty.keys['CAPS'])
@@ -192,56 +190,82 @@ Crafty.c("BattleInputManager", {
       case(Crafty.keys['9']):
         return '9';
       case(Crafty.keys['A']):
+        if(this.is_shift_key_down) { return "A" }
         return 'a';
       case(Crafty.keys['B']):
+        if(this.is_shift_key_down) { return "B" }
         return 'b';
       case(Crafty.keys['C']):
+        if(this.is_shift_key_down) { return "C" }
         return 'c';
       case(Crafty.keys['D']):
+        if(this.is_shift_key_down) { return "D" }
         return 'd';
       case(Crafty.keys['E']):
+        if(this.is_shift_key_down) { return "E" }
         return 'e';
       case(Crafty.keys['F']):
+        if(this.is_shift_key_down) { return "F" }
         return 'f';
       case(Crafty.keys['G']):
+        if(this.is_shift_key_down) { return "G" }
         return 'g';
       case(Crafty.keys['H']):
+        if(this.is_shift_key_down) { return "H" }
         return 'h';
       case(Crafty.keys['I']):
+        if(this.is_shift_key_down) { return "I" }
         return 'i';
       case(Crafty.keys['J']):
+        if(this.is_shift_key_down) { return "J" }
         return 'j';
       case(Crafty.keys['K']):
+        if(this.is_shift_key_down) { return "K" }
         return 'k';
       case(Crafty.keys['L']):
+        if(this.is_shift_key_down) { return "L" }
         return 'l';
       case(Crafty.keys['M']):
+        if(this.is_shift_key_down) { return "M" }
         return 'm';
       case(Crafty.keys['N']):
+        if(this.is_shift_key_down) { return "N" }
         return 'n';
       case(Crafty.keys['O']):
+        if(this.is_shift_key_down) { return "O" }
         return 'o';
       case(Crafty.keys['P']):
+        if(this.is_shift_key_down) { return "P" }
         return 'p';
       case(Crafty.keys['Q']):
+        if(this.is_shift_key_down) { return "Q" }
         return 'q';
       case(Crafty.keys['R']):
+        if(this.is_shift_key_down) { return "R" }
         return 'r';
       case(Crafty.keys['S']):
+        if(this.is_shift_key_down) { return "S" }
         return 's';
       case(Crafty.keys['T']):
+        if(this.is_shift_key_down) { return "T" }
         return 't';
       case(Crafty.keys['U']):
+        if(this.is_shift_key_down) { return "U" }
         return 'u';
       case(Crafty.keys['V']):
+        if(this.is_shift_key_down) { return "V" }
         return 'v';
       case(Crafty.keys['W']):
+        if(this.is_shift_key_down) { return "W" }
         return 'w';
       case(Crafty.keys['X']):
+        if(this.is_shift_key_down) { return "X" }
         return 'x';
       case(Crafty.keys['Y']):
+        if(this.is_shift_key_down) { return "Y" }
         return 'y';
       case(Crafty.keys['Z']):
+        if(this.is_shift_key_down) { return "Z" }
         return 'z';
       //case(Crafty.keys['NUMPAD_0'])
       //case(Crafty.keys['NUMPAD_1'])

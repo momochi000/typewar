@@ -18,7 +18,7 @@ export default class BattleManager {
     this._fragmentGraveyard = [];
     this._liveTextFragments = [];
 
-    this._setupModeFSM();
+    //    this._setupModeFSM();
     this._bindEventListeners();
     console.log("DEBUG: DONE initializing BattleManager");
   }
@@ -118,16 +118,16 @@ export default class BattleManager {
   }
 
   handleTextInput(letter_value){
-    if(this.mode.is("defense")){
-      this._evalDefense(letter_value);
-    }else if (this.mode.is("offense")){
-      this._evalOffense(letter_value);
-    }
+    //    if(this.mode.is("defense")){
+    //      this._evalDefense(letter_value);
+    //    }else if (this.mode.is("offense")){
+    //      this._evalOffense(letter_value);
+    //    }
   }
 
-  getMode(){
-    return this.mode.current;
-  }
+  //  getMode(){
+  //    return this.mode.current;
+  //  }
 
   prepareSkill(options){
     if(!options.attacker){throw "BattleManager: prepareSkill called with no attacker";}
@@ -167,10 +167,10 @@ export default class BattleManager {
     }
   }
 
-  toggleMode(){
-    this.mode.toggle();
-    return this.mode.current;
-  }
+  //  toggleMode(){
+  //    this.mode.toggle();
+  //    return this.mode.current;
+  //  }
 
   // private
 
@@ -403,22 +403,23 @@ export default class BattleManager {
     Crafty.bind("TextFragmentHitUnit", this._handleTextFragmentCollision.bind(this));
   }
 
-  _setupModeFSM(){
-    var fsm, self;
-    self=this;
-    fsm = StateMachine.create({
-      initial: "defense",
-      events: [
-        { name: "toggle", from: "defense", to: "offense" },
-        { name: "toggle", from: "offense", to: "defense" }
-        //{ name: "toggle", from: "offense", to: "inventory" },
-      ],
-      callbacks: {
-        onafterevent: function (event, from, to){ Crafty.trigger("SwitchedCombatMode", to); }
-      }
-    });
-    this.mode = fsm;
-  }
+  // IN PROGRESS: Extract this into a component on the player
+  //  _setupModeFSM(){
+  //    var fsm, self;
+  //    self=this;
+  //    fsm = StateMachine.create({
+  //      initial: "defense",
+  //      events: [
+  //        { name: "toggle", from: "defense", to: "offense" },
+  //        { name: "toggle", from: "offense", to: "defense" }
+  //        //{ name: "toggle", from: "offense", to: "inventory" },
+  //      ],
+  //      callbacks: {
+  //        onafterevent: function (event, from, to){ Crafty.trigger("SwitchedCombatMode", to); }
+  //      }
+  //    });
+  //    this.mode = fsm;
+  //  }
 
   _setupPlayerAI(){
     var playerEntity, targetEntity;
