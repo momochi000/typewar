@@ -5,7 +5,9 @@ import BattleManager from "../managers/battle_manager"
 import StatusBarView from "../views/status_bar_view"
 
 import {initInputSystem, inputSystem} from "../systems/input_system"
-import * as ZeroSkills from "../../../models/skills/player/zero_active_skills"
+import {initSkillSystem, skillSystem} from "../systems/skill_system"
+
+import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleStatusView");
@@ -45,7 +47,7 @@ export default class ProtoBattleScene {
 
       self.initCombatants().then(function (response){
         console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
-        //        self.initUI();
+        self.initUI();
         //        self.activateBattleAI();
         self.initSystems();
         self.registerSystems();
@@ -134,12 +136,16 @@ export default class ProtoBattleScene {
     return new Promise( (fulfill, reject) => {
       self.initPC().then((pc_entity) => {
         player = pc_entity;
+        self.initSkillManager(player);
         return self.initEnemyNPC();
       }, (error) => {
         console.log("ERROR: there was an error initializing the player character", error);
       }).then((npc_entity) => {
         enemy_npc = npc_entity;
         self._combatants = {player: player, enemies: [enemy_npc]};
+        player.setTarget(enemy_npc);
+        enemy_npc.setTarget(player);
+
         //        self._addCombatantsToBattleManager();
         fulfill();
       }, (error) => {
@@ -189,11 +195,7 @@ export default class ProtoBattleScene {
     return pc_ent.getFromServer();
   }
 
-  initSkillManager(){
-    var player;
-
-    player = this._combatants.player;
-
+  initSkillManager(player){
     player.addComponent("SkillManager");
     // TODO: These are just some hard coded placeholder skills, ultimately we
     // will want to pull these in from somewhere
@@ -203,6 +205,10 @@ export default class ProtoBattleScene {
       ZeroSkills.ZeroHardSlash, 
       ZeroSkills.ZeroUpperSlash
     ]);
+    
+    //    player.skillManager([
+    //      ZeroSkills.ZeroLightSlash
+    //    ]);
   }
 
   initSprites(){
@@ -244,11 +250,11 @@ export default class ProtoBattleScene {
   }
 
   initSystems(){
+    initSkillSystem(Crafty);
     initInputSystem(Crafty);
   }
 
   initUI(){
-    this.initSkillManager();
     this.initStatusBar();
   }
 
@@ -266,6 +272,7 @@ export default class ProtoBattleScene {
 
   runSystems(frame, dt){
     inputSystem(Crafty);
+    skillSystem(Crafty);
   }
 
   stop(){

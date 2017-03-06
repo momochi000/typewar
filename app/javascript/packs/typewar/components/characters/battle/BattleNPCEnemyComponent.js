@@ -19,7 +19,6 @@ Crafty.c("BattleNPCSlime", {
   _ANIM_HIT_DELAY: 430,
   _ANIM_ATTACK_DELAY: 200,
   _fragment_spawner: null,
-  _current_target: null,
   _model: null,
 
   init: function (){
@@ -90,10 +89,6 @@ Crafty.c("BattleNPCSlime", {
     console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
     var self = this;
     window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
-  },
-
-  setTarget: function (target){
-    this._current_target = target;
   },
 
   setupBattleNPCSkills: function (){

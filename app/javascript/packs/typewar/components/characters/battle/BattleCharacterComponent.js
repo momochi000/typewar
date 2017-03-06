@@ -4,6 +4,7 @@ require('crafty');
 
 Crafty.c("BattleCharacter", {
   charSheet: null,
+  _currentTarget: null,
   _model: null,
 
   init: function (){
@@ -29,12 +30,20 @@ Crafty.c("BattleCharacter", {
     return this.charSheet.data.name;
   },
 
+  getTarget: function (){
+    return this._currentTarget;
+  },
+
   getVocabulary: function (){
     return this.charSheet.data.vocabulary;
   },
 
   getPercentHP: function (){
     return 100 * (this.getStatus().hp / this.getStatus().maxHp);
+  },
+
+  setTarget: function (target){
+    this._currentTarget = target;
   },
 
   takeDamage: function(damage) {

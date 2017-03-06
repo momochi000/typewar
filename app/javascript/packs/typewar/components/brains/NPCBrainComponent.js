@@ -18,7 +18,7 @@ Crafty.c("NPCBrain", {
 
   activateAI: function (){
     this._is_active = true;
-    if(!this._current_target){ return false; }
+    if(!this._currentTarget){ return false; }
     if(!this.battle_timer){ this._initBattleTimer(); }
   },
 
@@ -33,7 +33,7 @@ Crafty.c("NPCBrain", {
   // private
 
   _aiCycle: function (){
-    this.trigger("initiateAttackOn", this._current_target);
+    this.trigger("initiateAttackOn", this._currentTarget);
   },
 
   _bindAIOnPause: function (){

@@ -8,7 +8,6 @@ require("../../SkillManagerComponent");
 
 Crafty.c("BattlePlayer", {
   _ANIM_HIT_DELAY: 410,
-  _current_target: null,
   _fragment_spawner: null,
   stance: 'defense',
 
@@ -45,10 +44,6 @@ Crafty.c("BattlePlayer", {
     return this.stance;
   },
 
-  getTarget: function (){
-    return this._current_target;
-  },
-
   isPlayer: function (){ return true; },
   isNPC: function (){ return false; },
  
@@ -57,10 +52,6 @@ Crafty.c("BattlePlayer", {
     console.log("DEBUG: PLAYER: PARTIAL HIT. OW!!! ");
     //window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
     self.animBlock();
-  },
-
-  setTarget: function (target){
-    this._current_target = target;
   },
 
   successfulDefense: function (){

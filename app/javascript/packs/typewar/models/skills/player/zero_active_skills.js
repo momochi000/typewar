@@ -5,7 +5,6 @@
 
 /* example skill template:
  * {
- *   animation: 'reel_id',//optional
  *   cooldown: xx<integer>,
  *   cost: 0 <integer>,
  *   name: 'human readable name',
@@ -14,9 +13,21 @@
  * }
  */
 
+import * as Effects from "../../effects"
+import {
+  ZERO_ANIM_LIGHT_SLASH, ZERO_ANIM_MED_SLASH, ZERO_ANIM_HEAVY_SLASH, ZERO_ANIM_UPPER_SLASH
+} from "../../../constants/animation_constants"
+
+// IN PROGRESS
+// We're redefining what a skill looks like.  Ultimately there needs to be a
+// set of effects on the game world that a skill can apply.
+
 var ZeroLightSlash = {
-  animation: "attack1",
-  cooldown: 700,
+  effects: [
+    { klass: Effects.Damage},
+    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_LIGHT_SLASH},
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 700} 
+  ],
   cost: 0,
   name: 'light slash',
   textOptions: {
@@ -34,8 +45,11 @@ var ZeroLightSlash = {
 };
 
 var ZeroMedSlash = {
-  animation: "attack2",
-  cooldown: 2000,
+  effects: [
+    { klass: Effects.Damage },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_MED_SLASH},
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2000} 
+  ],
   cost: 0,
   name: 'medium slash',
   textOptions: {
@@ -53,8 +67,11 @@ var ZeroMedSlash = {
 };
 
 var ZeroHardSlash = {
-  animation: "attack3", 
-  cooldown: 5000,
+  effects: [
+    { klass: Effects.Damage },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_HEAVY_SLASH},
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 5000} 
+  ],
   cost: 0,
   name: 'heavy slash',
   textOptions: {
@@ -72,8 +89,11 @@ var ZeroHardSlash = {
 };
 
 var ZeroUpperSlash = {
-  animation: "attack4",
-  cooldown: 2200,
+  effects: [
+    { klass: Effects.Damage },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_UPPER_SLASH},
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2200} 
+  ],
   cost: 0,
   name: 'upper slash',
   textOptions: {

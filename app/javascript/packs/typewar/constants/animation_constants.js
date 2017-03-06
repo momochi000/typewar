@@ -1,0 +1,11 @@
+export const ZERO_ANIM_READY = "ZERO_READY";
+export const ZERO_ANIM_LIGHT_SLASH = "ZERO_LIGHT_SLASH";
+export const ZERO_ANIM_MED_SLASH = "ZERO_MED_SLASH";
+export const ZERO_ANIM_HEAVY_SLASH = "ZERO_HEAVY_SLASH";
+export const ZERO_ANIM_UPPER_SLASH = "ZERO_UPPER_SLASH";
+export const ZERO_ANIM_BLOCK = "ZERO_BLOCK";
+export const ZERO_ANIM_DASH = "ZERO_DASH";
+export const ZERO_ANIM_JUMP = "ZERO_JUMP";
+export const ZERO_ANIM_ENTER = "ZERO_ENTER";
+export const ZERO_ANIM_CHARGE = "ZERO_CHARGE";
+export const ZERO_ANIM_HIT = "ZERO_HIT";

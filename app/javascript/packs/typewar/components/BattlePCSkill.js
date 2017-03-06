@@ -2,11 +2,11 @@
 // some skills to kick out fragments
 
 import Backbone from "backbone"
-import TextLibrarian from "../managers/text_librarian"
+import TextLibrarian from "../util/text_librarian"
 
 require('crafty');
 
-var Handlebars = require('handlebars');
+var Handlebars = require("handlebars");
 var StateMachine = require("javascript-state-machine");
 require("./TextFragmentComponent");
 
@@ -44,8 +44,8 @@ var BattlePCSkillView = Backbone.View.extend({
     view_opts = {};
     skill_opts = {
       name: this.entity.skill.name,
-      css_classes: this.entity.fsm.current,
-      skill_slot_num: this.entity.skillSlotNum()
+      css_classes: this.entity._battlePCFsm.current,
+      skill_slot_num: this.entity.getSkillSlotNum()
     };
     return _.extend(
       view_opts, 
@@ -64,27 +64,28 @@ var BattlePCSkillView = Backbone.View.extend({
   },
 
   _getTextFragmentOptions: function (){
-    if(this.text_fragment){ return this.text_fragment.getTextStatus(); }
-    return this._defaultTextFragmentOptions();
+    // TODO: if the skill is not ready or text fragment is not ready,
+    // then display default text fragment options
+    return this.entity.getTextStatus();
+    //    return this._defaultTextFragmentOptions();
   }
 });
-
-
 
 Crafty.c("BattlePCSkill", {
   skill: null,
   text_fragment: null,
   text_fragment_graveyard: null,
-  fsm: null,
+  _battlePCFsm: null,
+  _owner: null,
   _view: null,
 
   init: function (){ },
-  battlePCSkill: function (skill, owner){
-    this.skill = skill;
-    this._entity = owner;
-    this.text_fragment_graveyard = [];
+  battlePCSkill: function (owner, skillDef){
+    this._owner = owner;
+    this.skill = skillDef;
     this._setupStateMachine();
     this._initializeView();
+    this._battlePCFsm.initialize();
     return this;
   },
 
@@ -93,29 +94,31 @@ Crafty.c("BattlePCSkill", {
   },
 
   canTakeInput: function (input){
-    return (this.fsm.is("ready") || this.fsm.is("active"));
+    return (this._battlePCFsm.is("ready") || this._battlePCFsm.is("active"));
   },
 
   currentText: function (){
-    if(!this.text_fragment) { return null; }
-    return this.text_fragment.getText();
+    return this.getText();
   },
 
-  executeSkill: function (){
-    this.trigger("ExecuteSkill", {
-      text_fragment: this.text_fragment, 
-      skill: this.skill
-    });
-    this._cycleTextFragment();
-    this._startCooldownCycle(); //TODO: perhaps this should move to the state machine
+  getOwner: function (){
+    return this._owner;
+  },
+
+  getTarget: function (){
+    return this._owner.getTarget();
   },
 
   getView: function (){
     return this._view;
   },
 
+  prepareSkill: function (){
+    this._battlePCFsm.prepared();
+  },
+
   ready: function (){
-    this.fsm.initialize();
+    this._battlePCFsm.initialize();
   },
 
   render: function (){
@@ -123,104 +126,64 @@ Crafty.c("BattlePCSkill", {
     this._view.render();
   },
 
-  skillSlotNum: function (){
-    return this._entity.getSlotNum(this);
+  getSkillSlotNum: function (){
+    return this._owner.getSlotNum(this.skill);
   },
 
-  // ---------------------- Methods delegated to text fragment
-
-  takeInput: function (input){
+  acceptInput: function (input){
     if(!this.canTakeInput()){return null;}
-    if(this.text_fragment.takeInput(input)){
-      if(this.text_fragment.isComplete()){
-        this.fsm.complete();
-      }
+    if(this._takeInput(input)){
+      if(this._battlePCFsm.is("ready")){ this._battlePCFsm.start(); }
+      if(this.isComplete()){ this._battlePCFsm.complete(); }
       return true;
     }else{
       return false;
     }
   },
 
-  matchFirstChar: function (chr){
-    return this.text_fragment.matchFirstChar(chr);
-  },
-
-  matchNextChar: function (chr){
-    return this.text_fragment.matchNextChar(chr);
-  },
-
-  // ---------------------- End text fragment delegated methods
-
   // private
 
   _bindCombatModeSwitch: function (){
     var self = this;
     this.bind("SwitchedCombatMode", function (){
-      if(self.fsm.can('cancel')){
-        self.fsm.cancel();
+      if(self._battlePCFsm.can('cancel')){
+        self._battlePCFsm.cancel();
       }
     });
   },
 
   _bindRedrawOnTextFragmentUpdate: function (){
-    this.text_fragment.bind('Redraw', _.bind(this.render, this));
-  },
-
-  _clearTextFragment: function (){
-    this._unbindRedrawOnTextFragmentUpdate();
-    this.text_fragment.remove();
-    this.text_fragment = null;
+    this.bind('Redraw', _.bind(this.render, this));
   },
 
   _cycleTextFragment: function (){
-    if(this.text_fragment){
-      this._unbindRedrawOnTextFragmentUpdate();
-      this._moveTextFragmentToGraveyard();
-    }
-    this._generateTextFragment();
-    this._view.setTextFragment(this.text_fragment);
-    this._bindRedrawOnTextFragmentUpdate();
+    this._generateNewText();
   },
 
-  _generateTextFragment: function (){
-    var t, matches, loop_count, GUARD_INFINITE_LOOP;
-
-    GUARD_INFINITE_LOOP = 20;
-    for(loop_count = 0;;){
-      t = this._getTextFromVocabulary({});
-      matches = _.filter(this._entity.getCurrentSkillTexts(), function (curr_text){
-        return curr_text == t;
-      });
-      if(matches.length < 1){ break; }
-      if(loop_count > GUARD_INFINITE_LOOP){ 
-        t = this._makeRandomString();
-        break;
-      }
-    }
-    this.text_fragment = Crafty.e("TextFragment BattlePCSkillTextFragment")
-      .textFragment({text: t});
+  _generateNewText: function (){
+    this.setText(TextLibrarian.retrieve(this._owner.getVocabulary(), this.skill.textOptions));
   },
 
   _getTextFromVocabulary: function (opts){
     var txt;
 
-    return TextLibrarian.retrieve(this._entity.getVocabulary(), this.skill.textOptions);
+    return TextLibrarian.retrieve(this.getVocabulary(), this.skill.textOptions);
   },
 
   _initializeView: function (){
-    this._view = new BattlePCSkillView({entity: this, text_fragment: this.text_fragment});
+    this._view = new BattlePCSkillView({entity: this, text_fragment: this});
   },
 
-  _makeRandomString: function (){
-    var i, possible, text;
-
-    text = "";
-    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for( i=0; i < 15; i++ ){
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-  },
+  //  _makeRandomString: function (){
+  //    var i, possible, text;
+  //
+  //    text = "";
+  //    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //    for( i=0; i < 15; i++ ){
+  //      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //    }
+  //    return text;
+  //  },
 
   _moveTextFragmentToGraveyard: function (){
     this.text_fragment_graveyard.push(this.text_fragment);
@@ -230,7 +193,7 @@ Crafty.c("BattlePCSkill", {
   _setupStateMachine: function (){
     var self = this;
 
-    this.fsm = StateMachine.create({
+    this._battlePCFsm = StateMachine.create({
       initial: "inactive",
       events: [
         { name: "initialize", from: "inactive", to: "ready" },
@@ -242,26 +205,16 @@ Crafty.c("BattlePCSkill", {
       ],
       callbacks: { 
         onbeforeinitialize:    function (event, from, to){
-          console.log("DEBUG: BattlePCSkillComponent state machine onbeforeinitialize.  We need to be getting here");
-          self._generateTextFragment();
-          self._view.setTextFragment(self.text_fragment);
           self._bindRedrawOnTextFragmentUpdate();
-          self._bindCombatModeSwitch();
         },
+        onready:         function (event, from, to){},
         onstart:         function (event, from, to){ },
-        onready:         function (event, from, to){ self.text_fragment.activate(); },
-        onbeforecancel:  function (event, from, to){ self.text_fragment.reset(); },
-        onaftercomplete: function (event, from, to){ self.executeSkill(); },
-        onafterevent:    function (event, from, to){ self.render(); }
+        onbeforecancel:  function (event, from, to){ self.cancel(); },
+        onaftercomplete: function (event, from, to){ self._cycleTextFragment(); },
+        onafterevent:    function (event, from, to){ self.render(); },
+        onprepared:      function (event, from, to){ self.restart(); }
       }
     });
-  },
-
-  _startCooldownCycle: function (){
-    var self = this;
-    this.timeout(function (){
-      self.fsm.prepared();
-    }, this.skill.cooldown);
   },
 
   _unbindCombatModeSwitch: function (){

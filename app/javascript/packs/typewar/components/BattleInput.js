@@ -21,7 +21,7 @@
  * 
  */
 
-import { COMMANDS, CMD_CHANGE_STANCE } from "../util/command_constants"
+import { COMMANDS, CMD_CHANGE_STANCE } from "../constants/command_constants"
 
 require('crafty');
 
@@ -34,6 +34,10 @@ Crafty.c("BattleInput", {
   battleInput: function (){
     this._attachKeyboardHandler(); // bind a keyboard input
     return this;
+  },
+
+  clearInputQueue: function (){
+    this._inputQueue = [];
   },
 
   getInputQueue: function (){

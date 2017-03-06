@@ -1,4 +1,18 @@
-require('crafty');
+import {
+  ZERO_ANIM_READY,
+  ZERO_ANIM_LIGHT_SLASH,
+  ZERO_ANIM_MED_SLASH,
+  ZERO_ANIM_HEAVY_SLASH,
+  ZERO_ANIM_UPPER_SLASH,
+  ZERO_ANIM_BLOCK,
+  ZERO_ANIM_DASH,
+  ZERO_ANIM_JUMP,
+  ZERO_ANIM_ENTER,
+  ZERO_ANIM_CHARGE,
+  ZERO_ANIM_HIT,
+} from "../../constants/animation_constants"
+
+require("crafty");
 
 Crafty.c("BattlePlayerZeroAnim", {
   _ATTACK_ANIM_SPEED: 380,
@@ -13,16 +27,16 @@ Crafty.c("BattlePlayerZeroAnim", {
 
   battlePlayerZeroAnim: function (){
     var self = this;
-    this.reel("ready", this._READY_ANIM_SPEED, 0, 0, 4)
-      .reel("attack1", this._ATTACK_ANIM_SPEED, 0, 1, 8)
-      .reel("attack2", this._ATTACK_ANIM_SPEED, 0, 2, 6)
-      .reel("attack3", this._ATTACK_ANIM_SPEED, 0, 3, 8)
-      .reel("attack4", this._ATTACK_ANIM_SPEED, 0, 4, 8)
-      .reel("block", this._BLOCK_ANIM_SPEED, 0, 5, 7)
-      .reel("dash", this._PLACEHOLDER_ANIM_SPEED, 0, 8, 3)
-      .reel("jump", this._PLACEHOLDER_ANIM_SPEED, 9, 6)
-      .reel("enter", this._PLACEHOLDER_ANIM_SPEED, 10, 13)
-      .reel("charge", this._PLACEHOLDER_ANIM_SPEED, 11, 7)
+    this.reel(ZERO_ANIM_READY, this._READY_ANIM_SPEED, 0, 0, 4)
+      .reel(ZERO_ANIM_LIGHT_SLASH, this._ATTACK_ANIM_SPEED, 0, 1, 8)
+      .reel(ZERO_ANIM_MED_SLASH, this._ATTACK_ANIM_SPEED, 0, 2, 6)
+      .reel(ZERO_ANIM_HEAVY_SLASH, this._ATTACK_ANIM_SPEED, 0, 3, 8)
+      .reel(ZERO_ANIM_UPPER_SLASH, this._ATTACK_ANIM_SPEED, 0, 4, 8)
+      .reel(ZERO_ANIM_BLOCK, this._BLOCK_ANIM_SPEED, 0, 5, 7)
+      .reel(ZERO_ANIM_DASH, this._PLACEHOLDER_ANIM_SPEED, 0, 8, 3)
+      .reel(ZERO_ANIM_JUMP, this._PLACEHOLDER_ANIM_SPEED, 9, 6)
+      .reel(ZERO_ANIM_ENTER, this._PLACEHOLDER_ANIM_SPEED, 10, 13)
+      .reel(ZERO_ANIM_CHARGE, this._PLACEHOLDER_ANIM_SPEED, 11, 7)
       .setupHitAnim()
 
       .bind("EnterFrame", function (e){
@@ -31,29 +45,29 @@ Crafty.c("BattlePlayerZeroAnim", {
     return this;
   },
 
-  animAttack: function (anim){
+  animAttack: function (reelName){
     var attack_name, attack_names;
 
-    if(!anim){
+    if(!reelName){
       // randomize attack animation
-      attack_names = ["attack1", "attack2", "attack3", "attack4"];
+      attack_names = [ZERO_ANIM_LIGHT_SLASH, ZERO_ANIM_MED_SLASH_ZERO_ANIM_HEAVY_SLASH, ZERO_ANIM_UPPER_SLASH];
       attack_name = attack_names[Math.floor(attack_names.length * Math.random())];
     }else{
-      attack_name = anim;
+      attack_name = reelName;
     }
     this.animate(attack_name, 0);
   },
 
   animBlock: function (){
-    this.animate("block", 0);
+    this.animate(ZERO_ANIM_BLOCK, 0);
   },
 
   animHit: function (){
-    this.animate("hit", 0);
+    this.animate(ZERO_ANIM_HIT, 0);
   }, 
 
   animReady: function (){
-    this.animate("ready", -1);
+    this.animate(ZERO_ANIM_READY, -1);
   },
 
   playAnim: function (reel_id){
@@ -78,7 +92,7 @@ Crafty.c("BattlePlayerZeroAnim", {
       [0,7], [1,7]
     ]
 
-    this.reel("hit", this._HIT_ANIM_SPEED, hit_anim_map);
+    this.reel(ZERO_ANIM_HIT, this._HIT_ANIM_SPEED, hit_anim_map);
     return this;
   }
 });

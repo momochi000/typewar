@@ -8,7 +8,7 @@
  * their respective models.
  */
 
-import TextLibrarian from "./text_librarian"
+import TextLibrarian from "../util/text_librarian"
 var StateMachine = require("javascript-state-machine");
 
 export default class BattleManager {
