@@ -93,42 +93,30 @@ Crafty.c("BattlePCSkill", {
     this._view.remove(); //remove the view
   },
 
+  cancel: function (){ this._battlePCFsm.cancel(); },
+
   canTakeInput: function (input){
     return (this._battlePCFsm.is("ready") || this._battlePCFsm.is("active"));
   },
 
-  currentText: function (){
-    return this.getText();
-  },
+  currentText: function (){ return this.getText(); },
 
-  getOwner: function (){
-    return this._owner;
-  },
+  getOwner: function (){ return this._owner; },
 
-  getTarget: function (){
-    return this._owner.getTarget();
-  },
+  getTarget: function (){ return this._owner.getTarget(); },
 
-  getView: function (){
-    return this._view;
-  },
+  getView: function (){ return this._view; },
 
-  prepareSkill: function (){
-    this._battlePCFsm.prepared();
-  },
+  prepareSkill: function (){ this._battlePCFsm.prepared(); },
 
-  ready: function (){
-    this._battlePCFsm.initialize();
-  },
+  ready: function (){ this._battlePCFsm.initialize(); },
 
   render: function (){
     if(!this._view){ return; }
     this._view.render();
   },
 
-  getSkillSlotNum: function (){
-    return this._owner.getSlotNum(this.skill);
-  },
+  getSkillSlotNum: function (){ return this._owner.getSlotNum(this.skill); },
 
   acceptInput: function (input){
     if(!this.canTakeInput()){return null;}
@@ -142,15 +130,6 @@ Crafty.c("BattlePCSkill", {
   },
 
   // private
-
-  _bindCombatModeSwitch: function (){
-    var self = this;
-    this.bind("SwitchedCombatMode", function (){
-      if(self._battlePCFsm.can('cancel')){
-        self._battlePCFsm.cancel();
-      }
-    });
-  },
 
   _bindRedrawOnTextFragmentUpdate: function (){
     this.bind('Redraw', _.bind(this.render, this));
@@ -185,11 +164,6 @@ Crafty.c("BattlePCSkill", {
   //    return text;
   //  },
 
-  _moveTextFragmentToGraveyard: function (){
-    this.text_fragment_graveyard.push(this.text_fragment);
-    this.text_fragment = null;
-  },
-
   _setupStateMachine: function (){
     var self = this;
 
@@ -207,9 +181,9 @@ Crafty.c("BattlePCSkill", {
         onbeforeinitialize:    function (event, from, to){
           self._bindRedrawOnTextFragmentUpdate();
         },
-        onready:         function (event, from, to){},
+        onready:         function (event, from, to){ },
         onstart:         function (event, from, to){ },
-        onbeforecancel:  function (event, from, to){ self.cancel(); },
+        onbeforecancel:  function (event, from, to){ self._textFragFsm.cancel(); },
         onaftercomplete: function (event, from, to){ self._cycleTextFragment(); },
         onafterevent:    function (event, from, to){ self.render(); },
         onprepared:      function (event, from, to){ self.restart(); }
@@ -217,9 +191,7 @@ Crafty.c("BattlePCSkill", {
     });
   },
 
-  _unbindCombatModeSwitch: function (){
-    this.unbind("SwitchedCombatMode");
-  },
+  _unbindCombatModeSwitch: function (){ this.unbind("SwitchedCombatMode"); },
 
   _unbindRedrawOnTextFragmentUpdate: function (){
     this.text_fragment.unbind('Redraw');

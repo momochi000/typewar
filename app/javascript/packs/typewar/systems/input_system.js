@@ -6,8 +6,8 @@ function initInputSystem(Crafty) {
 }
 
 function inputSystem(Crafty) {
-  var input_entities, input_entity, input_queue, text_fragment_entities,
-    active_text_fragments, text_frag_ents_with_matching_input;
+  var input_entities, input_entity, input_queue, text_fragment_entities;
+
 
   input_entities = Crafty("BattleInput BattleStance").get();
 
@@ -21,117 +21,87 @@ function inputSystem(Crafty) {
   // no input ready
   if(input_queue.length == 0) { return; }
 
-  //  console.log("DEBUG: INPUT SYSTEM PROCESSING>..... LOOPING OVER INPUT QUEUE ---> ", input_queue);
   input_queue.forEach((currInput) => {
     if(input_entity.isStance("offense")){
-      //      console.log("DEBUG: INPUT SYSTEM PROCESSING> in offensive stance");
       text_fragment_entities = Crafty("TextFragment BattlePCSkill").get();
-      //      console.log("DEBUG: INPUT SYSTEM PROCESSING> relavent text fragment entities obtained ---> ", text_fragment_entities);
     }else if(input_entity.isStance("defense")){
-      //      console.log("DEBUG: INPUT SYSTEM PROCESSING> in defensive stance");
       text_fragment_entities = Crafty("TextFragment").get();
     }else{
       throw new Error("Input entity is in an invalid stance");
     }
 
-    // TODO: When a text fragment is complete add TextFragmentComplete and remove TextFragment
-    // filter completed text fragments
     text_fragment_entities = _.filter(text_fragment_entities, (curr) => {
       return !curr.isComplete();
     });
-    //    console.log("DEBUG: INPUT SYSTEM PROCESSING> Filtering for incomplete text fragments ---> ", text_fragment_entities);
 
-    active_text_fragments = _.filter(text_fragment_entities, (curr) => {
-      return curr.isActive();
-    });
-    //    console.log("DEBUG: INPUT SYSTEM PROCESSING> Filtering for active text fragments ---> ", active_text_fragments);
-
-    if(currInput == CMD_CHANGE_STANCE) {
-      changeStance(input_entity, active_text_fragments);
-      return;
-    }
-
-    if(_.isEmpty(active_text_fragments)) {
-      // find out which text fragments to activate and apply input to them
-      text_frag_ents_with_matching_input = _.filter(text_fragment_entities, (curr_frag) => {
-        return curr_frag.matchFirstChar(currInput);
-      });
-
-      text_frag_ents_with_matching_input.forEach((curr_frag) => {
-        curr_frag.activate(); // STATE CHANGE
-        curr_frag.acceptInput(currInput); // STATE CHANGE
-      });
-    }else{
-      active_text_fragments.forEach((curr_frag) => {
-        if(curr_frag.acceptInput(currInput)){ // STATE CHANGE
-        }else{
-          // LEFT OFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          // Here's the situation:
-          // skill typing and activation seems to work ok
-          // cooldown cycling also seems to work.
-          // The issue I was working on is that skill canceling isn't working
-          //
-          // If you have 2 skills that activate at the same time
-          // once you keep typing one of them, the other one should cancel
-          // and return to a ready state without changing the text
-          //
-          // There's also teh issue that if 2 skills have identical text
-          // if you start typing them, then press a wrong key, it should not
-          // bail out of both of them.
-          //
-          // I think i'll need to revive the code i had before as it was trying to be smart
-          // about handling all the edge cases. I've pasted it down below
-          //
-          //
-          //
-          //
-          //
-          //  takeInput: function (input){
-          //    var active_skills, ready_skills;
-          //
-          //    if(this._anyActiveSkills()){
-          //      active_skills = this._getActiveSkills();
-          //      if(active_skills.length > 1){ // if 2 or more active, match the next letter and deactivate if next letter doesn't match
-          //        // Check if any single skill matches
-          //        if(this._anySkillsMatchInput(active_skills, input)){
-          //          // If progress is made in a skill but another has a typo, bail out of that other one.
-          //          _.each(active_skills, function(skill){
-          //            if(skill.takeInput(input)){  // correct input
-          //            }else{ //incorrect input
-          //              skill.fsm.cancel(); // TODO: knowing about the fsm here is a smell and should be refactored
-          //            }
-          //          });
-          //        }
-          //      }else{ // if 1 active, match the next letter or accept typo.
-          //        active_skills[0].takeInput(input)
-          //      }
-          //    }else{ // if none active, find those that start with the matching letter
-          //      ready_skills = this._getReadySkills();
-          //      _.each(ready_skills, function(skill){
-          //        if(skill.matchFirstChar(input)){
-          //          skill.takeInput(input)
-          //          skill.fsm.start();
-          //        };
-          //      });
-          //    }
-          //  },
-          //
-          // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-          curr_frag.cancel();
-        }
-      });
-    }
+    acceptInput(text_fragment_entities, currInput, input_entity);
   });
 
   input_entity.clearInputQueue();
 }
 
+function acceptInput(entities, input, inputEntity) {
+  var active_text_fragments, receiving_correct_input, text_frag_ents_with_matching_input;
+
+  active_text_fragments = _.filter(entities, (curr) => {
+    return curr.isActive();
+  });
+
+
+  if(input == CMD_CHANGE_STANCE) {
+    changeStance(inputEntity, active_text_fragments);
+    return;
+  }
+
+  if(_.isEmpty(active_text_fragments)) {
+    // find out which text fragments to activate and apply input to them
+    text_frag_ents_with_matching_input = _.filter(entities, (curr_frag) => {
+      return curr_frag.matchFirstChar(input);
+    });
+
+    text_frag_ents_with_matching_input.forEach((curr_frag) => {
+      curr_frag.activate(); // STATE CHANGE
+      curr_frag.acceptInput(input); // STATE CHANGE
+    });
+    return;
+  }
+
+  if(active_text_fragments.length == 1) {
+    active_text_fragments[0].acceptInput(input);
+    return;
+  }
+
+  // case: multiple active text fragments
+  // rules: 
+  // if none receive correct input, then do nothing (discard input)
+  // if one receives correct input, advance that one and reset the others (cancel())
+  // if multiple receives correct input, advance them all
+
+  receiving_correct_input = _.filter(active_text_fragments, (curr) => {
+    return curr.matchNextChar(input);
+  });
+
+  if(receiving_correct_input.length == 0){
+    // TODO: for now do nothing, but eventually we should record an incorrect
+    // input
+  }else if(receiving_correct_input.length >= 1){
+    //split active_text_fragments into those which are getting corect input
+    //and those which are not, those which don't get cancel
+    active_text_fragments.forEach((curr) => {
+      if(curr.matchNextChar(input)){ // STATE CHANGE
+        curr.acceptInput(input);
+      }else{
+        curr.cancel();
+      }
+    });
+  }else{
+    throw new Error("Error, something funky is going on here....");
+  }
+}
+
 function changeStance(inputEntity, activeTextFragments){
   activeTextFragments.forEach((curr) => {
-    curr.deactivate();  // STATE CHANGE
+    curr.cancel();  // STATE CHANGE
   });
   inputEntity.toggleStance(); // STATE CHANGE
 }

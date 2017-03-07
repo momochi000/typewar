@@ -6,13 +6,22 @@
  * Triggers entity events: 
  *   InputIncorrect 
  *   InputCorrect
- *   Completed
+ *   TextFragmentCompleted
+ *
+ *   It's becoming clear that this component is meant to be a companion to
+ *   another component which provides it's front facing api.  For example
+ *   BattlePCSkill comes along with this one.  Methods are called on 
+ *   BattlePCSkill but not TextFragment directly.  BattlePCSkill interfaces
+ *   with TextFragment to get at the desired functionality
+ *
+ *   Some of these which must be implemented are
+ *   cancel()
+ *   acceptInput();
+ *
+ *   However, any functionality in components should be moved off into their
+ *   respective systems.  Ultimately components should contain no behavior
  */
 
-// TODO
-// Need to use a state machine to govern whether the fragment is active or complete
-// don't try to use bools like i am curently
-//
 import TextFragment from "../entities/text_fragment"
 
 require("crafty");
@@ -38,19 +47,7 @@ Crafty.c("TextFragment", {
 
   activate: function (){ this._textFragFsm.activate(); },
 
-  cancel: function (){ this._textFragFsm.cancel(); },
-
   complete: function (){ this._textFragFsm.finish(); },
-
-  deactivate: function (){ 
-    this._isActive = false; 
-    this.z = 0;
-    //this._current_position = null;
-    this._triggerRedraw(); // TODO: refactor calls to drawSelf out into text fragment 
-                           // display component for now it's ok to have them here, 
-                           // it won't break if it calls but there's nothing to 
-                           // display
-  },
 
   errorCount: function (){ return this._incorrect_characters.length; },
 
@@ -183,6 +180,7 @@ Crafty.c("TextFragment", {
     this._correct_characters = '';
     this._current_position = null;
     this._clearTimestamps();
+    this._triggerRedraw();
   },
 
   _tagStartedTimestamp: function (){ this.started_at = new Date(); },
