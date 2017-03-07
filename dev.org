@@ -28,9 +28,11 @@
    that do occur will be so infrequent that it won't matter in the
    context of this game
 *** TODO Input system
-**** TODO Test against Skills
+**** DONE Test against Skills
+     CLOSED: [2017-03-06 Mon 18:27]
 **** TODO Test against Text fragment attacks
-*** TODO Skill system
+*** DONE Skill system
+    CLOSED: [2017-03-06 Mon 18:27]
     Need to change the way the skill manager handles text fragments and how it
     accepts input.  It must be compatible with the way the input system 
     fulfills text fragments.
@@ -44,19 +46,41 @@
 
 **** DONE Delete the comments I left over from the last commit
      CLOSED: [2017-03-04 Sat 14:39]
-**** TODO Skill manager should store a set of skills on init
-**** TODO Skill manager generates an entity for each skill
-**** TODO Skill entities are also text fragments
+**** DONE Skill manager should store a set of skills on init
+     CLOSED: [2017-03-06 Mon 18:31]
+**** DONE Skill manager generates an entity for each skill
+     CLOSED: [2017-03-06 Mon 18:31]
+**** DONE Skill entities are also text fragments
+     CLOSED: [2017-03-06 Mon 18:31]
 **** TODO When skill entity is completed, skill enters triggeredSkillQueue (name TBD)
 **** TODO Skill system looks through triggeredSkillQueue and applies the skill to the game
-**** TODO When skill goes from cooling to ready, then reset the text fragment
-*** TODO Move all data into a single data store
-    Components no longer hold any data
-    They hold references to data trees within the data store
-    They do however, initialize their own trees in the data store
+**** DONE When skill goes from cooling to ready, then reset the text fragment
+     CLOSED: [2017-03-06 Mon 18:31]
 * Backlog
-** TODO Setup box2d
 ** TODO pull views out into their own files and abstract as necessary :refactor:
+** TODO Fix health bar display
+** TODO Enlarge player vocabulary
+** TODO Fix stance icons
+*** TODO Make icon appear properly
+*** TODO Float the icon above the player entity
+*** TODO Figure out what to do with the enemy icon
+** TODO Do some balance work on TextLibrary
+   Light slash should consistently be easier/shorter to type than hard slash
+** TODO Resolve if multiple skills are completed simultaneously
+   This is something that needs playtesting.
+   From a top level design consideration, this seems like a bug: there should 
+   never be two skills with the same text to type.
+   However, when actually doing it, it seems like it might become a happy 
+   accident.  It should be rare enough that it doesn't become game breaking
+   and yet when it does happen, it could provide a nice RNG boost to the player
+   where you're like "YES! got lucky!"
+   In the case I decide to keep/run with it, then I need to handle both skills
+   executing in sequence.
+** TODO Move all data into a single data store
+   Components no longer hold any data
+   They hold references to data trees within the data store
+   They do however, initialize their own trees in the data store
+** TODO Setup box2d
 ** TODO Abandon dynamic skill adjustment
    The game will instead feature a linear difficulty progression of monster to monster
    Simply a matter of how quickly and accurately you can type = how far you go
@@ -66,14 +90,8 @@
 ** TODO Deploy
 ** TODO Rename this project
 * Roadmap
-** TODO Move the stance icon to float above the player
-** TODO Change templating engine
-   Move away from Backbone
-** TODO Reexamine how game data is stored
-   I should like to have a single json to store all the data.
 ** TODO Research use of web workers
-** TODO Remove backbone
-** TODO All events should follow a consistent style (see backbone) :refactor:
+** TODO All events should follow a consistent style  :refactor:
 ** TODO Make component file names match component names :refactor: 
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
 ** TODO Closure around Typewar.js :refactor:
@@ -260,6 +278,8 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Change templating engine
+   CLOSED: [2017-03-06 Mon 18:42]
 ** DONE Get game code refactored over to webpack
    CLOSED: [2017-03-02 Thu 22:56]
 *** DONE Reasses basic structure of app
