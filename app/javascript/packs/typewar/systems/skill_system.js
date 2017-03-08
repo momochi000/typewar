@@ -13,14 +13,16 @@ function initSkillSystem(Crafty) {
 function skillSystem(Crafty) { 
   var skill_entities, completed_skill_entities;
 
+  // NOTE: There is a potential problem/issue here:
+  // Querying for completed skills in this manner does not guarantee order
+  // so in theory, if two skills trigger within the same execution frame
+  // they could occur out of order.  It's probly such a small edge case that
+  // it doesn't matter, but it's possible and worth noting in case it becomes
+  // an issue...
   skill_entities = Crafty("BattlePCSkill TextFragment").get();
   completed_skill_entities = _.filter(skill_entities, (curr) => {
     return curr.isComplete();
   });
-
-  //  if(completed_skill_entities.length > 0) {
-  //    console.log("DEBUG: IN SKILL SYSTEM WITH SOME RELAVENT THINGY....");
-  //  }
 
   _.each(completed_skill_entities, (curr_entity) => {
     //    console.log("DEBUG: SKILL SYSTEM PROCESSING, some skill should be run... ----> ",curr_entity);

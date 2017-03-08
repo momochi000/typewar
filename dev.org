@@ -52,10 +52,24 @@
      CLOSED: [2017-03-06 Mon 18:31]
 **** DONE Skill entities are also text fragments
      CLOSED: [2017-03-06 Mon 18:31]
-**** TODO When skill entity is completed, skill enters triggeredSkillQueue (name TBD)
-**** TODO Skill system looks through triggeredSkillQueue and applies the skill to the game
 **** DONE When skill goes from cooling to ready, then reset the text fragment
      CLOSED: [2017-03-06 Mon 18:31]
+*** TODO Enemy attack system
+**** TODO Refactor skill system to more specifically refer to player skills
+**** TODO Build NPC skill system
+**** TODO NPC brain needs a system too
+**** TODO NPC brain system triggers it's skills on some sort of random timetable
+**** TODO Build NPC skill structure
+**** TODO NPC skill effects should execute using the same structure as players
+**** TODO First npc skill effect spawns a text fragment attack
+**** TODO create text fragment attack component
+**** TODO text fragment is accompanied by some component that marks it as defendable
+**** TODO this pair is also accompanied by a component which gives the text fragment some movement and collision behavior
+**** TODO might need another system which handles movement of the attack
+**** TODO The text fragment flies towards the player
+**** TODO on hit, damage is resolved.
+**** TODO Refactor/split input system to handle input for skills and defensible fragments seperately
+**** TODO A third input system to handle commands
 * Backlog
 ** TODO Ensure you cannot type skills while in a defensive stance
    This is due ot the way text fragment entities are queried out.  
