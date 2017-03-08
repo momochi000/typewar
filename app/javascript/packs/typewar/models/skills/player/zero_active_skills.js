@@ -37,7 +37,7 @@ var ZeroLightSlash = {
     max_difficulty: 3
   },
   properties: {
-    blunt:    0, slashing: 1, piercing: 0,
+    blunt:    0, slashing: 2, piercing: 0,
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
@@ -59,7 +59,7 @@ var ZeroMedSlash = {
     max_difficulty: 5
   },
   properties: {
-    blunt:    0, slashing: 2, piercing: 0,
+    blunt:    0, slashing: 3, piercing: 0,
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
@@ -81,7 +81,7 @@ var ZeroHardSlash = {
     max_difficulty: 7
   },
   properties: {
-    blunt:    0, slashing: 3, piercing: 0,
+    blunt:    0, slashing: 4, piercing: 0,
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
@@ -103,7 +103,7 @@ var ZeroUpperSlash = {
     max_difficulty: 5
   },
   properties: {
-    blunt:    0, slashing: 2, piercing: 0,
+    blunt:    0, slashing: 3, piercing: 0,
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0

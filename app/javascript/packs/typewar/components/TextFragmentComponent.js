@@ -200,9 +200,9 @@ Crafty.c("TextFragment", {
    * return true if the input was correct else false
    */
   _takeInput: function (chr){
-    console.log("DEBUG: TEXT FRAGMENT#_takeInput...");
-    console.log("DEBUG: next char ---> " + this._text[this._current_position] );
-    console.log("DEBUG: char arg ----> " + chr);
+    //console.log("DEBUG: TEXT FRAGMENT#_takeInput...");
+    //console.log("DEBUG: next char ---> " + this._text[this._current_position] );
+    //console.log("DEBUG: char arg ----> " + chr);
 
     if(this._text[this._current_position] == chr){
       this._correctInput();

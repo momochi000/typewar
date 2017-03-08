@@ -13,6 +13,7 @@ class Damage {
     }
     args = setSelfTargetArg(args);
     damage_properties_amount = calculateDamage(args.target, args.properties);
+
     applyDamage(args.target, damage_properties_amount);
 
     // displayDamageEffect(damage_amount);
@@ -21,10 +22,13 @@ class Damage {
 
 class SetCooldown{
   static execute(args) {
+    var args_copy;
+
     validateTarget("EffectSetCooldown", args.target);
     args = setSelfTargetArg(args);
+    args_copy = _.merge({}, args);
     setTimeout(() => {
-      args.skill.prepareSkill();
+      args_copy.skill.prepareSkill();
     }, args.cooldownLength);
   }
 }
@@ -55,15 +59,15 @@ function applyDamage(target, propertiesMagnitude) {
 function calculateDamage(target, damageProperties) {
   var output = {};
   if(!target.charSheet) { 
-    console.log("ERROR: attempting to calculate damage against a target that has no character sheet -> ", target);
     return;
   }
   // NOTE: Eventually we'll do some sophisticated calculation of target
   // properties against the properties of the thing doing the damaging
   // for now just subtract
-  target.charSheet.properties
-  _.each(target.charSheet.properties, (val, key) => {
-    output[key] = damageProperties[key] - val;
+  _.each(target.charSheet.data.properties, (val, key) => {
+    let prop_amount;
+    prop_amount = damageProperties[key] - val;
+    output[key] = (prop_amount < 0) ? (0) : (prop_amount);
   });
   return output;
 }

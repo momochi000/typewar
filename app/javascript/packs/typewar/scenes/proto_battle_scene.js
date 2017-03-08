@@ -163,7 +163,7 @@ export default class ProtoBattleScene {
      enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleSlime")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
-      .battleNPCEnemy(null, this._battleManager)
+      .battleNPCEnemy()
       .battleSlimeAnim()
       .battleStatus()
       .nPCBrain()

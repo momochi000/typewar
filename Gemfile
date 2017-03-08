@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '5.0.1'
 
-gem 'bootstrap-sass'
+#gem 'bootstrap-sass'
 gem 'compass-rails'
 gem 'factory_girl_rails'
 gem 'faker'

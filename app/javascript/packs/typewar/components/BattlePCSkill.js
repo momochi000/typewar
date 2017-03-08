@@ -103,6 +103,8 @@ Crafty.c("BattlePCSkill", {
 
   getOwner: function (){ return this._owner; },
 
+  getSkillDef: function (){ return this.skill; },
+
   getTarget: function (){ return this._owner.getTarget(); },
 
   getView: function (){ return this._view; },

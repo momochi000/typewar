@@ -21,7 +21,7 @@ Crafty.c("TextFragmentSpawner", {
   textFragmentSpawner: function (battleManagerRef){
     // TODO: Need to revisit if this is working or not and refactor.
     Crafty.bind("TextFragmentCompleted", this.textFragmentCompleted.bind(this));
-    this._battleManagerReference = battleManagerRef;
+    //    this._battleManagerReference = battleManagerRef;
     return this;
   },
 
@@ -127,7 +127,7 @@ Crafty.c("TextFragmentSpawner", {
     return new Crafty.polygon([0,0],[rect.w,0],[rect.w,rect.h],[0,rect.h]);
   },
 
-  _registerFragmentWithBattleManager: function (frag){
-    this._battleManagerReference.registerFragment(frag);
-  }
+  //  _registerFragmentWithBattleManager: function (frag){
+  //    this._battleManagerReference.registerFragment(frag);
+  //  }
 });

@@ -57,6 +57,9 @@
 **** DONE When skill goes from cooling to ready, then reset the text fragment
      CLOSED: [2017-03-06 Mon 18:31]
 * Backlog
+** TODO Ensure you cannot type skills while in a defensive stance
+   This is due ot the way text fragment entities are queried out.  
+   It should be fixed once text fragment attacks get another component
 ** TODO pull views out into their own files and abstract as necessary :refactor:
 ** TODO Fix health bar display
 ** TODO Enlarge player vocabulary
@@ -90,6 +93,7 @@
 ** TODO Deploy
 ** TODO Rename this project
 * Roadmap
+** TODO Ensure spaces are clear when typing
 ** TODO Research use of web workers
 ** TODO All events should follow a consistent style  :refactor:
 ** TODO Make component file names match component names :refactor: 

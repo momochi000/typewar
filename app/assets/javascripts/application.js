@@ -12,14 +12,8 @@
 //
 //= require jquery2
 //= require jquery_ujs
-//= require bootstrap
-//= require underscore-min
-//= require underscore_config
-//= require underscore.mixin.deepExtend
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
-//= require Box2dWeb.min
-//= require backbone/typewar
 //= require crafty
 //= require_tree .

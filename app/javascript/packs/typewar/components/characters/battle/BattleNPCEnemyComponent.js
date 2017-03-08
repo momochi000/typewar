@@ -25,12 +25,12 @@ Crafty.c("BattleNPCSlime", {
     this.requires("2D, SpriteAnimation, BattleCharacter");
   },
 
-  battleNPCEnemy: function (charSheet, battleManagerRef){
+  battleNPCEnemy: function (charSheet){
     //this.charSheet = charSheet || new Typewar.Models.CharacterSheet({name: "Slime"});
     if(!this.charSheet) { 
       this.charSheet = new CharacterSheet({name :"Slime"});
     }
-    this._battleManagerReference = battleManagerRef;
+    //    this._battleManagerReference = battleManagerRef;
     this._fragment_timers = [];
     this._createFragmentSpawner();
     this._initModel();
@@ -68,11 +68,11 @@ Crafty.c("BattleNPCSlime", {
     if(!skill){ return; } // Do not attack if no skill available
 
     skill_data = skill.activate();
-    text_fragment_options = this._battleManagerReference.handleAttack({
-      attacker: this, 
-      defender: defender, 
-      skill: skill_data
-    });
+    //    text_fragment_options = this._battleManagerReference.handleAttack({
+    //      attacker: this, 
+    //      defender: defender, 
+    //      skill: skill_data
+    //    });
     this.animAttack(skill_data.animation);
     this._fragment_timers.push(window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
       frag = self._fragment_spawner.generateTextFragment({
@@ -140,7 +140,8 @@ Crafty.c("BattleNPCSlime", {
   _createFragmentSpawner: function (){
     this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
       .attr({x: this._x, y: this._y})
-      .textFragmentSpawner(this._battleManagerReference);
+    //      .textFragmentSpawner(this._battleManagerReference);
+      .textFragmentSpawner();
 
     this.attach(this._fragment_spawner);
   },

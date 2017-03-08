@@ -18,48 +18,39 @@ function skillSystem(Crafty) {
     return curr.isComplete();
   });
 
-  if(completed_skill_entities.length > 0) {
-    console.log("DEBUG: IN SKILL SYSTEM WITH SOME RELAVENT THINGY....");
-  }
-
+  //  if(completed_skill_entities.length > 0) {
+  //    console.log("DEBUG: IN SKILL SYSTEM WITH SOME RELAVENT THINGY....");
+  //  }
 
   _.each(completed_skill_entities, (curr_entity) => {
-    console.log("DEBUG: SKILL SYSTEM PROCESSING, some skill should be run... ----> ",curr_entity);
+    //    console.log("DEBUG: SKILL SYSTEM PROCESSING, some skill should be run... ----> ",curr_entity);
     curr_entity.processed();
     executeSkill(curr_entity);
     // reset the text fragment
   });
 }
 
-
-function resolveAttack(attack_object){
-  var fragment;
-
-  fragment =  attack_object.text_fragment;
-  if(fragment.wasPerfect()){
-    attack_object.target.successfulHit();
-    attack_object.target.takeDamage(2);
-  } else if(fragment.successPct() > 90){
-    attack_object.target.partialHit();
-    attack_object.target.takeDamage(1);
-  } else {
-    attack_object.target.wasMissed();
-  }
-}
-
 // locals
+
+//function resolveAttack(attack_object){
+//  var fragment;
+//
+//  fragment =  attack_object.text_fragment;
+//  if(fragment.wasPerfect()){
+//    attack_object.target.successfulHit();
+//    attack_object.target.takeDamage(2);
+//  } else if(fragment.successPct() > 90){
+//    attack_object.target.partialHit();
+//    attack_object.target.takeDamage(1);
+//  } else {
+//    attack_object.target.wasMissed();
+//  }
+//}
 
 function executeSkill(skillEntity){
   var target;
 
-  console.log("DEBUG: SKILL SYSTEM PROCESSING executeSkill....", skillEntity);
   target = skillEntity.getTarget();
-
-  // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  console.log("DEBUG: SKILL SYSTEM PROCESSING executeSkill... target should be .", target);
-  console.log("DEBUG: SKILL SYSTEM PROCESSING executeSkill... effects will be ", skillEntity.skill.effects);
-
 
   _.each(skillEntity.skill.effects, (effectData) => {
     var effect_klass, effect_args, skill_args;
@@ -71,7 +62,7 @@ function executeSkill(skillEntity){
       source: skillEntity.getOwner(),
       skill: skillEntity
     }
-    skill_args = _.merge(skill_args, effect_args);
+    skill_args = _.merge(skillEntity.getSkillDef(), skill_args, effect_args);
 
     console.log("DEBUG: SKILL SYSTEM PROCESSING, About to execute skill effect ---------", effect_klass, skill_args);
     effect_klass.execute(skill_args);
