@@ -5,6 +5,7 @@ config/database.yml
 development
 .DS_Store
 .idea
+.#dev.org
 db/*.sqlite3
 
 Box2dWeb.js
