@@ -5,6 +5,11 @@
  * some of the getters in order to provide a means of modifying the
  * skill attributes based on difficulty.
  */
+
+/* 
+ * TODO: Marked for deletion.......
+*/
+
 export default class BaseSkill {
   constructor (){
     this._attributes = {
@@ -61,7 +66,7 @@ export default class BaseSkill {
       properties:       this.getProperties(),
       positionFunc:     this.getPositionFunc(),
       sound:            this.getSound(),
-      textOptions:     this.getTextOptions(),
+      textOptions:      this.getTextOptions(),
       type:             this.getType()
     }
   }

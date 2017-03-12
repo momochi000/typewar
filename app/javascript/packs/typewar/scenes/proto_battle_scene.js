@@ -6,6 +6,7 @@ import StatusBarView from "../views/status_bar_view"
 
 import {initInputSystem, inputSystem} from "../systems/input_system"
 import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
+import {initNPCSkillSystem} from "../systems/npc_skill_system"
 
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
@@ -147,7 +148,6 @@ export default class ProtoBattleScene {
         player.setTarget(enemy_npc);
         enemy_npc.setTarget(player);
 
-        //        self._addCombatantsToBattleManager();
         fulfill();
       }, (error) => {
         console.log("ERROR: there was an error initializing the npc", error);
@@ -159,21 +159,20 @@ export default class ProtoBattleScene {
 
   initEnemyNPC(){
     var enemy_entity, promise;
-    //return new NPCEntity();
 
-     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleSlime")
+     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
       .battleNPCEnemy()
       .battleSlimeAnim()
       .battleStatus()
-      .nPCBrain()
       .collision([0,0],[0,50],[50,60],[0,60]);
+    //.nPCBrain()
 
     promise = enemy_entity.getFromServer();
 
     return promise.then( () => {
-      enemy_entity.setupBattleNPCSkills(); // TODO SMELLY, this is calling a private function.  Let's make this better
+      //      enemy_entity.setupBattleNPCSkills(); // TODO SMELLY, this is calling a private function.  Let's make this better
       return enemy_entity;
     });
   }
@@ -253,6 +252,7 @@ export default class ProtoBattleScene {
   initSystems(){
     initPlayerSkillSystem(Crafty);
     initInputSystem(Crafty);
+    initNPCSkillSystem(Crafty);
   }
 
   initUI(){

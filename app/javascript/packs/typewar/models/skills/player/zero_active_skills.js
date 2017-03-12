@@ -18,10 +18,6 @@ import {
   ZERO_ANIM_LIGHT_SLASH, ZERO_ANIM_MED_SLASH, ZERO_ANIM_HEAVY_SLASH, ZERO_ANIM_UPPER_SLASH
 } from "../../../constants/animation_constants"
 
-// IN PROGRESS
-// We're redefining what a skill looks like.  Ultimately there needs to be a
-// set of effects on the game world that a skill can apply.
-
 var ZeroLightSlash = {
   effects: [
     { klass: Effects.Damage},

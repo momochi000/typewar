@@ -5,9 +5,9 @@ Crafty.c("BattleSlime", {
     this.requires("2D, BattleCharacter, BattleNPCEnemy, BattleSlimeAnim");
   },
 
-  battleSlime: function (){ },
-  initDefaultSkills: function (){
-    this.addComponent("NPCSkillManager").
-      nPCSkillManager(["SlimeStandard", "SlimeGlob"]);
-  }
+  battleSlime: function (){ return this; },
+  //  initDefaultSkills: function (){
+  //    this.addComponent("NPCSkillManager").
+  //      nPCSkillManager(["SlimeStandard", "SlimeGlob"]);
+  //  }
 });

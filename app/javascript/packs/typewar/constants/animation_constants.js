@@ -9,3 +9,9 @@ export const ZERO_ANIM_JUMP = "ZERO_JUMP";
 export const ZERO_ANIM_ENTER = "ZERO_ENTER";
 export const ZERO_ANIM_CHARGE = "ZERO_CHARGE";
 export const ZERO_ANIM_HIT = "ZERO_HIT";
+
+export const SLIME_ANIM_READY = "SLIME_READY";
+export const SLIME_ANIM_SLASH = "SLIME_SLASH";
+export const SLIME_ANIM_THROW = "SLIME_THROW";
+export const SLIME_ANIM_BLOCK = "SLIME_BLOCK";
+export const SLIME_ANIM_HIT = "SLIME_HIT";

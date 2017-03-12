@@ -3,6 +3,8 @@
  *
 */
 
+import TextLibrarian from "../util/text_librarian"
+
 class Damage {
   static execute(args) {
     var damage_properties_amount;
@@ -20,7 +22,7 @@ class Damage {
   }
 }
 
-class SetCooldown{
+class SetCooldown {
   static execute(args) {
     var args_copy;
 
@@ -30,6 +32,19 @@ class SetCooldown{
     setTimeout(() => {
       args_copy.skill.prepareSkill();
     }, args.cooldownLength);
+  }
+}
+
+class SpawnTextFragLinear {
+  static execute(args) {
+    validateTarget("EffectSpawnTextFragLinear", args.target);
+
+    var text = getTextFromSourceEntity(args.source, args.skill.textOptions);
+    // IN PROGRESS: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Make this skill do something...
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", tetx);
+
   }
 }
 
@@ -76,6 +91,10 @@ function displayDamageEffect(damageAmount) {
   // TBI
 }
 
+function getTextFromSourceEntity(entity, textOptions) {
+  TextLibrarian.retrieve(entity.getVocabulary(), textOptions);
+}
+
 function setSelfTargetArg(args) {
   if(args.target == "self") {
     args.target = args.source;
@@ -89,4 +108,4 @@ function validateTarget(effectName, target) {
   }
 }
 
-export { Damage, SetCooldown, TriggerAnimation }
+export { Damage, SetCooldown, SpawnTextFragLinear, TriggerAnimation }

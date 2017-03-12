@@ -55,8 +55,10 @@
 **** DONE When skill goes from cooling to ready, then reset the text fragment
      CLOSED: [2017-03-06 Mon 18:31]
 *** TODO Enemy attack system
-**** TODO Refactor skill system to more specifically refer to player skills
-**** TODO Build NPC skill system
+**** DONE Refactor skill system to more specifically refer to player skills
+     CLOSED: [2017-03-11 Sat 17:51]
+**** DONE Build NPC skill system
+     CLOSED: [2017-03-11 Sat 19:33]
 **** TODO NPC brain needs a system too
 **** TODO NPC brain system triggers it's skills on some sort of random timetable
 **** TODO Build NPC skill structure

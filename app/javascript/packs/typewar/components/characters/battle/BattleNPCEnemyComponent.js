@@ -91,18 +91,18 @@ Crafty.c("BattleNPCSlime", {
     window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
   },
 
-  setupBattleNPCSkills: function (){
-    var skills = this.charSheet.data.skills;
-
-    if(skills){
-      this.addComponent("NPCSkillManager").
-        nPCSkillManager(skills);
-    }else if(this.initDefaultSkills){ // Default skills which should come from monster specific component if the server doesn't provide any skills
-      this.initDefaultSkills();
-    }else{ 
-      throw new Error("Attempting to setup battle NPC with no skills");
-    }
-  },
+  //  setupBattleNPCSkills: function (){
+  //    var skills = this.charSheet.data.skills;
+  //
+  //    if(skills){
+  //      this.addComponent("NPCSkillManager").
+  //        nPCSkillManager(skills);
+  //    }else if(this.initDefaultSkills){ // Default skills which should come from monster specific component if the server doesn't provide any skills
+  //      this.initDefaultSkills();
+  //    }else{ 
+  //      throw new Error("Attempting to setup battle NPC with no skills");
+  //    }
+  //  },
 
   successfulDefense: function (){
     console.log("DEBUG: SLIME: DEFENDED!!! ");
