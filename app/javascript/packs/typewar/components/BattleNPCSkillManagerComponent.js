@@ -15,18 +15,6 @@ Crafty.c("BattleNPCSkillManager", {
     this._destroySkills();
   },
 
-  //  getRandomSkill: function (){
-  //    return _.sample(this.getSkills());
-  //  },
-  //
-  //  getRandomReadySkill: function (){
-  //    var ready_skills;
-  //    ready_skills = _.filter(this.getSkills(), function (curr_skill){
-  //      return curr_skill.isReady();
-  //    });
-  //    return _.sample(ready_skills);
-  //  },
-
   getSkillQueue: function (){
     return this._skillQueue;
   },
@@ -59,19 +47,5 @@ Crafty.c("BattleNPCSkillManager", {
     });
 
     this._skills = null;
-  },
-
-  //  _setupSkills: function (skills){
-  //    var self;
-  //
-  //    this._skills = [];
-  //    self = this;
-  //
-  //    _.each(skills, function (skill){
-  //      var new_skill;
-  //      new_skill = Crafty.e("NPCSkill")
-  //        .nPCSkill(skill);
-  //      self._skills.push(new_skill);
-  //    });
-  //  }
+  }
 });

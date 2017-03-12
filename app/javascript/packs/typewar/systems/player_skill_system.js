@@ -33,21 +33,6 @@ function playerSkillSystem(Crafty) {
 
 // locals
 
-//function resolveAttack(attack_object){
-//  var fragment;
-//
-//  fragment =  attack_object.text_fragment;
-//  if(fragment.wasPerfect()){
-//    attack_object.target.successfulHit();
-//    attack_object.target.takeDamage(2);
-//  } else if(fragment.successPct() > 90){
-//    attack_object.target.partialHit();
-//    attack_object.target.takeDamage(1);
-//  } else {
-//    attack_object.target.wasMissed();
-//  }
-//}
-
 function executeSkill(skillEntity){
   var target;
 

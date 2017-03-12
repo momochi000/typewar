@@ -6,13 +6,15 @@ import StatusBarView from "../views/status_bar_view"
 
 import {initInputSystem, inputSystem} from "../systems/input_system"
 import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
-import {initNPCSkillSystem} from "../systems/npc_skill_system"
+import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
+import {initNPCAISystem, nPCAISystem} from "../systems/npc_ai_system"
 
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleStatusView");
 require("../components/BattleStance");
+require("../components/BattleNPCSkillManagerComponent");
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattlePlayerComponent");
 require("../components/PlayerSkillManagerComponent");
@@ -160,19 +162,18 @@ export default class ProtoBattleScene {
   initEnemyNPC(){
     var enemy_entity, promise;
 
-     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus")
+     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
       .battleNPCEnemy()
       .battleSlimeAnim()
       .battleStatus()
+      .battleNPCBrain()
       .collision([0,0],[0,50],[50,60],[0,60]);
-    //.nPCBrain()
 
     promise = enemy_entity.getFromServer();
 
     return promise.then( () => {
-      //      enemy_entity.setupBattleNPCSkills(); // TODO SMELLY, this is calling a private function.  Let's make this better
       return enemy_entity;
     });
   }
@@ -197,22 +198,15 @@ export default class ProtoBattleScene {
 
   initSkillManager(player){
     player.addComponent("PlayerSkillManager");
-    // TODO: These are just some hard coded placeholder skills, ultimately we
-    // will want to pull these in from somewhere
     player.playerSkillManager([
       ZeroSkills.ZeroLightSlash,
       ZeroSkills.ZeroMedSlash,
       ZeroSkills.ZeroHardSlash, 
       ZeroSkills.ZeroUpperSlash
     ]);
-    
-    //    player.skillManager([
-    //      ZeroSkills.ZeroLightSlash
-    //    ]);
   }
 
   initSprites(){
-    //Sprite.create('player');
     Sprite.create('player_zero');
     Sprite.create('slime');
   }
@@ -253,6 +247,7 @@ export default class ProtoBattleScene {
     initPlayerSkillSystem(Crafty);
     initInputSystem(Crafty);
     initNPCSkillSystem(Crafty);
+    initNPCAISystem(Crafty);
   }
 
   initUI(){
@@ -274,6 +269,8 @@ export default class ProtoBattleScene {
   runSystems(frame, dt){
     inputSystem(Crafty);
     playerSkillSystem(Crafty);
+    npcSkillSystem(Crafty);
+    nPCAISystem(Crafty);
   }
 
   stop(){
@@ -289,11 +286,11 @@ export default class ProtoBattleScene {
 
   // private
 
-  _analyzeTypingData(){
-    var typing_analyzer;
-
-    typing_analyzer = new Typewar.Engine.Managers.TypingStatsManager()
-    typing_analyzer.analyze();
-    // TODO: send this data back up to the server
-  }
+  //  _analyzeTypingData(){
+  //    var typing_analyzer;
+  //
+  //    typing_analyzer = new Typewar.Engine.Managers.TypingStatsManager()
+  //    typing_analyzer.analyze();
+  //    // TODO: send this data back up to the server
+  //  }
 }

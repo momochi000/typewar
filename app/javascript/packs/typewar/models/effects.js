@@ -30,7 +30,7 @@ class SetCooldown {
     args = setSelfTargetArg(args);
     args_copy = _.merge({}, args);
     setTimeout(() => {
-      args_copy.skill.prepareSkill();
+      args_copy.skill.prepare();
     }, args.cooldownLength);
   }
 }
@@ -43,7 +43,7 @@ class SpawnTextFragLinear {
     // IN PROGRESS: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Make this skill do something...
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", tetx);
+    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", text);
 
   }
 }

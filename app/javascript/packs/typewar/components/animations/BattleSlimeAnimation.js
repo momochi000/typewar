@@ -43,4 +43,9 @@ Crafty.c("BattleSlimeAnim", {
   animReady: function (){
     this.animate(SLIME_ANIM_READY, -1);
   },
+
+  playAnim: function (reel_id){
+    if(!reel_id) {throw "ERROR: No reel id passed to play animation"; }
+    this.animate(reel_id, 0);
+  },
 });

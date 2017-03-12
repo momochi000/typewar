@@ -1,12 +1,12 @@
 require('crafty');
 
-Crafty.c("NPCBrain", {
+Crafty.c("BattleNPCBrain", {
+  _isActive: false,
   init: function (){
-    this.requires("BattleNPCEnemy, NPCSkillManager");
+    this.requires("BattleNPCEnemy");
   },
 
-  nPCBrain: function (){ 
-    this._is_active = null;
+  battleNPCBrain: function (){ 
     this._bindAIOnPause();
     return this; 
   },
@@ -17,17 +17,16 @@ Crafty.c("NPCBrain", {
   },
 
   activateAI: function (){
-    this._is_active = true;
+    this._isActive = true;
     if(!this._currentTarget){ return false; }
-    if(!this.battle_timer){ this._initBattleTimer(); }
   },
 
   deactivateAI: function (){
-    this._is_active = false;
+    this._isActive = false;
   },
 
   isActive: function (){
-    return this._is_active;
+    return this._isActive;
   },
 
   // private
@@ -37,27 +36,12 @@ Crafty.c("NPCBrain", {
   },
 
   _bindAIOnPause: function (){
-    var self = this;
-    this.bind("Pause", function (){ self.deactivateAI(); });
-    this.bind("Unpause", function (){ self.activateAI(); });
-  },
-
-  _clearBattleTimer: function (){
-    if(this.battle_timer){ window.clearInterval(this.battle_timer); }
-  },
-
-  _initBattleTimer: function (){
-    var self = this;
-
-    this.battle_timer = window.setInterval(function() {
-      if(self._is_active){
-        self._aiCycle();
-      }
-    }, 5000);
+    Crafty.bind("Pause", this.deactivateAI.bind(this));
+    Crafty.bind("Unpause", this.activateAI.bind(this));
   },
 
   _unbindAIOnPause: function (){
-    this.unbind("Pause");
-    this.unbind("Unpause");
+    Crafty.unbind("Pause", this.deactivateAI);
+    Crafty.unbind("Unpause", this.activateAI);
   }
 });

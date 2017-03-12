@@ -6,6 +6,8 @@
  * vein, Text fragments, enemies, and the player stored here should be 
  * backbone models, not crafty entities.  Entities may be referenced through
  * their respective models.
+ *
+ * TODO: this file is marked for deletion...
  */
 
 import TextLibrarian from "../util/text_librarian"

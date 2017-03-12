@@ -59,11 +59,16 @@
      CLOSED: [2017-03-11 Sat 17:51]
 **** DONE Build NPC skill system
      CLOSED: [2017-03-11 Sat 19:33]
-**** TODO NPC brain needs a system too
-**** TODO NPC brain system triggers it's skills on some sort of random timetable
-**** TODO Build NPC skill structure
-**** TODO NPC skill effects should execute using the same structure as players
-**** TODO First npc skill effect spawns a text fragment attack
+**** DONE NPC brain needs a system too
+     CLOSED: [2017-03-11 Sat 22:21]
+**** DONE NPC brain system triggers it's skills on some sort of random timetable
+     CLOSED: [2017-03-11 Sat 22:21]
+**** DONE Build NPC skill structure
+     CLOSED: [2017-03-11 Sat 22:22]
+**** DONE NPC skill effects should execute using the same structure as players
+     CLOSED: [2017-03-11 Sat 22:22]
+**** DONE First npc skill effect spawns a text fragment attack
+     CLOSED: [2017-03-11 Sat 22:22]
 **** TODO create text fragment attack component
 **** TODO text fragment is accompanied by some component that marks it as defendable
 **** TODO this pair is also accompanied by a component which gives the text fragment some movement and collision behavior

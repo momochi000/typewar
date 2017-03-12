@@ -15,13 +15,15 @@ export function npcSkillSystem(Crafty) {
   var skill_managers = Crafty("BattleNPCSkillManager").get();
 
   _.each(skill_managers, (curr_skill_manager) => {
-    var skill_queue, curr_source_entity;
+    var skill_queue;
 
     skill_queue = curr_skill_manager.getSkillQueue();
     if(skill_queue.length < 1) { return; }
     _.each(skill_queue, (triggered_skill) => {
-      executeSkill(curr_source_entity, triggered_skill);
+      triggered_skill.activate();
+      executeSkill(curr_skill_manager, triggered_skill);
     });
+    curr_skill_manager.setSkillQueue([]);
   });
 }
 
@@ -39,7 +41,7 @@ function executeSkill(sourceEntity, skill) {
 
   target = sourceEntity.getTarget();
 
-  _.each(skill.effects, (effectData) => {
+  _.each(skill.getSkillDef().effects, (effectData) => {
     var effect_klass, effect_args, skill_args;
     effect_klass = effectData.klass;
     effect_args = effectData;
@@ -49,7 +51,7 @@ function executeSkill(sourceEntity, skill) {
       skill: skill
     }
 
-    skill_args = _.merge(skill, skill_args, effect_args);
+    skill_args = _.merge(skill.getSkillDef(), skill_args, effect_args);
 
     console.log("DEBUG: NPC SKILL SYSTEM PROCESSING, About to execute skill effect --------->>", effect_klass, skill_args);
     effect_klass.execute(skill_args);

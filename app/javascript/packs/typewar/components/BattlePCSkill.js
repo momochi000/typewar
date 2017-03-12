@@ -71,6 +71,9 @@ var BattlePCSkillView = Backbone.View.extend({
   }
 });
 
+
+// TODO: Refactor this changing skill attribute to _skillDef, then use getters
+// and setters to manage it, don't let anyone explicitly go entity.skill
 Crafty.c("BattlePCSkill", {
   skill: null,
   text_fragment: null,
@@ -109,7 +112,7 @@ Crafty.c("BattlePCSkill", {
 
   getView: function (){ return this._view; },
 
-  prepareSkill: function (){ this._battlePCFsm.prepared(); },
+  prepare: function (){ this._battlePCFsm.prepared(); },
 
   ready: function (){ this._battlePCFsm.initialize(); },
 

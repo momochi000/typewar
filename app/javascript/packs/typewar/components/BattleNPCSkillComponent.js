@@ -1,15 +1,8 @@
-/* NPCSkill - A wrapper around skill data
- * Contains some additional logic to control skill cooldowns
- * Is meant to be expanded when necessary to include additional functionality
- *
- * IN PROGRESS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Refactoring or possibly removing this component as battle npc skill system is reworked
- */
 require("crafty");
 var StateMachine = require("javascript-state-machine");
 
 Crafty.c("BattleNPCSkill", {
-  _npcSkillFsm: null,
+  _nPCSkillFsm: null,
   _skill: null,
 
   init: function (){ },
@@ -27,7 +20,7 @@ Crafty.c("BattleNPCSkill", {
     this._nPCSkillFsm.activate();
   },
 
-  getSkill: function (){
+  getSkillDef: function (){
     return this._skill;
   },
 
@@ -41,19 +34,7 @@ Crafty.c("BattleNPCSkill", {
 
   // private
 
-  //  _beginCooldown: function (){
-  //    var self = this;
-  //    this.timeout(function (){
-  //      self.fsm.prepare();
-  //    }, this.getSkillData().cooldown);
-  //  },
-
-  //  _initSkill: function (skill, difficulty){
-  //    this.skill = new skill({difficulty: (difficulty || 1)});
-  //  },
-
   _setupStateMachine: function (){
-    var self = this;
     this._nPCSkillFsm = StateMachine.create({
       initial: "ready",
       events: [
