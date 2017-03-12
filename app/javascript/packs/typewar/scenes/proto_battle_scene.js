@@ -5,7 +5,7 @@ import BattleManager from "../managers/battle_manager"
 import StatusBarView from "../views/status_bar_view"
 
 import {initInputSystem, inputSystem} from "../systems/input_system"
-import {initSkillSystem, skillSystem} from "../systems/skill_system"
+import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
 
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
@@ -14,6 +14,7 @@ require("../components/BattleStatusView");
 require("../components/BattleStance");
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattlePlayerComponent");
+require("../components/PlayerSkillManagerComponent");
 require("../components/animations/BattlePlayerZeroAnimation");
 require("../components/characters/battle/BattleNPCEnemyComponent");
 require("../components/animations/BattleSlimeAnimation");
@@ -196,10 +197,10 @@ export default class ProtoBattleScene {
   }
 
   initSkillManager(player){
-    player.addComponent("SkillManager");
+    player.addComponent("PlayerSkillManager");
     // TODO: These are just some hard coded placeholder skills, ultimately we
     // will want to pull these in from somewhere
-    player.skillManager([
+    player.playerSkillManager([
       ZeroSkills.ZeroLightSlash,
       ZeroSkills.ZeroMedSlash,
       ZeroSkills.ZeroHardSlash, 
@@ -250,7 +251,7 @@ export default class ProtoBattleScene {
   }
 
   initSystems(){
-    initSkillSystem(Crafty);
+    initPlayerSkillSystem(Crafty);
     initInputSystem(Crafty);
   }
 
@@ -272,7 +273,7 @@ export default class ProtoBattleScene {
 
   runSystems(frame, dt){
     inputSystem(Crafty);
-    skillSystem(Crafty);
+    playerSkillSystem(Crafty);
   }
 
   stop(){

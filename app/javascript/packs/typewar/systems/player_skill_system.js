@@ -1,8 +1,7 @@
-function initSkillSystem(Crafty) {
+function initPlayerSkillSystem(Crafty) {
   var skill_managers;
 
-
-  skill_managers = Crafty("SkillManager").get();
+  skill_managers = Crafty("PlayerSkillManager").get();
 
   _.each(skill_managers, (curr_skill_manager) => {
     curr_skill_manager.prepareSkills();
@@ -10,7 +9,7 @@ function initSkillSystem(Crafty) {
   });
 }
 
-function skillSystem(Crafty) { 
+function playerSkillSystem(Crafty) { 
   var skill_entities, completed_skill_entities;
 
   // NOTE: There is a potential problem/issue here:
@@ -71,4 +70,4 @@ function executeSkill(skillEntity){
   });
 }
 
-export {initSkillSystem, skillSystem}
+export {initPlayerSkillSystem, playerSkillSystem}

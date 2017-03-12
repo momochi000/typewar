@@ -4,7 +4,6 @@ import CharacterSheet from "../../../models/character_sheet"
 require("crafty");
 require("./BattleCharacterComponent");
 require("../../animations/BattlePlayerAnimationComponent");
-require("../../SkillManagerComponent");
 
 Crafty.c("BattlePlayer", {
   _ANIM_HIT_DELAY: 410,

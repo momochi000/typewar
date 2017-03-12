@@ -8,7 +8,7 @@ var Handlebars = require("handlebars");
 
 const SKILL_MANAGER_VIEW_CONTAINER = "#typewar-skill-manager-wrap";
 
-var SkillManagerView = Backbone.View.extend({
+var PlayerSkillManagerView = Backbone.View.extend({
   tagName: "div",
   className: "skill-manager",
   _template_id: "#skill_manager_template",
@@ -48,14 +48,14 @@ var SkillManagerView = Backbone.View.extend({
  * interface to use the skills.
  */
 
-Crafty.c("SkillManager", {
+Crafty.c("PlayerSkillManager", {
   _skills: null,
   _skillset: null,
   _view: null,
 
   init: function (){ },
 
-  skillManager: function (skillset){
+  playerSkillManager: function (skillset){
     if(skillset){
       this._populateSkillset(skillset);
     }else if(this.char_sheet.skills){
@@ -100,19 +100,19 @@ Crafty.c("SkillManager", {
              .battlePCSkill(this, skill);
   },
 
-  _generateAttackObject: function (skill, text_fragment){
-    return new AttackObject({
-      properties: skill.properties,
-      target: this._currentTarget,
-      attacker: this,
-      text_fragment: text_fragment
-    });
-  },
+  //  _generateAttackObject: function (skill, text_fragment){
+  //    return new AttackObject({
+  //      properties: skill.properties,
+  //      target: this._currentTarget,
+  //      attacker: this,
+  //      text_fragment: text_fragment
+  //    });
+  //  },
 
   _initializeView: function (){
     var skill_views;
 
-    this._view = new SkillManagerView({id: 'battle-skillset'});
+    this._view = new PlayerSkillManagerView({id: 'battle-skillset'});
     skill_views = _.map(this._skills, function (curr_skill){ 
       curr_skill.render();
       return curr_skill.getView();
