@@ -2,9 +2,11 @@
  * can be generated and fired at the player in rapid succession.
  */
 
+// TODO: Marked for deletion
+
 require("crafty");
 require("./TextFragmentDisplayComponent");
-require("./BattleNPCAttackComponent");
+require("./BattleNPCProjectile");
 
 Crafty.c("TextFragmentSpawner", {
   _fragment_collection: null,

@@ -140,6 +140,7 @@ export default class ProtoBattleScene {
     return new Promise( (fulfill, reject) => {
       self.initPC().then((pc_entity) => {
         player = pc_entity;
+
         self.initSkillManager(player);
         return self.initEnemyNPC();
       }, (error) => {
@@ -178,9 +179,9 @@ export default class ProtoBattleScene {
     });
   }
 
-  initInputManager(){
-    this._inputManager = new BattleInputManager(this._battleManager);
-  }
+  //  initInputManager(){
+  //    this._inputManager = new BattleInputManager(this._battleManager);
+  //  }
 
   initPC(){
     var pc_ent, pc_model, promise;
@@ -244,8 +245,8 @@ export default class ProtoBattleScene {
   }
 
   initSystems(){
-    initPlayerSkillSystem(Crafty);
     initInputSystem(Crafty);
+    initPlayerSkillSystem(Crafty);
     initNPCSkillSystem(Crafty);
     initNPCAISystem(Crafty);
   }

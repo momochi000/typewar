@@ -1,13 +1,13 @@
 import { CMD_CHANGE_STANCE } from "../constants/command_constants"
+
 require("../components/BattleInput");
 
-function initInputSystem(Crafty) {
+export function initInputSystem(Crafty) { 
   Crafty("BattlePlayer").addComponent("BattleInput").battleInput(); // STATE CHANGE
 }
 
-function inputSystem(Crafty) {
+export function inputSystem(Crafty) {
   var input_entities, input_entity, input_queue, text_fragment_entities;
-
 
   input_entities = Crafty("BattleInput BattleStance").get();
 
@@ -18,55 +18,98 @@ function inputSystem(Crafty) {
   input_entity = input_entities[0];
   input_queue = input_entity.getInputQueue();
 
-  // no input ready
-  if(input_queue.length == 0) { return; }
+  if(input_queue.length == 0) { return; } // no input ready
 
   input_queue.forEach((currInput) => {
-    if(input_entity.isStance("offense")){
-      text_fragment_entities = Crafty("TextFragment BattlePCSkill").get();
-    }else if(input_entity.isStance("defense")){
-      text_fragment_entities = Crafty("TextFragment").get();
-    }else{
-      throw new Error("Input entity is in an invalid stance");
-    }
 
-    text_fragment_entities = _.filter(text_fragment_entities, (curr) => {
-      return !curr.isComplete();
-    });
+    if(processCommandInput(currInput, input_entity)){ return; }
 
-    acceptInput(text_fragment_entities, currInput, input_entity);
+    text_fragment_entities = getRelevantTextFragmentsBasedOnStance(input_entity);
+    text_fragment_entities = filterOutCompleteTextFrags(text_fragment_entities);
+
+    processInput(currInput, text_fragment_entities);
   });
 
   input_entity.clearInputQueue();
 }
 
-function acceptInput(entities, input, inputEntity) {
-  var active_text_fragments, receiving_correct_input, text_frag_ents_with_matching_input;
+// private
 
-  active_text_fragments = _.filter(entities, (curr) => {
-    return curr.isActive();
+function cancelActiveTextFragments() {
+  var active_text_frags;
+
+  active_text_frags = filterActiveTextFrags(Crafty("TextFragment").get());
+  active_text_frags.forEach((curr_frag) => {
+    curr_frag.cancel();
   });
+}
 
+function changeStance(inputEntity) {
+  cancelActiveTextFragments();
+  inputEntity.toggleStance(); // STATE CHANGE
+}
 
-  if(input == CMD_CHANGE_STANCE) {
-    changeStance(inputEntity, active_text_fragments);
-    return;
+function getSkillFragmentEntities() {
+  return Crafty("TextFragment BattlePCSkill").get();
+}
+
+function getDefendableFragmentEntities() {
+  return Crafty("TextFragment DefendableAttack").get();
+}
+
+function getRelevantTextFragmentsBasedOnStance(inputEntity) {
+  if(inputEntity.isStance("offense")){
+    return getSkillFragmentEntities();
+  }else if(inputEntity.isStance("defense")){
+    return getDefendableFragmentEntities();
+  }else{
+    throw new Error("Input entity is in an invalid stance");
   }
 
-  if(_.isEmpty(active_text_fragments)) {
+}
+
+function filterOutCompleteTextFrags(textFragmentEntities) {
+  return _.filter(textFragmentEntities, (curr) => {
+    return !curr.isComplete();
+  });
+}
+
+function filterActiveTextFrags(textFragmentEntities) {
+  return _.filter(textFragmentEntities, (curr) => {
+    return curr.isActive();
+  });
+}
+
+function processCommandInput(input, inputEntity){
+  switch(input){
+    case(CMD_CHANGE_STANCE):
+      changeStance(inputEntity);
+      return true;
+    default:
+      return false;
+  }
+}
+
+
+function processInput(input, applicableTextFrags){
+  var active_text_fragments, receiving_correct_input, text_frags_with_matching_input;
+
+  active_text_fragments = filterActiveTextFrags(applicableTextFrags);
+
+  if(_.isEmpty(active_text_fragments)) { // case: no active text fragments
     // find out which text fragments to activate and apply input to them
-    text_frag_ents_with_matching_input = _.filter(entities, (curr_frag) => {
+    text_frags_with_matching_input = _.filter(applicableTextFrags, (curr_frag) => {
       return curr_frag.matchFirstChar(input);
     });
 
-    text_frag_ents_with_matching_input.forEach((curr_frag) => {
+    text_frags_with_matching_input.forEach((curr_frag) => {
       curr_frag.activate(); // STATE CHANGE
       curr_frag.acceptInput(input); // STATE CHANGE
     });
     return;
   }
 
-  if(active_text_fragments.length == 1) {
+  if(active_text_fragments.length == 1) { // case: 1 active text fragment
     active_text_fragments[0].acceptInput(input);
     return;
   }
@@ -98,12 +141,3 @@ function acceptInput(entities, input, inputEntity) {
     throw new Error("Error, something funky is going on here....");
   }
 }
-
-function changeStance(inputEntity, activeTextFragments){
-  activeTextFragments.forEach((curr) => {
-    curr.cancel();  // STATE CHANGE
-  });
-  inputEntity.toggleStance(); // STATE CHANGE
-}
-
-export {initInputSystem, inputSystem}

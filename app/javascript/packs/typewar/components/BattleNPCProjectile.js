@@ -2,7 +2,7 @@ import AttackObject from "../models/attack_object";
 
 require('crafty');
 
-Crafty.c("BattleNPCAttack", {
+Crafty.c("BattleNPCProjectile", {
   attacker: null,
   defender: null,
 

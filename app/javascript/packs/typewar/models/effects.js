@@ -5,6 +5,11 @@
 
 import TextLibrarian from "../util/text_librarian"
 
+require("../components/TextFragment");
+require("../components/TextFragmentAttackDisplay");
+require("../components/DefendableAttack");
+require("../components/BattleNPCProjectile");
+
 class Damage {
   static execute(args) {
     var damage_properties_amount;
@@ -40,10 +45,22 @@ class SpawnTextFragLinear {
     validateTarget("EffectSpawnTextFragLinear", args.target);
 
     var text = getTextFromSourceEntity(args.source, args.skill.textOptions);
-    // IN PROGRESS: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Make this skill do something...
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", text);
+    //    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", text);
+
+
+    // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Building this text frag attack component.
+
+    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile")
+      .attr({
+        x: args.source._x,
+        y: args.source._y,
+        z: args.source._z+1
+      })
+      .textFragment(text)
+      .textFragmentAttackDisplay()
+      .defendableAttack();
+    //      .collision([0,0 ,10,0 ,10,10, 0,10]);
 
   }
 }
@@ -92,7 +109,7 @@ function displayDamageEffect(damageAmount) {
 }
 
 function getTextFromSourceEntity(entity, textOptions) {
-  TextLibrarian.retrieve(entity.getVocabulary(), textOptions);
+  return TextLibrarian.retrieve(entity.getVocabulary(), textOptions);
 }
 
 function setSelfTargetArg(args) {

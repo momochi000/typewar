@@ -24,10 +24,8 @@ function playerSkillSystem(Crafty) {
   });
 
   _.each(completed_skill_entities, (curr_entity) => {
-    //    console.log("DEBUG: SKILL SYSTEM PROCESSING, some skill should be run... ----> ",curr_entity);
     curr_entity.processed();
     executeSkill(curr_entity);
-    // reset the text fragment
   });
 }
 

@@ -51,15 +51,23 @@ Crafty.c("TextFragment", {
 
   errorCount: function (){ return this._incorrect_characters.length; },
 
+  getCorrectCharacters: function (){ return this._correct_characters; },
+
+  getIncorrectCharacters: function (){ return this._incorrect_characters; },
+
   getNextChar: function (){ return this._text[this._current_position]; },
+
+  getRemainingCharacters: function (){ 
+    return this.getText().slice(this._current_position);
+  },
 
   getText: function (){ return this._text; },
 
   getTextStatus: function (){
     return {
-      typed: this._correct_characters || '',  
-      missed: this._incorrect_characters || '', 
-      rest: this._text.slice(this._current_position || '')
+      typed: this.getCorrectCharacters() || '',  
+      missed: this.getIncorrectCharacters() || '', 
+      rest: this.getRemainingCharacters() || ''
     }
   },
 
@@ -98,6 +106,22 @@ Crafty.c("TextFragment", {
     }
   },
 
+  takeInput: function (chr){
+    //console.log("DEBUG: TEXT FRAGMENT#takeInput...");
+    //console.log("DEBUG: next char ---> " + this._text[this._current_position] );
+    //console.log("DEBUG: char arg ----> " + chr);
+
+    if(this._text[this._current_position] == chr){
+      this._correctInput();
+      this._checkForCompletion();
+      this._triggerRedraw();
+      return true
+    }else{
+      this._wrongInput(chr);
+      this._triggerRedraw();
+      return false;
+    }
+  },
 
   wasPerfect: function (){
     if(this.successPct() >= 99.9) { return true; }
@@ -187,7 +211,7 @@ Crafty.c("TextFragment", {
 
   _tagCompletedTimestamp: function (){ this.completed_at = new Date(); },
 
-  _triggerRedraw: function (){ this.trigger("Redraw"); },
+  _triggerRedraw: function (){ this.trigger("TextFragmentRedraw"); },
 
   _wrongInput: function (input){
     this._incorrect_characters += input;
@@ -199,20 +223,4 @@ Crafty.c("TextFragment", {
    * as well.
    * return true if the input was correct else false
    */
-  _takeInput: function (chr){
-    //console.log("DEBUG: TEXT FRAGMENT#_takeInput...");
-    //console.log("DEBUG: next char ---> " + this._text[this._current_position] );
-    //console.log("DEBUG: char arg ----> " + chr);
-
-    if(this._text[this._current_position] == chr){
-      this._correctInput();
-      this._checkForCompletion();
-      this._triggerRedraw();
-      return true
-    }else{
-      this._wrongInput(chr);
-      this._triggerRedraw();
-      return false;
-    }
-  },
 });

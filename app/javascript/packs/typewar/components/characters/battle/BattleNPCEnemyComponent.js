@@ -12,7 +12,6 @@ import BattleEntityNPC from "../../../entities/battle_entity_npc"
 import CharacterSheet from "../../../models/character_sheet"
 
 require('crafty');
-require("../../TextFragmentSpawnerComponent");
 require("../../BattleNPCSkillManagerComponent");
 
 Crafty.c("BattleNPCSlime", {
@@ -32,7 +31,6 @@ Crafty.c("BattleNPCSlime", {
     }
     //    this._battleManagerReference = battleManagerRef;
     this._fragment_timers = [];
-    this._createFragmentSpawner();
     this._initModel();
     this._bindAIListners();
 
@@ -137,17 +135,7 @@ Crafty.c("BattleNPCSlime", {
     this._fragment_timers = null;
   },
 
-  _createFragmentSpawner: function (){
-    this._fragment_spawner = Crafty.e("2D, TextFragmentSpawner")
-      .attr({x: this._x, y: this._y})
-    //      .textFragmentSpawner(this._battleManagerReference);
-      .textFragmentSpawner();
-
-    this.attach(this._fragment_spawner);
-  },
-
   _initModel: function (){
     this._model = new BattleEntityNPC({entity: this});
   }
-
 });

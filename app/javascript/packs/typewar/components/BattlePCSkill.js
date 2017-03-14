@@ -8,7 +8,7 @@ require('crafty');
 
 var Handlebars = require("handlebars");
 var StateMachine = require("javascript-state-machine");
-require("./TextFragmentComponent");
+require("./TextFragment");
 
 var BattlePCSkillView = Backbone.View.extend({
   tagName: "div",
@@ -17,9 +17,9 @@ var BattlePCSkillView = Backbone.View.extend({
 
   initialize: function (opts){
     if(!opts.entity){ throw "ERROR: Battle Skill View initialized without an entity" };
-    this.entity = opts.entity;
+    this._entity = opts.entity;
     this.text_fragment = opts.text_fragment;
-    this.id = 'battle-skill-'+this.entity[0];
+    this.id = 'battle-skill-'+this._entity[0];
     this._template = Handlebars.compile($(this._template_id).html());
   },
 
@@ -43,13 +43,13 @@ var BattlePCSkillView = Backbone.View.extend({
 
     view_opts = {};
     skill_opts = {
-      name: this.entity.skill.name,
-      css_classes: this.entity._battlePCFsm.current,
-      skill_slot_num: this.entity.getSkillSlotNum()
+      name: this._entity.skill.name,
+      css_classes: this._entity._battlePCFsm.current,
+      skill_slot_num: this._entity.getSkillSlotNum()
     };
     return _.extend(
       view_opts, 
-      this.entity, 
+      this._entity, 
       skill_opts, 
       this._getTextFragmentOptions(), 
       opts);
@@ -66,7 +66,7 @@ var BattlePCSkillView = Backbone.View.extend({
   _getTextFragmentOptions: function (){
     // TODO: if the skill is not ready or text fragment is not ready,
     // then display default text fragment options
-    return this.entity.getTextStatus();
+    return this._entity.getTextStatus();
     //    return this._defaultTextFragmentOptions();
   }
 });
@@ -125,7 +125,7 @@ Crafty.c("BattlePCSkill", {
 
   acceptInput: function (input){
     if(!this.canTakeInput()){return null;}
-    if(this._takeInput(input)){
+    if(this.takeInput(input)){
       if(this._battlePCFsm.is("ready")){ this._battlePCFsm.start(); }
       if(this.isComplete()){ this._battlePCFsm.complete(); }
       return true;
@@ -137,7 +137,7 @@ Crafty.c("BattlePCSkill", {
   // private
 
   _bindRedrawOnTextFragmentUpdate: function (){
-    this.bind('Redraw', _.bind(this.render, this));
+    this.bind('TextFragmentRedraw', _.bind(this.render, this));
   },
 
   _cycleTextFragment: function (){
@@ -157,17 +157,6 @@ Crafty.c("BattlePCSkill", {
   _initializeView: function (){
     this._view = new BattlePCSkillView({entity: this, text_fragment: this});
   },
-
-  //  _makeRandomString: function (){
-  //    var i, possible, text;
-  //
-  //    text = "";
-  //    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //    for( i=0; i < 15; i++ ){
-  //      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  //    }
-  //    return text;
-  //  },
 
   _setupStateMachine: function (){
     var self = this;
@@ -199,6 +188,6 @@ Crafty.c("BattlePCSkill", {
   _unbindCombatModeSwitch: function (){ this.unbind("SwitchedCombatMode"); },
 
   _unbindRedrawOnTextFragmentUpdate: function (){
-    this.text_fragment.unbind('Redraw');
+    this.text_fragment.unbind('TextFragmentRedraw');
   }
 });

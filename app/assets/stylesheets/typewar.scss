@@ -9,8 +9,10 @@
   100% { opacity: 1.0; }
 }             
 
-.text-fragment {}
-.text-fragment-wrapper {
+.text-fragment-attack {
+  height: 1px;
+}
+.text-fragment-attack-wrapper {
   &.active { 
     z-index: 99999;
     width: 8em;

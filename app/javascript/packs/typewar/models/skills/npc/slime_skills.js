@@ -117,7 +117,7 @@ export var SlimeStandardAttack = {
   effects: [
     { klass: Effects.SpawnTextFragLinear },
     { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_SLASH },
-    { klass: Effects.SetCooldown, target: "self", cooldownLength: 1900 }
+    //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 1900 }
   ],
   cost: 0,
   name: 'slime standard attack',
