@@ -90,6 +90,10 @@
 **** TODO Refactor/split input system to handle input for skills and defensible fragments seperately
 **** TODO Build a third input system to handle commands
 * Backlog
+** TODO Move player skill definition/initialization to the skill system :refactor:
+   Skills should be placed into the character sheet and the skill system should
+   just call on the player to initialize it's skills which then pulls the skills
+   off of the char sheet the same way that it does for the slime npc
 ** TODO Ensure you cannot type skills while in a defensive stance
    This is due ot the way text fragment entities are queried out.  
    It should be fixed once text fragment attacks get another component

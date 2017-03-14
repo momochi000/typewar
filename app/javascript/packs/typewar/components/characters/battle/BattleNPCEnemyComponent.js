@@ -32,7 +32,7 @@ Crafty.c("BattleNPCSlime", {
     //    this._battleManagerReference = battleManagerRef;
     this._fragment_timers = [];
     this._initModel();
-    this._bindAIListners();
+    //    this._bindAIListners();
 
     return this;
   },
@@ -56,28 +56,6 @@ Crafty.c("BattleNPCSlime", {
 
   getFromServer: function (){
     return this._model.getFromServer();
-  },
-
-  initiateAttackOn: function (defender, skill){
-    var self, skill, frag, speed, text_fragment_options, skill_data;
-    self = this;
-
-    if(!skill){ skill = this.getRandomReadySkill(); }
-    if(!skill){ return; } // Do not attack if no skill available
-
-    skill_data = skill.activate();
-    //    text_fragment_options = this._battleManagerReference.handleAttack({
-    //      attacker: this, 
-    //      defender: defender, 
-    //      skill: skill_data
-    //    });
-    this.animAttack(skill_data.animation);
-    this._fragment_timers.push(window.setTimeout(function (){ // Spawn the fragment a short delay after the animation plays
-      frag = self._fragment_spawner.generateTextFragment({
-        attack_properties: text_fragment_options
-      });
-      console.log("DEBUG: did the fragment get created?? --->", frag);
-    }, this._ANIM_ATTACK_DELAY));
   },
 
   isPlayer: function (){ return false; },
@@ -120,12 +98,12 @@ Crafty.c("BattleNPCSlime", {
 
   //private 
 
-  _bindAIListners: function (){
-    var self = this;
-    this.bind("initiateAttackOn", function (target){
-      self.initiateAttackOn(target);
-    });
-  },
+  //  _bindAIListners: function (){
+  //    var self = this;
+  //    this.bind("initiateAttackOn", function (target){
+  //      self.initiateAttackOn(target);
+  //    });
+  //  },
 
   _clearFragmentTimers: function (){
     _.each(this._fragment_timers, function (t_id){
