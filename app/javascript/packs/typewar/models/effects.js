@@ -40,13 +40,18 @@ class SetCooldown {
   }
 }
 
+// TODO: This can be made more generic, it shouldnt' be TextFragLinear,
+// the position function is passed in seperately so really it could
+// be any kind of path.  Also other attributes could determine it's
+// appearance and other behavior.
+// SpawnProjectileAttack would be more appropriate but I don't want to
+// refactor this right now
 class SpawnTextFragLinear {
   static execute(args) {
     validateTarget("EffectSpawnTextFragLinear", args.target);
 
     var text = getTextFromSourceEntity(args.source, args.skill.textOptions);
     //    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", text);
-
 
     // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Building this text frag attack component.

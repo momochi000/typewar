@@ -122,13 +122,13 @@ export var SlimeStandardAttack = {
   cost: 0,
   name: 'slime standard attack',
   textOptions: {
-    min_length: 4,
-    max_length: 22,
+    min_length: 9,
+    max_length: 25,
     min_difficulty: 1,
-    max_difficulty: 3
+    max_difficulty: 4
   },
   properties: {
-    blunt:    0, slashing: 2, piercing: 0,
+    blunt:    3, slashing: 0, piercing: 0,
     fire:     0, earth:    0, water:    0,
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
@@ -136,7 +136,7 @@ export var SlimeStandardAttack = {
 }
 
 // TODO: this and other functions defining projectile movement/behavior should maybe move to a different file?
-// this returns a delta x and y 
+// this returns a delta x and y given a timestep
 function linearProjectile(dt, speed) {
   return {x: (-1*speed*dt), y: 0};
 }

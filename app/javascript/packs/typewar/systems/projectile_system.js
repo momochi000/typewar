@@ -1,3 +1,4 @@
+// This system handles movement of npc  projectiles.
 export function initProjectileSystem(Crafty) {
 }
 

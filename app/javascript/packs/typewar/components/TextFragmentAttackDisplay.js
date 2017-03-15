@@ -70,6 +70,11 @@ Crafty.c("TextFragmentAttackDisplay", {
     return this;
   },
 
+  cleanupView: function (){
+    this._view.undelegateEvents();
+    this._view.remove();
+  },
+
   render: function (){
     this._view.render();
   },

@@ -22,8 +22,6 @@
  *   respective systems.  Ultimately components should contain no behavior
  */
 
-import TextFragment from "../entities/text_fragment"
-
 require("crafty");
 var StateMachine = require("javascript-state-machine");
 
@@ -38,11 +36,6 @@ Crafty.c("TextFragment", {
     this._initTextFragFsm();
     this._text = text
     return this;
-  },
-
-  remove: function (){
-    this.deactivate();
-    if(this._unbindAll){this._unbindAll();}
   },
 
   activate: function (){ this._textFragFsm.activate(); },
