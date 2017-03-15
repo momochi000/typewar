@@ -59,15 +59,16 @@ class SpawnTextFragLinear {
     Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile")
       .attr({
         x: args.source._x,
-        y: args.source._y,
-        z: args.source._z+1
+        y: args.source._y-20,
+        z: (args.source._z+1),
+        h: 20,
+        w: 20
       })
       .textFragment(text)
       .textFragmentAttackDisplay()
       .defendableAttack({target: args.target})
-      .battleNPCProjectile(args.positionFunction, args.speed);
-    //      .collision([0,0 ,10,0 ,10,10, 0,10]);
-
+      .battleNPCProjectile(args.positionFunction, args.speed)
+      .collision();
   }
 }
 

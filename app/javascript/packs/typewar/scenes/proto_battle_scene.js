@@ -189,12 +189,12 @@ export default class ProtoBattleScene {
     var pc_ent, pc_model, promise;
 
     pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
-    pc_ent.attr({ x: 20, y: 180 })
+    pc_ent.attr({ x: 20, y: 180})
       .battlePlayerZeroAnim()
       .battleCharacter()
       .battlePlayer()
       .battleStatus()
-      .collision([0,0],[60,0],[60,120],[0,120]);
+      .collision([5,-30],[50,-30],[50,40],[5,40]);
 
     return pc_ent.getFromServer();
   }
