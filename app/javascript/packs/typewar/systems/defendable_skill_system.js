@@ -12,8 +12,21 @@ export function defendableSkillSystem(Crafty) {
   });
 
   _.each(completed_defendable_attacks, (curr_attack) => {
+    playBlockAnim(curr_attack.getTarget());
+    playBlockSound();
     removeAttack(curr_attack);
   });
+}
+
+//private 
+
+function playBlockAnim(target) {
+  if(!target.has("SpriteAnimation")){ return; }
+  target.animBlock();
+}
+
+function playBlockSound() {
+  // TODO: implement me
 }
 
 function removeAttack(attack_entity) {

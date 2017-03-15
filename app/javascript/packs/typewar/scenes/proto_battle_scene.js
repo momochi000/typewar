@@ -11,9 +11,6 @@ import {initNPCAISystem, nPCAISystem} from "../systems/npc_ai_system"
 import {initProjectileSystem, projectileSystem} from "../systems/projectile_system"
 import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
-
-
-
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
 require("../components/BattleBackgroundComponent");

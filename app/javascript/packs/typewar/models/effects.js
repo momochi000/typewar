@@ -64,7 +64,7 @@ class SpawnTextFragLinear {
       })
       .textFragment(text)
       .textFragmentAttackDisplay()
-      .defendableAttack()
+      .defendableAttack({target: args.target})
       .battleNPCProjectile(args.positionFunction, args.speed);
     //      .collision([0,0 ,10,0 ,10,10, 0,10]);
 
