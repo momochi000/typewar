@@ -1,11 +1,6 @@
 /* A component specifically for enemies encountered in Typewar's battle system
  * This is the base component, other child components are made up of specific
  * monsters or enemy types and require this component, calling methods from it.
-
- * Events Triggered:
- * updateStatus ===========> When the status of the npc changes
- * enemy_died =============> When this monster dies
- * TODO: Make these events use consistent style
  */
 
 import BattleEntityNPC from "../../../entities/battle_entity_npc"

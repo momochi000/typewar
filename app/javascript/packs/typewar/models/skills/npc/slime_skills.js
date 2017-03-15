@@ -115,7 +115,7 @@ import {
 
 export var SlimeStandardAttack = {
   effects: [
-    { klass: Effects.SpawnTextFragLinear },
+    { klass: Effects.SpawnTextFragLinear, positionFunction: linearProjectile, speed: 0.08 },
     { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_SLASH },
     //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 1900 }
   ],
@@ -133,4 +133,10 @@ export var SlimeStandardAttack = {
     air:      0, light:    0, dark:     0,
     poison:   0, life:     0, death:    0
   }
+}
+
+// TODO: this and other functions defining projectile movement/behavior should maybe move to a different file?
+// this returns a delta x and y 
+function linearProjectile(dt, speed) {
+  return {x: (-1*speed*dt), y: 0};
 }

@@ -8,6 +8,7 @@ import {initInputSystem, inputSystem} from "../systems/input_system"
 import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
 import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
 import {initNPCAISystem, nPCAISystem} from "../systems/npc_ai_system"
+import {initProjectileSystem, projectileSystem} from "../systems/projectile_system"
 
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
@@ -267,11 +268,12 @@ export default class ProtoBattleScene {
     Crafty.viewport.scale(1);
   } 
 
-  runSystems(frame, dt){
+  runSystems(evt){
     inputSystem(Crafty);
     playerSkillSystem(Crafty);
     npcSkillSystem(Crafty);
     nPCAISystem(Crafty);
+    projectileSystem(Crafty, evt.frame, evt.dt);
   }
 
   stop(){
