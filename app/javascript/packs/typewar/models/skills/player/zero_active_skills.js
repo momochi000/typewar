@@ -13,15 +13,26 @@
  * }
  */
 
+// TODO: refactor  Properties and cost should be arguments of their respective effects.  i.e.: the damage effect should have properties
+
 import * as Effects from "../../effects"
 import {
-  ZERO_ANIM_LIGHT_SLASH, ZERO_ANIM_MED_SLASH, ZERO_ANIM_HEAVY_SLASH, ZERO_ANIM_UPPER_SLASH
+  ZERO_ANIM_LIGHT_SLASH, ZERO_ANIM_MED_SLASH, ZERO_ANIM_HEAVY_SLASH, ZERO_ANIM_UPPER_SLASH, SLIME_ANIM_HIT
 } from "../../../constants/animation_constants"
 
 var ZeroLightSlash = {
   effects: [
-    { klass: Effects.Damage},
+    { 
+      klass: Effects.Damage,
+      properties: {
+        blunt:    0, slashing: 2, piercing: 0,
+        fire:     0, earth:    0, water:    0,
+        air:      0, light:    0, dark:     0,
+        poison:   0, life:     0, death:    0
+      }
+    },
     { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_LIGHT_SLASH},
+    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 700} 
   ],
   cost: 0,
@@ -31,19 +42,22 @@ var ZeroLightSlash = {
     max_length: 22,
     min_difficulty: 1,
     max_difficulty: 3
-  },
-  properties: {
-    blunt:    0, slashing: 2, piercing: 0,
-    fire:     0, earth:    0, water:    0,
-    air:      0, light:    0, dark:     0,
-    poison:   0, life:     0, death:    0
   }
 };
 
 var ZeroMedSlash = {
   effects: [
-    { klass: Effects.Damage },
+    { 
+      klass: Effects.Damage,
+      properties: {
+        blunt:    0, slashing: 3, piercing: 0,
+        fire:     0, earth:    0, water:    0,
+        air:      0, light:    0, dark:     0,
+        poison:   0, life:     0, death:    0
+      },
+    },
     { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_MED_SLASH},
+    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 2000} 
   ],
   cost: 0,
@@ -53,19 +67,21 @@ var ZeroMedSlash = {
     max_length: 30,
     min_difficulty: 2,
     max_difficulty: 5
-  },
-  properties: {
-    blunt:    0, slashing: 3, piercing: 0,
-    fire:     0, earth:    0, water:    0,
-    air:      0, light:    0, dark:     0,
-    poison:   0, life:     0, death:    0
-  },
+  }
 };
 
 var ZeroHardSlash = {
   effects: [
-    { klass: Effects.Damage },
+    { klass: Effects.Damage,
+      properties: {
+        blunt:    0, slashing: 4, piercing: 0,
+        fire:     0, earth:    0, water:    0,
+        air:      0, light:    0, dark:     0,
+        poison:   0, life:     0, death:    0
+      }
+    },
     { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_HEAVY_SLASH},
+    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 5000} 
   ],
   cost: 0,
@@ -75,19 +91,22 @@ var ZeroHardSlash = {
     max_length: 40,
     min_difficulty: 2,
     max_difficulty: 7
-  },
-  properties: {
-    blunt:    0, slashing: 4, piercing: 0,
-    fire:     0, earth:    0, water:    0,
-    air:      0, light:    0, dark:     0,
-    poison:   0, life:     0, death:    0
   }
 };
 
 var ZeroUpperSlash = {
   effects: [
-    { klass: Effects.Damage },
+    {
+      klass: Effects.Damage,
+      properties: {
+        blunt:    0, slashing: 3, piercing: 0,
+        fire:     0, earth:    0, water:    0,
+        air:      0, light:    0, dark:     0,
+        poison:   0, life:     0, death:    0
+      }
+    },
     { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_UPPER_SLASH},
+    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 2200} 
   ],
   cost: 0,
@@ -97,12 +116,6 @@ var ZeroUpperSlash = {
     max_length: 30,
     min_difficulty: 2,
     max_difficulty: 5
-  },
-  properties: {
-    blunt:    0, slashing: 3, piercing: 0,
-    fire:     0, earth:    0, water:    0,
-    air:      0, light:    0, dark:     0,
-    poison:   0, life:     0, death:    0
   }
 };
 
