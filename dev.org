@@ -1,94 +1,5 @@
 * Current
-** TODO Architecture overhaul :refactor:
-   Let's use entity component system from the overwatch talk
-   Also pull all game state data into an immutable data store
-   ok it doesn't have to be immutable, but it probably should be
-   All the systems are registered with the scene
-   every frame, the engine loops over every system and runs it's function
-   each system loops over relavent component tuples and processes them
-   any state updates will be pushed into a pending updates queue
-   at the end of the frame, the updates will all be applied to the
-   data store.
-
-   All component data gets moved off to the global game state
-   Components just maintain pointers to their relavent data within
-   the state store.
-
-   How to reconcile when multiple systems alter the same info?
-   e.g. you move forward but are hit by a projectile which moves you
-   back at the same time? I guess they could just both be applied
-   maybe you move +5 in the x axis and -2 so the net move is +3
-   
-   What about if your status changes twice?
-   Lets say you were poisoned, then you cured the poison but at the
-   same frame you were poisoned again?  The order these are applied
-   matter a lot. I think there will need to be an apply update function
-   or utilty which will govern the actual update.  Maybe I'm overthinking
-   this and I can just apply them in arbitrary order and any collisions
-   that do occur will be so infrequent that it won't matter in the
-   context of this game
-*** TODO Input system
-**** DONE Test against Skills
-     CLOSED: [2017-03-06 Mon 18:27]
-**** TODO Test against Text fragment attacks
-*** DONE Skill system
-    CLOSED: [2017-03-06 Mon 18:27]
-    Need to change the way the skill manager handles text fragments and how it
-    accepts input.  It must be compatible with the way the input system 
-    fulfills text fragments.
-    Input system simply takes input (off of the input queue) and completes text
-    fragments.  What happens when those text fragments get completed should be
-    up to other systems. So in the case of skills here, how does a skill 
-    activate based on a text fragment being completed?
-
-    Previously, BattleSkill had posession of a text fragment.  Now BattleSkill
-    should also be a text fragment
-
-**** DONE Delete the comments I left over from the last commit
-     CLOSED: [2017-03-04 Sat 14:39]
-**** DONE Skill manager should store a set of skills on init
-     CLOSED: [2017-03-06 Mon 18:31]
-**** DONE Skill manager generates an entity for each skill
-     CLOSED: [2017-03-06 Mon 18:31]
-**** DONE Skill entities are also text fragments
-     CLOSED: [2017-03-06 Mon 18:31]
-**** DONE When skill goes from cooling to ready, then reset the text fragment
-     CLOSED: [2017-03-06 Mon 18:31]
-*** TODO Enemy attack system
-**** DONE Refactor skill system to more specifically refer to player skills
-     CLOSED: [2017-03-11 Sat 17:51]
-**** DONE Build NPC skill system
-     CLOSED: [2017-03-11 Sat 19:33]
-**** DONE NPC brain needs a system too
-     CLOSED: [2017-03-11 Sat 22:21]
-**** DONE NPC brain system triggers it's skills on some sort of random timetable
-     CLOSED: [2017-03-11 Sat 22:21]
-**** DONE Build NPC skill structure
-     CLOSED: [2017-03-11 Sat 22:22]
-**** DONE NPC skill effects should execute using the same structure as players
-     CLOSED: [2017-03-11 Sat 22:22]
-**** DONE First npc skill effect spawns a text fragment attack
-     CLOSED: [2017-03-11 Sat 22:22]
-**** TODO create text fragment attack component
-     Text fragment attack has some behavior:
-***** display
-      TextFragmentDisplay component and accompanying system
-      Behavior should handle the rendering of the text fragment view.  It'll 
-      depend on 2D and DOM or Canvas.
-***** movement
-***** defendable
-      DefendableTextFragment component and accompanying system
-      Input system will handle the typing of these (just as it handles skill
-      fragments)
-      The system will look at completed defendable fragments and process them
-      appropriately every game loop
-***** trigger (what happens when it hits)
-***** DONE text fragment is accompanied by some component that marks it as defendable
-      CLOSED: [2017-03-12 Sun 01:15]
-***** DONE this pair is also accompanied by a component which gives the text fragment some movement and collision behavior
-      CLOSED: [2017-03-12 Sun 01:17]
-**** TODO Refactor/split input system to handle input for skills and defensible fragments seperately
-**** TODO Build a third input system to handle commands
+** TODO Enemy slime second attack type using physics
 * Backlog
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
@@ -328,6 +239,104 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Architecture overhaul                                      :refactor:
+   CLOSED: [2017-03-15 Wed 22:24]
+   Let's use entity component system from the overwatch talk
+   Also pull all game state data into an immutable data store
+   ok it doesn't have to be immutable, but it probably should be
+   All the systems are registered with the scene
+   every frame, the engine loops over every system and runs it's function
+   each system loops over relavent component tuples and processes them
+   any state updates will be pushed into a pending updates queue
+   at the end of the frame, the updates will all be applied to the
+   data store.
+
+   All component data gets moved off to the global game state
+   Components just maintain pointers to their relavent data within
+   the state store.
+
+   How to reconcile when multiple systems alter the same info?
+   e.g. you move forward but are hit by a projectile which moves you
+   back at the same time? I guess they could just both be applied
+   maybe you move +5 in the x axis and -2 so the net move is +3
+   
+   What about if your status changes twice?
+   Lets say you were poisoned, then you cured the poison but at the
+   same frame you were poisoned again?  The order these are applied
+   matter a lot. I think there will need to be an apply update function
+   or utilty which will govern the actual update.  Maybe I'm overthinking
+   this and I can just apply them in arbitrary order and any collisions
+   that do occur will be so infrequent that it won't matter in the
+   context of this game
+*** DONE Input system
+    CLOSED: [2017-03-15 Wed 22:24]
+**** DONE Test against Skills
+     CLOSED: [2017-03-06 Mon 18:27]
+**** DONE Test against Text fragment attacks
+     CLOSED: [2017-03-15 Wed 22:24]
+*** DONE Skill system
+    CLOSED: [2017-03-06 Mon 18:27]
+    Need to change the way the skill manager handles text fragments and how it
+    accepts input.  It must be compatible with the way the input system 
+    fulfills text fragments.
+    Input system simply takes input (off of the input queue) and completes text
+    fragments.  What happens when those text fragments get completed should be
+    up to other systems. So in the case of skills here, how does a skill 
+    activate based on a text fragment being completed?
+
+    Previously, BattleSkill had posession of a text fragment.  Now BattleSkill
+    should also be a text fragment
+
+**** DONE Delete the comments I left over from the last commit
+     CLOSED: [2017-03-04 Sat 14:39]
+**** DONE Skill manager should store a set of skills on init
+     CLOSED: [2017-03-06 Mon 18:31]
+**** DONE Skill manager generates an entity for each skill
+     CLOSED: [2017-03-06 Mon 18:31]
+**** DONE Skill entities are also text fragments
+     CLOSED: [2017-03-06 Mon 18:31]
+**** DONE When skill goes from cooling to ready, then reset the text fragment
+     CLOSED: [2017-03-06 Mon 18:31]
+*** DONE Enemy attack system
+    CLOSED: [2017-03-15 Wed 22:24]
+**** DONE Refactor skill system to more specifically refer to player skills
+     CLOSED: [2017-03-11 Sat 17:51]
+**** DONE Build NPC skill system
+     CLOSED: [2017-03-11 Sat 19:33]
+**** DONE NPC brain needs a system too
+     CLOSED: [2017-03-11 Sat 22:21]
+**** DONE NPC brain system triggers it's skills on some sort of random timetable
+     CLOSED: [2017-03-11 Sat 22:21]
+**** DONE Build NPC skill structure
+     CLOSED: [2017-03-11 Sat 22:22]
+**** DONE NPC skill effects should execute using the same structure as players
+     CLOSED: [2017-03-11 Sat 22:22]
+**** DONE First npc skill effect spawns a text fragment attack
+     CLOSED: [2017-03-11 Sat 22:22]
+**** DONE create text fragment attack component
+     CLOSED: [2017-03-15 Wed 22:23]
+***** DONE display
+      CLOSED: [2017-03-15 Wed 22:23]
+      TextFragmentDisplay component and accompanying system
+      Behavior should handle the rendering of the text fragment view.  It'll 
+      depend on 2D and DOM or Canvas.
+***** DONE movement
+      CLOSED: [2017-03-15 Wed 22:23]
+***** DONE defendable
+      CLOSED: [2017-03-15 Wed 22:23]
+      DefendableTextFragment component and accompanying system
+      Input system will handle the typing of these (just as it handles skill
+      fragments)
+      The system will look at completed defendable fragments and process them
+      appropriately every game loop
+***** DONE trigger (what happens when it hits)
+      CLOSED: [2017-03-15 Wed 22:23]
+***** DONE text fragment is accompanied by some component that marks it as defendable
+      CLOSED: [2017-03-12 Sun 01:15]
+***** DONE this pair is also accompanied by a component which gives the text fragment some movement and collision behavior
+      CLOSED: [2017-03-12 Sun 01:17]
+**** DONE Refactor/split input system to handle input for skills and defensible fragments seperately
+     CLOSED: [2017-03-15 Wed 22:24]
 ** DONE Change templating engine
    CLOSED: [2017-03-06 Mon 18:42]
 ** DONE Get game code refactored over to webpack
