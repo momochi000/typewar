@@ -7,7 +7,7 @@ import {
 Crafty.c("BattleSlimeAnim", {
   _ATTACK_ANIM_SPEED: 500,
   _BLOCK_ANIM_SPEED: 270,
-  _HIT_ANIM_SPEED: 280,
+  _HIT_ANIM_SPEED: 420,
   _READY_ANIM_SPEED: 600,
 
   init: function (){
