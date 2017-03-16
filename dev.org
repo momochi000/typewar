@@ -1,29 +1,25 @@
 * Current
 ** TODO Enemy slime second attack type using physics
 * Backlog
-** TODO Effect execution needs to be made into a utility :refactor:
-   It's being used in a couple places currently and needs DRYing
-** TODO Skill properties should move to the appropriate effect :refactor:
-   i.e. a skill has properties, but this should move to be an argument to the damage effect
-** TODO Move player skill definition/initialization to the skill system :refactor:
-   Skills should be placed into the character sheet and the skill system should
-   just call on the player to initialize it's skills which then pulls the skills
-   off of the char sheet the same way that it does for the slime npc
+** TODO Fix health bar display
+** TODO Fix stance icons
+*** TODO Make icon appear properly
+*** TODO Float the icon above the player entity
+*** TODO Figure out what to do with the enemy icon
 ** TODO Animation overhaul
    Right now, the Effects.TriggerAnimation takes a target and an animation reel 
    name but what if the target doesn't have such an animation reel?
    The system needs to be more general, where characters can respond to 
    animation triggers more generically for moves like "hit" and "dodge" etc
-** TODO Ensure you cannot type skills while in a defensive stance
-   This is due ot the way text fragment entities are queried out.  
-   It should be fixed once text fragment attacks get another component
+** TODO Move player skill definition/initialization to the skill system :refactor:
+   Skills should be placed into the character sheet and the skill system should
+   just call on the player to initialize it's skills which then pulls the skills
+   off of the char sheet the same way that it does for the slime npc
+** TODO System for recording text fragment completion data
+** TODO Effect execution needs to be made into a utility :refactor:
+   It's being used in a couple places currently and needs DRYing
 ** TODO pull views out into their own files and abstract as necessary :refactor:
-** TODO Fix health bar display
-** TODO Enlarge player vocabulary
-** TODO Fix stance icons
-*** TODO Make icon appear properly
-*** TODO Float the icon above the player entity
-*** TODO Figure out what to do with the enemy icon
+** TODO Fix vocabularies
 ** TODO Do some balance work on TextLibrary
    Light slash should consistently be easier/shorter to type than hard slash
 ** TODO Resolve if multiple skills are completed simultaneously
@@ -239,6 +235,13 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Ensure you cannot type skills while in a defensive stance
+   CLOSED: [2017-03-15 Wed 22:28]
+   This is due ot the way text fragment entities are queried out.  
+   It should be fixed once text fragment attacks get another component
+** DONE Skill properties should move to the appropriate effect     :refactor:
+   CLOSED: [2017-03-15 Wed 22:27]
+   i.e. a skill has properties, but this should move to be an argument to the damage effect
 ** DONE Architecture overhaul                                      :refactor:
    CLOSED: [2017-03-15 Wed 22:24]
    Let's use entity component system from the overwatch talk

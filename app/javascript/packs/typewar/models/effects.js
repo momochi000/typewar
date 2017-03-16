@@ -51,10 +51,6 @@ class SpawnTextFragLinear {
     validateTarget("EffectSpawnTextFragLinear", args.target);
 
     var text = getTextFromSourceEntity(args.source, args.skill.textOptions);
-    //    console.log("DEBUG:  Executing SpawnTextFragLinear ...... text to create -> ", text);
-
-    // LEFT OFF~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Building this text frag attack component.
 
     Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile")
       .attr({
@@ -69,8 +65,6 @@ class SpawnTextFragLinear {
       .defendableAttack({source: args.source, target: args.target, effects: args.effects})
       .collision()
       .battleNPCProjectile(args.positionFunction, args.speed);
-    //      .onHit("BattlePlayer", (hitDatas) => {
-    //      });
   }
 }
 
@@ -85,7 +79,6 @@ class TriggerAnimation {
     args.target.playAnim(args.animation)
   }
 }
-
 
 // locals
 
