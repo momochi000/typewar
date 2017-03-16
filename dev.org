@@ -90,10 +90,19 @@
 **** TODO Refactor/split input system to handle input for skills and defensible fragments seperately
 **** TODO Build a third input system to handle commands
 * Backlog
+** TODO Effect execution needs to be made into a utility :refactor:
+   It's being used in a couple places currently and needs DRYing
+** TODO Skill properties should move to the appropriate effect :refactor:
+   i.e. a skill has properties, but this should move to be an argument to the damage effect
 ** TODO Move player skill definition/initialization to the skill system :refactor:
    Skills should be placed into the character sheet and the skill system should
    just call on the player to initialize it's skills which then pulls the skills
    off of the char sheet the same way that it does for the slime npc
+** TODO Animation overhaul
+   Right now, the Effects.TriggerAnimation takes a target and an animation reel 
+   name but what if the target doesn't have such an animation reel?
+   The system needs to be more general, where characters can respond to 
+   animation triggers more generically for moves like "hit" and "dodge" etc
 ** TODO Ensure you cannot type skills while in a defensive stance
    This is due ot the way text fragment entities are queried out.  
    It should be fixed once text fragment attacks get another component
