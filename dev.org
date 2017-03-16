@@ -1,5 +1,6 @@
 * Current
 ** TODO Enemy slime second attack type using physics
+*** TODO Setup box2d
 * Backlog
 ** TODO Fix health bar display
 ** TODO Fix stance icons
@@ -36,7 +37,6 @@
    Components no longer hold any data
    They hold references to data trees within the data store
    They do however, initialize their own trees in the data store
-** TODO Setup box2d
 ** TODO Abandon dynamic skill adjustment
    The game will instead feature a linear difficulty progression of monster to monster
    Simply a matter of how quickly and accurately you can type = how far you go

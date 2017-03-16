@@ -151,6 +151,33 @@ export var SlimeStandardAttack = {
     min_difficulty: 1,
     max_difficulty: 4
   },
+};
+
+export var SlimeGlobAttack = {
+  effects: [
+    {
+      klass: Effects.SpawnTextProjectilePhysics,
+      effects: [
+        { 
+          klass: Effects.Damage, 
+          properties: {
+            blunt:    3, slashing: 0, piercing: 0,
+            fire:     0, earth:    0, water:    0,
+            air:      0, light:    0, dark:     0,
+            poison:   2, life:     0, death:    0
+          }
+        }
+      ]
+    }
+  ],
+  cost: 0,
+  name: 'glob'
+  textOptions: {
+    min_length: 5,
+    max_length: 15,
+    min_difficulty: 1,
+    max_difficulty: 2
+  }
 }
 
 // TODO: this and other functions defining projectile movement/behavior should maybe move to a different file?
