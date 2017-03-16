@@ -66,9 +66,11 @@ class SpawnTextFragLinear {
       })
       .textFragment(text)
       .textFragmentAttackDisplay()
-      .defendableAttack({target: args.target})
-      .battleNPCProjectile(args.positionFunction, args.speed)
-      .collision();
+      .defendableAttack({source: args.source, target: args.target, effects: args.effects})
+      .collision()
+      .battleNPCProjectile(args.positionFunction, args.speed);
+    //      .onHit("BattlePlayer", (hitDatas) => {
+    //      });
   }
 }
 

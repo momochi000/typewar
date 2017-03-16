@@ -7,7 +7,7 @@
 //import BaseSkill from './base_npc_skill'
 import * as Effects from "../../effects"
 import { 
-  SLIME_ANIM_READY, SLIME_ANIM_SLASH, SLIME_ANIM_THROW, SLIME_ANIM_BLOCK, SLIME_ANIM_HIT 
+  SLIME_ANIM_READY, SLIME_ANIM_SLASH, SLIME_ANIM_THROW, SLIME_ANIM_BLOCK, SLIME_ANIM_HIT, ZERO_ANIM_HIT
 } from "../../../constants/animation_constants"
 
 //class SlimeStandard extends BaseSkill {
@@ -113,9 +113,33 @@ import {
 //export { SlimeStandard, SlimeGlob }
 
 
+// TODO NOTES: 
+// Animation will need an overhaul.
+// Currently, I'm using some constants to define specific animation reels.
+// But actually, let's say a successful attack should trigger the stagger 
+// animation for the target.  Well, as it is now, it'll specify specifically
+// the ZERO_ANIM_HIT but what if the target isn't zero? then this thing will 
+// break
+
 export var SlimeStandardAttack = {
   effects: [
-    { klass: Effects.SpawnTextFragLinear, positionFunction: linearProjectile, speed: 0.08 },
+    {
+      klass: Effects.SpawnTextFragLinear,
+      positionFunction: linearProjectile,
+      speed: 0.08,
+      effects: [
+        {
+          klass: Effects.Damage,
+          properties: {
+            blunt:    3, slashing: 0, piercing: 0,
+            fire:     0, earth:    0, water:    0,
+            air:      0, light:    0, dark:     0,
+            poison:   0, life:     0, death:    0
+          }
+        },
+        { klass: Effects.TriggerAnimation, animation: ZERO_ANIM_HIT },
+      ]
+    },
     { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_SLASH },
     //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 1900 }
   ],
@@ -127,12 +151,6 @@ export var SlimeStandardAttack = {
     min_difficulty: 1,
     max_difficulty: 4
   },
-  properties: {
-    blunt:    3, slashing: 0, piercing: 0,
-    fire:     0, earth:    0, water:    0,
-    air:      0, light:    0, dark:     0,
-    poison:   0, life:     0, death:    0
-  }
 }
 
 // TODO: this and other functions defining projectile movement/behavior should maybe move to a different file?
