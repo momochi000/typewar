@@ -9,6 +9,7 @@ import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_
 import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
 import {initNPCAISystem, nPCAISystem} from "../systems/npc_ai_system"
 import {initProjectileSystem, projectileSystem} from "../systems/projectile_system"
+import {initTriggerEffectOnCollideSystem, triggerEffectOnCollideSystem} from "../systems/trigger_effect_on_collide_system"
 import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
@@ -284,6 +285,7 @@ export default class ProtoBattleScene {
     textFragmentAttackDisplaySystem(Crafty);
     defendableSkillSystem(Crafty);
     projectileSystem(Crafty, evt.frame, evt.dt);
+    triggerEffectOnCollideSystem(Crafty);
   }
 
   stop(){

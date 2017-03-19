@@ -9,6 +9,7 @@ require("../components/TextFragment");
 require("../components/TextFragmentAttackDisplay");
 require("../components/DefendableAttack");
 require("../components/BattleNPCProjectile");
+require("../components/TriggerableEffectOnCollide");
 
 class Damage {
   static execute(args) {
@@ -79,7 +80,7 @@ class SpawnTextFragLinear {
     validateTarget("EffectSpawnTextFragLinear", args.target);
     text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
-    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile")
+    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile, TriggerableEffectOnCollide")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -89,9 +90,15 @@ class SpawnTextFragLinear {
       })
       .textFragment(text)
       .textFragmentAttackDisplay()
-      .defendableAttack({source: args.source, target: args.target, effects: args.effects})
+      .defendableAttack()
       .collision()
-      .battleNPCProjectile(args.positionFunction, args.speed);
+      .battleNPCProjectile(args.positionFunction, args.speed)
+      .triggerableEffectOnCollide({
+        source: args.source, 
+        target: args.target, 
+        effects: args.effects, 
+        targetComponent: "BattlePlayer" // TODO: This should be moved to an argument of the effect when it's defined in a skill
+      });
   }
 }
 
