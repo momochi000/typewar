@@ -1,7 +1,16 @@
 * Current
 ** TODO Enemy slime second attack type using physics
-*** TODO Setup box2d
+*** DONE Setup box2d
+    CLOSED: [2017-03-18 Sat 01:56]
+*** TODO BattleNPCProjectile needs refactoring :refactor:
+    It needs to be split into 2 systems:
+    1 for handling movement of a projectile
+    1 for handling collision
+*** TODO Add the other skill to slimer
+*** TODO Glob skill spawns a projectile with box2d component
 * Backlog
+** TODO Game manager and scene manager need to go away:refactor:
+   maybe scene manager is ok, but it needs a healthy looking into..
 ** TODO Fix health bar display
 ** TODO Fix stance icons
 *** TODO Make icon appear properly

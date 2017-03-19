@@ -13,6 +13,7 @@ import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defen
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
+require("../vendor/components/box2d");
 require("../components/BattleBackgroundComponent");
 require("../components/BattleStatusView");
 require("../components/BattleStance");
@@ -25,6 +26,7 @@ require("../components/characters/battle/BattleNPCEnemyComponent");
 require("../components/animations/BattleSlimeAnimation");
 require("../components/brains/NPCBrainComponent");
 
+const PTM_RATIO = 2; // pixel to meter ratio for physics
 const STAGE_EDGE_BORDER_WIDTH = 9000;
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = -80;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
@@ -45,6 +47,7 @@ export default class ProtoBattleScene {
     Crafty.scene(this._scene_id, function (){
       var chars_loaded_promise;
 
+      self.initBox2d();
       self.initSprites();
       self.initBackground();
       //      self.initAudio();
@@ -126,6 +129,10 @@ export default class ProtoBattleScene {
   initBattleManager(options){
     options = options || {};
     this._battleManager = new BattleManager(options)
+  }
+
+  initBox2d() {
+    Crafty.box2D.init(0, 10, PTM_RATIO, true);
   }
 
   initCamera(){

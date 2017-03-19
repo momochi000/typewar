@@ -40,6 +40,32 @@ class SetCooldown {
   }
 }
 
+class SpawnTextProjectilePhysics {
+  static execute(args) {
+    var text;
+
+    validateTarget("EffectSpawnTextFragLinear", args.target);
+    text = getTextFromSourceEntity(args.source, args.skill.textOptions);
+
+    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile, Box2d")
+      .attr({
+        x: args.source._x,
+        y: args.source._y-20,
+        z: (args.source._z+1),
+        h: 20,
+        w: 20
+      })
+      .textFragment(text)
+      .textFragmentAttackDisplay()
+      .defendableAttack({source: args.source, target: args.target, effects: args.effects})
+      .collision()
+    
+  }
+
+  static calculateInitialForce() {
+  }
+}
+
 // TODO: This can be made more generic, it shouldnt' be TextFragLinear,
 // the position function is passed in seperately so really it could
 // be any kind of path.  Also other attributes could determine it's
@@ -48,9 +74,10 @@ class SetCooldown {
 // refactor this right now
 class SpawnTextFragLinear {
   static execute(args) {
-    validateTarget("EffectSpawnTextFragLinear", args.target);
+    var text;
 
-    var text = getTextFromSourceEntity(args.source, args.skill.textOptions);
+    validateTarget("EffectSpawnTextFragLinear", args.target);
+    text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
     Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile")
       .attr({

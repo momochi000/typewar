@@ -137,7 +137,7 @@ export var SlimeStandardAttack = {
             poison:   0, life:     0, death:    0
           }
         },
-        { klass: Effects.TriggerAnimation, animation: ZERO_ANIM_HIT },
+        { klass: Effects.TriggerAnimation, animation: ZERO_ANIM_HIT }
       ]
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_SLASH },
@@ -166,12 +166,14 @@ export var SlimeGlobAttack = {
             air:      0, light:    0, dark:     0,
             poison:   2, life:     0, death:    0
           }
-        }
+        },
+        { klass: Effects.TriggerAnimation, animation: ZERO_ANIM_HIT }
       ]
-    }
+    },
+    { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_THROW }
   ],
   cost: 0,
-  name: 'glob'
+  name: 'glob',
   textOptions: {
     min_length: 5,
     max_length: 15,
