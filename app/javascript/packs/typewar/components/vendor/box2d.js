@@ -1,4 +1,5 @@
-require('crafty');
+require("crafty");
+var Box2D = require("box2dweb");
 
 var   b2Vec2 = Box2D.Common.Math.b2Vec2
          	,	b2BodyDef = Box2D.Dynamics.b2BodyDef
@@ -94,9 +95,25 @@ Crafty.c("Box2D", {
 		this.body = world.CreateBody(BodyDef);
 
 		this.addFixture(obj);
+		
+		this.bind("Remove", this.box2dRemoved);
+		this.bind("RemoveComponent", this.box2dRemoved);
 
 		return this;
 	},
+	/**@
+	 * #.box2dRemoved
+	 * @comp Box2D
+	 * @sign public void .box2dRemoved(Object component)
+	 * @param component - component that was removed. Undefined if the entity was destroyed.
+	 * 
+	 * Called when the Box2D component is removed or when an entity with the Box2D component on it is destroyed.
+	 */
+	box2dRemoved: function(component){
+		if(typeof component === "undefined" || component === "Box2D")
+			Crafty.box2D.world.DestroyBody(this.body);
+	},
+	
 	/**@
 	* #.addFixture
 	* @comp Box2D
@@ -234,37 +251,30 @@ Crafty.c("Box2D", {
 	* ~~~
 	* @see .onContact
 	*/
-	contact:function(comp){
+	contact:function(comp) {
+		if(Crafty.box2D.contacts.length === 0)
+			return false;
+		var entities = Crafty(comp);
 		var finalresult = [];
-		var entitys = Crafty(comp);
-		for(entity in entitys){
-			if(!isNaN(entity)){
-				var obj = Crafty(entitys[entity]);
-				if(!obj.__c["Box2D"]){
+		for(var contactIndex = 0; contactIndex < Crafty.box2D.contacts.length; contactIndex++) {
+			var contact = Crafty.box2D.contacts[contactIndex];
+			for(var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+				var entity = entities.get(entityIndex);
+				if(!entity.__c["Box2D"])
 					return false;
-				}else{
-					for(_contact in Crafty.box2D.contacts){
-						var contact = Crafty.box2D.contacts[_contact];
-						for(i in this.fixtures){
-							var fixtureA = this.fixtures[i];
-							for(j in obj.fixtures){
-								var fixtureB = obj.fixtures[j];
-								if ((contact.fixtureA === fixtureA && contact.fixtureB === fixtureB) ||
-									(contact.fixtureA === fixtureB && contact.fixtureB === fixtureA)) {
-
-									finalresult.push(
-														{
-															obj: obj,
-															contact : contact
-														});
-								}
-							}
+				for(var fixtureIndexA = 0; fixtureIndexA < this.fixtures.length; fixtureIndexA++) {
+					for(var fixtureIndexB = 0; fixtureIndexB < this.fixtures.length; fixtureIndexB++) {
+						if((contact.fixtureA === this.fixtures[fixtureIndexA] && contact.fixtureB === entity.fixtures[fixtureIndexB]) ||
+						(contact.fixtureA === entity.fixtures[fixtureIndexB] && contact.fixtureB === this.fixtures[fixtureIndexA])) {
+							finalresult.push({
+								obj: entity,
+								contact: contact
+							});
 						}
 					}
 				}
 			}
 		}
-
 		return (finalresult.length) ? finalresult : false;
 	},
 	/**@
@@ -371,9 +381,9 @@ Crafty.extend({
 
 			_world.SetContactListener(contactListener);
 
-			Crafty.bind("EnterFrame", function() {
+			Crafty.bind("EnterFrame", function(frameInfo) {
 				_world.Step(
-					   1 / 30   //frame-rate
+					   frameInfo.dt / 1000   //frame-rate
 					,  8       //velocity iterations
 					,  3       //position iterations
 				 );
@@ -381,13 +391,18 @@ Crafty.extend({
 				for(var b = _world.GetBodyList(); b; b=b.GetNext()) {
 					if (b.GetUserData()) {
 						var sprite = b.GetUserData();
-						sprite.attr(
+						if(b.GetType() !== 0){ // Non-static bodies update their x/y from the physics step
+							sprite.attr(
 									{
 										x: b.GetPosition().x * _PTM_RATIO,
 										y:b.GetPosition().y * _PTM_RATIO
 									}
 							);
-						sprite.rotation = Crafty.math.radToDeg(b.GetAngle());
+							sprite.rotation = Crafty.math.radToDeg(b.GetAngle());
+						} else { // Static bodies can be updated via sprite.x and sprite.y, which should flow back into the physics simulation.
+							b.SetPosition({ x: sprite.x / _PTM_RATIO, y: sprite.y / _PTM_RATIO });
+						}
+						
 
 					}
 				}

@@ -14,7 +14,6 @@ import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defen
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
-require("../vendor/components/box2d");
 require("../components/BattleBackgroundComponent");
 require("../components/BattleStatusView");
 require("../components/BattleStance");

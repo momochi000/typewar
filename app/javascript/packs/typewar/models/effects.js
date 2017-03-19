@@ -10,6 +10,7 @@ require("../components/TextFragmentAttackDisplay");
 require("../components/DefendableAttack");
 require("../components/BattleNPCProjectile");
 require("../components/TriggerableEffectOnCollide");
+require("../components/vendor/box2d");
 
 class Damage {
   static execute(args) {
@@ -48,7 +49,7 @@ class SpawnTextProjectilePhysics {
     validateTarget("EffectSpawnTextFragLinear", args.target);
     text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
-    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile, Box2d")
+    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -60,7 +61,13 @@ class SpawnTextProjectilePhysics {
       .textFragmentAttackDisplay()
       .defendableAttack({source: args.source, target: args.target, effects: args.effects})
       .collision()
-    
+      .box2d(args.box2d)
+      .triggerableEffectOnCollide({
+        source: args.source, 
+        target: args.target, 
+        effects: args.effects, 
+        targetComponent: "BattlePlayer"
+      });
   }
 
   static calculateInitialForce() {
@@ -161,4 +168,4 @@ function validateTarget(effectName, target) {
   }
 }
 
-export { Damage, SetCooldown, SpawnTextFragLinear, TriggerAnimation }
+export { Damage, SetCooldown, SpawnTextFragLinear, SpawnTextProjectilePhysics, TriggerAnimation }
