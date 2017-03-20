@@ -5,6 +5,7 @@
 
 import TextLibrarian from "../util/text_librarian"
 
+var Box2D = require("box2dweb");
 require("../components/TextFragment");
 require("../components/TextFragmentAttackDisplay");
 require("../components/DefendableAttack");
@@ -44,12 +45,13 @@ class SetCooldown {
 
 class SpawnTextProjectilePhysics {
   static execute(args) {
-    var text;
+    var text, new_ent;
 
-    validateTarget("EffectSpawnTextFragLinear", args.target);
+    validateTarget("EffectSpawnTextProjectilePhysics", args.target);
     text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
-    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide")
+    console.log("DEBUG: about to spawn new physics projectile");
+    new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -68,9 +70,22 @@ class SpawnTextProjectilePhysics {
         effects: args.effects, 
         targetComponent: "BattlePlayer"
       });
+
+    SpawnTextProjectilePhysics.applyInitialForce(new_ent);
   }
 
-  static calculateInitialForce() {
+  static applyInitialForce(entity) {
+    var force_vector, body_center, x_force, y_force;
+
+    //    x_force = _.random(-320, -470);
+    //    y_force = _.random(-330, -510);
+    //    force_vector = new b2Vec2(-380, -630); //always hits
+    x_force = _.random(-9300, -15000); // TODO These force arguments need to be passed in to the effect
+    y_force = _.random(-12000, -26000);
+    force_vector = new Box2D.Common.Math.b2Vec2(x_force, y_force);
+    body_center = entity.body.GetWorldCenter();
+    console.log("DEBUG applying force to new physics projectile....", force_vector);
+    entity.body.ApplyForce(force_vector, body_center);
   }
 }
 

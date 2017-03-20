@@ -2,12 +2,19 @@
 ** TODO Enemy slime second attack type using physics
 *** DONE Setup box2d
     CLOSED: [2017-03-18 Sat 01:56]
-*** TODO BattleNPCProjectile needs refactoring :refactor:
+*** DONE BattleNPCProjectile needs refactoring                     :refactor:
+    CLOSED: [2017-03-18 Sat 18:51]
     It needs to be split into 2 systems:
     1 for handling movement of a projectile
     1 for handling collision
-*** TODO Add the other skill to slimer
-*** TODO Glob skill spawns a projectile with box2d component
+*** DONE Add the other skill to slimer
+    CLOSED: [2017-03-18 Sat 19:19]
+*** DONE Glob skill spawns a projectile with box2d component
+    CLOSED: [2017-03-18 Sat 19:20]
+*** DONE Glob skill gets appropriate intial velocity/force
+    CLOSED: [2017-03-20 Mon 16:41]
+*** TODO Floor of the battleground gets rigid body physics as well
+*** TODO If glob hits the floor, it dissolves/dissipates
 * Backlog
 ** TODO Game manager and scene manager need to go away:refactor:
    maybe scene manager is ok, but it needs a healthy looking into..

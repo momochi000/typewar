@@ -1,6 +1,6 @@
 import BattleEntityBase from "./battle_entity_base"
 import CharacterSheet from "../models/character_sheet"
-import {SlimeStandardAttack} from "../models/skills/npc/slime_skills"
+import {SlimeStandardAttack, SlimeGlobAttack} from "../models/skills/npc/slime_skills"
 
 require("crafty");
 
@@ -71,7 +71,8 @@ export default class BattleEntityNPC extends BattleEntityBase {
         wis: 0
       },
       vocabulary: self._generatedVocabulary(),
-      skills: [SlimeStandardAttack]
+      skills: [SlimeGlobAttack]
+      //      skills: [SlimeStandardAttack, SlimeGlobAttack]
     });
     this._entity.charSheet = char_sheet;
   }
