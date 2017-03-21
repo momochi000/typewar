@@ -1,4 +1,4 @@
-import GameManager from "./managers/game_manager"
+import SceneManager from "./managers/scene_manager"
 require('crafty');
 
 export default class TypewarMain {
@@ -16,7 +16,7 @@ export default class TypewarMain {
     this._initCrafty();
     this._initManagers();
 
-    this.managers.gameManager.start();
+    this.sceneManager.loadScene('prototype_battle');
   }
 
   _initCrafty(){
@@ -28,7 +28,7 @@ export default class TypewarMain {
 
   _initManagers(){
     this.managers = {};
-    this.managers.gameManager = new GameManager(this.managers.sceneManager);
+    this.sceneManager = new SceneManager();
   }
 
   _setupContainer(){
