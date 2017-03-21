@@ -79,7 +79,7 @@ Crafty.c("PlayerSkillManager", {
     this._skillset = null;
   },
 
-  render: function (){
+  renderSkillManager: function (){
     if(!this._view) { this._initializeView(); }
     this._view.render();
   },

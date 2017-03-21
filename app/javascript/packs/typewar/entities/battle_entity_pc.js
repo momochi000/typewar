@@ -1,5 +1,6 @@
 import BattleEntityBase from "./battle_entity_base"
 import CharacterSheet from "../models/character_sheet"
+import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
 require("crafty");
 
@@ -66,7 +67,13 @@ export default class BattleEntityPC extends BattleEntityBase {
         cha: 1, 
         wis: 1
       },
-      vocabulary: self._generatedVocabulary()
+      vocabulary: self._generatedVocabulary(),
+      skills: [
+        ZeroSkills.ZeroLightSlash,
+        ZeroSkills.ZeroMedSlash,
+        ZeroSkills.ZeroHardSlash, 
+        ZeroSkills.ZeroUpperSlash
+      ]
     });
     this._entity.charSheet = char_sheet
   }

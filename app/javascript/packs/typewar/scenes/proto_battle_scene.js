@@ -14,16 +14,14 @@ import {initProjectileSystem, projectileSystem} from "../systems/projectile_syst
 import {initTriggerEffectOnCollideSystem, triggerEffectOnCollideSystem} from "../systems/trigger_effect_on_collide_system"
 import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
-import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleEffectable");
 require("../components/BattleStatusView");
 require("../components/BattleStance");
-require("../components/BattleNPCSkillManagerComponent");
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattlePlayerComponent");
-require("../components/PlayerSkillManagerComponent");
+require("../components/BattleNPCSkillManagerComponent");
 require("../components/animations/BattlePlayerZeroAnimation");
 require("../components/characters/battle/BattleNPCEnemyComponent");
 require("../components/animations/BattleSlimeAnimation");
@@ -153,7 +151,6 @@ export default class ProtoBattleScene {
       self.initPC().then((pc_entity) => {
         player = pc_entity;
 
-        self.initSkillManager(player);
         return self.initEnemyNPC();
       }, (error) => {
         console.log("ERROR: there was an error initializing the player character", error);
@@ -191,10 +188,6 @@ export default class ProtoBattleScene {
     });
   }
 
-  //  initInputManager(){
-  //    this._inputManager = new BattleInputManager(this._battleManager);
-  //  }
-
   initPC(){
     var pc_ent, pc_model, promise;
 
@@ -207,16 +200,6 @@ export default class ProtoBattleScene {
       .collision([5,-30],[50,-30],[50,40],[5,40]);
 
     return pc_ent.getFromServer();
-  }
-
-  initSkillManager(player){
-    player.addComponent("PlayerSkillManager");
-    player.playerSkillManager([
-      ZeroSkills.ZeroLightSlash,
-      ZeroSkills.ZeroMedSlash,
-      ZeroSkills.ZeroHardSlash, 
-      ZeroSkills.ZeroUpperSlash
-    ]);
   }
 
   initSprites(){
