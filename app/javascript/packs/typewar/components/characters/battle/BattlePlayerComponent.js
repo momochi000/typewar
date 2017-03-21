@@ -11,10 +11,7 @@ Crafty.c("BattlePlayer", {
   stance: 'defense',
 
   init: function (){
-    console.log("DEBUG: ~~~~~~~~~~~~~~~~~~~~~~~~~~~DEBUGGING BATTLEENTITYPC");
-    console.log("DEBUG: ~~~~~~~~~~~~~~~~~~~~~~~~~~~ init ");
     this.requires("2D, BattlePlayerAnimation, BattleCharacter");
-    console.log("DEBUG: ~~~~~~~~~~~~~~~~~~~~~~~~~~~ after requires ");
     this._bindChangeStance();
   },
 
@@ -24,6 +21,7 @@ Crafty.c("BattlePlayer", {
     console.log("DEBUG: ~~~~~~~~~~~~~~~~~~~~~~~~~~~ About to initialize model");
     this._initModel();
     console.log("DEBUG: ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Model initailized");
+
     return this;
   },
 
@@ -46,25 +44,6 @@ Crafty.c("BattlePlayer", {
   isPlayer: function (){ return true; },
   isNPC: function (){ return false; },
  
-  partialHit: function (){
-    var self = this;
-    console.log("DEBUG: PLAYER: PARTIAL HIT. OW!!! ");
-    //window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
-    self.animBlock();
-  },
-
-  successfulDefense: function (){
-    console.log("DEBUG: PLAYER: DEFENDED!!! ");
-    this.animBlock();
-  },
-
-  successfulHit: function (){
-    console.log("DEBUG: PLAYER: HIT!! GOT ME GOOD D=");
-    this.animHit();
-  },
-
-  wasMissed: function (){ },
-
   // private
 
   _bindChangeStance: function (){
@@ -80,7 +59,6 @@ Crafty.c("BattlePlayer", {
   },
 
   _initModel: function (){
-    console.log("DEBUG: ~~~~~~~~~~~~~~~~~~~~~~~~~~~ calling constructor for BattleEntityPC ---> ");
     this._model = new BattleEntityPC({entity: this});
   },
 

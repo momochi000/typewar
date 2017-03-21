@@ -56,41 +56,6 @@ Crafty.c("BattleNPCSlime", {
   isPlayer: function (){ return false; },
   isNPC: function (){ return true; },
 
-  partialHit: function (){
-    console.log("DEBUG: SLIME: PARTIAL HIT. OW!!! ");
-    var self = this;
-    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
-  },
-
-  //  setupBattleNPCSkills: function (){
-  //    var skills = this.charSheet.data.skills;
-  //
-  //    if(skills){
-  //      this.addComponent("NPCSkillManager").
-  //        nPCSkillManager(skills);
-  //    }else if(this.initDefaultSkills){ // Default skills which should come from monster specific component if the server doesn't provide any skills
-  //      this.initDefaultSkills();
-  //    }else{ 
-  //      throw new Error("Attempting to setup battle NPC with no skills");
-  //    }
-  //  },
-
-  successfulDefense: function (){
-    console.log("DEBUG: SLIME: DEFENDED!!! ");
-    var self = this;
-    window.setTimeout(function (){ self.animBlock(); }, this._ANIM_HIT_DELAY);
-  },
-
-  successfulHit: function (){
-    var self = this;
-    console.log("DEBUG: SLIME: HIT!! GOT ME GOOD D=");
-    window.setTimeout(function (){ self.animHit(); }, this._ANIM_HIT_DELAY);
-  },
-
-  wasMissed: function (){
-    console.log("DEBUG: SLIME: MISSED ME!!");
-  },
-
   //private 
 
   //  _bindAIListners: function (){

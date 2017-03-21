@@ -4,6 +4,8 @@ import BattleManager from "../managers/battle_manager"
 //import BattleInputManager from "../managers/battle_input_manager"
 import StatusBarView from "../views/status_bar_view"
 
+import {initBattleEffectSystem, battleEffectSystem} from "../systems/battle_effect_system"
+import {initBattleStatusSystem, battleStatusSystem} from "../systems/battle_status_system"
 import {initInputSystem, inputSystem} from "../systems/input_system"
 import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
 import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
@@ -15,6 +17,7 @@ import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} fr
 import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 
 require("../components/BattleBackgroundComponent");
+require("../components/BattleEffectable");
 require("../components/BattleStatusView");
 require("../components/BattleStance");
 require("../components/BattleNPCSkillManagerComponent");
@@ -172,7 +175,7 @@ export default class ProtoBattleScene {
   initEnemyNPC(){
     var enemy_entity, promise;
 
-     enemy_entity = Crafty.e("2D, DOM, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager")
+     enemy_entity = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager")
       .attr({x: 390, y: 210, w: 42, h: 42 })
       .battleCharacter()
       .battleNPCEnemy()
@@ -195,7 +198,7 @@ export default class ProtoBattleScene {
   initPC(){
     var pc_ent, pc_model, promise;
 
-    pc_ent = Crafty.e("2D, DOM, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
+    pc_ent = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
     pc_ent.attr({ x: 20, y: 180})
       .battlePlayerZeroAnim()
       .battleCharacter()
@@ -248,8 +251,8 @@ export default class ProtoBattleScene {
     player = this._combatants.player;
     enemy = this._combatants.enemies[0];
     statusBar = new StatusBarView();
-    statusBar.insertChild(player.statusView);
-    statusBar.insertChild(enemy.statusView);
+    statusBar.insertChild(player.getStatusView());
+    statusBar.insertChild(enemy.getStatusView());
     statusBar.render();
     this._statusBar = statusBar;
   }
@@ -286,6 +289,8 @@ export default class ProtoBattleScene {
     defendableSkillSystem(Crafty);
     projectileSystem(Crafty, evt.frame, evt.dt);
     triggerEffectOnCollideSystem(Crafty);
+    battleEffectSystem(Crafty);
+    battleStatusSystem(Crafty);
   }
 
   stop(){

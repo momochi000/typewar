@@ -1,6 +1,6 @@
 * Current
-* Backlog
 ** TODO Fix health bar display
+* Backlog
 ** TODO Fix stance icons
 *** TODO Make icon appear properly
 *** TODO Float the icon above the player entity
@@ -44,6 +44,7 @@
 ** TODO Deploy
 ** TODO Rename this project
 * Roadmap
+** TODO When text fragments hit the left border, remove them
 ** TODO Ensure spaces are clear when typing
 ** TODO Research use of web workers
 ** TODO All events should follow a consistent style  :refactor:

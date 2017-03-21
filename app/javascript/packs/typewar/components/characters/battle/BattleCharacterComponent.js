@@ -22,12 +22,16 @@ Crafty.c("BattleCharacter", {
     this.z = -9999;
   },
 
-  getStatus: function (){
-    return this.charSheet.data.status;
+  getHP: function (){
+    return this.getStatus().hp;
   },
 
   getName: function (){
     return this.charSheet.data.name;
+  },
+
+  getStatus: function (){
+    return this.charSheet.data.status;
   },
 
   getTarget: function (){
@@ -38,23 +42,16 @@ Crafty.c("BattleCharacter", {
     return this.charSheet.data.vocabulary;
   },
 
+  setHP: function (newHP){
+    this.getStatus().hp = newHP;
+  },
+
   getPercentHP: function (){
     return 100 * (this.getStatus().hp / this.getStatus().maxHp);
   },
 
   setTarget: function (target){
     this._currentTarget = target;
-  },
-
-  takeDamage: function(damage) {
-    var char_status;
-
-    char_status = this.getStatus();
-    char_status.hp = char_status.hp - damage;
-    this.charSheet.data.status = char_status;
-    this.updateStatus();
-    if(char_status.hp <= 0){ this.die(); }
-    char_status = null;
   },
 
   updateStatus: function() {

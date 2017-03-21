@@ -99,16 +99,17 @@
 
     .name { 
       font-weight: bold; 
-      color: white;
     }
     .mode {
       width: 30px; height:30px;
       @include border-radius(4px);
     }
-    .status .progress {
-      background-image: none;
-      background-color: red
-      //background-color: rgba(255,255,255,0);
+    .health-bar-wrap {
+      background-color: red;
+    }
+    .health-bar {
+      height: 1em;
+      background-color: blue;
     }
   }
 }

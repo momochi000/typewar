@@ -54,7 +54,7 @@ var blank_sheet = {
 
 export default class CharacterSheet {
   constructor(data) {
-    this._data = _.merge(blank_sheet, data);
+    this._data = _.merge({}, blank_sheet, data);
   }
 
   get data(){

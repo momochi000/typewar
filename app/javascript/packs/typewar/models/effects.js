@@ -135,18 +135,24 @@ class TriggerAnimation {
 // locals
 
 function applyDamage(target, propertiesMagnitude) {
-  var amount;
+  var amount, effect_func;
   amount = _.reduce(propertiesMagnitude, (sum, curr_val, curr_key) => {
     return (sum+curr_val);
   }, 0);
+  
   target.hp = target.hp - amount;
+  effect_func = new Function("entity",
+    "let new_health, old_health;"+
+    "old_health = entity.getHP();" +
+    "new_health = old_health - "+ amount +";" +
+    "entity.setHP(new_health);"
+  );
+  target.getEffectQueue().push(effect_func);
 }
 
 function calculateDamage(target, damageProperties) {
   var output = {};
-  if(!target.charSheet) { 
-    return;
-  }
+  if(!target.charSheet) { return; }
   // NOTE: Eventually we'll do some sophisticated calculation of target
   // properties against the properties of the thing doing the damaging
   // for now just subtract

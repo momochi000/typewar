@@ -24,14 +24,10 @@ export default StatusBarView = Backbone.View.extend({
   },
 
   render: function (opts){
-    var self = this;
     if(!this._existsOnPage()){ this._insertIntoPage();}
     this.$el.html(this._template());
 
-    _.each(this._childViews, function(view) {
-      self.$el.append(view.render()); 
-    });
-
+    this._renderChildViews();
     return this;
   },
 
@@ -41,5 +37,12 @@ export default StatusBarView = Backbone.View.extend({
 
   _insertIntoPage: function (){
     $(STATUS_BAR_VIEW_CONTAINER).append(this.$el);
+  },
+
+  _renderChildViews: function (){
+    var self = this;
+    _.each(this._childViews, function(view) {
+      self.$el.append(view.render()); 
+    });
   }
 });
