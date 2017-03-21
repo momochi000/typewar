@@ -69,6 +69,8 @@ Crafty.c("TextFragment", {
 
   //  isComplete: function (){ return this._isComplete; },
   isComplete: function (){ return this._textFragFsm.is("completed"); },
+  isCooling: function (){ return this._textFragFsm.is("cooling"); },
+  isProcessed: function (){ return this._textFragFsm.is("processed"); },
 
   processed: function (){ return this._textFragFsm.process(); },
 

@@ -26,6 +26,8 @@ export function inputSystem(Crafty) {
 
     text_fragment_entities = getRelevantTextFragmentsBasedOnStance(input_entity);
     text_fragment_entities = filterOutCompleteTextFrags(text_fragment_entities);
+    text_fragment_entities = filterOutCoolingTextFrags(text_fragment_entities);
+    text_fragment_entities = filterOutProcessedTextFrags(text_fragment_entities);
 
     processInput(currInput, text_fragment_entities);
   });
@@ -70,15 +72,27 @@ function getRelevantTextFragmentsBasedOnStance(inputEntity) {
 
 }
 
+function filterActiveTextFrags(textFragmentEntities) {
+  return _.filter(textFragmentEntities, (curr) => {
+    return curr.isActive();
+  });
+}
+
 function filterOutCompleteTextFrags(textFragmentEntities) {
   return _.filter(textFragmentEntities, (curr) => {
     return !curr.isComplete();
   });
 }
 
-function filterActiveTextFrags(textFragmentEntities) {
+function filterOutCoolingTextFrags(textFragmentEntities) {
   return _.filter(textFragmentEntities, (curr) => {
-    return curr.isActive();
+    return !curr.isCooling();
+  });
+}
+
+function filterOutProcessedTextFrags(textFragmentEntities) {
+  return _.filter(textFragmentEntities, (curr) => {
+    return !curr.isProcessed();
   });
 }
 

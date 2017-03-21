@@ -1,22 +1,5 @@
 * Current
 * Backlog
-** TODO text fragment typed gets state machine error :bug:
-   Seemed to happen when on offense.
-   Seems pretty rare, tough to reproduce.
-   Seems to happen when a skill is recharging and it's letter gets typed.
-   I think the fix could be: ensure input system doesn't send letters to ineligible fragments
-Uncaught event activate inappropriate in current state processed
-fsm.error @ state-machine.js:85
-(anonymous) @ state-machine.js:157
-activate @ TextFragment.js:41
-(anonymous) @ input_system.js:108
-processInput @ input_system.js:107
-(anonymous) @ input_system.js:30
-inputSystem @ input_system.js:23
-runSystems @ proto_battle_scene.js:284
-trigger @ crafty.js:5718
-step @ crafty.js:5521
-tick @ crafty.js:5406
 ** TODO System for recording text fragment completion data
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
@@ -244,6 +227,24 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE text fragment typed gets state machine error                    :bug:
+   CLOSED: [2017-03-21 Tue 16:58]
+   Seemed to happen when on offense.
+   Seems pretty rare, tough to reproduce.
+   Seems to happen when a skill is recharging and it's letter gets typed.
+   I think the fix could be: ensure input system doesn't send letters to ineligible fragments
+Uncaught event activate inappropriate in current state processed
+fsm.error @ state-machine.js:85
+(anonymous) @ state-machine.js:157
+activate @ TextFragment.js:41
+(anonymous) @ input_system.js:108
+processInput @ input_system.js:107
+(anonymous) @ input_system.js:30
+inputSystem @ input_system.js:23
+runSystems @ proto_battle_scene.js:284
+trigger @ crafty.js:5718
+step @ crafty.js:5521
+tick @ crafty.js:5406
 ** DONE Move player skill definition/initialization to the skill system :refactor:
    CLOSED: [2017-03-21 Tue 16:47]
    Skills should be placed into the character sheet and the skill system should
