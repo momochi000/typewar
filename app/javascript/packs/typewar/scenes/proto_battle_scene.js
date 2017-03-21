@@ -191,7 +191,7 @@ export default class ProtoBattleScene {
   initPC(){
     var pc_ent, pc_model, promise;
 
-    pc_ent = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
+    pc_ent = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, PlayerSkillManager, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
     pc_ent.attr({ x: 20, y: 180})
       .battlePlayerZeroAnim()
       .battleCharacter()

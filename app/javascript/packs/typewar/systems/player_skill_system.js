@@ -3,13 +3,10 @@ require("../components/PlayerSkillManager");
 function initPlayerSkillSystem(Crafty) {
   var player;
 
-  player = Crafty("BattlePlayer").get();
-
-  //  skill_managers = Crafty("PlayerSkillManager").get();
+  player = Crafty("PlayerSkillManager").get();
 
   _.each(player, (curr_player) => {
-    curr_player.addComponent("PlayerSkillManager")
-      .playerSkillManager(curr_player.charSheet.data.skills);
+    curr_player.playerSkillManager(curr_player.charSheet.data.skills);
     curr_player.prepareSkills();
     curr_player.renderSkillManager();
   });

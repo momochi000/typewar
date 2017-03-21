@@ -1,16 +1,10 @@
 * Current
-** TODO Animation overhaul
-   Right now, the Effects.TriggerAnimation takes a target and an animation reel 
-   name but what if the target doesn't have such an animation reel?
-   The system needs to be more general, where characters can respond to 
-   animation triggers more generically for moves like "hit" and "dodge" etc
 * Backlog
-** TODO Move player skill definition/initialization to the skill system :refactor:
-   Skills should be placed into the character sheet and the skill system should
-   just call on the player to initialize it's skills which then pulls the skills
-   off of the char sheet the same way that it does for the slime npc
 ** TODO text fragment typed gets state machine error :bug:
    Seemed to happen when on offense.
+   Seems pretty rare, tough to reproduce.
+   Seems to happen when a skill is recharging and it's letter gets typed.
+   I think the fix could be: ensure input system doesn't send letters to ineligible fragments
 Uncaught event activate inappropriate in current state processed
 fsm.error @ state-machine.js:85
 (anonymous) @ state-machine.js:157
@@ -250,6 +244,17 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Move player skill definition/initialization to the skill system :refactor:
+   CLOSED: [2017-03-21 Tue 16:47]
+   Skills should be placed into the character sheet and the skill system should
+   just call on the player to initialize it's skills which then pulls the skills
+   off of the char sheet the same way that it does for the slime npc
+** DONE Animation overhaul
+   CLOSED: [2017-03-21 Tue 16:18]
+   Right now, the Effects.TriggerAnimation takes a target and an animation reel 
+   name but what if the target doesn't have such an animation reel?
+   The system needs to be more general, where characters can respond to 
+   animation triggers more generically for moves like "hit" and "dodge" etc
 ** DONE Fix health bar display
    CLOSED: [2017-03-21 Tue 15:21]
 *** DONE make stance change cause status display to be dirty
