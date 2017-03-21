@@ -1,23 +1,5 @@
 * Current
-** TODO Enemy slime second attack type using physics
-*** DONE Setup box2d
-    CLOSED: [2017-03-18 Sat 01:56]
-*** DONE BattleNPCProjectile needs refactoring                     :refactor:
-    CLOSED: [2017-03-18 Sat 18:51]
-    It needs to be split into 2 systems:
-    1 for handling movement of a projectile
-    1 for handling collision
-*** DONE Add the other skill to slimer
-    CLOSED: [2017-03-18 Sat 19:19]
-*** DONE Glob skill spawns a projectile with box2d component
-    CLOSED: [2017-03-18 Sat 19:20]
-*** DONE Glob skill gets appropriate intial velocity/force
-    CLOSED: [2017-03-20 Mon 16:41]
-*** TODO Floor of the battleground gets rigid body physics as well
-*** TODO If glob hits the floor, it dissolves/dissipates
 * Backlog
-** TODO Game manager and scene manager need to go away:refactor:
-   maybe scene manager is ok, but it needs a healthy looking into..
 ** TODO Fix health bar display
 ** TODO Fix stance icons
 *** TODO Make icon appear properly
@@ -251,6 +233,28 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Game manager needs to go away:refactor:
+   CLOSED: [2017-03-20 Mon 17:31]
+   maybe scene manager is ok, but it needs a healthy looking into..
+** DONE Enemy slime second attack type using physics
+   CLOSED: [2017-03-20 Mon 17:22]
+*** DONE Setup box2d
+    CLOSED: [2017-03-18 Sat 01:56]
+*** DONE BattleNPCProjectile needs refactoring                     :refactor:
+    CLOSED: [2017-03-18 Sat 18:51]
+    It needs to be split into 2 systems:
+    1 for handling movement of a projectile
+    1 for handling collision
+*** DONE Add the other skill to slimer
+    CLOSED: [2017-03-18 Sat 19:19]
+*** DONE Glob skill spawns a projectile with box2d component
+    CLOSED: [2017-03-18 Sat 19:20]
+*** DONE Glob skill gets appropriate intial velocity/force
+    CLOSED: [2017-03-20 Mon 16:41]
+*** DONE Floor of the battleground gets rigid body physics as well
+    CLOSED: [2017-03-20 Mon 17:21]
+*** DONE If glob hits the floor, it dissolves/dissipates
+    CLOSED: [2017-03-20 Mon 17:22]
 ** DONE Ensure you cannot type skills while in a defensive stance
    CLOSED: [2017-03-15 Wed 22:28]
    This is due ot the way text fragment entities are queried out.  
