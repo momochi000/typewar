@@ -1,4 +1,6 @@
 // This system handles player defense of text fragment attacks
+
+import {ANIM_GUARD} from "../constants/animation_constants"
 export function initDefendableSkillSystem() {
 }
 
@@ -22,7 +24,7 @@ export function defendableSkillSystem(Crafty) {
 
 function playBlockAnim(target) {
   if(!target.has("SpriteAnimation")){ return; }
-  target.animBlock();
+  target.playAnim(ANIM_GUARD);
 }
 
 function playBlockSound() {

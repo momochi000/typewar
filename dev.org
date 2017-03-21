@@ -1,18 +1,28 @@
 * Current
-* Backlog
-** TODO Fix stance icons
-*** TODO Make icon appear properly
-*** TODO Float the icon above the player entity
-*** TODO Figure out what to do with the enemy icon
 ** TODO Animation overhaul
    Right now, the Effects.TriggerAnimation takes a target and an animation reel 
    name but what if the target doesn't have such an animation reel?
    The system needs to be more general, where characters can respond to 
    animation triggers more generically for moves like "hit" and "dodge" etc
+* Backlog
 ** TODO Move player skill definition/initialization to the skill system :refactor:
    Skills should be placed into the character sheet and the skill system should
    just call on the player to initialize it's skills which then pulls the skills
    off of the char sheet the same way that it does for the slime npc
+** TODO text fragment typed gets state machine error :bug:
+   Seemed to happen when on offense.
+Uncaught event activate inappropriate in current state processed
+fsm.error @ state-machine.js:85
+(anonymous) @ state-machine.js:157
+activate @ TextFragment.js:41
+(anonymous) @ input_system.js:108
+processInput @ input_system.js:107
+(anonymous) @ input_system.js:30
+inputSystem @ input_system.js:23
+runSystems @ proto_battle_scene.js:284
+trigger @ crafty.js:5718
+step @ crafty.js:5521
+tick @ crafty.js:5406
 ** TODO System for recording text fragment completion data
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
@@ -40,6 +50,13 @@
    Still want to do things like capture player stats (wpm, error avg, etc)
 ** TODO Adjust difficulty
    The way it was when I could barely beat it.
+** TODO Fix stance icons
+*** DONE Make icon appear properly
+    CLOSED: [2017-03-21 Tue 15:22]
+*** TODO Float the icon above the player entity
+*** DONE Figure out what to do with the enemy icon
+    CLOSED: [2017-03-21 Tue 15:22]
+    Should be fine if it's always on attack mode
 ** TODO Deploy
 ** TODO Rename this project
 * Roadmap

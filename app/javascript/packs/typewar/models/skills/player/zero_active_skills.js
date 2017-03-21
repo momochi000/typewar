@@ -16,8 +16,9 @@
 // TODO: refactor  Properties and cost should be arguments of their respective effects.  i.e.: the damage effect should have properties
 
 import * as Effects from "../../effects"
-import {
-  ZERO_ANIM_LIGHT_SLASH, ZERO_ANIM_MED_SLASH, ZERO_ANIM_HEAVY_SLASH, ZERO_ANIM_UPPER_SLASH, SLIME_ANIM_HIT
+
+import { 
+  ANIM_READY, ANIM_LIGHT_ATTACK, ANIM_MED_ATTACK, ANIM_HEAVY_ATTACK, ANIM_SPECIAL_ATTACK, ANIM_BLOCK, ANIM_DASH, ANIM_JUMP, ANIM_ENTER, ANIM_CHARGE, ANIM_HIT
 } from "../../../constants/animation_constants"
 
 var ZeroLightSlash = {
@@ -31,8 +32,8 @@ var ZeroLightSlash = {
         poison:   0, life:     0, death:    0
       }
     },
-    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_LIGHT_SLASH},
-    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_LIGHT_ATTACK},
+    { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 700} 
   ],
   cost: 0,
@@ -56,8 +57,8 @@ var ZeroMedSlash = {
         poison:   0, life:     0, death:    0
       },
     },
-    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_MED_SLASH},
-    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_MED_ATTACK},
+    { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 2000} 
   ],
   cost: 0,
@@ -80,8 +81,8 @@ var ZeroHardSlash = {
         poison:   0, life:     0, death:    0
       }
     },
-    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_HEAVY_SLASH},
-    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK},
+    { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 5000} 
   ],
   cost: 0,
@@ -105,8 +106,8 @@ var ZeroUpperSlash = {
         poison:   0, life:     0, death:    0
       }
     },
-    { klass: Effects.TriggerAnimation, target: "self", animation: ZERO_ANIM_UPPER_SLASH},
-    { klass: Effects.TriggerAnimation, animation: SLIME_ANIM_HIT },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_SPECIAL_ATTACK},
+    { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 2200} 
   ],
   cost: 0,

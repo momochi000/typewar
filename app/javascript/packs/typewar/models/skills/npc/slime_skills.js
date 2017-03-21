@@ -6,10 +6,10 @@
 
 //import BaseSkill from './base_npc_skill'
 import * as Effects from "../../effects"
-import { 
-  SLIME_ANIM_READY, SLIME_ANIM_SLASH, SLIME_ANIM_THROW, SLIME_ANIM_BLOCK, SLIME_ANIM_HIT, ZERO_ANIM_HIT
-} from "../../../constants/animation_constants"
 
+import { 
+  ANIM_READY, ANIM_LIGHT_ATTACK, ANIM_MED_ATTACK, ANIM_HEAVY_ATTACK, ANIM_SPECIAL_ATTACK, ANIM_BLOCK, ANIM_DASH, ANIM_JUMP, ANIM_ENTER, ANIM_CHARGE, ANIM_HIT
+} from "../../../constants/animation_constants"
 
 // TODO NOTES: 
 // Animation will need an overhaul.
@@ -35,10 +35,10 @@ export var SlimeStandardAttack = {
             poison:   0, life:     0, death:    0
           }
         },
-        { klass: Effects.TriggerAnimation, animation: ZERO_ANIM_HIT }
+        { klass: Effects.TriggerAnimation, animation: ANIM_HIT }
       ]
     },
-    { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_SLASH },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_LIGHT_ATTACK },
     //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 1900 }
   ],
   cost: 0,
@@ -71,10 +71,10 @@ export var SlimeGlobAttack = {
             poison:   2, life:     0, death:    0
           }
         },
-        { klass: Effects.TriggerAnimation, animation: ZERO_ANIM_HIT }
+        { klass: Effects.TriggerAnimation, animation: ANIM_HIT }
       ]
     },
-    { klass: Effects.TriggerAnimation, target: "self", animation: SLIME_ANIM_THROW },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK },
     //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2300 }
   ],
   cost: 0,
