@@ -77,7 +77,6 @@ Crafty.c("BattleStatus", {
   init: function(){ this.requires("BattleCharacter"); },
   battleStatus: function (){
     this._statusView = new EntityStatusView({entity: this, id: 'entity-status-'+this[0]});
-    this._bindRerenderViewOnStatusUpdate();
     return this;
   },
 
@@ -99,11 +98,5 @@ Crafty.c("BattleStatus", {
 
   setStatusDirty: function (){
     this._battleStatusDirty = true;
-  },
-
-  // private
-  _bindRerenderViewOnStatusUpdate: function (){
-    var self = this;
-    this.bind('UpdateStatus', (evt) => {self.setStatusDirty();});
   }
 });

@@ -8,11 +8,9 @@ require("../../animations/BattlePlayerAnimationComponent");
 Crafty.c("BattlePlayer", {
   _ANIM_HIT_DELAY: 410,
   _fragment_spawner: null,
-  stance: 'defense',
 
   init: function (){
     this.requires("2D, BattlePlayerAnimation, BattleCharacter");
-    this._bindChangeStance();
   },
 
   battlePlayer: function (charSheet){
@@ -44,16 +42,6 @@ Crafty.c("BattlePlayer", {
   isPlayer: function (){ return true; },
   isNPC: function (){ return false; },
  
-  // private
-
-  _bindChangeStance: function (){
-    var self = this;
-    this.bind("SwitchedCombatMode", function (evt){
-      self.stance = evt;
-      self.updateStatus();
-    });
-  }, 
-
   _buildDefaultCharSheet: function (){
     this.charSheet = new CharacterSheet({name: "Player"});
   },

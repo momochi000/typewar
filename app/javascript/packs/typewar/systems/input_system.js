@@ -47,6 +47,8 @@ function cancelActiveTextFragments() {
 function changeStance(inputEntity) {
   cancelActiveTextFragments();
   inputEntity.toggleStance(); // STATE CHANGE
+  // TODO: refactor: push a stance change into the effect queue
+  inputEntity.setStatusDirty();
 }
 
 function getSkillFragmentEntities() {

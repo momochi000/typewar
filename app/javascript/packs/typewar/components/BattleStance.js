@@ -1,5 +1,6 @@
 var StateMachine = require("javascript-state-machine");
 Crafty.c("BattleStance", {
+  
   init: function (){
     this._setupModeFSM();
   },
@@ -27,11 +28,8 @@ Crafty.c("BattleStance", {
       events: [
         { name: "toggle", from: "defense", to: "offense" },
         { name: "toggle", from: "offense", to: "defense" }
-        //{ name: "toggle", from: "offense", to: "inventory" },
       ],
-      callbacks: {
-        onafterevent: function (event, from, to){ Crafty.trigger("SwitchedCombatMode", to); }
-      }
+      callbacks: { }
     });
   }
 });

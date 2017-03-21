@@ -1,5 +1,4 @@
 * Current
-** TODO Fix health bar display
 * Backlog
 ** TODO Fix stance icons
 *** TODO Make icon appear properly
@@ -234,6 +233,12 @@ some other type of scripting system. Perhaps I could include a
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
 * Done
+** DONE Fix health bar display
+   CLOSED: [2017-03-21 Tue 15:21]
+*** DONE make stance change cause status display to be dirty
+    CLOSED: [2017-03-21 Tue 15:21]
+*** DONE remove UpdateStatus event triggering and binding
+    CLOSED: [2017-03-21 Tue 15:21]
 ** DONE Game manager needs to go away:refactor:
    CLOSED: [2017-03-20 Mon 17:31]
    maybe scene manager is ok, but it needs a healthy looking into..
