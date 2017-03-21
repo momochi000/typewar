@@ -1,7 +1,4 @@
-/* This is the library of game effects that skills may have on the game
- * state/board
- *
-*/
+// This is the library of game effects that skills may have on the game state/board
 
 import TextLibrarian from "../util/text_librarian"
 
@@ -11,6 +8,7 @@ require("../components/TextFragmentAttackDisplay");
 require("../components/DefendableAttack");
 require("../components/BattleNPCProjectile");
 require("../components/TriggerableEffectOnCollide");
+require("../components/BattlePhysicsProjectile");
 require("../components/vendor/box2d");
 
 class Damage {
@@ -50,8 +48,7 @@ class SpawnTextProjectilePhysics {
     validateTarget("EffectSpawnTextProjectilePhysics", args.target);
     text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
-    console.log("DEBUG: about to spawn new physics projectile");
-    new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide")
+    new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattlePhysicsProjectile")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -84,7 +81,6 @@ class SpawnTextProjectilePhysics {
     y_force = _.random(-12000, -26000);
     force_vector = new Box2D.Common.Math.b2Vec2(x_force, y_force);
     body_center = entity.body.GetWorldCenter();
-    console.log("DEBUG applying force to new physics projectile....", force_vector);
     entity.body.ApplyForce(force_vector, body_center);
   }
 }
