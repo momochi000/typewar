@@ -6,6 +6,7 @@ var Box2D = require("box2dweb");
 require("../components/TextFragment");
 require("../components/TextFragmentAttackDisplay");
 require("../components/DefendableAttack");
+require("../components/BattleProjectile");
 require("../components/BattleNPCProjectile");
 require("../components/TriggerableEffectOnCollide");
 require("../components/BattlePhysicsProjectile");
@@ -48,7 +49,7 @@ class SpawnTextProjectilePhysics {
     validateTarget("EffectSpawnTextProjectilePhysics", args.target);
     text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
-    new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattlePhysicsProjectile")
+    new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattleProjectile, BattlePhysicsProjectile")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -60,6 +61,7 @@ class SpawnTextProjectilePhysics {
       .textFragmentAttackDisplay()
       .defendableAttack({source: args.source, target: args.target, effects: args.effects})
       .collision()
+      .battleProjectile()
       .box2d(args.box2d)
       .triggerableEffectOnCollide({
         source: args.source, 
@@ -98,7 +100,7 @@ class SpawnTextFragLinear {
     validateTarget("EffectSpawnTextFragLinear", args.target);
     text = getTextFromSourceEntity(args.source, args.skill.textOptions);
 
-    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleNPCProjectile, TriggerableEffectOnCollide")
+    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleProjectile, BattleNPCProjectile, TriggerableEffectOnCollide")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -110,6 +112,7 @@ class SpawnTextFragLinear {
       .textFragmentAttackDisplay()
       .defendableAttack()
       .collision()
+      .battleProjectile()
       .battleNPCProjectile(args.positionFunction, args.speed)
       .triggerableEffectOnCollide({
         source: args.source, 

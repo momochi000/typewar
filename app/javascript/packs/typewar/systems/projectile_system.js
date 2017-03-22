@@ -9,9 +9,14 @@ export function projectileSystem(Crafty, frame, dt) {
   var projectiles;
 
   projectiles = Crafty("BattleNPCProjectile").get();
-
   _.each(projectiles, (curr_projectile) => {
     updateProjectilePosition(curr_projectile, dt);
+  });
+
+  // Remove projectiles that have hit the stage edge
+  projectiles = Crafty("BattleProjectile BattleProjectileOutOfBounds").get();
+  _.each(projectiles, (curr_projectile) => {
+    curr_projectile.destroy();
   });
 
   projectiles = Crafty("BattlePhysicsProjectile").get();

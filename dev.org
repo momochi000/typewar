@@ -3,8 +3,6 @@
 ** TODO Reinstate system where typos cause reduced effects
 *** TODO Typos with defended text will still have you take damage
 *** TODO Typos with skill attacks will do reduced damage
-** TODO pull views out into their own files and abstract as necessary :refactor:
-** TODO Make component file names match component names            :refactor: 
 ** TODO When text fragments hit the left border, remove them
 ** TODO Ensure spaces are clear when typing
 ** TODO Reenable sound
@@ -27,6 +25,7 @@
    where you're like "YES! got lucky!"
    In the case I decide to keep/run with it, then I need to handle both skills
    executing in sequence.
+** TODO Make component file names match component names            :refactor: 
 ** TODO Adjust difficulty
    The way it was when I could barely beat it.
 ** TODO Fix stance icons
@@ -87,6 +86,8 @@
 ** TODO Make it possible to generate new fights just by tweaking some values
    Pass in some json declaring the scene data and the scene is initialized with 
    the right stuff including background and combatants
+** TODO pull views out into their own files and abstract as necessary :refactor:
+   Not sure this is necessary or even good..
 * Roadmap
 ** TODO System for recording text fragment completion data
 ** TODO Research use of web workers

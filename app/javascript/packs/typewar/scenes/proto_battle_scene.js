@@ -29,7 +29,7 @@ require("../components/brains/NPCBrainComponent");
 
 const PTM_RATIO = 2; // pixel to meter ratio for physics
 const STAGE_EDGE_BORDER_WIDTH = 9000;
-const STAGE_EDGE_LEFT_BARRIER_OFFSET = -80;
+const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
@@ -217,18 +217,18 @@ export default class ProtoBattleScene {
     stage_height = this.STAGE_HEIGHT;
 
     this._stageBorders = {
-      leftEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge")
-                  .attr({x: STAGE_EDGE_LEFT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
-                  .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
+      leftEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, BattleStageBoundary")
+        .attr({x: STAGE_EDGE_LEFT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
+        .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
 
-      rightEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge")
-                   .attr({x: stage_width+STAGE_EDGE_RIGHT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
-                   .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
+      rightEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, BattleStageBoundary")
+        .attr({x: stage_width+STAGE_EDGE_RIGHT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
+        .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
 
       bottomEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, Box2D")
-                    .attr({x: 0, y: stage_height + STAGE_EDGE_FLOOR_BARRIER_OFFSET, w: 9000, h: 5 })
-                    .collision([0,0], [9000, 0], [9000, 5], [0, 5])
-                    .box2d({ bodyType: 'rigid' })
+        .attr({x: 0, y: stage_height + STAGE_EDGE_FLOOR_BARRIER_OFFSET, w: 9000, h: 5 })
+        .collision([0,0], [9000, 0], [9000, 5], [0, 5])
+        .box2d({ bodyType: 'rigid' })
     }
   }
 
