@@ -1,5 +1,14 @@
 * Current
 * Backlog
+** TODO Reinstate system where typos cause reduced effects
+*** TODO Typos with defended text will still have you take damage
+*** TODO Typos with skill attacks will do reduced damage
+** TODO pull views out into their own files and abstract as necessary :refactor:
+** TODO Make component file names match component names            :refactor: 
+** TODO When text fragments hit the left border, remove them
+** TODO Ensure spaces are clear when typing
+** TODO Reenable sound
+   Right now we only have the typewriter sound for when a letter is typed
 ** TODO Do some balance work on TextLibrary
    A better way to generate text for fragments.  Find words within the min-max,
    then add words of random size until the max is exceeded then back out by 1 
@@ -7,16 +16,6 @@
 
    This works better when the library is all just single words.  Will need a bit
    of playtesting to see which of these is preferable.
-** TODO Reinstate system where typos cause reduced effects
-*** TODO Typos with defended text will still have you take damage
-*** TODO Typos with skill attacks will do reduced damage
-** TODO pull views out into their own files and abstract as necessary :refactor:
-** TODO Make component file names match component names :refactor: 
-** TODO When text fragments hit the left border, remove them
-** TODO Ensure spaces are clear when typing
-** TODO Reenable sound
-   Right now we only have the typewriter sound for when a letter is typed
-** TODO Rails backend loads text dictionaries and sends them to the game engine
 ** TODO Display flash + particles on hit of either character
 ** TODO Resolve if multiple skills are completed simultaneously
    This is something that needs playtesting.
@@ -28,10 +27,6 @@
    where you're like "YES! got lucky!"
    In the case I decide to keep/run with it, then I need to handle both skills
    executing in sequence.
-** TODO Abandon dynamic skill adjustment
-   The game will instead feature a linear difficulty progression of monster to monster
-   Simply a matter of how quickly and accurately you can type = how far you go
-   Still want to do things like capture player stats (wpm, error avg, etc)
 ** TODO Adjust difficulty
    The way it was when I could barely beat it.
 ** TODO Fix stance icons
@@ -41,7 +36,6 @@
 *** DONE Figure out what to do with the enemy icon
     CLOSED: [2017-03-21 Tue 15:22]
     Should be fine if it's always on attack mode
-** TODO System for recording text fragment completion data
 ** TODO Deploy
 ** TODO Rename this project
 ** TODO Move all data into a single data store
@@ -52,7 +46,49 @@
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
 ** TODO Generate vocabularies from markov chains of some source material(s)
+** TODO Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
+** TODO Display incorrect characters count typed along with correct characters.
+   This needs some sort of design such that it's intuitive as to what's 
+   happening. I'm thinking 2 counters, 1 red 1 green or something equally 
+   opposing. One counting correct and one incorrect characters.
+
+   Revisiting this, there doesn't need to be a count, just needs to have a 
+   color perhaps. Basically, once a typo happens, the text fragment gets tainted
+   so that it has half effectiveness. The color of the text fragment while it's
+   being typed should reflect this.
+** TODO Create battle over scene or transition
+** TODO Make the battle over scene overlay on top of the battle scene.
+** TODO Training dummy scene                                           :epic:
+*** TODO Create a new scene
+*** TODO create training dummy npc
+*** TODO training dummy has one simple skill that does 0 damage to player
+*** TODO Player should have 0 skills in this battle
+*** TODO scene ends after 5 or so text fragments are defended
+*** TODO Scene transition to training dummy 2
+*** TODO Identify similarities between proto battle and dummy battle
+*** TODO Factor out what can into a common ancestor or generator/factory
+*** TODO scene data should be stored in a simple json such that it may be loaded from there
+*** TODO create new scene
+*** TODO create training dummy npc
+*** TODO new training dummy npc has no skills and just takes damage
+*** TODO Battle ends when the dummy is defeated
+*** TODO Create tutorial program/wizard
+**** TODO Has a set of tooltips the player can walk/move through
+**** TODO They appear at arbitrary points of the screen
+     They contain some text which flows out a character at a time rather than
+     scrolling down from top to bottom
+**** TODO Tutorial streams pause the game
+**** TODO Tutorial panes can be controlled by keyboard
+**** TODO Create tutorial run for training dummy scene 1
+**** TODO Create tutorial run for training dummy scene 2
+** TODO Get a different sprite for the training dummy(s)
+** TODO Create another scene with a different baddie
+   The lowest level slime
+** TODO Make it possible to generate new fights just by tweaking some values
+   Pass in some json declaring the scene data and the scene is initialized with 
+   the right stuff including background and combatants
 * Roadmap
+** TODO System for recording text fragment completion data
 ** TODO Research use of web workers
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
 ** TODO Make a has and belongs to many between Character and Text
@@ -78,35 +114,17 @@ Gravity's acceleration is fixed and the x speed is pretty much going to be
 constant.  With a parabolic path (or similar) I can adjust the velocity and/or
 acceleration from the battle manager.
 ** TODO Add some wiggle to the slime normal attack so the text frargments don't appear all in line
-** TODO change skill -> attack spawning to take an id argument :refactor:
+** TODO change skill -> attack spawning to take an id argument     :refactor:
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 
 definitions behind some module or class structure and address them via
 an id (string) that gets passed in as part of the skill.
 ** TODO Store a few char sheets in javascript and load them by default if no sheet comes from the server
 ** TODO BUG: if the game stops/scene changes, text fragments aren't destroyed
-** TODO Build up the site around typewar
 ** TODO BUG: seems that box2d elements are not being deallocated on scene change
 Might be the entire entity or just the box2d physics part.
-** TODO Add animation between the text fragment typed groups in css
-** TODO Improve damage calculation
-Use the properties of the attack (which will be carried by the text fragment)
-when resolving damage dealt.  Should happen in the resolveAttack and 
-resolveDefense private methods in the battle manager
 ** TODO be consistent with .bind for binding context. :refactor:
    In some places we're using underscore's bind and other we're using native .bind
-** TODO Display incorrect characters count typed along with correct characters.
-This needs some sort of design such that it's intuitive as to what's happening.
-I'm thinking 2 counters, 1 red 1 green or something equally opposing. One
-counting correct and one incorrect characters.
-** TODO rename 'deallocate' methods to remove everywhere :refactor:
-** TODO Difficulty scale.
-Need a system which adjusts the difficulty of the game mechanics.  I want
-difficulty of gameplay to be separate from difficulty of the battle.  The
-difficulty of fighting a particular monster should be based upon the 
-stat/level difference between the player and that monster, but the difficulty
-of typing the words (for example) should be scalable outside of that.  Will
-need to make it harder for someone who can type really fast.
 ** TODO Properly animate text fragment when it transitions to various states
 Need to make several stories out of this
 Animate a successful hit
@@ -124,15 +142,6 @@ any more?
 NOTE: this algorithm allows the following edge case:
 When multiple fragments are 'active' starting with the same text, e.g.
 'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
-** TODO EPIC: State machine refactor
-** TODO Add a physics border on the ground so text fragments can bounce
-** TODO Gather stats on player typing.
-Create an object for each keypress with a timestamp. Send back to server and 
-save.
-** TODO Create a method to do a wait for (x) frames. :refactor:
-Instead of doing window.setTimeout everywhere, we should wait for a fixed
-number of frames.
-** TODO Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 ** TODO Tweak balance so that text flies at the player more smoothly (from the npc)
 ** TODO Combos
 If we go with the player attack slots idea, combos becomes easy. Combos would 
@@ -142,11 +151,8 @@ meter that empties out) then the combo continues. Typos would break the combo
 Some combos (or all) would be broken by getting hit unless you had some 
 specific skill(s)
 ** TODO Adjust game behavior based on stats from player and npc
-** TODO Add devise and player model and allow people to create accounts and log in
-** TODO Add hit effect sprite (sparkles when you hit, or get hit.  Different sparkles when you block)
 ** TODO Clear all TODO's in code :refactor:
-** TODO Move 'attacks' definitions server side
-** TODO Create a module that governs the display of the battle. 
+** TODO Create a module that governs the display of the battle.
 It needs to handle crafty's zoom level and move things around the scene 
 appropriately.  This should probably go in the Camera component.  Currently, 
 we want to set a higher zoom level because the 2d sprites we're using are 
@@ -156,23 +162,10 @@ offset of the crafty stage.  The camera component should maintain a zoom level
 and be able to translate coordinates in scene space to screen space and vice versa.
 This is may also need to handle setup of the viewport depending on device 
 screen size and orientation etc.  Scaling the game appropriately.
-** TODO seems like dom nodes aren't getting properly removed when text fragments go away :performance:
-Need to ensure that they do.
-** TODO Make the battle over scene overlay on top of the battle scene.
-** TODO Create a way for pausing the rudimentary AI, stopping the timers that create more text fragments
-Better yet, have it listen for a Crafty.pause() where it then does the 
-appropriate.  Better yet, make the timers count by Crafty frames.  This 
-way pause will do the right thing.  Will need ot create a Timer object which 
-binds to EnterFrame and increments itself.
-** TODO namespace our Sprite sheet properly under typewar :refactor:
-** TODO Esc to bail out of typing a text fragment 
-But only if you have the requisite skill
-** TODO Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 ** TODO Particle system setup
 ** TODO Cinematics
-Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
-some other type of scripting system. Perhaps I could include a 
-I should try to patch Crafty to add state machine to components directly.
+   Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
+   some other type of scripting system.
 * Icebox
 ** Skill management
    This implies there is some sort of character progression. For the first 
