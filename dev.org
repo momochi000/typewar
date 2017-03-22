@@ -1,7 +1,6 @@
 * Current
-** TODO Effect execution needs to be made into a utility :refactor:
-   It's being used in a couple places currently and needs DRYing
 * Backlog
+** TODO Pull vocabulary from server
 ** TODO pull views out into their own files and abstract as necessary :refactor:
 ** TODO Do some balance work on TextLibrary
    Light slash should consistently be easier/shorter to type than hard slash
@@ -10,7 +9,6 @@
 ** TODO Ensure spaces are clear when typing
 ** TODO Reenable sound
    Right now we only have the typewriter sound for when a letter is typed
-** TODO Fix vocabularies
 ** TODO Rails backend loads text dictionaries and sends them to the game engine
 ** TODO Display flash + particles on hit of either character
 ** TODO Resolve if multiple skills are completed simultaneously
@@ -44,6 +42,9 @@
    They hold references to data trees within the data store
    They do however, initialize their own trees in the data store
 ** TODO When player defends, the text fragment should pop or explode
+** TODO Effect execution needs to be made into a utility :refactor:
+   It's being used in a couple places currently and needs DRYing
+** TODO Generate vocabularies from markov chains of some source material(s)
 * Roadmap
 ** TODO Research use of web workers
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
