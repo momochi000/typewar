@@ -1,6 +1,15 @@
 * Current
 * Backlog
 ** TODO Do some balance work on TextLibrary
+   A better way to generate text for fragments.  Find words within the min-max,
+   then add words of random size until the max is exceeded then back out by 1 
+   word.
+
+   This works better when the library is all just single words.  Will need a bit
+   of playtesting to see which of these is preferable.
+** TODO Reinstate system where typos cause reduced effects
+*** TODO Typos with defended text will still have you take damage
+*** TODO Typos with skill attacks will do reduced damage
 ** TODO pull views out into their own files and abstract as necessary :refactor:
 ** TODO Make component file names match component names :refactor: 
 ** TODO When text fragments hit the left border, remove them
