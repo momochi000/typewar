@@ -1,9 +1,7 @@
 * Current
 * Backlog
-** TODO Pull vocabulary from server
-** TODO pull views out into their own files and abstract as necessary :refactor:
 ** TODO Do some balance work on TextLibrary
-   Light slash should consistently be easier/shorter to type than hard slash
+** TODO pull views out into their own files and abstract as necessary :refactor:
 ** TODO Make component file names match component names :refactor: 
 ** TODO When text fragments hit the left border, remove them
 ** TODO Ensure spaces are clear when typing
@@ -179,6 +177,11 @@ I should try to patch Crafty to add state machine to components directly.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Pull vocabulary from server
+   CLOSED: [2017-03-22 Wed 03:02]
+*** DONE refactor some of the character initialization up into BattleEntityBase
+    CLOSED: [2017-03-22 Wed 03:02]
+    Between BattleEntityNPC and BattleEntityPC, there's a lot of dupe code
 ** DONE text fragment typed gets state machine error                    :bug:
    CLOSED: [2017-03-21 Tue 16:58]
    Seemed to happen when on offense.

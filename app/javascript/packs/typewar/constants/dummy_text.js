@@ -1,0 +1,2 @@
+export const DUMMY_TEXT_LIBRARY = ["Literally"];
+//export default const DUMMY_TEXT_LIBRARY = ["Literally","mustache","banh","Celiac","pickled","raw","denim","pressed","intelligentsia","twee","cornhole","Poutine","migas","put","a","bird","on","it","venmo","fixie","tacos","Marfa","cardigan","Cardigan","asymmetrical","locavore","butcher carry selfies","Trust","before they sold","seitan bitters","selvage Artisan gluten free goth neutra","brooklyn","swag","bushwick","wolf","trust","fund","Pug","tumblr","pour","over"];

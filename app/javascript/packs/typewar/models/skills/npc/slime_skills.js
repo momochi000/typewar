@@ -44,10 +44,8 @@ export var SlimeStandardAttack = {
   cost: 0,
   name: 'slime standard attack',
   textOptions: {
-    min_length: 9,
-    max_length: 25,
-    min_difficulty: 1,
-    max_difficulty: 4
+    minLength: 9,
+    maxLength: 25,
   },
 };
 
@@ -80,10 +78,8 @@ export var SlimeGlobAttack = {
   cost: 0,
   name: 'glob',
   textOptions: {
-    min_length: 5,
-    max_length: 15,
-    min_difficulty: 1,
-    max_difficulty: 2
+    minLength: 5,
+    maxLength: 85,
   }
 }
 

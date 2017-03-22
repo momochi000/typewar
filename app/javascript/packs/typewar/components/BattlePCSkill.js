@@ -145,6 +145,7 @@ Crafty.c("BattlePCSkill", {
   },
 
   _generateNewText: function (){
+    var new_text;
     this.setText(TextLibrarian.retrieve(this._owner.getVocabulary(), this.skill.textOptions));
   },
 

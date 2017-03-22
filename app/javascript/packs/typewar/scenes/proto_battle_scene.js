@@ -199,7 +199,11 @@ export default class ProtoBattleScene {
       .battleStatus()
       .collision([5,-30],[50,-30],[50,40],[5,40]);
 
-    return pc_ent.getFromServer();
+    promise = pc_ent.getFromServer();
+
+    return promise.then( () => {
+      return pc_ent
+    });
   }
 
   initSprites(){

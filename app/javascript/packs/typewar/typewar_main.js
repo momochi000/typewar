@@ -1,4 +1,5 @@
 import SceneManager from "./managers/scene_manager"
+import TypewarServerCaller from "./util/typewar_server_caller"
 require('crafty');
 
 export default class TypewarMain {
@@ -12,6 +13,7 @@ export default class TypewarMain {
     this.$container = $(this.container);
     this.options = options || {};
 
+    this._setupApi(options);
     this._setupContainer();
     this._initCrafty();
     this._initManagers();
@@ -29,6 +31,10 @@ export default class TypewarMain {
   _initManagers(){
     this.managers = {};
     this.sceneManager = new SceneManager();
+  }
+
+  _setupApi(options) {
+    window.serverCaller = new TypewarServerCaller(options);
   }
 
   _setupContainer(){
