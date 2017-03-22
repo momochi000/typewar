@@ -1,12 +1,18 @@
 * Current
-* Backlog
-** TODO System for recording text fragment completion data
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
+* Backlog
 ** TODO pull views out into their own files and abstract as necessary :refactor:
-** TODO Fix vocabularies
 ** TODO Do some balance work on TextLibrary
    Light slash should consistently be easier/shorter to type than hard slash
+** TODO Make component file names match component names :refactor: 
+** TODO When text fragments hit the left border, remove them
+** TODO Ensure spaces are clear when typing
+** TODO Reenable sound
+   Right now we only have the typewriter sound for when a letter is typed
+** TODO Fix vocabularies
+** TODO Rails backend loads text dictionaries and sends them to the game engine
+** TODO Display flash + particles on hit of either character
 ** TODO Resolve if multiple skills are completed simultaneously
    This is something that needs playtesting.
    From a top level design consideration, this seems like a bug: there should 
@@ -17,10 +23,6 @@
    where you're like "YES! got lucky!"
    In the case I decide to keep/run with it, then I need to handle both skills
    executing in sequence.
-** TODO Move all data into a single data store
-   Components no longer hold any data
-   They hold references to data trees within the data store
-   They do however, initialize their own trees in the data store
 ** TODO Abandon dynamic skill adjustment
    The game will instead feature a linear difficulty progression of monster to monster
    Simply a matter of how quickly and accurately you can type = how far you go
@@ -34,28 +36,24 @@
 *** DONE Figure out what to do with the enemy icon
     CLOSED: [2017-03-21 Tue 15:22]
     Should be fine if it's always on attack mode
+** TODO System for recording text fragment completion data
 ** TODO Deploy
 ** TODO Rename this project
+** TODO Move all data into a single data store
+   Components no longer hold any data
+   They hold references to data trees within the data store
+   They do however, initialize their own trees in the data store
+** TODO When player defends, the text fragment should pop or explode
 * Roadmap
-** TODO When text fragments hit the left border, remove them
-** TODO Ensure spaces are clear when typing
 ** TODO Research use of web workers
-** TODO All events should follow a consistent style  :refactor:
-** TODO Make component file names match component names :refactor: 
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
-** TODO Closure around Typewar.js :refactor:
 ** TODO Make a has and belongs to many between Character and Text
 ** TODO Send typing data to the server
    Server should be able to calculate average WPM and error rate
-** TODO Make text fragments appear on a single line
-** TODO UI/UX: Text fragments are truncated until typed.
+** TODO Text fragments are truncated until typed. :ui/ux:
 Show the first ~10 characters so the player can get their fingers in motion but
 only show the rest once it's the active fragment.  This will keep the screen
 from getting as crowded
-** TODO move instantiated managers and engine components to their own namespaces :refactor:
-Typewar.Engine.battlemanager -> Typewar.Engine.Active.battlemanager or some such..
-** TODO BUG: sounds keep playing after the battle has ended
-Looks like a text fragment might be lingering after
 ** TODO Play a different sound when a typo happens
 ** TODO BUG: double quote also triggers single quote when typing
 ** TODO Enable double quote
@@ -64,15 +62,14 @@ Instead of /assets/blah.wav, audio/blah.wav
 ** TODO Play slash sound on attack
 ** TODO Play smack sound on npc hit
 ** TODO Play smack sound on player hit
-** TODO Fix typewar deploy
-** TODO Display flash + particles on hit of either
 ** TODO Tighten hitboxes (both of entities and of text fragments)
-** TODO Make NPC skills carry info about animation delay
-They hold the info about which animation already
-This might need to be done to player skills as well if not already
-** TODO BUG: when 2 text fragments have the same text
-On defense when typing them, if you typo, it resets both.
-** TODO Add some wiggle to the slime normal attack so the text frargments don\'t appear all in line
+** TODO Add another attack to the monster
+Make a position func that handles an arc path
+Problem with using physics is I can't scale the speed of the attack.
+Gravity's acceleration is fixed and the x speed is pretty much going to be
+constant.  With a parabolic path (or similar) I can adjust the velocity and/or
+acceleration from the battle manager.
+** TODO Add some wiggle to the slime normal attack so the text frargments don't appear all in line
 ** TODO change skill -> attack spawning to take an id argument :refactor:
 Currently, text fragments contain code for the position function or some 
 physics declarations and an initial impulse etc.  Instead, move those 
@@ -81,42 +78,6 @@ an id (string) that gets passed in as part of the skill.
 ** TODO Store a few char sheets in javascript and load them by default if no sheet comes from the server
 ** TODO BUG: if the game stops/scene changes, text fragments aren't destroyed
 ** TODO Build up the site around typewar
-** TODO Create a button that starts and restarts the game
-** TODO Player skills can also generate text fragments
-A compound skill, typing the skill in the skill slot does some whatever effect
-but it also generates a text fragment which flies out from the player. Typing
-that text fragment determines whether the projectile was a hit or miss. Might
-also be used for some nuke spell or something that takes a few steps to 
-complete.
-The skill in the slot might simply be the skill slot number, so just a single
-keypress spawns the fragment to be typed.
-** TODO rewrite the way battle manager stores and references battle entities :refactor:
-** TODO GAMEPLAY CHECKLIST
-Do a run down to see the state of various parts before proceeding:
-+ When switching modes while a fragment is active, ensure that it doesn't
-  lock up or break the game
-+ Seems to be broken sometimes, attack mode
-
-** TODO redo the way character sheets are built and come in from server :refactor:
-They should be assembled from model joins that live over on the rails app
-then passed down to the game engine in json format from a GET request
-then stored into the character model/entity client side and also diced up to 
-build the character
-** TODO BUG: With a single character skill fragment, there is an error when the skill completes
-it goes from state ready to cooldown which throws an error, the game seems to
-work however so this is low priority
-** TODO Write a library for battle icons
-I'll fill them in as I need them but it'll be good to have the framework in 
-place
-** TODO Don't allow switching modes if a text fragment is active (conditionally)
-Should allow this only if you have the correct skill
-** TODO When player defends the monster attack spins and drops
-the battle enemy attack text fragment thingy (ugh.. i need a better name for
-thisss.) Attach physics to the thing if it doesn't already exist, and add spin
-and raise gravity? or just throw a downward force on it (or reverse force?).
-The quality of your typing determines the force applied back on the fragment.
-try different vectors to see which is more satisfying. Need to add sound,
-particles, and a flash or something.
 ** TODO BUG: seems that box2d elements are not being deallocated on scene change
 Might be the entire entity or just the box2d physics part.
 ** TODO Add animation between the text fragment typed groups in css
@@ -156,16 +117,6 @@ NOTE: this algorithm allows the following edge case:
 When multiple fragments are 'active' starting with the same text, e.g.
 'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
 ** TODO EPIC: State machine refactor
-** TODO Comb the desert and identify all the components which would benefit from having a state machine
-+ TextFragment
-+ Battle modes (attack/defense/items)
-
-** TODO Add another attack to the monster
-Make a position func that handles an arc path
-Problem with using physics is I can't scale the speed of the attack.
-Gravity's acceleration is fixed and the x speed is pretty much going to be
-constant.  With a parabolic path (or similar) I can adjust the velocity and/or
-acceleration from the battle manager.
 ** TODO Add a physics border on the ground so text fragments can bounce
 ** TODO Gather stats on player typing.
 Create an object for each keypress with a timestamp. Send back to server and 
@@ -175,12 +126,6 @@ Instead of doing window.setTimeout everywhere, we should wait for a fixed
 number of frames.
 ** TODO Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
 ** TODO Tweak balance so that text flies at the player more smoothly (from the npc)
-** TODO make event naming consistent. :refactor:
-Either camel case or underscored, pick one and run with it
-** TODO the way npc and players take damage :refactor:
-Need to pass in or identify the source of the damage.  For example when npc 
-dies, the event it publishes/broadcasts should contain info about who killed
-it.
 ** TODO Combos
 If we go with the player attack slots idea, combos becomes easy. Combos would 
 fit into a specific attack slot and you'd simply type one word and another 
@@ -211,21 +156,27 @@ Better yet, have it listen for a Crafty.pause() where it then does the
 appropriate.  Better yet, make the timers count by Crafty frames.  This 
 way pause will do the right thing.  Will need ot create a Timer object which 
 binds to EnterFrame and increments itself.
-** TODO EPIC: Player items are a set of slots that can be typed anytime
-  + Tab to toggle to item 
-
 ** TODO namespace our Sprite sheet properly under typewar :refactor:
 ** TODO Esc to bail out of typing a text fragment 
 But only if you have the requisite skill
 ** TODO Add a state machine to text fragments and use that to keep track of whether they can be typed or not.
 ** TODO Particle system setup
-** TODO Rails backend loads text dictionaries and sends them to the game engine
 ** TODO Cinematics
 Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
 some other type of scripting system. Perhaps I could include a 
-** TODO Add state machine to Crafty components.
 I should try to patch Crafty to add state machine to components directly.
 * Icebox
+** Skill management
+   This implies there is some sort of character progression. For the first 
+   iteration of this game, the game progression is purely linear.  If I ever
+   expand on this game concept then collecting and curating skills will become
+   a thing
+** Passive skills
+   Don't allow switching stances/modes if a text fragment is active (conditionally)
+   Should allow this only if you have the correct passive skill
+** Player items
+   a set of slots that can be typed anytime
+   Tab to toggle to item stance
 * Done
 ** DONE text fragment typed gets state machine error                    :bug:
    CLOSED: [2017-03-21 Tue 16:58]
