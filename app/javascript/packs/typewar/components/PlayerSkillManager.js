@@ -50,33 +50,24 @@ var PlayerSkillManagerView = Backbone.View.extend({
 
 Crafty.c("PlayerSkillManager", {
   _skills: null,
-  _skillset: null,
   _view: null,
 
-  init: function (){ },
-
-  playerSkillManager: function (skillset){
-    if(skillset){
-      this._populateSkillset(skillset);
-    }else if(this.char_sheet.skills){
-      this._populateSkillset(this.char_sheet.skills);
-    }else{
-      throw "SkillManagerComponent: attempting to initialize SkillManager without any skills";
-    }
-    return this;
+  init: function (){ 
+    this._skills = [];
   },
 
-  prepareSkills: function (){
-    var self = this;
-    this._skills = [];
-    _.each(this._skillset, (curr_skill_def) => {
-      this._skills.push(self._buildSkill(curr_skill_def).bind(self));
-    });
+  playerSkillManager: function (){ return this; },
+
+  getSkills: function (){
+    return this._skills;
+  },
+
+  getSkillset: function (){
+    return this.charSheet.data.skills;
   },
 
   remove: function (){ 
     this._view.remove();
-    this._skillset = null;
   },
 
   renderSkillManager: function (){
@@ -86,28 +77,9 @@ Crafty.c("PlayerSkillManager", {
 
   //private 
 
-  _populateSkillset: function (skills){
-    this._skillset = skills
-  },
-
   getSlotNum: function (skill){
-    return this._skillset.indexOf(skill) + 1;
+    return this.getSkillset().indexOf(skill) + 1;
   },
-
-  _buildSkill: function (skill){
-    return Crafty.e("BattlePCSkill, TextFragment")
-             .textFragment(TextLibrarian.retrieve(this.getVocabulary(), skill.textOptions))
-             .battlePCSkill(this, skill);
-  },
-
-  //  _generateAttackObject: function (skill, text_fragment){
-  //    return new AttackObject({
-  //      properties: skill.properties,
-  //      target: this._currentTarget,
-  //      attacker: this,
-  //      text_fragment: text_fragment
-  //    });
-  //  },
 
   _initializeView: function (){
     var skill_views;

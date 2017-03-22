@@ -1,3 +1,5 @@
+import TextLibrarian from "../util/text_librarian"
+
 require("../components/PlayerSkillManager");
 
 function initPlayerSkillSystem(Crafty) {
@@ -6,8 +8,8 @@ function initPlayerSkillSystem(Crafty) {
   player = Crafty("PlayerSkillManager").get();
 
   _.each(player, (curr_player) => {
-    curr_player.playerSkillManager(curr_player.charSheet.data.skills);
-    curr_player.prepareSkills();
+    curr_player.playerSkillManager();
+    initSkills(curr_player);
     curr_player.renderSkillManager();
   });
 }
@@ -32,7 +34,13 @@ function playerSkillSystem(Crafty) {
   });
 }
 
-// locals
+// private
+
+function buildSkill(entity, skillDef) {
+  return Crafty.e("BattlePCSkill, TextFragment")
+           .textFragment(TextLibrarian.retrieve(entity.getVocabulary(), skillDef.textOptions))
+           .battlePCSkill(entity, skillDef);
+}
 
 function executeSkill(skillEntity){
   var target;
@@ -53,6 +61,14 @@ function executeSkill(skillEntity){
 
     console.log("DEBUG: PLAYER SKILL SYSTEM PROCESSING, About to execute skill effect --------->>", effect_klass, skill_args);
     effect_klass.execute(skill_args);
+  });
+}
+
+function initSkills(entity) {
+  var new_skill_ent;
+  _.each(entity.getSkillset(), (curr_skill_def) => {
+    new_skill_ent = buildSkill(entity, curr_skill_def);
+    entity.getSkills().push(new_skill_ent);
   });
 }
 
