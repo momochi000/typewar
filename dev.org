@@ -1,12 +1,22 @@
 * Current
+** TODO Present scene data as an object/json
+   Battle scene gets initialized with this data and prepares the scene.
+*** TODO Refactor scene initialization using scene data
+*** TODO Replace background entity with Crafty.background()
+    On second thought, there might have been a good reason why I used an entity
+    instead.  might have to do with scaling and offset of 
+    This task should instead revolve around streamlining the background
+    rendering.  Right now, the background has an x and y offset and then the 
+    viewport also has an x and y offset in addition to a scale factor.  Can I 
+    do away with having to have them both?
 * Backlog
-** TODO Reinstate system where typos cause reduced effects
-*** TODO Typos with defended text will still have you take damage
-*** TODO Typos with skill attacks will do reduced damage
-** TODO When text fragments hit the left border, remove them
-** TODO Ensure spaces are clear when typing
 ** TODO Reenable sound
    Right now we only have the typewriter sound for when a letter is typed
+
+   Looks like we need a better way to declare assets first.  There should be a
+   single point of input to declare what all the assets are and where to find 
+   them.  Including sprites, sounds, backgrounds, etc.  All the things necessary
+   to load up a stage
 ** TODO Do some balance work on TextLibrary
    A better way to generate text for fragments.  Find words within the min-max,
    then add words of random size until the max is exceeded then back out by 1 
@@ -14,17 +24,6 @@
 
    This works better when the library is all just single words.  Will need a bit
    of playtesting to see which of these is preferable.
-** TODO Display flash + particles on hit of either character
-** TODO Resolve if multiple skills are completed simultaneously
-   This is something that needs playtesting.
-   From a top level design consideration, this seems like a bug: there should 
-   never be two skills with the same text to type.
-   However, when actually doing it, it seems like it might become a happy 
-   accident.  It should be rare enough that it doesn't become game breaking
-   and yet when it does happen, it could provide a nice RNG boost to the player
-   where you're like "YES! got lucky!"
-   In the case I decide to keep/run with it, then I need to handle both skills
-   executing in sequence.
 ** TODO Make component file names match component names            :refactor: 
 ** TODO Adjust difficulty
    The way it was when I could barely beat it.
@@ -35,12 +34,17 @@
 *** DONE Figure out what to do with the enemy icon
     CLOSED: [2017-03-21 Tue 15:22]
     Should be fine if it's always on attack mode
+** TODO Put some real text in there
+** TODO Reenable slime skills and tweak balance
+   Adjust cooldowns until the battle is sufficiently difficult
 ** TODO Deploy
+** TODO Upload some real text
 ** TODO Rename this project
 ** TODO Move all data into a single data store
    Components no longer hold any data
    They hold references to data trees within the data store
    They do however, initialize their own trees in the data store
+** TODO Display flash + particles on hit of either character
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
@@ -57,37 +61,62 @@
    being typed should reflect this.
 ** TODO Create battle over scene or transition
 ** TODO Make the battle over scene overlay on top of the battle scene.
-** TODO Training dummy scene                                           :epic:
-*** TODO Create a new scene
-*** TODO create training dummy npc
-*** TODO training dummy has one simple skill that does 0 damage to player
-*** TODO Player should have 0 skills in this battle
-*** TODO scene ends after 5 or so text fragments are defended
-*** TODO Scene transition to training dummy 2
-*** TODO Identify similarities between proto battle and dummy battle
-*** TODO Factor out what can into a common ancestor or generator/factory
-*** TODO scene data should be stored in a simple json such that it may be loaded from there
-*** TODO create new scene
-*** TODO create training dummy npc
-*** TODO new training dummy npc has no skills and just takes damage
-*** TODO Battle ends when the dummy is defeated
-*** TODO Create tutorial program/wizard
-**** TODO Has a set of tooltips the player can walk/move through
-**** TODO They appear at arbitrary points of the screen
-     They contain some text which flows out a character at a time rather than
-     scrolling down from top to bottom
-**** TODO Tutorial streams pause the game
-**** TODO Tutorial panes can be controlled by keyboard
-**** TODO Create tutorial run for training dummy scene 1
-**** TODO Create tutorial run for training dummy scene 2
 ** TODO Get a different sprite for the training dummy(s)
+** TODO Resolve if multiple skills are completed simultaneously
+   This is something that needs playtesting.
+   From a top level design consideration, this seems like a bug: there should 
+   never be two skills with the same text to type.
+   However, when actually doing it, it seems like it might become a happy 
+   accident.  It should be rare enough that it doesn't become game breaking
+   and yet when it does happen, it could provide a nice RNG boost to the player
+   where you're like "YES! got lucky!"
+   In the case I decide to keep/run with it, then I need to handle both skills
+   executing in sequence.
 ** TODO Create another scene with a different baddie
    The lowest level slime
+** TODO Ensure spaces are clear when typing
+   Especially when the text fragment breaks lines
 ** TODO Make it possible to generate new fights just by tweaking some values
    Pass in some json declaring the scene data and the scene is initialized with 
    the right stuff including background and combatants
-** TODO pull views out into their own files and abstract as necessary :refactor:
-   Not sure this is necessary or even good..
+** TODO Tutorial section                                               :epic:
+*** TODO Training dummy stage 1
+**** TODO Create a new scene
+**** TODO create training dummy npc
+**** TODO Player just gets a single skill here (light attack)
+**** TODO Scene transition to training dummy 2
+**** TODO Identify similarities between proto battle and dummy battle
+**** TODO Factor out what can into a common ancestor or generator/factory
+**** TODO create new scene
+**** TODO create training dummy npc
+**** TODO new training dummy npc has no skills and just takes damage
+**** TODO Battle ends when the dummy is defeated
+*** TODO Training dummy stage 2
+**** TODO Player should have 0 skills in this battle
+**** TODO training dummy has one simple skill that does 0 damage to player
+**** TODO scene ends after 5 or so text fragments are defended
+*** TODO Training dummy stage 3
+    Player has a single skill and monster gets a skill, this round teaches the 
+    player to balance attack and defense.
+*** TODO Training tutorial wizard
+**** TODO Battle pauses and a tooltip appears prompting the player what to do.
+     For the first stage, it shows the player that they're in the offensive 
+     stance. Then shows the player that they can type the skills shown at the 
+     bottom.  At each step, the player presses a button to continue the tutorial
+** TODO Boss fights
+   Example: first fight after the training dummy is slime
+   Slime fight 1 it just throws the simple straight attack
+   Slime fight 2 it does the physics attack in an arc
+   Slime fight 3 BOSS: it does both
+   Palette switch for fight 3 so you know that this guy is tougher.
+   Moving forward, the following opponents will receive the same treatment.
+   Each next enemy is a new sprite with a new set of skills (and challenges) 
+   Initially design/build the ultimate form of the monster/opponent with all 
+   their skills and abilities.  Then this opponent will be preceded by a few
+   weaker versions of the same creature, each one introducing another skill or
+   mechanic, all leading up to the boss fight
+   Might be good to introduce a new player skill after each boss fight as well
+   so there's a feeling of progression
 * Roadmap
 ** TODO System for recording text fragment completion data
 ** TODO Research use of web workers
@@ -168,6 +197,8 @@ screen size and orientation etc.  Scaling the game appropriately.
    Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
    some other type of scripting system.
 * Icebox
+** TODO Reinstate system where typos cause reduced effects
+*** TODO Typos with skill attacks will do reduced damage
 ** Skill management
    This implies there is some sort of character progression. For the first 
    iteration of this game, the game progression is purely linear.  If I ever
@@ -180,6 +211,8 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE When text fragments hit the left border, remove them
+   CLOSED: [2017-03-22 Wed 16:21]
 ** DONE Pull vocabulary from server
    CLOSED: [2017-03-22 Wed 03:02]
 *** DONE refactor some of the character initialization up into BattleEntityBase
