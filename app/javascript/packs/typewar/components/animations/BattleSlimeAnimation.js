@@ -29,13 +29,13 @@ const BLOCK_ANIM_SPEED = 270;
 const HIT_ANIM_SPEED = 420;
 const READY_ANIM_SPEED = 600;
 
-Crafty.c("BattleSlimeAnim", {
+Crafty.c("BattleSlimeAnimation", {
 
   init: function (){
     this.requires("SpriteAnimation");
   },
 
-  battleSlimeAnim: function (){
+  battleSlimeAnimation: function (){
     var self = this;
     this.reel(SLIME_ANIM_READY, READY_ANIM_SPEED, 0, 0, 4)
       .reel(SLIME_ANIM_HIT, HIT_ANIM_SPEED, 0, 1, 7)

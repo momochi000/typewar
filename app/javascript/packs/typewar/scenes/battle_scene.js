@@ -1,8 +1,10 @@
 import Sprite from "../assets/sprite"
 import Background from "../assets/background"
 import BattleManager from "../managers/battle_manager"
-//import BattleInputManager from "../managers/battle_input_manager"
 import StatusBarView from "../views/status_bar_view"
+
+import battlePCGenerator from "../models/battle_pc_generator"
+import battleNPCGenerator from "../models/battle_npc_generator"
 
 import {initBattleEffectSystem, battleEffectSystem} from "../systems/battle_effect_system"
 import {initBattleStatusSystem, battleStatusSystem} from "../systems/battle_status_system"
@@ -17,35 +19,30 @@ import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} fr
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleEffectable");
-require("../components/BattleStatusView");
-require("../components/BattleStance");
-require("../components/characters/battle/BattleCharacterComponent");
-require("../components/characters/battle/BattlePlayerComponent");
+require("../components/BattleStatusView"); // TODO MARKED FOR MOVE
 require("../components/BattleNPCSkillManagerComponent");
-require("../components/animations/BattlePlayerZeroAnimation");
-require("../components/characters/battle/BattleNPCEnemyComponent");
-require("../components/animations/BattleSlimeAnimation");
-require("../components/brains/NPCBrainComponent");
 
 const PTM_RATIO = 2; // pixel to meter ratio for physics
-const STAGE_EDGE_BORDER_WIDTH = 9000;
-const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
-const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
-const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
+const VIEWPORT_SCALE = 2.4;
+const VIEWPORT_X_OFFSET = -10
+const VIEWPORT_Y_OFFSET = -70
+const DEFAULT_PLAYER_LOC_X = 20;
+const DEFAULT_PLAYER_LOC_Y = 180;
+const DEFAULT_NPC_LOC_X = 390;
+const DEFAULT_NPC_LOC_Y = 210;
 
 // REFACTOR: Make most of the methods in here private
-export default class ProtoBattleScene {
+export default class BattleScene {
 
-  constructor(){
+  constructor(sceneId, sceneData){
     var self;
 
     self = this;
-    this._scene_id = 'prototype_battle';
-    this.STAGE_WIDTH = 450;
-    this.STAGE_HEIGHT = 240;
+    this._sceneId = sceneId;
+    this._sceneData = sceneData;
 
     console.log("DEBUG: ProtoBattleScene#constructor");
-    Crafty.scene(this._scene_id, function (){
+    Crafty.scene(this._sceneId, function (){
       var chars_loaded_promise;
 
       self.initBox2d();
@@ -62,16 +59,18 @@ export default class ProtoBattleScene {
         self.initSystems();
         self.registerSystems();
       }, function (error){
-        throw new Error(error);
+        console.log("DEBUG: FAILED TO INITIALIZE COMBATANTS FOR SOME REASON...");
+        throw(error);
         alert('Failed to initialize combatants for some reason..');
       }).catch( function (error){
         console.log("DEBUG: ERROR IN PROMISE GROUP~~~~~~~---->", error);
+        throw(error);
       });
     });
   }
 
   get sceneId(){
-    return this._scene_id;
+    return this._sceneId;
   }
 
   activateBattleAI(){
@@ -89,14 +88,8 @@ export default class ProtoBattleScene {
 
   deallocateCombatants(){
     this._combatants.player.destroy();
-    _.each(this._combatants.enemies, function (enemy){
-      enemy.destroy();
-    });
+    this._combatants.npc.destroy();
     this._combatants = null;
-  }
-
-  deallocateInputManager(){
-    Typewar.Engine.inputmanager.destroy();
   }
 
   deallocateStageEdges(){
@@ -120,9 +113,10 @@ export default class ProtoBattleScene {
   initBackground(){
     var bg, bg_data;
 
-    bg_data = Background.getBackground('test_bg01');
+    // TODO: Replace this entity with Crafty.background()
+    bg_data = this._sceneData.background;
     bg = Crafty.e("2D, DOM, Image, BattleBackground")
-      .battleBackground(bg_data.file, bg_data.width, bg_data.height)
+      .battleBackground(bg_data.filepath, bg_data.width, bg_data.height)
       .attr({x: -26, y: -60, z: 0});
     this._background = bg;
   }
@@ -137,9 +131,9 @@ export default class ProtoBattleScene {
   }
 
   initCamera(){
-    Crafty.viewport.scale(2.4);
-    Crafty.viewport.y -= 70;
-    Crafty.viewport.x -= 10;
+    Crafty.viewport.scale(VIEWPORT_SCALE);
+    Crafty.viewport.x += VIEWPORT_X_OFFSET;
+    Crafty.viewport.y += VIEWPORT_Y_OFFSET;
   }
 
   initCombatants(){
@@ -156,7 +150,7 @@ export default class ProtoBattleScene {
         console.log("ERROR: there was an error initializing the player character", error);
       }).then((npc_entity) => {
         enemy_npc = npc_entity;
-        self._combatants = {player: player, enemies: [enemy_npc]};
+        self._combatants = {player: player, npc: enemy_npc};
         player.setTarget(enemy_npc);
         enemy_npc.setTarget(player);
 
@@ -172,14 +166,20 @@ export default class ProtoBattleScene {
   initEnemyNPC(){
     var enemy_entity, promise;
 
-     enemy_entity = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager")
-      .attr({x: 390, y: 210, w: 42, h: 42 })
-      .battleCharacter()
-      .battleNPCEnemy()
-      .battleSlimeAnim()
-      .battleStatus()
-      .battleNPCBrain()
-      .collision([0,0],[0,50],[50,60],[0,60]);
+
+    enemy_entity = battleNPCGenerator(this._sceneData.combatants.npc);
+
+    //    enemy_entity = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager")
+    //      .attr({x: 390, y: 210, w: 42, h: 42 })
+    //      .battleCharacter()
+    //      .battleNPCEnemy()
+    //      .battleSlimeAnim()
+    //      .battleStatus()
+    //      .battleNPCBrain()
+    //      .collision([0,0],[0,50],[50,60],[0,60]);
+
+    enemy_entity.x = DEFAULT_NPC_LOC_X;
+    enemy_entity.y = DEFAULT_NPC_LOC_Y;
 
     promise = enemy_entity.getFromServer();
 
@@ -188,17 +188,21 @@ export default class ProtoBattleScene {
     });
   }
 
+  // Character data -> an entity should be it's own class somewhere
   initPC(){
     var pc_ent, pc_model, promise;
 
-    pc_ent = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, PlayerSkillManager, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
-    pc_ent.attr({ x: 20, y: 180})
-      .battlePlayerZeroAnim()
-      .battleCharacter()
-      .battlePlayer()
-      .battleStatus()
-      .collision([5,-30],[50,-30],[50,40],[5,40]);
+    pc_ent = battlePCGenerator(this._sceneData.combatants.player);
+    //    pc_ent = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, PlayerSkillManager, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
+    //    pc_ent.attr({ x: DEFAULT_PLAYER_LOC_X, y: DEFAULT_PLAYER_LOC_Y})
+    //      .battlePlayerZeroAnim()
+    //      .battleCharacter()
+    //      .battlePlayer()
+    //      .battleStatus()
+    //      .collision([5,-30],[50,-30],[50,40],[5,40]);
 
+    pc_ent.x = DEFAULT_PLAYER_LOC_X;
+    pc_ent.y = DEFAULT_PLAYER_LOC_Y;
     promise = pc_ent.getFromServer();
 
     return promise.then( () => {
@@ -212,31 +216,28 @@ export default class ProtoBattleScene {
   }
 
   initStageEdges(){
-    var stage_height, stage_width,
-    stage_width = this.STAGE_WIDTH;
-    stage_height = this.STAGE_HEIGHT;
-
     this._stageBorders = {
       leftEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, BattleStageBoundary")
-        .attr({x: STAGE_EDGE_LEFT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
+        .attr({x: this._sceneData.borders.left, y: 0, w: 5, h: 9000 })
         .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
 
       rightEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, BattleStageBoundary")
-        .attr({x: stage_width+STAGE_EDGE_RIGHT_BARRIER_OFFSET, y: 0, w: 5, h: 9000 })
+        .attr({x: this._sceneData.width+this._sceneData.borders.right, y: 0, w: 5, h: 9000 })
         .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
 
       bottomEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, Box2D")
-        .attr({x: 0, y: stage_height + STAGE_EDGE_FLOOR_BARRIER_OFFSET, w: 9000, h: 5 })
+        .attr({x: 0, y: this._sceneData.height + this._sceneData.borders.floor, w: 9000, h: 5 })
         .collision([0,0], [9000, 0], [9000, 5], [0, 5])
         .box2d({ bodyType: 'rigid' })
     }
   }
 
+  // TODO: Should this go into a UI system?
   initStatusBar() {
     var player, enemy, statusBar;
 
     player = this._combatants.player;
-    enemy = this._combatants.enemies[0];
+    enemy = this._combatants.npc;
     statusBar = new StatusBarView();
     statusBar.insertChild(player.getStatusView());
     statusBar.insertChild(enemy.getStatusView());
@@ -256,7 +257,7 @@ export default class ProtoBattleScene {
   }
 
   play(){
-    Crafty.scene(this._scene_id);
+    Crafty.scene(this._sceneId);
   }
 
   registerSystems(){
@@ -288,7 +289,6 @@ export default class ProtoBattleScene {
     this.resetCamera();
     this.deallocateBattleManager();
     this.deallocateStatusBar();
-    this.deallocateInputManager();
   }
 
   // private

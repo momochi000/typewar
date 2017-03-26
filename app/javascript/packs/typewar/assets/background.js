@@ -1,3 +1,4 @@
+// This file is useless and must be removed
 const images = {
   'test_bg01': {
     file: "assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif",

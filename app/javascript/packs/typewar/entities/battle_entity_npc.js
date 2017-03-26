@@ -23,8 +23,10 @@ export default class BattleEntityNPC extends BattleEntityBase {
     return DUMMY_TEXT_LIBRARY;
   }
 
-  _loadNPC() {
+  _loadNPC() { // TODO: Marked for deletion
     var char_sheet, self;
+
+    if(this._entity.charSheet) { return; }
     self = this;
 
     char_sheet = new CharacterSheet({
@@ -56,7 +58,6 @@ export default class BattleEntityNPC extends BattleEntityBase {
         cha: 0, 
         wis: 0
       },
-      vocabulary: [],
       skills: [SlimeGlobAttack]
       //      skills: [SlimeStandardAttack, SlimeGlobAttack]
     });

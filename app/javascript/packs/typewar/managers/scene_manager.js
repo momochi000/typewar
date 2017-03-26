@@ -1,22 +1,24 @@
-import ProtoBattleScene from '../scenes/proto_battle_scene'
+import BattleScene from "../scenes/battle_scene"
+import {protoBattleSceneData} from "../scenes/data/proto_battle_scene"
 
 var default_scene_graph = {
   prototype_battle: {
-    scene_name: "demo battle scene",
-    scene_data: "ProtoBattleScene",
+    sceneName: "demo battle scene",
+    sceneData: protoBattleSceneData,
+    sceneKlass: BattleScene,
     transitions: {
       victory: "player_win_scene",
       defeat: "player_lose_scene"
     }
   },
   player_win_scene: {
-    scene_name: "victory scene",
-    scene_data: "PlayerWinScene",
+    sceneName: "victory scene",
+    sceneData: "PlayerWinScene",
     transitions: { }
   },
   player_lose_scene: {
-    scene_name: "defeat scene",
-    scene_data: "PlayerLoseScene",
+    sceneName: "defeat scene",
+    sceneData: "PlayerLoseScene",
     transitions: { }
   }
 }
@@ -25,7 +27,6 @@ export default class SceneManager {
   constructor(){
     console.log("DEBUG: initializing scene manager... ");
     this.sceneGraph = default_scene_graph;
-    this._prepareScenes();
     console.log("DEBUG: sceneGraph --------->", this.sceneGraph);
   }
 
@@ -37,16 +38,16 @@ export default class SceneManager {
     this._currentScene = scene;
   }
 
-  loadScene(scene_id, args){
-    var scene_klass, new_scene;
+  loadScene(scene_id){
+    var scene_data, scene_klass, new_scene;
 
     console.log("DEBUG: SceneManager#loadScene(", scene_id, ")");
     scene_klass = this._getSceneKlassFromId(scene_id);
 
-    args = args || null
+    scene_data = this._getSceneDataFromId(scene_id);
     if(this._currentScene){ this.unloadScene(); }
     console.log("DEBUG: SceneManager#loadScene -----------> scene_klass is ------->", scene_klass);
-    new_scene = new scene_klass(args);
+    new_scene = new scene_klass(scene_id, scene_data);
     new_scene.play();
     this._currentScene = new_scene;
   }
@@ -74,12 +75,11 @@ export default class SceneManager {
     return this.sceneGraph[curr_scene_id].transitions[condition];
   }
 
-  _getSceneKlassFromId(scene_id){
-    return this.scenes[scene_id];
+  _getSceneDataFromId(scene_id){
+    return this.sceneGraph[scene_id].sceneData;
   }
 
-  _prepareScenes(){
-    this.scenes = {}
-    this.scenes['prototype_battle'] = ProtoBattleScene;
+  _getSceneKlassFromId(scene_id){
+    return this.sceneGraph[scene_id].sceneKlass;
   }
 }

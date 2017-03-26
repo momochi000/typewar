@@ -37,12 +37,12 @@ const HIT_ANIM_SPEED = 320;
 const READY_ANIM_SPEED = 900;
 const PLACEHOLDER_ANIM_SPEED = 700;
 
-Crafty.c("BattlePlayerZeroAnim", {
+Crafty.c("BattlePlayerZeroAnimation", {
   init: function (){
     this.requires("SpriteAnimation");
   },
 
-  battlePlayerZeroAnim: function (){
+  battlePlayerZeroAnimation: function (){
     var self = this;
     this.reel(ZERO_ANIM_READY, READY_ANIM_SPEED, 0, 0, 4)
       .reel(ZERO_ANIM_LIGHT_SLASH, ATTACK_ANIM_SPEED, 0, 1, 8)

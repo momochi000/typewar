@@ -32,9 +32,10 @@ export default class BattleEntityPC extends BattleEntityBase {
 
   // Instead of grabbing the player from the server, we'll just load it from 
   // some fixture in javascript
-  _loadPlayer() {
+  _loadPlayer() {  // TODO: Marked for deletion
     var char_sheet, self;
 
+    if(this._entity.charSheet) { return; }
     self = this;
     char_sheet = new CharacterSheet({
       name: "player 1",
@@ -48,7 +49,6 @@ export default class BattleEntityPC extends BattleEntityBase {
         cha: 1, 
         wis: 1
       },
-      vocabulary: self._generatedVocabulary(),
       skills: [
         ZeroSkills.ZeroLightSlash,
         ZeroSkills.ZeroMedSlash,

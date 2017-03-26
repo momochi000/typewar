@@ -1,5 +1,7 @@
 /* A component for common functionality between all battle entities */
 
+import CharacterSheet from "../../../models/character_sheet"
+
 require('crafty');
 
 Crafty.c("BattleCharacter", {
@@ -11,8 +13,10 @@ Crafty.c("BattleCharacter", {
     this.requires("2D");
   },
 
-  battleCharacter: function (charSheet){
-    this.charSheet = charSheet;
+  battleCharacter: function (charSheetData){
+    if(charSheetData) { 
+      this.charSheet = new CharacterSheet(charSheetData);
+    }
     this.z = 5;
 
     return this;
