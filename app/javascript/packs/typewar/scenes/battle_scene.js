@@ -16,6 +16,7 @@ import {initProjectileSystem, projectileSystem} from "../systems/projectile_syst
 import {initTriggerEffectOnCollideSystem, triggerEffectOnCollideSystem} from "../systems/trigger_effect_on_collide_system"
 import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
+import {initAudioSystem, audioSystem} from "../systems/audio_system"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleEffectable");
@@ -48,14 +49,12 @@ export default class BattleScene {
       self.initBox2d();
       self.initSprites();
       self.initBackground();
-      //      self.initAudio();
       self.initStageEdges();
       self.initCamera();
 
       self.initCombatants().then(function (response){
         console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
         self.initUI();
-        //        self.activateBattleAI();
         self.initSystems();
         self.registerSystems();
       }, function (error){
@@ -71,10 +70,6 @@ export default class BattleScene {
 
   get sceneId(){
     return this._sceneId;
-  }
-
-  activateBattleAI(){
-    this._battleManager._setupBattleAI();
   }
 
   deallocateBG(){
@@ -99,11 +94,6 @@ export default class BattleScene {
 
   deallocateStatusBar(){
     throw new Error("Not implmemented error");
-  }
-
-  initAudio(){
-    Typewar.Engine.audiomanager = Crafty.e("AudioManager").audioManager();
-    Typewar.Engine.audiomanager.initAudioModule("input");
   }
 
   initBackground(){
@@ -224,6 +214,7 @@ export default class BattleScene {
   }
 
   initSystems(){
+    initAudioSystem(Crafty, this._sceneData.audio);
     initInputSystem(Crafty);
     initPlayerSkillSystem(Crafty);
     initNPCSkillSystem(Crafty);
@@ -257,6 +248,7 @@ export default class BattleScene {
     triggerEffectOnCollideSystem(Crafty);
     battleEffectSystem(Crafty);
     battleStatusSystem(Crafty);
+    audioSystem(Crafty);
   }
 
   stop(){

@@ -1,5 +1,6 @@
 import * as ZeroSkills from "../../models/skills/player/zero_active_skills"
 import {SlimeStandardAttack, SlimeGlobAttack} from "../../models/skills/npc/slime_skills"
+import {SOUND_LETTER_TYPED} from "../../constants/audio_constants"
 
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
@@ -15,6 +16,7 @@ export var protoBattleSceneData = {
     right: STAGE_EDGE_RIGHT_BARRIER_OFFSET,
     floor: STAGE_EDGE_FLOOR_BARRIER_OFFSET
   },
+
   background: {
     name: 'jungle',
     filepath: "assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif",
@@ -22,6 +24,7 @@ export var protoBattleSceneData = {
     height: 336,
     offset: {x: -26, y: -60, z: 0}
   },
+
   combatants: {
     player: {
       spriteId: "player_zero",
@@ -85,5 +88,11 @@ export var protoBattleSceneData = {
         //      skills: [SlimeStandardAttack, SlimeGlobAttack]
       },
     }
+  },
+
+  audio: {
+    sounds: [
+      { soundId: SOUND_LETTER_TYPED, soundUrls: ["assets/typewriter-key-1.mp3", "assets/typewriter-key-1.wav"] }
+    ]
   }
 }

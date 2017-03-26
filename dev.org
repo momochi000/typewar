@@ -1,22 +1,5 @@
 * Current
-** TODO Present scene data as an object/json
-   Battle scene gets initialized with this data and prepares the scene.
-*** TODO Refactor scene initialization using scene data
-*** TODO Replace background entity with Crafty.background()
-    On second thought, there might have been a good reason why I used an entity
-    instead.  might have to do with scaling and offset of 
-    This task should instead revolve around streamlining the background
-    rendering.  Right now, the background has an x and y offset and then the 
-    viewport also has an x and y offset in addition to a scale factor.  Can I 
-    do away with having to have them both?
 * Backlog
-** TODO Reenable sound
-   Right now we only have the typewriter sound for when a letter is typed
-
-   Looks like we need a better way to declare assets first.  There should be a
-   single point of input to declare what all the assets are and where to find 
-   them.  Including sprites, sounds, backgrounds, etc.  All the things necessary
-   to load up a stage
 ** TODO Do some balance work on TextLibrary
    A better way to generate text for fragments.  Find words within the min-max,
    then add words of random size until the max is exceeded then back out by 1 
@@ -79,6 +62,13 @@
 ** TODO Make it possible to generate new fights just by tweaking some values
    Pass in some json declaring the scene data and the scene is initialized with 
    the right stuff including background and combatants
+** TODO Replace background entity with Crafty.background()
+   On second thought, there might have been a good reason why I used an entity
+   instead.  might have to do with scaling and offset of 
+   This task should instead revolve around streamlining the background
+   rendering.  Right now, the background has an x and y offset and then the 
+   viewport also has an x and y offset in addition to a scale factor.  Can I 
+   do away with having to have them both?
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene
@@ -211,6 +201,19 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Reenable sound
+   CLOSED: [2017-03-25 Sat 20:52]
+   Right now we only have the typewriter sound for when a letter is typed
+
+   Looks like we need a better way to declare assets first.  There should be a
+   single point of input to declare what all the assets are and where to find 
+   them.  Including sprites, sounds, backgrounds, etc.  All the things necessary
+   to load up a stage
+** DONE Present scene data as an object/json
+   CLOSED: [2017-03-25 Sat 19:44]
+   Battle scene gets initialized with this data and prepares the scene.
+*** DONE Refactor scene initialization using scene data
+    CLOSED: [2017-03-25 Sat 19:37]
 ** DONE When text fragments hit the left border, remove them
    CLOSED: [2017-03-22 Wed 16:21]
 ** DONE Pull vocabulary from server

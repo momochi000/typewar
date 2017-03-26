@@ -22,6 +22,7 @@
  *   respective systems.  Ultimately components should contain no behavior
  */
 
+import { SOUND_LETTER_TYPED } from "../constants/audio_constants"
 require("crafty");
 var StateMachine = require("javascript-state-machine");
 
@@ -140,7 +141,7 @@ Crafty.c("TextFragment", {
     // TODO: validate input? check the input against the current position in _text
     this._correct_characters += this._text[this._current_position];
     this._current_position++;
-    //    Crafty.trigger("sound_effect", "letter_typed"); //TODO: REFACTOR THIS
+    Crafty.trigger("PlaySound", SOUND_LETTER_TYPED);
   },
 
   _getClasses: function (){
