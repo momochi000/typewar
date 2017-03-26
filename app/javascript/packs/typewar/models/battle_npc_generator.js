@@ -9,7 +9,7 @@ export default function battleNPCGenerator(characterData) {
   var npc_components, npc_ent;
 
   npc_components = "2D, DOM, BattleEffectable, BattleCharacter, BattleNPCSlime, NPCBrain, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager"
-  npc_components += ", "+characterData.spriteId;
+  npc_components += ", "+characterData.spriteFrame;
   npc_components += ", "+characterData.animationComponent;
 
   npc_ent = Crafty.e(npc_components);

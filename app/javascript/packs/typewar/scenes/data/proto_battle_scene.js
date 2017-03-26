@@ -24,7 +24,8 @@ export var protoBattleSceneData = {
   },
   combatants: {
     player: {
-      spriteId: "plz_st0",
+      spriteId: "player_zero",
+      spriteFrame: "plz_st0",
       animationComponent: "BattlePlayerZeroAnimation",
       hitbox: [5,-30, 50,-30, 50,40, 5,40],
       charSheet: {
@@ -54,7 +55,8 @@ export var protoBattleSceneData = {
       }
     },
     npc: {
-      spriteId: "slime_st0",
+      spriteId: "slime",
+      spriteFrame: "slime_st0",
       animationComponent: "BattleSlimeAnimation",
       width: 42, height: 42,
       hitbox: [0,0, 0,50, 50,60, 0,60],

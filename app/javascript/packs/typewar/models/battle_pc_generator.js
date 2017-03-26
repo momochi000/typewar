@@ -9,7 +9,7 @@ export default function battlePCGenerator(characterData) {
   var pc_components, pc_ent, pc_model, promise;
 
   pc_components = "2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, PlayerSkillManager, Collision, BattleStatus, BattleStance";
-  pc_components += ", "+characterData.spriteId;
+  pc_components += ", "+characterData.spriteFrame;
   pc_components += ", "+characterData.animationComponent;
 
   pc_ent = Crafty.e(pc_components);

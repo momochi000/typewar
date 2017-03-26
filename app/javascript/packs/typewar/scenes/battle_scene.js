@@ -189,8 +189,8 @@ export default class BattleScene {
   }
 
   initSprites(){
-    Sprite.create('player_zero');
-    Sprite.create('slime');
+    Sprite.create(this._sceneData.combatants.player.spriteId);
+    Sprite.create(this._sceneData.combatants.npc.spriteId);
   }
 
   initStageEdges(){
