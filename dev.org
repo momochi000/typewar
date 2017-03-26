@@ -1,15 +1,16 @@
 * Current
+** TODO Reenable slime skills and tweak balance
+   Adjust cooldowns until the battle is sufficiently difficult
 * Backlog
-** TODO Do some balance work on TextLibrary
-   A better way to generate text for fragments.  Find words within the min-max,
-   then add words of random size until the max is exceeded then back out by 1 
-   word.
-
-   This works better when the library is all just single words.  Will need a bit
-   of playtesting to see which of these is preferable.
-** TODO Make component file names match component names            :refactor: 
-** TODO Adjust difficulty
-   The way it was when I could barely beat it.
+** TODO Create and handle lose condition
+   Just needs to be stubbed for now
+** TODO Create and handle win condition
+   Same
+** TODO rename Effects.SpawnTextFragLinear to something more generic.
+   It can spawn any kind of text fragment projectile given a position function.
+   It should instead be called SpawnTextProjectile or something
+** TODO Deploy
+** TODO Upload some real text
 ** TODO Fix stance icons
 *** DONE Make icon appear properly
     CLOSED: [2017-03-21 Tue 15:22]
@@ -17,11 +18,6 @@
 *** DONE Figure out what to do with the enemy icon
     CLOSED: [2017-03-21 Tue 15:22]
     Should be fine if it's always on attack mode
-** TODO Put some real text in there
-** TODO Reenable slime skills and tweak balance
-   Adjust cooldowns until the battle is sufficiently difficult
-** TODO Deploy
-** TODO Upload some real text
 ** TODO Rename this project
 ** TODO Move all data into a single data store
    Components no longer hold any data
@@ -45,6 +41,15 @@
 ** TODO Create battle over scene or transition
 ** TODO Make the battle over scene overlay on top of the battle scene.
 ** TODO Get a different sprite for the training dummy(s)
+** TODO Do some balance work on TextLibrary
+   A better way to generate text for fragments.  Find words within the min-max,
+   then add words of random size until the max is exceeded then back out by 1 
+   word.
+
+   This works better when the library is all just single words.  Will need a bit
+   of playtesting to see which of these is preferable.
+*** DONE First add a real text
+    CLOSED: [2017-03-26 Sun 04:59]
 ** TODO Resolve if multiple skills are completed simultaneously
    This is something that needs playtesting.
    From a top level design consideration, this seems like a bug: there should 
@@ -62,6 +67,7 @@
 ** TODO Make it possible to generate new fights just by tweaking some values
    Pass in some json declaring the scene data and the scene is initialized with 
    the right stuff including background and combatants
+** TODO Make component file names match component names            :refactor: 
 ** TODO Replace background entity with Crafty.background()
    On second thought, there might have been a good reason why I used an entity
    instead.  might have to do with scaling and offset of 
@@ -69,6 +75,11 @@
    rendering.  Right now, the background has an x and y offset and then the 
    viewport also has an x and y offset in addition to a scale factor.  Can I 
    do away with having to have them both?
+** TODO Combo system
+   Will need to play around with this to see if it's fun.
+   Basically, you'll need to chain up weaker attacks to hit the harder ones.
+   So, you can't type medium slash without first typing light slash perfectly
+   And so on up to hard and upper (might add more when I add more sprites
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene

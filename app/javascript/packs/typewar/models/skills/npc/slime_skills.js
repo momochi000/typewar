@@ -24,7 +24,7 @@ export var SlimeStandardAttack = {
     {
       klass: Effects.SpawnTextFragLinear,
       positionFunction: linearProjectile,
-      speed: 0.08,
+      speed: 0.03,
       effects: [
         {
           klass: Effects.Damage,
@@ -39,7 +39,7 @@ export var SlimeStandardAttack = {
       ]
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_LIGHT_ATTACK },
-    //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 1900 }
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 3400 }
   ],
   cost: 0,
   name: 'slime standard attack',
@@ -73,7 +73,7 @@ export var SlimeGlobAttack = {
       ]
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK },
-    //    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2300 }
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 3000 }
   ],
   cost: 0,
   name: 'glob',

@@ -84,8 +84,7 @@ export var protoBattleSceneData = {
           cha: 0, 
           wis: 0
         },
-        skills: [SlimeGlobAttack],
-        //      skills: [SlimeStandardAttack, SlimeGlobAttack]
+        skills: [SlimeStandardAttack, SlimeGlobAttack]
       },
     }
   },

@@ -9,5 +9,10 @@ Rails.application.routes.draw do
     resources :slimes, :only => [:create, :index, :show, :update], :controller => 'characters/slimes'
     resources :players, :only => [:create, :index, :show, :update], :controller => 'characters/players'
   end
+
   resources :vocabularies, :only => :index
+
+  namespace :admin do
+    resources :texts, :only => [:index, :new, :edit, :update, :create]
+  end
 end

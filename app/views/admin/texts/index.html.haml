@@ -1,0 +1,8 @@
+%h1 Text index
+%ul
+  - @texts.each do |text|
+    %li
+      = link_to 'Edit', edit_admin_text_path(text)
+      = text.content.byteslice(0, 140)
+
+= link_to 'New', new_admin_text_path
