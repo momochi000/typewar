@@ -19,7 +19,8 @@ export var protoBattleSceneData = {
     name: 'jungle',
     filepath: "assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif",
     width: 800,
-    height: 336
+    height: 336,
+    offset: {x: -26, y: -60, z: 0}
   },
   combatants: {
     player: {

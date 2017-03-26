@@ -77,10 +77,6 @@ export default class BattleScene {
     this._battleManager._setupBattleAI();
   }
 
-  deallocateBattleManager(){
-    Typewar.Engine.battlemanager.destroy();
-  }
-
   deallocateBG(){
     this._background.destroy();
     this._background = null;
@@ -117,7 +113,7 @@ export default class BattleScene {
     bg_data = this._sceneData.background;
     bg = Crafty.e("2D, DOM, Image, BattleBackground")
       .battleBackground(bg_data.filepath, bg_data.width, bg_data.height)
-      .attr({x: -26, y: -60, z: 0});
+      .attr({x: bg_data.offset.x, y: bg_data.offset.y, z: bg_data.offset.z || 0});
     this._background = bg;
   }
 
@@ -168,16 +164,6 @@ export default class BattleScene {
 
 
     enemy_entity = battleNPCGenerator(this._sceneData.combatants.npc);
-
-    //    enemy_entity = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattleNPCSlime, BattleSlimeAnim, NPCBrain, slime_st0, Collision, BattleStatus, BattleNPCBrain, BattleNPCSkillManager")
-    //      .attr({x: 390, y: 210, w: 42, h: 42 })
-    //      .battleCharacter()
-    //      .battleNPCEnemy()
-    //      .battleSlimeAnim()
-    //      .battleStatus()
-    //      .battleNPCBrain()
-    //      .collision([0,0],[0,50],[50,60],[0,60]);
-
     enemy_entity.x = DEFAULT_NPC_LOC_X;
     enemy_entity.y = DEFAULT_NPC_LOC_Y;
 
@@ -193,14 +179,6 @@ export default class BattleScene {
     var pc_ent, pc_model, promise;
 
     pc_ent = battlePCGenerator(this._sceneData.combatants.player);
-    //    pc_ent = Crafty.e("2D, DOM, BattleEffectable, BattleCharacter, BattlePlayer, PlayerSkillManager, BattlePlayerZeroAnim, plz_st0, Collision, BattleStatus, BattleStance");
-    //    pc_ent.attr({ x: DEFAULT_PLAYER_LOC_X, y: DEFAULT_PLAYER_LOC_Y})
-    //      .battlePlayerZeroAnim()
-    //      .battleCharacter()
-    //      .battlePlayer()
-    //      .battleStatus()
-    //      .collision([5,-30],[50,-30],[50,40],[5,40]);
-
     pc_ent.x = DEFAULT_PLAYER_LOC_X;
     pc_ent.y = DEFAULT_PLAYER_LOC_Y;
     promise = pc_ent.getFromServer();
@@ -287,7 +265,6 @@ export default class BattleScene {
     this.deallocateBG();
     this.deallocateStageEdges();
     this.resetCamera();
-    this.deallocateBattleManager();
     this.deallocateStatusBar();
   }
 
