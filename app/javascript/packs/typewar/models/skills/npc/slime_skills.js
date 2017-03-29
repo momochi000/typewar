@@ -26,7 +26,7 @@ export var SlimeStandardAttack = {
       positionFunction: linearProjectile,
       speed: 0.03,
       textOptions: {
-        minLength: 9,
+        minLength: 7,
         maxLength: 25,
       },
       effects: [
