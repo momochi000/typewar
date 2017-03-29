@@ -17,6 +17,8 @@ import {initTriggerEffectOnCollideSystem, triggerEffectOnCollideSystem} from "..
 import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
 import {initAudioSystem, audioSystem} from "../systems/audio_system"
+import {npcDiedPlayerWinSystem} from "../systems/npc_died_player_win_system"
+import {playerDieLoseSystem} from "../systems/player_die_lose_system"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleEffectable");
@@ -249,6 +251,8 @@ export default class BattleScene {
     battleEffectSystem(Crafty);
     battleStatusSystem(Crafty);
     audioSystem(Crafty);
+    npcDiedPlayerWinSystem(Crafty);
+    playerDieLoseSystem(Crafty);
   }
 
   stop(){

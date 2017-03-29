@@ -123,6 +123,7 @@
    mechanic, all leading up to the boss fight
    Might be good to introduce a new player skill after each boss fight as well
    so there's a feeling of progression
+** TODO Adding a rotation to the words in a physics attack makes for an interesting challenge
 * Roadmap
 ** TODO System for recording text fragment completion data
 ** TODO Research use of web workers
