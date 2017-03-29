@@ -22,7 +22,7 @@ import {
 export var SlimeStandardAttack = {
   effects: [
     {
-      klass: Effects.SpawnTextFragLinear,
+      klass: Effects.SpawnTextProjectile,
       positionFunction: linearProjectile,
       speed: 0.03,
       textOptions: {

@@ -93,11 +93,11 @@ class SpawnTextProjectilePhysics {
 // appearance and other behavior.
 // SpawnProjectileAttack would be more appropriate but I don't want to
 // refactor this right now
-class SpawnTextFragLinear {
+class SpawnTextProjectile {
   static execute(args) {
     var text;
 
-    validateTarget("EffectSpawnTextFragLinear", args.target);
+    validateTarget("EffectSpawnTextProjectile", args.target);
     text = getTextFromSourceEntity(args.source, args.textOptions);
 
     Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleProjectile, BattleNPCProjectile, TriggerableEffectOnCollide")
@@ -188,4 +188,4 @@ function validateTarget(effectName, target) {
   }
 }
 
-export { Damage, SetCooldown, SpawnTextFragLinear, SpawnTextProjectilePhysics, TriggerAnimation }
+export { Damage, SetCooldown, SpawnTextProjectile, SpawnTextProjectilePhysics, TriggerAnimation }

@@ -1,19 +1,5 @@
 * Current
-** TODO Reenable slime skills and tweak balance
-   Adjust cooldowns until the battle is sufficiently difficult
-   This is also necessitating an adjustment of the way that the text library works
-*** Change how text library builds text fragments
-    It should look at the need for a minimum fragment size, grabbing a word at 
-    random.  It should keep adding words until the size is greater than the 
-    minimum
 * Backlog
-** TODO Create and handle lose condition
-   Just needs to be stubbed for now
-** TODO Create and handle win condition
-   Same
-** TODO rename Effects.SpawnTextFragLinear to something more generic.
-   It can spawn any kind of text fragment projectile given a position function.
-   It should instead be called SpawnTextProjectile or something
 ** TODO Deploy
 ** TODO Upload some real text
 ** TODO Fix stance icons
@@ -218,6 +204,25 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE rename Effects.SpawnTextFragLinear to something more generic.
+   CLOSED: [2017-03-29 Wed 15:57]
+   It can spawn any kind of text fragment projectile given a position function.
+   It should instead be called SpawnTextProjectile or something
+** DONE Create and handle lose condition
+   CLOSED: [2017-03-29 Wed 15:49]
+   Just needs to be stubbed for now
+** DONE Create and handle win condition
+   CLOSED: [2017-03-29 Wed 15:49]
+   Same
+** DONE Reenable slime skills and tweak balance
+   CLOSED: [2017-03-29 Wed 15:24]
+   Adjust cooldowns until the battle is sufficiently difficult
+   This is also necessitating an adjustment of the way that the text library works
+*** DONE Change how text library builds text fragments
+    CLOSED: [2017-03-29 Wed 15:24]
+    It should look at the need for a minimum fragment size, grabbing a word at 
+    random.  It should keep adding words until the size is greater than the 
+    minimum
 ** DONE Reenable sound
    CLOSED: [2017-03-25 Sat 20:52]
    Right now we only have the typewriter sound for when a letter is typed
