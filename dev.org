@@ -1,6 +1,11 @@
 * Current
 ** TODO Reenable slime skills and tweak balance
    Adjust cooldowns until the battle is sufficiently difficult
+   This is also necessitating an adjustment of the way that the text library works
+*** Change how text library builds text fragments
+    It should look at the need for a minimum fragment size, grabbing a word at 
+    random.  It should keep adding words until the size is greater than the 
+    minimum
 * Backlog
 ** TODO Create and handle lose condition
    Just needs to be stubbed for now

@@ -47,7 +47,7 @@ class SpawnTextProjectilePhysics {
     var text, new_ent;
 
     validateTarget("EffectSpawnTextProjectilePhysics", args.target);
-    text = getTextFromSourceEntity(args.source, args.skill.textOptions);
+    text = getTextFromSourceEntity(args.source, args.textOptions);
 
     new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattleProjectile, BattlePhysicsProjectile")
       .attr({
@@ -98,7 +98,7 @@ class SpawnTextFragLinear {
     var text;
 
     validateTarget("EffectSpawnTextFragLinear", args.target);
-    text = getTextFromSourceEntity(args.source, args.skill.textOptions);
+    text = getTextFromSourceEntity(args.source, args.textOptions);
 
     Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleProjectile, BattleNPCProjectile, TriggerableEffectOnCollide")
       .attr({

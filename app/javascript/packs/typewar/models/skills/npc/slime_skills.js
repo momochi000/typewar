@@ -25,6 +25,10 @@ export var SlimeStandardAttack = {
       klass: Effects.SpawnTextFragLinear,
       positionFunction: linearProjectile,
       speed: 0.03,
+      textOptions: {
+        minLength: 9,
+        maxLength: 25,
+      },
       effects: [
         {
           klass: Effects.Damage,
@@ -42,17 +46,17 @@ export var SlimeStandardAttack = {
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 3400 }
   ],
   cost: 0,
-  name: 'slime standard attack',
-  textOptions: {
-    minLength: 9,
-    maxLength: 25,
-  },
+  name: 'slime standard attack'
 };
 
 export var SlimeGlobAttack = {
   effects: [
     {
       klass: Effects.SpawnTextProjectilePhysics,
+      textOptions: {
+        minLength: 5,
+        maxLength: 85,
+      },
       box2d: {
         bodyType: 'dynamic',
         density: 0.1,
@@ -76,11 +80,7 @@ export var SlimeGlobAttack = {
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 3000 }
   ],
   cost: 0,
-  name: 'glob',
-  textOptions: {
-    minLength: 5,
-    maxLength: 85,
-  }
+  name: 'glob'
 }
 
 // TODO: this and other functions defining projectile movement/behavior should maybe move to a different file?

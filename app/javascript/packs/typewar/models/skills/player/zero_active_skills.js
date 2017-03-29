@@ -39,7 +39,7 @@ var ZeroLightSlash = {
   cost: 0,
   name: 'light slash',
   textOptions: {
-    minLength: 4,
+    minLength: 7,
     maxLength: 12,
   }
 };
@@ -62,7 +62,7 @@ var ZeroMedSlash = {
   cost: 0,
   name: 'medium slash',
   textOptions: {
-    minLength: 9,
+    minLength: 10,
     maxLength: 18,
   }
 };
@@ -84,7 +84,7 @@ var ZeroHardSlash = {
   cost: 0,
   name: 'heavy slash',
   textOptions: {
-    minLength: 20,
+    minLength: 18,
     maxLength: 40,
   }
 };
