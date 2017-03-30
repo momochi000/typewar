@@ -1,76 +1,6 @@
 * Current
 * Backlog
 ** TODO Deploy
-** TODO Upload some real text
-** TODO Fix stance icons
-*** DONE Make icon appear properly
-    CLOSED: [2017-03-21 Tue 15:22]
-*** TODO Float the icon above the player entity
-*** DONE Figure out what to do with the enemy icon
-    CLOSED: [2017-03-21 Tue 15:22]
-    Should be fine if it's always on attack mode
-** TODO Rename this project
-** TODO Move all data into a single data store
-   Components no longer hold any data
-   They hold references to data trees within the data store
-   They do however, initialize their own trees in the data store
-** TODO Display flash + particles on hit of either character
-** TODO When player defends, the text fragment should pop or explode
-** TODO Effect execution needs to be made into a utility :refactor:
-   It's being used in a couple places currently and needs DRYing
-** TODO Generate vocabularies from markov chains of some source material(s)
-** TODO Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
-** TODO Display incorrect characters count typed along with correct characters.
-   This needs some sort of design such that it's intuitive as to what's 
-   happening. I'm thinking 2 counters, 1 red 1 green or something equally 
-   opposing. One counting correct and one incorrect characters.
-
-   Revisiting this, there doesn't need to be a count, just needs to have a 
-   color perhaps. Basically, once a typo happens, the text fragment gets tainted
-   so that it has half effectiveness. The color of the text fragment while it's
-   being typed should reflect this.
-** TODO Create battle over scene or transition
-** TODO Make the battle over scene overlay on top of the battle scene.
-** TODO Get a different sprite for the training dummy(s)
-** TODO Do some balance work on TextLibrary
-   A better way to generate text for fragments.  Find words within the min-max,
-   then add words of random size until the max is exceeded then back out by 1 
-   word.
-
-   This works better when the library is all just single words.  Will need a bit
-   of playtesting to see which of these is preferable.
-*** DONE First add a real text
-    CLOSED: [2017-03-26 Sun 04:59]
-** TODO Resolve if multiple skills are completed simultaneously
-   This is something that needs playtesting.
-   From a top level design consideration, this seems like a bug: there should 
-   never be two skills with the same text to type.
-   However, when actually doing it, it seems like it might become a happy 
-   accident.  It should be rare enough that it doesn't become game breaking
-   and yet when it does happen, it could provide a nice RNG boost to the player
-   where you're like "YES! got lucky!"
-   In the case I decide to keep/run with it, then I need to handle both skills
-   executing in sequence.
-** TODO Create another scene with a different baddie
-   The lowest level slime
-** TODO Ensure spaces are clear when typing
-   Especially when the text fragment breaks lines
-** TODO Make it possible to generate new fights just by tweaking some values
-   Pass in some json declaring the scene data and the scene is initialized with 
-   the right stuff including background and combatants
-** TODO Make component file names match component names            :refactor: 
-** TODO Replace background entity with Crafty.background()
-   On second thought, there might have been a good reason why I used an entity
-   instead.  might have to do with scaling and offset of 
-   This task should instead revolve around streamlining the background
-   rendering.  Right now, the background has an x and y offset and then the 
-   viewport also has an x and y offset in addition to a scale factor.  Can I 
-   do away with having to have them both?
-** TODO Combo system
-   Will need to play around with this to see if it's fun.
-   Basically, you'll need to chain up weaker attacks to hit the harder ones.
-   So, you can't type medium slash without first typing light slash perfectly
-   And so on up to hard and upper (might add more when I add more sprites
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene
@@ -95,6 +25,71 @@
      For the first stage, it shows the player that they're in the offensive 
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
+** TODO Fix stance icons
+*** DONE Make icon appear properly
+    CLOSED: [2017-03-21 Tue 15:22]
+*** TODO Float the icon above the player entity
+*** DONE Figure out what to do with the enemy icon
+    CLOSED: [2017-03-21 Tue 15:22]
+    Should be fine if it's always on attack mode
+** TODO Create another scene with a different baddie
+   The lowest level slime
+** TODO When player defends, the text fragment should pop or explode
+** TODO Display flash + particles on hit of either character
+** TODO Create battle over scene or transition
+** TODO Move all data into a single data store
+   Components no longer hold any data
+   They hold references to data trees within the data store
+   They do however, initialize their own trees in the data store
+** TODO Damage counters (numbers flying off hits) Show damage numbers above enemy when they take damage
+** TODO Combo system
+   Will need to play around with this to see if it's fun.
+   Basically, you'll need to chain up weaker attacks to hit the harder ones.
+   So, you can't type medium slash without first typing light slash perfectly
+   And so on up to hard and upper (might add more when I add more sprites
+** TODO Upload some real text
+** TODO Effect execution needs to be made into a utility :refactor:
+   It's being used in a couple places currently and needs DRYing
+** TODO Display incorrect characters count typed along with correct characters.
+   This needs some sort of design such that it's intuitive as to what's 
+   happening. I'm thinking 2 counters, 1 red 1 green or something equally 
+   opposing. One counting correct and one incorrect characters.
+
+   Revisiting this, there doesn't need to be a count, just needs to have a 
+   color perhaps. Basically, once a typo happens, the text fragment gets tainted
+   so that it has half effectiveness. The color of the text fragment while it's
+   being typed should reflect this.
+** TODO Make the battle over scene overlay on top of the battle scene.
+** TODO Get a different sprite for the training dummy(s)
+** TODO Do some balance work on TextLibrary
+   A better way to generate text for fragments.  Find words within the min-max,
+   then add words of random size until the max is exceeded then back out by 1 
+   word.
+
+   This works better when the library is all just single words.  Will need a bit
+   of playtesting to see which of these is preferable.
+*** DONE First add a real text
+    CLOSED: [2017-03-26 Sun 04:59]
+** TODO Resolve if multiple skills are completed simultaneously
+   This is something that needs playtesting.
+   From a top level design consideration, this seems like a bug: there should 
+   never be two skills with the same text to type.
+   However, when actually doing it, it seems like it might become a happy 
+   accident.  It should be rare enough that it doesn't become game breaking
+   and yet when it does happen, it could provide a nice RNG boost to the player
+   where you're like "YES! got lucky!"
+   In the case I decide to keep/run with it, then I need to handle both skills
+   executing in sequence.
+** TODO Ensure spaces are clear when typing
+   Especially when the text fragment breaks lines
+** TODO Make component file names match component names            :refactor: 
+** TODO Replace background entity with Crafty.background()
+   On second thought, there might have been a good reason why I used an entity
+   instead.  might have to do with scaling and offset of 
+   This task should instead revolve around streamlining the background
+   rendering.  Right now, the background has an x and y offset and then the 
+   viewport also has an x and y offset in addition to a scale factor.  Can I 
+   do away with having to have them both?
 ** TODO Boss fights
    Example: first fight after the training dummy is slime
    Slime fight 1 it just throws the simple straight attack
@@ -109,6 +104,10 @@
    mechanic, all leading up to the boss fight
    Might be good to introduce a new player skill after each boss fight as well
    so there's a feeling of progression
+** TODO Iron man mode
+   You get a fixed amount of health and the goal is to progress as far as possible
+   monsters come in a constant stream so the scene doesn't transition
+** TODO Generate vocabularies from markov chains of some source material(s)
 ** TODO Adding a rotation to the words in a physics attack makes for an interesting challenge
 * Roadmap
 ** TODO System for recording text fragment completion data
@@ -204,6 +203,8 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Rename this project
+   CLOSED: [2017-03-29 Wed 20:12]
 ** DONE rename Effects.SpawnTextFragLinear to something more generic.
    CLOSED: [2017-03-29 Wed 15:57]
    It can spawn any kind of text fragment projectile given a position function.

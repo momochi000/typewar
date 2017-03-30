@@ -1,6 +1,6 @@
 import BattleEntityBase from "./battle_entity_base"
 import CharacterSheet from "../models/character_sheet"
-import TypewarServerCaller from "../util/typewar_server_caller"
+import ServerCaller from "../util/server_caller"
 import {SlimeStandardAttack, SlimeGlobAttack} from "../models/skills/npc/slime_skills"
 import {DUMMY_TEXT_LIBRARY} from "../constants/dummy_text"
 

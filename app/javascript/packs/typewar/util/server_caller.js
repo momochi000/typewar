@@ -1,4 +1,4 @@
-export default class TypewarServerCaller {
+export default class ServerCaller {
   constructor(options) {
     this._storeOptions(options);
   }
@@ -17,7 +17,7 @@ export default class TypewarServerCaller {
   }
 
   _storeOptions(options) {
-    console.log("DEBUG: initializing typewar server callser");
+    console.log("DEBUG: initializing typewar server caller");
     if(_.isEmpty(options)){ return; }
     this.urls = {
       vocabulariesUrl: options.vocabulariesUrl || null

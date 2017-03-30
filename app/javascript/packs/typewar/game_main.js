@@ -1,8 +1,8 @@
 import SceneManager from "./managers/scene_manager"
-import TypewarServerCaller from "./util/typewar_server_caller"
+import ServerCaller from "./util/server_caller"
 require('crafty');
 
-export default class TypewarMain {
+export default class GameMain {
   constructor(container, options){
     console.log("DEBUG: typewar Main being initialized");
 
@@ -34,7 +34,7 @@ export default class TypewarMain {
   }
 
   _setupApi(options) {
-    window.serverCaller = new TypewarServerCaller(options);
+    window.serverCaller = new ServerCaller(options);
   }
 
   _setupContainer(){
