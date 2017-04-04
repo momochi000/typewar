@@ -12,7 +12,6 @@
 #   end
 # end
 
-assets.rake
 Rake::Task["assets:precompile"]
   .clear_prerequisites
   .enhance(["assets:compile_environment"])
