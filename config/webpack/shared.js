@@ -58,3 +58,4 @@ module.exports = {
     modules: [ path.resolve('../vendor/node_modules') ]
   }
 }
+

@@ -53,6 +53,19 @@
    Probably going to just go back to a previously working version and start 
    again
 
+   Ok, so I rolled back to an old version and made sure everything was clean and 
+   it was still broken.  Argh.. After a lot of tracing the problem I found it 
+   lead to box2d.  Seems the version of box2dweb that I ended up with was not 
+   the correct version even though it was specified in my package.json.  This 
+   one was broken somehow.  I noticed the difference by looking at the code 
+   from my other machine.  Argh.... I think I'd like to see why that code made 
+   the thing unhappy.
+
+   So first, trace the reason box2d broke things by rolling back to an earlier 
+   version and comparing the diffs.  Then let's move forward with the webpacker 
+   upgrade again and try to get the game working.  If that works then can try 
+   deploy
+
 * Backlog
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1

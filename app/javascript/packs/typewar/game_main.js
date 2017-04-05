@@ -4,8 +4,6 @@ require('crafty');
 
 export default class GameMain {
   constructor(container, options){
-    console.log("DEBUG: typewar Main being initialized");
-
     if(!container) {
       throw new Error("No container provided to house the game window");
     }
