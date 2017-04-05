@@ -1,6 +1,59 @@
 * Current
-* Backlog
 ** TODO Deploy
+   LEFT OFF: Deploy fails.
+   Precompilation doesn't seem to be happening correctly.  Need to ensure that 
+   rake webpacker:compile happens at the start or before rake assets:precompile
+   https://github.com/rails/webpacker/issues/90#issuecomment-279033578
+   
+   So I've tried a massive yak shaving trail in order to try to fix the deploy
+   ultimately, Im trying to upgrade webpacker to the latest.  There seems to be
+   some new fixes with dhh's help, I think that might help with the heroku 
+   deploys since it's what he's been talking about in some of the more recent
+   threads on that topic.
+
+   After upgrading webpacker, everything broke.  The fundamental thing is that
+   classes don't seem to let me call member functions from the constructor
+   For example:
+
+   class Foo {
+     constructor() {
+       this._foo(); // doesn't like this
+     }
+
+     _foo() { console.log("something"); }
+   }
+   new Foo(); 
+
+   So something is messing up fundamentally in the javascript parsing?
+   I'm looking at babel as the possible culprit
+
+   After trying some things it appears that webpack 2.0+ requires babel 7 or
+   better, so I tried installing that.  Unfortunately babel 7 is in beta and 
+   the latest build is in alpha. 
+
+   Ok so upgrading those, now it seems things work a little better but still the
+   class problem persists.  I'm tracking down what is setting that off by 
+   commenting out everything aside from the class declaration then slowly adding
+   back imports and such until it breaks.
+
+   So far I've traced the problem to the inclusion of box2dweb...
+   I'm going to try taking that out and using the box2dweb that came with 
+   CraftyBox2D the crafty component/plugin
+
+   So doing some research, I can't seem to find any documentation on calling a
+   method from within a class constructor in javascript other than super.  So
+   the above example may actually be invalid javascript.  It looks like I might
+   have to go through all the code and remove all function calls from inside
+   constructors
+
+   Well, after going down this path, it seems that this is not the problem.  
+   Other things are completely broken.  Once I moved all function calls out of
+   the constructor, after initializing an instance of the class then calling
+   a method on it, it can't be found.  Really not sure what's broken here.
+   Probably going to just go back to a previously working version and start 
+   again
+
+* Backlog
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene
