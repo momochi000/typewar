@@ -66,6 +66,24 @@
    upgrade again and try to get the game working.  If that works then can try 
    deploy
 
+   So, after having downloaded both box2dweb_2.1.0b and box2dweb_2.1.0a and 
+   comparing the differences, I've found that the problem lies with the 
+   following code:
+   if(!(Object.prototype.defineProperty instanceof Function)
+      && Object.prototype.__defineGetter__ instanceof Function
+      && Object.prototype.__defineSetter__ instanceof Function)
+   {
+      Object.defineProperty = function(obj, p, cfg) {
+         if(cfg.get instanceof Function)
+            obj.__defineGetter__(p, cfg.get);
+         if(cfg.set instanceof Function)
+            obj.__defineSetter__(p, cfg.set);
+      }
+   }
+   which is present in 2.1.0a but not in b.  The issue is not present in b so 
+   this has to be the culprit.  Looks like it's defining Object.defineProperty
+   and I'm guessing something in Babel doesn't like that.
+
 * Backlog
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
