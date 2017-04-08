@@ -91,6 +91,13 @@
    I'll need to link to sprockets assets intelligently using .erb as per the 
    webpacker documentation
 
+   Fixed the image path strings and moved them to an assets/images.js.erb
+   definition file. All static assets should be referenced here so they can be
+   mapped from rails asset_paths (image_path, audio_path, etc).  Once this is
+   done, the deploy should work.  After that, assets can be served from 
+   cloudfront and as long as the rails side is working ok, then the javascript
+   won't need to change
+
 * Backlog
 ** TODO Fix stance icons
 *** DONE Make icon appear properly
