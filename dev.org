@@ -85,6 +85,16 @@
    and I'm guessing something in Babel doesn't like that.
 
 * Backlog
+** TODO Fix stance icons
+*** DONE Make icon appear properly
+    CLOSED: [2017-03-21 Tue 15:22]
+*** TODO Float the icon above the player entity
+*** DONE Figure out what to do with the enemy icon
+    CLOSED: [2017-03-21 Tue 15:22]
+    Should be fine if it's always on attack mode
+** TODO Create another scene with a different baddie
+   The lowest level slime
+** TODO Damage numbers fly off when receive damage
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene
@@ -109,15 +119,6 @@
      For the first stage, it shows the player that they're in the offensive 
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
-** TODO Fix stance icons
-*** DONE Make icon appear properly
-    CLOSED: [2017-03-21 Tue 15:22]
-*** TODO Float the icon above the player entity
-*** DONE Figure out what to do with the enemy icon
-    CLOSED: [2017-03-21 Tue 15:22]
-    Should be fine if it's always on attack mode
-** TODO Create another scene with a different baddie
-   The lowest level slime
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Display flash + particles on hit of either character
 ** TODO Create battle over scene or transition
@@ -167,6 +168,9 @@
 ** TODO Ensure spaces are clear when typing
    Especially when the text fragment breaks lines
 ** TODO Make component file names match component names            :refactor: 
+** TODO Create a better security system for the admin basic auth
+** TODO Setup DNS to actual domain
+** TODO Link on Sproutpost
 ** TODO Replace background entity with Crafty.background()
    On second thought, there might have been a good reason why I used an entity
    instead.  might have to do with scaling and offset of 
@@ -194,6 +198,7 @@
 ** TODO Generate vocabularies from markov chains of some source material(s)
 ** TODO Adding a rotation to the words in a physics attack makes for an interesting challenge
 * Roadmap
+** TODO character sprite changes stance when stance changes
 ** TODO System for recording text fragment completion data
 ** TODO Research use of web workers
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
