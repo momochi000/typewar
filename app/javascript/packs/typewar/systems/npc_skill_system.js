@@ -52,7 +52,7 @@ function executeSkill(sourceEntity, skill) {
     }
 
     skill_args = _.merge(skill_args, effect_args);
-    console.log("DEBUG: NPC SKILL SYSTEM PROCESSING, About to execute skill effect --------->>", effect_klass, skill_args);
+    //    console.log("DEBUG: NPC SKILL SYSTEM PROCESSING, About to execute skill effect --------->>", effect_klass, skill_args);
     effect_klass.execute(skill_args);
   });
 }

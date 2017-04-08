@@ -25,7 +25,7 @@ function evaluateAttack(curr_projectile) {
     effect_args = curr_effect;
     effect_args = _.merge({source: source, target: target}, effect_args);
 
-    console.log("DEBUG: TRIGGER EFFECT ON COLLISION SYSTEM PROCESSING, EVALUATING AN ATTACK EFFECT --------->>", effect_klass, effect_args);
+    //    console.log("DEBUG: TRIGGER EFFECT ON COLLISION SYSTEM PROCESSING, EVALUATING AN ATTACK EFFECT --------->>", effect_klass, effect_args);
     effect_klass.execute(effect_args);
   });
 }
