@@ -84,6 +84,13 @@
    this has to be the culprit.  Looks like it's defining Object.defineProperty
    and I'm guessing something in Babel doesn't like that.
 
+   Alright, now the deploy is working but the images aren't loading.  This is 
+   probably because I just have static strings defining the location of the 
+   image assets just plopped into my javascript.  Like 
+   bg: "/assets/images/typewar/background/blah.jpg"
+   I'll need to link to sprockets assets intelligently using .erb as per the 
+   webpacker documentation
+
 * Backlog
 ** TODO Fix stance icons
 *** DONE Make icon appear properly

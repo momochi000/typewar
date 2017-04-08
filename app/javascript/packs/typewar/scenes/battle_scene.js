@@ -1,5 +1,4 @@
 import Sprite from "../assets/sprite"
-import Background from "../assets/background"
 import BattleManager from "../managers/battle_manager"
 import StatusBarView from "../views/status_bar_view"
 

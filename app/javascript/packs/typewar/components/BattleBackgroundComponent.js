@@ -1,5 +1,3 @@
-
-
 Crafty.c("BattleBackground", {
   _height: undefined,
   _width: undefined,

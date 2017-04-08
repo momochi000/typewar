@@ -19,6 +19,7 @@ default: &default
     - .svg
     - .gif
     - .jpeg
+    - .js.erb
 
 development:
   <<: *default

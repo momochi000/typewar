@@ -1,6 +1,7 @@
 import * as ZeroSkills from "../../models/skills/player/zero_active_skills"
 import {SlimeStandardAttack, SlimeGlobAttack} from "../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED} from "../../constants/audio_constants"
+import {IMG_BG_JUNGLE} from "../../assets/images"
 
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
@@ -19,7 +20,7 @@ export var protoBattleSceneData = {
 
   background: {
     name: 'jungle',
-    filepath: "assets/Typewar/backgrounds/Fighting-Game-Background-GIFs-2.gif",
+    filepath: IMG_BG_JUNGLE,
     width: 800,
     height: 336,
     offset: {x: -26, y: -60, z: 0}
