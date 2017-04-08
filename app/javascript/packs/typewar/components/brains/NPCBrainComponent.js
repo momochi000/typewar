@@ -1,4 +1,4 @@
-require('crafty');
+
 
 Crafty.c("BattleNPCBrain", {
   _isActive: false,

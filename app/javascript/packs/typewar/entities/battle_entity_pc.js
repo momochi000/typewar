@@ -4,7 +4,7 @@ import * as ZeroSkills from "../models/skills/player/zero_active_skills"
 import ServerCaller from "../util/server_caller"
 import {DUMMY_TEXT_LIBRARY} from "../constants/dummy_text"
 
-require("crafty");
+
 
 export default class BattleEntityPC extends BattleEntityBase {
 

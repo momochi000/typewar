@@ -23,7 +23,7 @@
  */
 
 import { SOUND_LETTER_TYPED } from "../constants/audio_constants"
-require("crafty");
+
 var StateMachine = require("javascript-state-machine");
 
 Crafty.c("TextFragment", {

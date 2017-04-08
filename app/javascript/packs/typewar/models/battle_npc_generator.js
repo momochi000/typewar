@@ -1,4 +1,4 @@
-require("crafty");
+
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattleNPCEnemyComponent");
 require("../components/brains/NPCBrainComponent");

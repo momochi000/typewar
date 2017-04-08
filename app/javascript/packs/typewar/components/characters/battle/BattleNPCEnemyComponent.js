@@ -6,7 +6,7 @@
 import BattleEntityNPC from "../../../entities/battle_entity_npc"
 import CharacterSheet from "../../../models/character_sheet"
 
-require('crafty');
+
 
 Crafty.c("BattleNPCSlime", {
   _ANIM_HIT_DELAY: 430,

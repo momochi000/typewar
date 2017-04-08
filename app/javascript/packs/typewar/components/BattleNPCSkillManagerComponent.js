@@ -1,5 +1,5 @@
 /* BattleNPCSkillManager - A container holding the set of skills for an npc in battle */
-require("crafty");
+
 require("./BattleNPCSkillComponent");
 
 Crafty.c("BattleNPCSkillManager", {

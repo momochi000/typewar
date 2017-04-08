@@ -2,7 +2,7 @@
  * name nor the component name. The view should also be split into its own file
 */
 import Backbone from 'backbone'
-require("crafty");
+
 var Handlebars = require('handlebars');
 
 var EntityStatusView = Backbone.View.extend({

@@ -9,7 +9,7 @@
  * Wounded battle stance, etc etc.
  */
 
-require('crafty');
+
 
 Crafty.c("BattleAnimation", {
   _ANIM_SPEED: 10,

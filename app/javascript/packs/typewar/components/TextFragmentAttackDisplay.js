@@ -5,7 +5,7 @@
 
 import Backbone from "backbone"
 
-require("crafty");
+
 require("./TextFragment");
 require("./BattleNPCProjectile");
 

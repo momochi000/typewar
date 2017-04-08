@@ -1,4 +1,4 @@
-require('crafty');
+
 
 Crafty.c("BattlePlayerAnim", {
   _ATTACK_ANIM_SPEED: 8,

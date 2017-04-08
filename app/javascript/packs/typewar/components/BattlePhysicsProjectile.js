@@ -1,4 +1,4 @@
-require("crafty");
+
 Crafty.c("BattlePhysicsProjectile", {
   _deadCount: null,
 

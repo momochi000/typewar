@@ -23,7 +23,7 @@
 
 import { COMMANDS, CMD_CHANGE_STANCE } from "../constants/command_constants"
 
-require('crafty');
+
 
 Crafty.c("BattleInput", {
   init: function (){ 

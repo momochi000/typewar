@@ -2,7 +2,7 @@ import Backbone from "backbone"
 import AttackObject from "../models/attack_object"
 import TextLibrarian from "../util/text_librarian"
 
-require("crafty");
+
 require("./BattlePCSkill");
 var Handlebars = require("handlebars");
 

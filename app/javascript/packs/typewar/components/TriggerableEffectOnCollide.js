@@ -1,4 +1,4 @@
-require("crafty");
+
 Crafty.c("TriggerableEffectOnCollide", {
   init: function (){
     this.requires("2D, Collision");

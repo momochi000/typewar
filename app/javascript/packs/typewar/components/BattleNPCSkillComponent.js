@@ -1,4 +1,4 @@
-require("crafty");
+
 var StateMachine = require("javascript-state-machine");
 
 Crafty.c("BattleNPCSkill", {

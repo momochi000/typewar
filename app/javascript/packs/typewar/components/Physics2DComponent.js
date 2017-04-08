@@ -2,7 +2,7 @@
  * Governs velocity and acceleration on a 2D plane.
  * Requires the 2D component
  */ 
-require('crafty');
+
 
 Crafty.c("Physics2D", {
   _spd_x: 0,

@@ -2,7 +2,7 @@
 
 import CharacterSheet from "../../../models/character_sheet"
 
-require('crafty');
+
 
 Crafty.c("BattleCharacter", {
   charSheet: null,

@@ -4,7 +4,7 @@ import ServerCaller from "../util/server_caller"
 import {SlimeStandardAttack, SlimeGlobAttack} from "../models/skills/npc/slime_skills"
 import {DUMMY_TEXT_LIBRARY} from "../constants/dummy_text"
 
-require("crafty");
+
 
 export default class BattleEntityNPC extends BattleEntityBase {
   constructor(opts) {

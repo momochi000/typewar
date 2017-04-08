@@ -1,4 +1,4 @@
-require('crafty');
+
 
 Crafty.c("BattleBackground", {
   _height: undefined,

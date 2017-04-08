@@ -4,7 +4,7 @@
 import Backbone from "backbone"
 import TextLibrarian from "../util/text_librarian"
 
-require('crafty');
+
 
 var Handlebars = require("handlebars");
 var StateMachine = require("javascript-state-machine");

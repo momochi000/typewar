@@ -4,7 +4,7 @@
  * system from getting overloaded.  This can be adjusted easily here.  
  */
 
-require("crafty");
+
 require("../components/AudioManager");
 
 export function initAudioSystem(Crafty, audioData) {

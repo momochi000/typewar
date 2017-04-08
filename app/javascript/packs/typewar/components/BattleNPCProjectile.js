@@ -1,6 +1,6 @@
 import AttackObject from "../models/attack_object";
 
-require('crafty');
+
 
 Crafty.c("BattleNPCProjectile", {
   positionFunction: null,

@@ -1,7 +1,7 @@
 import BattleEntityPC from "../../../entities/battle_entity_pc"
 import CharacterSheet from "../../../models/character_sheet"
 
-require("crafty");
+
 require("./BattleCharacterComponent");
 require("../../animations/BattlePlayerAnimationComponent");
 

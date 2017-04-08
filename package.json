@@ -4,24 +4,38 @@
     "npm": "4.0.5"
   },
   "devDependencies": {
-    "webpack-dev-server": "^2.3.0"
+    "box2dweb": "2.1.0b",
+    "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
+    "autoprefixer": "^6.7.7",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.3.3",
     "babel-preset-latest": "^6.22.0",
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.12.3",
+    "backbone": "^1.3.3",
+    "coffee-loader": "^0.7.3",
+    "coffee-script": "^1.12.4",
+    "compression-webpack-plugin": "^0.3.2",
+    "css-loader": "^0.28.0",
+    "expose-loader": "^0.7.3",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
     "glob": "^7.1.1",
     "handlebars": "^4.0.6",
-    "path-complete-extname": "^0.1.0",
-    "rails-erb-loader": "^3.2.0",
-    "webpack": "^2.2.1",
-    "backbone": "^1.3.3",
-    "box2dweb": "^2.1.0-b",
-    "expose-loader": "^0.7.3",
     "javascript-state-machine": "^2.4.0",
     "jquery": "^3.1.1",
-    "webpack-merge": "^2.6.1"
+    "js-yaml": "^3.8.3",
+    "node-sass": "^4.5.2",
+    "path-complete-extname": "^0.1.0",
+    "postcss-loader": "^1.3.3",
+    "postcss-smart-import": "^0.6.10",
+    "precss": "^1.4.0",
+    "rails-erb-loader": "^5.0.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "webpack": "^2.3.3",
+    "webpack-manifest-plugin": "^1.1.0",
+    "webpack-merge": "^4.1.0"
   }
 }
