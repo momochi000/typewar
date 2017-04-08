@@ -15,10 +15,11 @@
     },
 **/
 
-const static_images = {};
+import * as Images from "./images"
+
 const images = {
   'player': {
-    'file': 'assets/Typewar/sprites/player_test.png',
+    'file': Images.IMG_SPR_PLAYER_TEST,
     'tile': 108,
     'tileh': 76,
     'elements': {
@@ -54,7 +55,7 @@ const images = {
   },
 
   'player_zero': {
-    'file': 'assets/Typewar/sprites/player_zero.png',
+    'file': Images.IMG_SPR_PLAYER_ZERO,
     'tile': 80,
     'tileh': 72,
     'elements': {
@@ -156,7 +157,7 @@ const images = {
   },
 
   'slime': {
-    'file': 'assets/Typewar/sprites/b_npc_slime.png',
+    'file': Images.IMG_SPR_NPC_SLIME,
     'tile': 42,
     'elements': {
       'slime_st0':     [0,0],

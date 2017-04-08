@@ -1,7 +1,8 @@
 import * as ZeroSkills from "../../models/skills/player/zero_active_skills"
 import {SlimeStandardAttack, SlimeGlobAttack} from "../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED} from "../../constants/audio_constants"
-import {IMG_BG_JUNGLE} from "../../assets/images"
+import * as Images from "../../assets/images"
+import * as Audio from "../../assets/audio"
 
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
@@ -20,7 +21,7 @@ export var protoBattleSceneData = {
 
   background: {
     name: 'jungle',
-    filepath: IMG_BG_JUNGLE,
+    filepath: Images.IMG_BG_BAYOU,
     width: 800,
     height: 336,
     offset: {x: -26, y: -60, z: 0}
