@@ -93,7 +93,7 @@ export var protoBattleSceneData = {
 
   audio: {
     sounds: [
-      { soundId: SOUND_LETTER_TYPED, soundUrls: ["assets/typewriter-key-1.mp3", "assets/typewriter-key-1.wav"] }
+      { soundId: SOUND_LETTER_TYPED, soundUrls: Audio.SND_TYPEWRITER }
     ]
   }
 }
