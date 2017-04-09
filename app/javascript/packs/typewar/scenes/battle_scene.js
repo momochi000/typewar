@@ -216,6 +216,7 @@ export default class BattleScene {
 
   initSystems(){
     initAudioSystem(Crafty, this._sceneData.audio);
+    initBattleStatusSystem(Crafty);
     initInputSystem(Crafty);
     initPlayerSkillSystem(Crafty);
     initNPCSkillSystem(Crafty);

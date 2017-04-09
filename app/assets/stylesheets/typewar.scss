@@ -100,10 +100,6 @@
     .name { 
       font-weight: bold; 
     }
-    .mode {
-      width: 30px; height:30px;
-      @include border-radius(4px);
-    }
     .health-bar-wrap {
       background-color: red;
     }
@@ -112,4 +108,9 @@
       background-color: blue;
     }
   }
+}
+
+.battle-character-stance{
+  width: 30px; height:30px;
+  @include border-radius(4px);
 }

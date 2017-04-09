@@ -7,6 +7,6 @@ export function playerDieLoseSystem(Crafty) {
     // LOSE CONDITION MET, 
     // somehow, this has to get back to the scene
     // Likely we'll just trigger an event here
-    console.log("DEBUG: PLAYER DIED> GAME LOST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    // console.log("DEBUG: PLAYER DIED> GAME LOST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   }
 }

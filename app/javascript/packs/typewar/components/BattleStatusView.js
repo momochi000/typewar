@@ -22,7 +22,6 @@ var EntityStatusView = Backbone.View.extend({
     var opts, $found_el;
 
     opts = {
-      mode_icon: this.getModeIcon(),
       name: this.entity.getName() || "Unnamed",
       percentHP: this.entity.getPercentHP(),
       statusHP: this.getStatusHP()
@@ -35,20 +34,6 @@ var EntityStatusView = Backbone.View.extend({
   deallocate: function (){
     this.entity = null;
     this.remove();
-  },
-
-  getModeIcon: function (){
-    // Return the appropriate icon for attack or defense etc.
-    switch(this.entity.getStance()){
-      case "offense":
-        return "assets/Typewar/icons/crossed-swords.svg"
-        break;
-      case "defense":
-        return "assets/Typewar/icons/checked-shield.svg"
-        break;
-      default:
-        return "assets/Typewar/icons/checked-shield.svg"
-    };
   },
 
   getStatusHP: function (){
