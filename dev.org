@@ -1,104 +1,4 @@
 * Current
-** TODO Deploy
-   LEFT OFF: Deploy fails.
-   Precompilation doesn't seem to be happening correctly.  Need to ensure that 
-   rake webpacker:compile happens at the start or before rake assets:precompile
-   https://github.com/rails/webpacker/issues/90#issuecomment-279033578
-   
-   So I've tried a massive yak shaving trail in order to try to fix the deploy
-   ultimately, Im trying to upgrade webpacker to the latest.  There seems to be
-   some new fixes with dhh's help, I think that might help with the heroku 
-   deploys since it's what he's been talking about in some of the more recent
-   threads on that topic.
-
-   After upgrading webpacker, everything broke.  The fundamental thing is that
-   classes don't seem to let me call member functions from the constructor
-   For example:
-
-   class Foo {
-     constructor() {
-       this._foo(); // doesn't like this
-     }
-
-     _foo() { console.log("something"); }
-   }
-   new Foo(); 
-
-   So something is messing up fundamentally in the javascript parsing?
-   I'm looking at babel as the possible culprit
-
-   After trying some things it appears that webpack 2.0+ requires babel 7 or
-   better, so I tried installing that.  Unfortunately babel 7 is in beta and 
-   the latest build is in alpha. 
-
-   Ok so upgrading those, now it seems things work a little better but still the
-   class problem persists.  I'm tracking down what is setting that off by 
-   commenting out everything aside from the class declaration then slowly adding
-   back imports and such until it breaks.
-
-   So far I've traced the problem to the inclusion of box2dweb...
-   I'm going to try taking that out and using the box2dweb that came with 
-   CraftyBox2D the crafty component/plugin
-
-   So doing some research, I can't seem to find any documentation on calling a
-   method from within a class constructor in javascript other than super.  So
-   the above example may actually be invalid javascript.  It looks like I might
-   have to go through all the code and remove all function calls from inside
-   constructors
-
-   Well, after going down this path, it seems that this is not the problem.  
-   Other things are completely broken.  Once I moved all function calls out of
-   the constructor, after initializing an instance of the class then calling
-   a method on it, it can't be found.  Really not sure what's broken here.
-   Probably going to just go back to a previously working version and start 
-   again
-
-   Ok, so I rolled back to an old version and made sure everything was clean and 
-   it was still broken.  Argh.. After a lot of tracing the problem I found it 
-   lead to box2d.  Seems the version of box2dweb that I ended up with was not 
-   the correct version even though it was specified in my package.json.  This 
-   one was broken somehow.  I noticed the difference by looking at the code 
-   from my other machine.  Argh.... I think I'd like to see why that code made 
-   the thing unhappy.
-
-   So first, trace the reason box2d broke things by rolling back to an earlier 
-   version and comparing the diffs.  Then let's move forward with the webpacker 
-   upgrade again and try to get the game working.  If that works then can try 
-   deploy
-
-   So, after having downloaded both box2dweb_2.1.0b and box2dweb_2.1.0a and 
-   comparing the differences, I've found that the problem lies with the 
-   following code:
-   if(!(Object.prototype.defineProperty instanceof Function)
-      && Object.prototype.__defineGetter__ instanceof Function
-      && Object.prototype.__defineSetter__ instanceof Function)
-   {
-      Object.defineProperty = function(obj, p, cfg) {
-         if(cfg.get instanceof Function)
-            obj.__defineGetter__(p, cfg.get);
-         if(cfg.set instanceof Function)
-            obj.__defineSetter__(p, cfg.set);
-      }
-   }
-   which is present in 2.1.0a but not in b.  The issue is not present in b so 
-   this has to be the culprit.  Looks like it's defining Object.defineProperty
-   and I'm guessing something in Babel doesn't like that.
-
-   Alright, now the deploy is working but the images aren't loading.  This is 
-   probably because I just have static strings defining the location of the 
-   image assets just plopped into my javascript.  Like 
-   bg: "/assets/images/typewar/background/blah.jpg"
-   I'll need to link to sprockets assets intelligently using .erb as per the 
-   webpacker documentation
-
-   Fixed the image path strings and moved them to an assets/images.js.erb
-   definition file. All static assets should be referenced here so they can be
-   mapped from rails asset_paths (image_path, audio_path, etc).  Once this is
-   done, the deploy should work.  After that, assets can be served from 
-   cloudfront and as long as the rails side is working ok, then the javascript
-   won't need to change
-
-* Backlog
 ** TODO Fix stance icons
 *** DONE Make icon appear properly
     CLOSED: [2017-03-21 Tue 15:22]
@@ -106,6 +6,7 @@
 *** DONE Figure out what to do with the enemy icon
     CLOSED: [2017-03-21 Tue 15:22]
     Should be fine if it's always on attack mode
+* Backlog
 ** TODO Create another scene with a different baddie
    The lowest level slime
 ** TODO Damage numbers fly off when receive damage
@@ -135,6 +36,9 @@
      bottom.  At each step, the player presses a button to continue the tutorial
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Display flash + particles on hit of either character
+** TODO More tweaking of TextLibrary
+   Seems like sometimes even a light attack is like a whole sentence
+   This should never happen, it should always be just a few letters
 ** TODO Create battle over scene or transition
 ** TODO Move all data into a single data store
    Components no longer hold any data
@@ -146,7 +50,12 @@
    Basically, you'll need to chain up weaker attacks to hit the harder ones.
    So, you can't type medium slash without first typing light slash perfectly
    And so on up to hard and upper (might add more when I add more sprites
-** TODO Upload some real text
+** TODO Death event
+*** TODO Player does a death animation
+*** TODO All the flying text fragments spin and fly away
+*** TODO Enemy npc does some kind of victory dance
+*** TODO fade screen
+*** TODO Show "You Died" like from dark souls or something
 ** TODO Effect execution needs to be made into a utility :refactor:
    It's being used in a couple places currently and needs DRYing
 ** TODO Display incorrect characters count typed along with correct characters.
@@ -306,6 +215,106 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Deploy
+   CLOSED: [2017-04-08 Sat 17:46]
+   LEFT OFF: Deploy fails.
+   Precompilation doesn't seem to be happening correctly.  Need to ensure that 
+   rake webpacker:compile happens at the start or before rake assets:precompile
+   https://github.com/rails/webpacker/issues/90#issuecomment-279033578
+   
+   So I've tried a massive yak shaving trail in order to try to fix the deploy
+   ultimately, Im trying to upgrade webpacker to the latest.  There seems to be
+   some new fixes with dhh's help, I think that might help with the heroku 
+   deploys since it's what he's been talking about in some of the more recent
+   threads on that topic.
+
+   After upgrading webpacker, everything broke.  The fundamental thing is that
+   classes don't seem to let me call member functions from the constructor
+   For example:
+
+   class Foo {
+     constructor() {
+       this._foo(); // doesn't like this
+     }
+
+     _foo() { console.log("something"); }
+   }
+   new Foo(); 
+
+   So something is messing up fundamentally in the javascript parsing?
+   I'm looking at babel as the possible culprit
+
+   After trying some things it appears that webpack 2.0+ requires babel 7 or
+   better, so I tried installing that.  Unfortunately babel 7 is in beta and 
+   the latest build is in alpha. 
+
+   Ok so upgrading those, now it seems things work a little better but still the
+   class problem persists.  I'm tracking down what is setting that off by 
+   commenting out everything aside from the class declaration then slowly adding
+   back imports and such until it breaks.
+
+   So far I've traced the problem to the inclusion of box2dweb...
+   I'm going to try taking that out and using the box2dweb that came with 
+   CraftyBox2D the crafty component/plugin
+
+   So doing some research, I can't seem to find any documentation on calling a
+   method from within a class constructor in javascript other than super.  So
+   the above example may actually be invalid javascript.  It looks like I might
+   have to go through all the code and remove all function calls from inside
+   constructors
+
+   Well, after going down this path, it seems that this is not the problem.  
+   Other things are completely broken.  Once I moved all function calls out of
+   the constructor, after initializing an instance of the class then calling
+   a method on it, it can't be found.  Really not sure what's broken here.
+   Probably going to just go back to a previously working version and start 
+   again
+
+   Ok, so I rolled back to an old version and made sure everything was clean and 
+   it was still broken.  Argh.. After a lot of tracing the problem I found it 
+   lead to box2d.  Seems the version of box2dweb that I ended up with was not 
+   the correct version even though it was specified in my package.json.  This 
+   one was broken somehow.  I noticed the difference by looking at the code 
+   from my other machine.  Argh.... I think I'd like to see why that code made 
+   the thing unhappy.
+
+   So first, trace the reason box2d broke things by rolling back to an earlier 
+   version and comparing the diffs.  Then let's move forward with the webpacker 
+   upgrade again and try to get the game working.  If that works then can try 
+   deploy
+
+   So, after having downloaded both box2dweb_2.1.0b and box2dweb_2.1.0a and 
+   comparing the differences, I've found that the problem lies with the 
+   following code:
+   if(!(Object.prototype.defineProperty instanceof Function)
+      && Object.prototype.__defineGetter__ instanceof Function
+      && Object.prototype.__defineSetter__ instanceof Function)
+   {
+      Object.defineProperty = function(obj, p, cfg) {
+         if(cfg.get instanceof Function)
+            obj.__defineGetter__(p, cfg.get);
+         if(cfg.set instanceof Function)
+            obj.__defineSetter__(p, cfg.set);
+      }
+   }
+   which is present in 2.1.0a but not in b.  The issue is not present in b so 
+   this has to be the culprit.  Looks like it's defining Object.defineProperty
+   and I'm guessing something in Babel doesn't like that.
+
+   Alright, now the deploy is working but the images aren't loading.  This is 
+   probably because I just have static strings defining the location of the 
+   image assets just plopped into my javascript.  Like 
+   bg: "/assets/images/typewar/background/blah.jpg"
+   I'll need to link to sprockets assets intelligently using .erb as per the 
+   webpacker documentation
+
+   Fixed the image path strings and moved them to an assets/images.js.erb
+   definition file. All static assets should be referenced here so they can be
+   mapped from rails asset_paths (image_path, audio_path, etc).  Once this is
+   done, the deploy should work.  After that, assets can be served from 
+   cloudfront and as long as the rails side is working ok, then the javascript
+   won't need to change
+
 ** DONE Rename this project
    CLOSED: [2017-03-29 Wed 20:12]
 ** DONE rename Effects.SpawnTextFragLinear to something more generic.
