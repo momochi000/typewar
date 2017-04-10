@@ -16,6 +16,14 @@ export function initAudioSystem(Crafty, audioData) {
   bindCapturePlaySound(audio_manager);
 }
 
+// NOTE: Currently, the system is super simple, playing only a single sound 
+// per frame.  Without a lot of sounds going on, this is ok for now
+// The next better thing is to play and clear the whole audio queue every
+// frame.  The queue probably won't be larger than 6 for any given frame
+// but it's still possible.
+// Finally, it should pop 6 sounds off the queue and play those every frame
+// if less than 6 items in queue then you're done.  This ensures the queue
+// is processed as quickly as possible but prevents sounds from being dropped
 export function audioSystem(Crafty) {
   var audio_manager, audio_queue, curr_sound;
 
