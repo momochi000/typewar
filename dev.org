@@ -1,14 +1,9 @@
 * Current
-** TODO Fix stance icons
-*** DONE Make icon appear properly
-    CLOSED: [2017-03-21 Tue 15:22]
-*** TODO Float the icon above the player entity
-*** DONE Figure out what to do with the enemy icon
-    CLOSED: [2017-03-21 Tue 15:22]
-    Should be fine if it's always on attack mode
-* Backlog
 ** TODO Create another scene with a different baddie
    The lowest level slime
+   This implies a restructure of the scene manager.
+   Will need to be able to set up a progression from one fight to the next
+* Backlog
 ** TODO Damage numbers fly off when receive damage
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
@@ -215,6 +210,15 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Fix stance icons
+   CLOSED: [2017-04-09 Sun 00:32]
+*** DONE Make icon appear properly
+    CLOSED: [2017-03-21 Tue 15:22]
+*** DONE Float the icon above the player entity
+    CLOSED: [2017-04-09 Sun 00:32]
+*** DONE Figure out what to do with the enemy icon
+    CLOSED: [2017-03-21 Tue 15:22]
+    Should be fine if it's always on attack mode
 ** DONE Deploy
    CLOSED: [2017-04-08 Sat 17:46]
    LEFT OFF: Deploy fails.
