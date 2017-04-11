@@ -2,8 +2,6 @@
 
 import CharacterSheet from "../../../models/character_sheet"
 
-
-
 Crafty.c("BattleCharacter", {
   charSheet: null,
   _currentTarget: null,

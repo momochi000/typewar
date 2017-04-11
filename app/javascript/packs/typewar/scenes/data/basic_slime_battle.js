@@ -8,7 +8,7 @@ const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
-export var protoBattleSceneData = {
+export var basicSlimeBattleData = {
   id: "prototype_battle",
   name: "prototype battle scene",
   width: 450,
@@ -74,8 +74,8 @@ export var protoBattleSceneData = {
           poison:   1, life:     1, death:    1
         },
         status: {
-          hp: 20,
-          maxHp: 20
+          hp: 2,
+          maxHp: 10
         },
         stats: {
           level: 0,
@@ -87,7 +87,7 @@ export var protoBattleSceneData = {
           cha: 0, 
           wis: 0
         },
-        skills: [SlimeStandardAttack, SlimeGlobAttack]
+        skills: [SlimeStandardAttack]
       },
     }
   },

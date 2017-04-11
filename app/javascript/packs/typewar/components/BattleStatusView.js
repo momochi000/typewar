@@ -1,5 +1,6 @@
 /* TODO everything wrong here, the file name doesn't correspond to the view
  * name nor the component name. The view should also be split into its own file
+ * TODO: also a refactor is needed, I don't like there being code in the View
 */
 import Backbone from 'backbone'
 
@@ -12,7 +13,6 @@ var EntityStatusView = Backbone.View.extend({
   _parentId: '#status-area',
   entity: null,
 
-  // TODO: This should take in backbone models rather than entities
   initialize: function(opts) {
     this.entity = opts.entity;
     this._template = Handlebars.compile($(this._templateId).html());
@@ -31,11 +31,6 @@ var EntityStatusView = Backbone.View.extend({
     return this.$el;
   },
 
-  deallocate: function (){
-    this.entity = null;
-    this.remove();
-  },
-
   getStatusHP: function (){
     var percentHP, statusHP;
     
@@ -52,36 +47,25 @@ var EntityStatusView = Backbone.View.extend({
   }
 });
 
-
-// Here is our interface to the view
-// It contains a view 
 Crafty.c("BattleStatus", {
   _battleStatusDirty: false,
   _statusView: null,
 
   init: function(){ this.requires("BattleCharacter"); },
-  battleStatus: function (){
-    this._statusView = new EntityStatusView({entity: this, id: 'entity-status-'+this[0]});
-    return this;
-  },
+  battleStatus: function (){ return this; },
 
-  getStatusView: function (){
-    return this._statusView;
-  },
+  getStatusView: function (){ return this._statusView; },
 
   renderStatus: function (){
+    if(!this._statusView) { 
+      this._statusView = new EntityStatusView({entity: this, id: 'entity-status-'+this[0]});
+    }
     this._statusView.render();
   },
 
-  isStatusDirty: function (){
-    return this._battleStatusDirty;
-  },
+  isStatusDirty: function (){ return this._battleStatusDirty; },
 
-  resetStatusDirty: function (){
-    this._battleStatusDirty = false;
-  },
+  resetStatusDirty: function (){ this._battleStatusDirty = false; },
 
-  setStatusDirty: function (){
-    this._battleStatusDirty = true;
-  }
+  setStatusDirty: function (){ this._battleStatusDirty = true; }
 });

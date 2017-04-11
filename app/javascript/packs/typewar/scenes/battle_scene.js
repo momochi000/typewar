@@ -1,6 +1,6 @@
 import Sprite from "../assets/sprite"
 import BattleManager from "../managers/battle_manager"
-import StatusBarView from "../views/status_bar_view"
+//import StatusBarView from "../views/status_bar_view"
 
 import battlePCGenerator from "../models/battle_pc_generator"
 import battleNPCGenerator from "../models/battle_npc_generator"
@@ -37,36 +37,11 @@ const DEFAULT_NPC_LOC_Y = 210;
 export default class BattleScene {
 
   constructor(sceneId, sceneData){
-    var self;
-
-    self = this;
     this._sceneId = sceneId;
     this._sceneData = sceneData;
 
     console.log("DEBUG: ProtoBattleScene#constructor");
-    Crafty.scene(this._sceneId, function (){
-      var chars_loaded_promise;
-
-      self.initBox2d();
-      self.initSprites();
-      self.initBackground();
-      self.initStageEdges();
-      self.initCamera();
-
-      self.initCombatants().then(function (response){
-        console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
-        self.initUI();
-        self.initSystems();
-        self.registerSystems();
-      }, function (error){
-        console.log("DEBUG: FAILED TO INITIALIZE COMBATANTS FOR SOME REASON...");
-        throw(error);
-        alert('Failed to initialize combatants for some reason..');
-      }).catch( function (error){
-        console.log("DEBUG: ERROR IN PROMISE GROUP~~~~~~~---->", error);
-        throw(error);
-      });
-    });
+    Crafty.scene(this._sceneId, this.init.bind(this), this.stop.bind(this));
   }
 
   get sceneId(){
@@ -76,12 +51,6 @@ export default class BattleScene {
   deallocateBG(){
     this._background.destroy();
     this._background = null;
-  }
-
-  deallocateCombatants(){
-    this._combatants.player.destroy();
-    this._combatants.npc.destroy();
-    this._combatants = null;
   }
 
   deallocateStageEdges(){
@@ -97,6 +66,30 @@ export default class BattleScene {
     throw new Error("Not implmemented error");
   }
 
+  init() {
+    var self, chars_loaded_promise;
+    self = this;
+
+    self.initBox2d();
+    self.initSprites();
+    self.initBackground();
+    self.initStageEdges();
+    self.initCamera();
+
+    self.initCombatants().then(function (response){
+      console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
+      self.initSystems();
+      self.registerSystems();
+    }, function (error){
+      console.log("DEBUG: FAILED TO INITIALIZE COMBATANTS FOR SOME REASON...");
+      throw(error);
+      alert('Failed to initialize combatants for some reason..');
+    }).catch( function (error){
+      console.log("DEBUG: ERROR IN PROMISE GROUP~~~~~~~---->", error);
+      throw(error);
+    });
+  }
+
   initBackground(){
     var bg, bg_data;
 
@@ -106,11 +99,6 @@ export default class BattleScene {
       .battleBackground(bg_data.filepath, bg_data.width, bg_data.height)
       .attr({x: bg_data.offset.x, y: bg_data.offset.y, z: bg_data.offset.z || 0});
     this._background = bg;
-  }
-
-  initBattleManager(options){
-    options = options || {};
-    this._battleManager = new BattleManager(options)
   }
 
   initBox2d() {
@@ -201,19 +189,6 @@ export default class BattleScene {
     }
   }
 
-  // TODO: Should this go into a UI system?
-  initStatusBar() {
-    var player, enemy, statusBar;
-
-    player = this._combatants.player;
-    enemy = this._combatants.npc;
-    statusBar = new StatusBarView();
-    statusBar.insertChild(player.getStatusView());
-    statusBar.insertChild(enemy.getStatusView());
-    statusBar.render();
-    this._statusBar = statusBar;
-  }
-
   initSystems(){
     initAudioSystem(Crafty, this._sceneData.audio);
     initBattleStatusSystem(Crafty);
@@ -221,10 +196,6 @@ export default class BattleScene {
     initPlayerSkillSystem(Crafty);
     initNPCSkillSystem(Crafty);
     initNPCAISystem(Crafty);
-  }
-
-  initUI(){
-    this.initStatusBar();
   }
 
   play(){
@@ -256,12 +227,13 @@ export default class BattleScene {
   }
 
   stop(){
-    this._analyzeTypingData();
-    this.deallocateCombatants();
-    this.deallocateBG();
-    this.deallocateStageEdges();
-    this.resetCamera();
-    this.deallocateStatusBar();
+    // IN PROGRESS: need to do some teardown after scene ends
+    console.log("DEBUG: STOP BATTLE SCENE CALLBACK ----->");
+    //    this._analyzeTypingData();
+    //    this.deallocateBG();
+    //    this.deallocateStageEdges();
+    //    this.resetCamera();
+    //    this.deallocateStatusBar();
   }
 
   // private

@@ -6,6 +6,7 @@ development
 .DS_Store
 .idea
 .#dev.org
+/dev
 db/*.sqlite3
 
 Box2dWeb.js

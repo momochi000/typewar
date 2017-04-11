@@ -6,12 +6,9 @@
 import BattleEntityNPC from "../../../entities/battle_entity_npc"
 import CharacterSheet from "../../../models/character_sheet"
 
-
-
 Crafty.c("BattleNPCSlime", {
   _ANIM_HIT_DELAY: 430,
   _ANIM_ATTACK_DELAY: 200,
-  _fragment_spawner: null,
   _model: null,
 
   init: function (){
@@ -26,22 +23,8 @@ Crafty.c("BattleNPCSlime", {
     //    this._battleManagerReference = battleManagerRef;
     this._fragment_timers = [];
     this._initModel();
-    //    this._bindAIListners();
 
     return this;
-  },
-
-  remove: function (destroyed){
-    this.deactivateAI();
-    this._clearFragmentTimers();
-    this._fragment_spawner.destroy();
-    this._fragment_spawner = null;
-    this._model.deallocate();
-    this._model = null;
-  },
-
-  die: function (){
-    Crafty.trigger("NPCDied", {target: this});
   },
 
   getStance: function (){
@@ -56,21 +39,6 @@ Crafty.c("BattleNPCSlime", {
   isNPC: function (){ return true; },
 
   //private 
-
-  //  _bindAIListners: function (){
-  //    var self = this;
-  //    this.bind("initiateAttackOn", function (target){
-  //      self.initiateAttackOn(target);
-  //    });
-  //  },
-
-  _clearFragmentTimers: function (){
-    _.each(this._fragment_timers, function (t_id){
-      window.clearTimeout(t_id);
-    });
-    delete this._fragment_timers;
-    this._fragment_timers = null;
-  },
 
   _initModel: function (){
     this._model = new BattleEntityNPC({entity: this});

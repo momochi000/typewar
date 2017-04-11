@@ -1,85 +1,98 @@
 import BattleScene from "../scenes/battle_scene"
+import {basicSlimeBattleData} from "../scenes/data/basic_slime_battle"
 import {protoBattleSceneData} from "../scenes/data/proto_battle_scene"
-
-var default_scene_graph = {
-  prototype_battle: {
-    sceneName: "demo battle scene",
-    sceneData: protoBattleSceneData,
-    sceneKlass: BattleScene,
-    transitions: {
-      victory: "player_win_scene",
-      defeat: "player_lose_scene"
-    }
-  },
-  player_win_scene: {
-    sceneName: "victory scene",
-    sceneData: "PlayerWinScene",
-    transitions: { }
-  },
-  player_lose_scene: {
-    sceneName: "defeat scene",
-    sceneData: "PlayerLoseScene",
-    transitions: { }
-  }
-}
+import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_EVT} from "../constants/scene_constants";
 
 export default class SceneManager {
   constructor(){
-    console.log("DEBUG: initializing scene manager... ");
-    this.sceneGraph = default_scene_graph;
-    console.log("DEBUG: sceneGraph --------->", this.sceneGraph);
+    this._prepareSceneGraph();
+    this._bindSceneListeners();
   }
 
   get currentScene(){
     return this._currentScene;
   }
 
-  set currentScene(scene){
-    this._currentScene = scene;
-  }
+  // For debugging only
+  //  set currentScene(scene){
+  //    this._currentScene = scene;
+  //  }
 
-  loadScene(scene_id){
+  playScene(sceneId){
     var scene_data, scene_klass, new_scene;
 
-    console.log("DEBUG: SceneManager#loadScene(", scene_id, ")");
-    scene_klass = this._getSceneKlassFromId(scene_id);
+    if(!sceneId) { this.loadScene(this._sceneGraph[0]); }
+    if((typeof sceneId) === "number"){ this.loadScene(this._sceneGraph[sceneId]); }
+    if((typeof sceneId) === "string"){ this.loadScene(this._findSceneFromId(sceneId)); }
 
-    scene_data = this._getSceneDataFromId(scene_id);
-    if(this._currentScene){ this.unloadScene(); }
-    console.log("DEBUG: SceneManager#loadScene -----------> scene_klass is ------->", scene_klass);
-    new_scene = new scene_klass(scene_id, scene_data);
-    new_scene.play();
-    this._currentScene = new_scene;
+    this._currentScene.play();
   }
 
-  unloadScene(){
-    this._currentScene.stop();
-    this._currentScene = null;
-  }
-
-  transition(condition, scene_args){
-    var next_scene_id;
-
-    next_scene_id = this._getNextSceneFromCondition(this._getCurrentSceneId(), condition);
-    Typewar.Engine.scenemanager.unloadScene();
-    Typewar.Engine.scenemanager.loadScene(this._getSceneDataFromId(next_scene_id), scene_args);
+  loadScene(scene) {
+    this._currentScene = new scene.sceneKlass(scene.id, scene.sceneData);
+    this._currentSceneIndex = _.indexOf(this._sceneGraph, scene);
   }
 
   // private
+
+  _bindSceneListeners() {
+    Crafty.bind(SCENE_TRANSITION_EVT, this._handleSceneTransition.bind(this))
+  }
+
+  _findSceneFromId(sceneId) {
+    return _.find(this._sceneGraph, (curr) => {
+      return (curr.id == sceneId);
+    });
+  }
 
   _getCurrentSceneId(){
     return this._currentScene.get("scene_id");
   }
 
-  _getNextSceneFromCondition(curr_scene_id, condition){
-    return this.sceneGraph[curr_scene_id].transitions[condition];
+  _getNextSceneFromCondition(currSceneId, condition){
+    //TBI
   }
 
-  _getSceneDataFromId(scene_id){
-    return this.sceneGraph[scene_id].sceneData;
+  _handleSceneTransition(evt){
+    var transition_directive;
+
+    transition_directive = this._sceneGraph[this._currentSceneIndex].transitions[evt];
+    if(!transition_directive){
+      console.log(`DEBUG: there is no transition directive declared for the ${evt} event`);
+      // TODO: play game over scene
+      return;
+    }
+
+    if(transition_directive == 'next'){
+      if(!this._sceneGraph[this._currentSceneIndex+1]){
+        // TODO: no scene to transition to, need to handle this
+        //   play the end credits or something
+        throw new Error("This is the end of the game! we're working on new levels");
+      }
+      this.playScene(this._currentSceneIndex+1);
+    }
   }
 
-  _getSceneKlassFromId(scene_id){
-    return this.sceneGraph[scene_id].sceneKlass;
+  _prepareSceneGraph(){
+    this._sceneGraph = [
+      {
+        id: "baby_slime",
+        sceneKlass: BattleScene,
+        sceneData: basicSlimeBattleData,
+        transitions: {
+          victory: "next",
+          defeat: null // TODO: this should play the "you died" scene
+        }
+      },
+      {
+        id: "prototype_battle",
+        sceneKlass: BattleScene,
+        sceneData: protoBattleSceneData,
+        transitions: {
+          victory: "next",
+          defeat: null // TODO: this should play the "you died" scene
+        }
+      },
+    ]
   }
 }

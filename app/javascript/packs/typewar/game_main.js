@@ -15,7 +15,7 @@ export default class GameMain {
     this._initCrafty();
     this._initManagers();
 
-    this.sceneManager.loadScene('prototype_battle');
+    this.sceneManager.playScene('baby_slime');
   }
 
   _initCrafty(){

@@ -1,10 +1,18 @@
+import StatusBarView from "../views/status_bar_view"
+
 const MODE_ICON_VERTICAL_OFFSET = -40;
 export function initBattleStatusSystem(Crafty) { 
-  var status_entities;
+  var status_entities, status_bar;
+
+  status_bar = new StatusBarView();
 
   status_entities = Crafty("BattleStatus").get();
   _.each(status_entities, (curr_ent) => {
     var curr_icon;
+
+    curr_ent.renderStatus(); // initialize the status view for each entity
+
+    status_bar.insertChild(curr_ent.getStatusView());
 
     // Create mode icons for each and attach them to the entity correctly
     curr_icon = Crafty.e("ModeIcon, 2D, DOM")
@@ -15,9 +23,15 @@ export function initBattleStatusSystem(Crafty) {
       });
     curr_ent.attach(curr_icon);
 	renderIcon(curr_ent);
+
+    // Bind removal of the status view when the entity is destroyed
+    curr_ent.bind("Remove", function (){ 
+      console.log("DEBUG: Removing status view from the DOM ------>", this.getStatusView().$el);
+      this.getStatusView().remove();
+    });
   });
 
-  
+  status_bar.render();
 }
 
 export function battleStatusSystem(Crafty) {
