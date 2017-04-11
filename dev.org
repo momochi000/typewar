@@ -3,8 +3,28 @@
    The lowest level slime
    This implies a restructure of the scene manager.
    Will need to be able to set up a progression from one fight to the next
+*** TODO Build new scene manager
+**** Requirements
+***** Start with loading screen
+***** Move to intro screen
+***** handle some user input to jump to some supplementary info
+***** Jump into the game (tutorial)
+***** After tutorial goto first battle
+***** After battle either show game over or win scene
+***** Move to next battle
 * Backlog
+** TODO Create slime scatter/rain attack skill
+   Spawns a cloud of physics text fragments that each have a single letter
+   they only do 1 damage each
 ** TODO Damage numbers fly off when receive damage
+** TODO On guard success, setup block effects
+*** TODO Play block animation (works already)
+*** TODO Play guard sound effect (sprite dependent)
+*** TODO Show flash indicating successful guard
+*** TODO Have some pop effect on the text fragment which was guarded against
+    Maybe it flies backwards or something
+** TODO Queues should be renamed to buffers :refactor:
+   For queues like audioqueue, inputqueue etc.
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene
