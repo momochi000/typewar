@@ -1,10 +1,8 @@
 * Current
-** TODO Allow configurable pre-delay for npc attack
-   So they don't just fling attacks out immediately but instead there is a 
-   (configurable&variable) delay before they use their skill(s)
-* Backlog
-** TODO For spawn physics text fragment, allow force argument :refactor:
 ** TODO Damage numbers fly off when receive damage
+*** TODO For npc
+*** TODO For player
+* Backlog
 ** TODO On guard success, setup block effects
 *** TODO Play block animation (works already)
 *** TODO Play guard sound effect (sprite dependent)
@@ -37,6 +35,8 @@
      For the first stage, it shows the player that they're in the offensive 
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
+** TODO For spawn physics text fragment, allow force argument :refactor:
+   No need to do this until I need it
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Display flash + particles on hit of either character
 ** TODO More tweaking of TextLibrary
@@ -218,6 +218,10 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Allow configurable pre-delay for npc attack
+   CLOSED: [2017-04-11 Tue 20:12]
+   So they don't just fling attacks out immediately but instead there is a 
+   (configurable&variable) delay before they use their skill(s)
 ** DONE Create slime scatter/rain attack skill
    CLOSED: [2017-04-11 Tue 19:42]
    Spawns a cloud of physics text fragments that each have a single letter
