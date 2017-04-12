@@ -1,5 +1,13 @@
 export function initNPCAISystem(Crafty) {
-  // not sure what needs to happen here yet...
+  var skills;
+  skills = Crafty("BattleNPCSkill").get();
+  _.each(skills, (curr_skill) => {
+    curr_skill.activate();
+
+    setTimeout(() => {
+      curr_skill.prepare();
+    }, curr_skill.getSkillDef().startupDelay);
+  });
 }
 
 export function nPCAISystem(Crafty) {

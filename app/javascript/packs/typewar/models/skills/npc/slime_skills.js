@@ -46,7 +46,8 @@ export var SlimeStandardAttack = {
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 3400 }
   ],
   cost: 0,
-  name: 'slime standard attack'
+  name: 'slime standard attack',
+  startupDelay: 1000
 };
 
 export var SlimeGlobAttack = {
@@ -80,7 +81,8 @@ export var SlimeGlobAttack = {
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 3000 }
   ],
   cost: 0,
-  name: 'glob'
+  name: 'glob',
+  startupDelay: 2000
 }
 
 export var SlimeScatterAttack = {
@@ -116,7 +118,8 @@ export var SlimeScatterAttack = {
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 10000 }
   ],
   cost: 0,
-  name: 'glob'
+  name: 'glob',
+  startupDelay: 6000
 }
 
 // TODO: this and other functions defining projectile movement/behavior should maybe move to a different file?
