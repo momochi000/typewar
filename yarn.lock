@@ -769,7 +769,7 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-box2dweb@9:
+box2dweb@2.1.0b:
   version "2.1.0-b"
   resolved "https://registry.yarnpkg.com/box2dweb/-/box2dweb-2.1.0-b.tgz#a7b5699a27b210f5c5479145dfad3132a6f5478d"
 
