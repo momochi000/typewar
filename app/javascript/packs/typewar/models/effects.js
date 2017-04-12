@@ -12,6 +12,9 @@ require("../components/TriggerableEffectOnCollide");
 require("../components/BattlePhysicsProjectile");
 require("../components/vendor/box2d");
 
+
+const A_TO_Z = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
 class Damage {
   static execute(args) {
     var damage_properties_amount;
@@ -42,6 +45,36 @@ class SetCooldown {
   }
 }
 
+class SpawnScatterTextProjectilePhysics {
+  static execute(args){
+    var i, new_ent, text;
+
+    if(!args.count) { throw new Error("Error, attempting to SpawnScatterTextProjectilePhysics without a count");}
+    validateTarget("SpawnScatterTextProjectilePhysics", args.target);
+
+    for(i=0; i<args.count; i++){
+      if(args.textOptions.randomString) {
+        text = buildRandomString(args.textOptions);
+      }else{
+        text = getTextFromSourceEntity(args.source, args.textOptions);
+      }
+
+      new_ent = createTextFragmentPhysics(text, args);
+      applyForceToEntity(new_ent, this.getRandomForceVectorToHit());
+    }
+  }
+
+  static getRandomForceVectorToHit(){
+    var x_force, y_force;
+
+    //x_force = _.random(-8300, -12000);
+    //y_force = _.random(-12000, -20000);
+    x_force = _.random(-9300, -15000); // TODO These force arguments need to be passed in to the effect
+    y_force = _.random(-12000, -26000);
+    return new Box2D.Common.Math.b2Vec2(x_force, y_force);
+  }
+}
+
 class SpawnTextProjectilePhysics {
   static execute(args) {
     var text, new_ent;
@@ -49,41 +82,16 @@ class SpawnTextProjectilePhysics {
     validateTarget("EffectSpawnTextProjectilePhysics", args.target);
     text = getTextFromSourceEntity(args.source, args.textOptions);
 
-    new_ent = Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattleProjectile, BattlePhysicsProjectile")
-      .attr({
-        x: args.source._x,
-        y: args.source._y-20,
-        z: (args.source._z+1),
-        h: 20,
-        w: 20
-      })
-      .textFragment(text)
-      .textFragmentAttackDisplay()
-      .defendableAttack({source: args.source, target: args.target, effects: args.effects})
-      .collision()
-      .battleProjectile()
-      .box2d(args.box2d)
-      .triggerableEffectOnCollide({
-        source: args.source, 
-        target: args.target, 
-        effects: args.effects, 
-        targetComponent: "BattlePlayer"
-      });
-
-    SpawnTextProjectilePhysics.applyInitialForce(new_ent);
+    new_ent = createTextFragmentPhysics(text, args);
+    applyForceToEntity(new_ent, this.getRandomForceVectorToHit());
+    return new_ent;
   }
 
-  static applyInitialForce(entity) {
-    var force_vector, body_center, x_force, y_force;
-
-    //    x_force = _.random(-320, -470);
-    //    y_force = _.random(-330, -510);
-    //    force_vector = new b2Vec2(-380, -630); //always hits
+  static getRandomForceVectorToHit(){
+    var x_force, y_force;
     x_force = _.random(-9300, -15000); // TODO These force arguments need to be passed in to the effect
     y_force = _.random(-12000, -26000);
-    force_vector = new Box2D.Common.Math.b2Vec2(x_force, y_force);
-    body_center = entity.body.GetWorldCenter();
-    entity.body.ApplyForce(force_vector, body_center);
+    return new Box2D.Common.Math.b2Vec2(x_force, y_force);
   }
 }
 
@@ -100,7 +108,7 @@ class SpawnTextProjectile {
     validateTarget("EffectSpawnTextProjectile", args.target);
     text = getTextFromSourceEntity(args.source, args.textOptions);
 
-    Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleProjectile, BattleNPCProjectile, TriggerableEffectOnCollide")
+    return Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, BattleProjectile, BattleNPCProjectile, TriggerableEffectOnCollide")
       .attr({
         x: args.source._x,
         y: args.source._y-20,
@@ -153,6 +161,13 @@ function applyDamage(target, propertiesMagnitude) {
   target.getEffectQueue().push(effect_func);
 }
 
+function applyForceToEntity(entity, force){
+  var body_center;
+
+  body_center = entity.body.GetWorldCenter();
+  entity.body.ApplyForce(force, body_center);
+}
+
 function calculateDamage(target, damageProperties) {
   var output = {};
   if(!target.charSheet) { return; }
@@ -167,8 +182,54 @@ function calculateDamage(target, damageProperties) {
   return output;
 }
 
+function createTextFragmentPhysics(text, args) {
+  return Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattleProjectile, BattlePhysicsProjectile")
+    .attr({
+      x: args.source._x,
+      y: args.source._y-20,
+      z: (args.source._z+1),
+      h: 20,
+      w: 20
+    })
+    .textFragment(text)
+    .textFragmentAttackDisplay()
+    .defendableAttack({source: args.source, target: args.target, effects: args.effects})
+    .collision()
+    .battleProjectile()
+    .box2d(args.box2d)
+    .triggerableEffectOnCollide({
+      source: args.source, 
+      target: args.target, 
+      effects: args.effects, 
+      targetComponent: "BattlePlayer"
+    });
+}
+
 function displayDamageEffect(damageAmount) {
   // TBI
+}
+
+function buildRandomString(options){
+  var i, length, output;
+
+  if(options.minLength && options.maxLength){
+    if(options.minLength == options.maxLength){
+      length = options.minLength
+    }else{
+      length = _.random(options.minLength, options.maxLength);
+    }
+  }else if(options.minLength){
+    length = _.random(options.minLength, 100);
+  }else if(options.maxLength){
+    length = _.random(1, options.maxLength);
+  }
+
+
+  output = "";
+  for(i=0; i<length; i++){
+    output+= _.sample(A_TO_Z);
+  }
+  return output;
 }
 
 function getTextFromSourceEntity(entity, textOptions) {
@@ -188,4 +249,4 @@ function validateTarget(effectName, target) {
   }
 }
 
-export { Damage, SetCooldown, SpawnTextProjectile, SpawnTextProjectilePhysics, TriggerAnimation }
+export { Damage, SetCooldown, SpawnTextProjectile, SpawnScatterTextProjectilePhysics, SpawnTextProjectilePhysics, TriggerAnimation }

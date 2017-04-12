@@ -61,7 +61,7 @@ export var SlimeGlobAttack = {
         bodyType: 'dynamic',
         density: 0.1,
         friction: 2,
-        restitution: 0.1
+        restitution: 0.2
       },
       effects: [
         {
@@ -78,6 +78,42 @@ export var SlimeGlobAttack = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 3000 }
+  ],
+  cost: 0,
+  name: 'glob'
+}
+
+export var SlimeScatterAttack = {
+  effects: [
+    {
+      klass: Effects.SpawnScatterTextProjectilePhysics,
+      count: 25,
+      textOptions: {
+        randomString: true,
+        minLength: 1,
+        maxLength: 1,
+      },
+      box2d: {
+        bodyType: 'dynamic',
+        density: 0.1,
+        friction: 2,
+        restitution: 0.32
+      },
+      effects: [
+        {
+          klass: Effects.Damage,
+          properties: {
+            blunt:    2, slashing: 0, piercing: 0,
+            fire:     0, earth:    0, water:    0,
+            air:      0, light:    0, dark:     0,
+            poison:   0, life:     0, death:    0
+          }
+        },
+        { klass: Effects.TriggerAnimation, animation: ANIM_HIT }
+      ]
+    },
+    { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK },
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 10000 }
   ],
   cost: 0,
   name: 'glob'

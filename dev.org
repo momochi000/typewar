@@ -1,22 +1,9 @@
 * Current
-** TODO Create another scene with a different baddie
-   The lowest level slime
-   This implies a restructure of the scene manager.
-   Will need to be able to set up a progression from one fight to the next
-*** TODO Build new scene manager
-**** Requirements
-***** Start with loading screen
-***** Move to intro screen
-***** handle some user input to jump to some supplementary info
-***** Jump into the game (tutorial)
-***** After tutorial goto first battle
-***** After battle either show game over or win scene
-***** Move to next battle
-**** TODO Load a blank scene and ensure no entities leftover
+** TODO Allow configurable pre-delay for npc attack
+   So they don't just fling attacks out immediately but instead there is a 
+   (configurable&variable) delay before they use their skill(s)
 * Backlog
-** TODO Create slime scatter/rain attack skill
-   Spawns a cloud of physics text fragments that each have a single letter
-   they only do 1 damage each
+** TODO For spawn physics text fragment, allow force argument :refactor:
 ** TODO Damage numbers fly off when receive damage
 ** TODO On guard success, setup block effects
 *** TODO Play block animation (works already)
@@ -231,6 +218,27 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Create slime scatter/rain attack skill
+   CLOSED: [2017-04-11 Tue 19:42]
+   Spawns a cloud of physics text fragments that each have a single letter
+   they only do 1 damage each
+** DONE Create another scene with a different baddie
+   CLOSED: [2017-04-11 Tue 18:22]
+   The lowest level slime
+   This implies a restructure of the scene manager.
+   Will need to be able to set up a progression from one fight to the next
+*** DONE Build new scene manager
+    CLOSED: [2017-04-11 Tue 18:22]
+**** Requirements
+***** Start with loading screen
+***** Move to intro screen
+***** handle some user input to jump to some supplementary info
+***** Jump into the game (tutorial)
+***** After tutorial goto first battle
+***** After battle either show game over or win scene
+***** Move to next battle
+**** DONE Load a blank scene and ensure no entities leftover
+     CLOSED: [2017-04-11 Tue 18:22]
 ** DONE Fix stance icons
    CLOSED: [2017-04-09 Sun 00:32]
 *** DONE Make icon appear properly

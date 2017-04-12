@@ -1,5 +1,5 @@
 import * as ZeroSkills from "../../models/skills/player/zero_active_skills"
-import {SlimeStandardAttack} from "../../models/skills/npc/slime_skills"
+import {SlimeStandardAttack, SlimeScatterAttack, SlimeGlobAttack} from "../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED} from "../../constants/audio_constants"
 import * as Images from "../../assets/images"
 import * as Audio from "../../assets/audio"
@@ -8,7 +8,7 @@ const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
-export var basicSlimeBattleData = {
+export var rainSlimeBattleData = {
   id: "prototype_battle",
   name: "prototype battle scene",
   width: 450,
@@ -74,7 +74,7 @@ export var basicSlimeBattleData = {
           poison:   1, life:     1, death:    1
         },
         status: {
-          hp: 2,
+          hp: 10,
           maxHp: 10
         },
         stats: {
@@ -87,7 +87,7 @@ export var basicSlimeBattleData = {
           cha: 0, 
           wis: 0
         },
-        skills: [SlimeStandardAttack]
+        skills: [SlimeScatterAttack]
       },
     }
   },

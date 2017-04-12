@@ -1,5 +1,6 @@
 import BattleScene from "../scenes/battle_scene"
 import {basicSlimeBattleData} from "../scenes/data/basic_slime_battle"
+import {rainSlimeBattleData} from "../scenes/data/rain_slime_battle"
 import {protoBattleSceneData} from "../scenes/data/proto_battle_scene"
 import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_EVT} from "../constants/scene_constants";
 
@@ -79,6 +80,15 @@ export default class SceneManager {
         id: "baby_slime",
         sceneKlass: BattleScene,
         sceneData: basicSlimeBattleData,
+        transitions: {
+          victory: "next",
+          defeat: null // TODO: this should play the "you died" scene
+        }
+      },
+      {
+        id: "slime_blaster",
+        sceneKlass: BattleScene,
+        sceneData: rainSlimeBattleData,
         transitions: {
           victory: "next",
           defeat: null // TODO: this should play the "you died" scene
