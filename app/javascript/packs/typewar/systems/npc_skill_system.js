@@ -1,4 +1,4 @@
-export function initNPCSkillSystem(Crafty) {
+export function initNPCSkillSystem(Crafty){
   var skill_managers;
 
   skill_managers = Crafty("BattleNPCSkillManager").get();
@@ -9,9 +9,10 @@ export function initNPCSkillSystem(Crafty) {
     initSkillQueue(curr_skill_manager);
   });
 
+  bindCleanupSkills(skill_managers);
 }
 
-export function npcSkillSystem(Crafty) {
+export function npcSkillSystem(Crafty){
   var skill_managers = Crafty("BattleNPCSkillManager").get();
 
   _.each(skill_managers, (curr_skill_manager) => {
@@ -29,14 +30,28 @@ export function npcSkillSystem(Crafty) {
 
 // private
 
-function createSkillEntity(skill) {
+function bindCleanupSkills(skillManagers){
+  _.each(skillManagers, (curr_skill_manager) => {
+    curr_skill_manager.bind("Remove", function (){ 
+      console.log("DEBUG: IN THE REMOVE CALLBACK OF NPCSKLL MANAGER....");
+      _.each(curr_skill_manager.getSkills(), (curr_skill) => {
+        curr_skill.destroy();
+      });
+      curr_skill_manager._skills = null;
+      curr_skill_manager._skillset = null;
+      curr_skill_manager._skillQueue = null;
+    });
+  });
+}
+
+function createSkillEntity(skill){
   var new_skill;
 
   return Crafty.e("BattleNPCSkill")
     .battleNPCSkill(skill);
 }
 
-function executeSkill(sourceEntity, skill) {
+function executeSkill(sourceEntity, skill){
   var target;
 
   target = sourceEntity.getTarget();
@@ -57,7 +72,7 @@ function executeSkill(sourceEntity, skill) {
   });
 }
 
-function initSkills(entity) {
+function initSkills(entity){
   var skillset, new_skills;
 
   skillset = entity.getSkillset();
@@ -69,7 +84,7 @@ function initSkills(entity) {
   entity.setSkills(new_skills);
 }
 
-function initSkillset(entity) {
+function initSkillset(entity){
   var skills = entity.charSheet.data.skills;
 
   // NPC with  no skills, this is fine, they can just be a target dummy
@@ -77,6 +92,6 @@ function initSkillset(entity) {
   entity.setSkillset(skills);
 }
 
-function initSkillQueue(entity) {
+function initSkillQueue(entity){
   entity.setSkillQueue([]);
 }

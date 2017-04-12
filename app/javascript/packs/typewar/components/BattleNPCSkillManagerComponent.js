@@ -11,10 +11,6 @@ Crafty.c("BattleNPCSkillManager", {
 
   battleNPCSkillManager: function (){ return this; },
 
-  remove: function (){
-    this._destroySkills();
-  },
-
   getSkillQueue: function (){
     return this._skillQueue;
   },
@@ -37,15 +33,5 @@ Crafty.c("BattleNPCSkillManager", {
 
   setSkillset: function (new_skillset) { 
     this._skillset = new_skillset;
-  },
-
-  // private
-
-  _destroySkills: function (){
-    _.each(this.getSkills(), function(skill){
-      skill = null;
-    });
-
-    this._skills = null;
   }
 });

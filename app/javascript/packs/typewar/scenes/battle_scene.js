@@ -1,12 +1,11 @@
 import Sprite from "../assets/sprite"
 import BattleManager from "../managers/battle_manager"
-//import StatusBarView from "../views/status_bar_view"
 
 import battlePCGenerator from "../models/battle_pc_generator"
 import battleNPCGenerator from "../models/battle_npc_generator"
 
 import {initBattleEffectSystem, battleEffectSystem} from "../systems/battle_effect_system"
-import {initBattleStatusSystem, battleStatusSystem} from "../systems/battle_status_system"
+import {initBattleStatusSystem, battleStatusSystem, teardownBattleStatusSystem} from "../systems/battle_status_system"
 import {initInputSystem, inputSystem} from "../systems/input_system"
 import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
 import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
@@ -15,7 +14,7 @@ import {initProjectileSystem, projectileSystem} from "../systems/projectile_syst
 import {initTriggerEffectOnCollideSystem, triggerEffectOnCollideSystem} from "../systems/trigger_effect_on_collide_system"
 import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
 import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
-import {initAudioSystem, audioSystem} from "../systems/audio_system"
+import {initAudioSystem, audioSystem, teardownAudioSystem} from "../systems/audio_system"
 import {npcDiedPlayerWinSystem} from "../systems/npc_died_player_win_system"
 import {playerDieLoseSystem} from "../systems/player_die_lose_system"
 
@@ -47,6 +46,13 @@ export default class BattleScene {
   get sceneId(){
     return this._sceneId;
   }
+
+  play(){
+    Crafty.scene(this._sceneId);
+  }
+
+  // private
+  // TODO: rename these methods with _ at the start
 
   deallocateBG(){
     this._background.destroy();
@@ -198,10 +204,6 @@ export default class BattleScene {
     initNPCAISystem(Crafty);
   }
 
-  play(){
-    Crafty.scene(this._sceneId);
-  }
-
   registerSystems(){
     Crafty.bind("EnterFrame", this.runSystems);
   }
@@ -229,11 +231,18 @@ export default class BattleScene {
   stop(){
     // IN PROGRESS: need to do some teardown after scene ends
     console.log("DEBUG: STOP BATTLE SCENE CALLBACK ----->");
+    this.teardownSystems();
     //    this._analyzeTypingData();
     //    this.deallocateBG();
     //    this.deallocateStageEdges();
     //    this.resetCamera();
     //    this.deallocateStatusBar();
+  }
+
+  teardownSystems(){
+    Crafty.unbind("EnterFrame", this.runSystems);
+    teardownBattleStatusSystem(Crafty);
+    teardownAudioSystem(Crafty);
   }
 
   // private

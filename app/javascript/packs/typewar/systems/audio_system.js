@@ -7,7 +7,7 @@
 
 require("../components/AudioManager");
 
-export function initAudioSystem(Crafty, audioData) {
+export function initAudioSystem(Crafty, audioData){
   var audio_manager, audio_queue;
 
   audio_manager = Crafty.e("AudioManager").audioManager();
@@ -24,10 +24,11 @@ export function initAudioSystem(Crafty, audioData) {
 // Finally, it should pop 6 sounds off the queue and play those every frame
 // if less than 6 items in queue then you're done.  This ensures the queue
 // is processed as quickly as possible but prevents sounds from being dropped
-export function audioSystem(Crafty) {
+export function audioSystem(Crafty){
   var audio_manager, audio_queue, curr_sound;
 
   audio_manager = Crafty("AudioManager");
+  if(audio_manager.length==0){ return; }
   audio_queue = audio_manager.getAudioQueue();
 
   curr_sound = audio_queue.pop()
@@ -40,18 +41,22 @@ export function audioSystem(Crafty) {
   //  audio_manager.setAudioQueue([]);
 }
 
+export function teardownAudioSystem(Crafty){
+  Crafty("AudioManager").destroy();
+}
+
 // private
 
-function bindCapturePlaySound(audio_manager) {
+function bindCapturePlaySound(audio_manager){
   Crafty.bind("PlaySound", handlePlaySoundEvent.bind(audio_manager.getAudioQueue()));
 }
 
-function prepareSounds(sounds) {
+function prepareSounds(sounds){
   _.each(sounds, (curr_sound_data) => {
     Crafty.audio.add(curr_sound_data.soundId, curr_sound_data.soundUrls);
   });
 }
 
-function handlePlaySoundEvent(evtData) {
+function handlePlaySoundEvent(evtData){
   this.push(evtData);
 }

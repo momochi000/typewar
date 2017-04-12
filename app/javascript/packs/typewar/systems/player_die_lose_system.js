@@ -4,7 +4,7 @@ export function playerDieLoseSystem(Crafty) {
   var player;
 
   player = Crafty("BattlePlayer");
-
+  if(player.length==0){ return; }
   if(player.getHP() <= 0){
     // LOSE CONDITION MET, 
     // somehow, this has to get back to the scene

@@ -11,9 +11,7 @@ export function inputSystem(Crafty) {
 
   input_entities = Crafty("BattleInput BattleStance").get();
 
-  if(input_entities.length < 1) {
-    throw new Error("Running input system where no entity with BattleInput component exists");
-  }
+  if(input_entities.length < 1) { return; }
 
   input_entity = input_entities[0];
   input_queue = input_entity.getInputQueue();

@@ -1,10 +1,5 @@
-// TODO: need to re set up the fragment spawner later when we want
-// some skills to kick out fragments
-
 import Backbone from "backbone"
 import TextLibrarian from "../util/text_librarian"
-
-
 
 var Handlebars = require("handlebars");
 var StateMachine = require("javascript-state-machine");

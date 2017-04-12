@@ -3,14 +3,31 @@ import TextLibrarian from "../util/text_librarian"
 require("../components/PlayerSkillManager");
 
 function initPlayerSkillSystem(Crafty) {
-  var player;
+  var skill_managers;
 
-  player = Crafty("PlayerSkillManager").get();
+  skill_managers = Crafty("PlayerSkillManager").get();
 
-  _.each(player, (curr_player) => {
-    curr_player.playerSkillManager();
-    initSkills(curr_player);
-    curr_player.renderSkillManager();
+  _.each(skill_managers, (curr_skill_manager) => {
+    curr_skill_manager.playerSkillManager();
+    initSkills(curr_skill_manager);
+    curr_skill_manager.renderSkillManager();
+  });
+
+  bindCleanupSkills(skill_managers);
+}
+
+function bindCleanupSkills(skillManagers){
+  _.each(skillManagers, (currSkillManager) => {
+    currSkillManager.bind("Remove", function (){
+      var skill_manager_view;
+      _.each(currSkillManager.getSkills(), (curr_skill) => {
+        curr_skill.destroy();
+      });
+      skill_manager_view = currSkillManager.getSkillManagerView();
+      skill_manager_view.cleanupSkillViews();
+      skill_manager_view.remove();
+      currSkillManager._skills = null;
+    });
   });
 }
 

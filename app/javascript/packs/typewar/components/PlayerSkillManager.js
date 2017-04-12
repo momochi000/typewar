@@ -29,6 +29,13 @@ var PlayerSkillManagerView = Backbone.View.extend({
     });
   },
 
+  cleanupSkillViews: function (){
+    _.each(this._skill_views, (curr_view) => {
+      curr_view.remove();
+    });
+    this._skill_views = null;
+  },
+
   registerSkillViews: function (views){
     this._skill_views = views;
   },
@@ -58,16 +65,14 @@ Crafty.c("PlayerSkillManager", {
 
   playerSkillManager: function (){ return this; },
 
+  getSkillManagerView: function () { return this._view; },
+
   getSkills: function (){
     return this._skills;
   },
 
   getSkillset: function (){
     return this.charSheet.data.skills;
-  },
-
-  remove: function (){ 
-    this._view.remove();
   },
 
   renderSkillManager: function (){

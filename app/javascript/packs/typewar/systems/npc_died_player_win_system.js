@@ -4,7 +4,7 @@ export function npcDiedPlayerWinSystem(Crafty) {
   var npc;
 
   npc = Crafty("BattleNPC");
-
+  if(npc.length==0) { return; }
   if(npc.getHP() <= 0){
     // WIN CONDITION MET
     // probably trigger an event that the scene is listening to

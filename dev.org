@@ -12,6 +12,7 @@
 ***** After tutorial goto first battle
 ***** After battle either show game over or win scene
 ***** Move to next battle
+**** TODO Load a blank scene and ensure no entities leftover
 * Backlog
 ** TODO Create slime scatter/rain attack skill
    Spawns a cloud of physics text fragments that each have a single letter
