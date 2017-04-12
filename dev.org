@@ -1,9 +1,4 @@
 * Current
-** TODO Display flash + particles on hit of either character
-   Note: I think theres a confusing disparity here...
-   Particles are rendered on the Canvas
-   Canvas coords are 0,0 in the top left corner
-   DOM coords are 0,0 in the bottom left corner
 * Backlog
 ** TODO Tighten up player hitbox
 ** TODO More tweaking of TextLibrary
@@ -12,17 +7,12 @@
 *** TODO Fix bug where text appears to be too long
 *** TODO Tweak skills so that text is much smaller and the battle is faster paced
 ** TODO When player defends, the text fragment should pop or explode
-** TODO Damage numbers fly off when receive damage
-*** TODO For npc
-*** TODO For player
-** TODO On guard success, setup block effects
-*** TODO Play block animation (works already)
-*** TODO Play guard sound effect (sprite dependent)
-*** TODO Show flash indicating successful guard
-*** TODO Have some pop effect on the text fragment which was guarded against
-    Maybe it flies backwards or something
-** TODO Queues should be renamed to buffers :refactor:
-   For queues like audioqueue, inputqueue etc.
+** TODO Allow single quotes in text
+** TODO Enable double quote
+** TODO Ensure that box2d data is being deallocated properly on scene end
+   Load the blank scene and look for any box2d memory still in use
+   Check the profiler for anything leftover in fact
+** TODO Get a different sprite for the training dummy(s)
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** TODO Create a new scene
@@ -47,10 +37,41 @@
      For the first stage, it shows the player that they're in the offensive 
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
+** TODO Get a new sprite for the player
+   Some suitalbe character off mugen
+** TODO Create consistent interface for player sprite animations
+   No matter which animation package gets loaded and which sprite is being 
+   used, the component(s) which govern them should present a standard interface 
+   for the actions that the player can do.
+   Some examples: block, light/med/hard attack special 1, special 2, hit, 
+   hard hit, jump, intro.
+** TODO Queues should be renamed to buffers :refactor:
+   For queues like audioqueue, inputqueue etc.
+** TODO Damage numbers fly off when receive damage
+*** TODO For npc
+*** TODO For player
+** TODO Play a different sound when a typo happens
+** TODO Play a sound on block
+** TODO Play slash sound on attack
+** TODO Play smack sound on npc hit
+** TODO Play smack sound on player hit
+** TODO Play a sound on monster attack
+** TODO Add some wiggle to the slime normal attack so the text frargments don't appear all in line
+** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
+** TODO Tweak particle effect
+   Make it look presentable
+*** TODO Adjust the offset 
+*** TODO Adjust the style
+** TODO On guard success, setup block effects
+*** TODO Play block animation (works already)
+*** TODO Play guard sound effect (sprite dependent)
+*** TODO Show flash indicating successful guard
+*** TODO Have some pop effect on the text fragment which was guarded against
+    Maybe it flies backwards or something
 ** TODO For spawn physics text fragment, allow force argument :refactor:
    No need to do this until I need it
 ** TODO Create battle over scene or transition
-** TODO Move all data into a single data store
+** TODO Move all data into a single data store :refactor:epic:
    Components no longer hold any data
    They hold references to data trees within the data store
    They do however, initialize their own trees in the data store
@@ -78,16 +99,23 @@
    so that it has half effectiveness. The color of the text fragment while it's
    being typed should reflect this.
 ** TODO Make the battle over scene overlay on top of the battle scene.
-** TODO Get a different sprite for the training dummy(s)
-** TODO Do some balance work on TextLibrary
-   A better way to generate text for fragments.  Find words within the min-max,
-   then add words of random size until the max is exceeded then back out by 1 
-   word.
-
-   This works better when the library is all just single words.  Will need a bit
-   of playtesting to see which of these is preferable.
-*** DONE First add a real text
-    CLOSED: [2017-03-26 Sun 04:59]
+** TODO Ensure spaces are clear when typing
+   Especially when the text fragment breaks lines
+** TODO Make component file names match component names            :refactor: 
+*** TODO Also remove the word Component from file names
+** TODO Create a better security system for the admin basic auth
+** TODO Setup DNS to actual domain
+** TODO Link on Sproutpost
+** TODO Allow choice of player character (male||female)
+   Later will have a number of characters to choose from all with different skillsets
+** TODO Generate vocabularies from markov chains of some source material(s)
+** TODO Create paraolic type of text fragment attack
+   Make a position func that handles an arc path
+   Problem with using physics is I can't scale the speed of the attack.
+   Gravity's acceleration is fixed and the x speed is pretty much going to be
+   constant.  With a parabolic path (or similar) I can adjust the velocity and/or
+   acceleration from the battle manager.
+** TODO Adding a rotation to the words in a physics attack makes for an interesting challenge
 ** TODO Resolve if multiple skills are completed simultaneously
    This is something that needs playtesting.
    From a top level design consideration, this seems like a bug: there should 
@@ -98,19 +126,7 @@
    where you're like "YES! got lucky!"
    In the case I decide to keep/run with it, then I need to handle both skills
    executing in sequence.
-** TODO Ensure spaces are clear when typing
-   Especially when the text fragment breaks lines
-** TODO Make component file names match component names            :refactor: 
-** TODO Create a better security system for the admin basic auth
-** TODO Setup DNS to actual domain
-** TODO Link on Sproutpost
-** TODO Replace background entity with Crafty.background()
-   On second thought, there might have been a good reason why I used an entity
-   instead.  might have to do with scaling and offset of 
-   This task should instead revolve around streamlining the background
-   rendering.  Right now, the background has an x and y offset and then the 
-   viewport also has an x and y offset in addition to a scale factor.  Can I 
-   do away with having to have them both?
+* Roadmap
 ** TODO Boss fights
    Example: first fight after the training dummy is slime
    Slime fight 1 it just throws the simple straight attack
@@ -128,65 +144,24 @@
 ** TODO Iron man mode
    You get a fixed amount of health and the goal is to progress as far as possible
    monsters come in a constant stream so the scene doesn't transition
-** TODO Generate vocabularies from markov chains of some source material(s)
-** TODO Adding a rotation to the words in a physics attack makes for an interesting challenge
-* Roadmap
+   There's going to be a number of different game modes eventually, this being one of them.
+   Maybe also a time attack, maybe a speed rush, boss rush, etc.
 ** TODO character sprite changes stance when stance changes
+   This is dependent on the player sprite having the appropriate frames
 ** TODO System for recording text fragment completion data
 ** TODO Research use of web workers
-** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
-** TODO Make a has and belongs to many between Character and Text
 ** TODO Send typing data to the server
    Server should be able to calculate average WPM and error rate
 ** TODO Text fragments are truncated until typed. :ui/ux:
 Show the first ~10 characters so the player can get their fingers in motion but
 only show the rest once it's the active fragment.  This will keep the screen
 from getting as crowded
-** TODO Play a different sound when a typo happens
-** TODO BUG: double quote also triggers single quote when typing
-** TODO Enable double quote
-** TODO Change declarations of audio assets to use proper rails asset references
-Instead of /assets/blah.wav, audio/blah.wav
-** TODO Play slash sound on attack
-** TODO Play smack sound on npc hit
-** TODO Play smack sound on player hit
-** TODO Tighten hitboxes (both of entities and of text fragments)
-** TODO Add another attack to the monster
-Make a position func that handles an arc path
-Problem with using physics is I can't scale the speed of the attack.
-Gravity's acceleration is fixed and the x speed is pretty much going to be
-constant.  With a parabolic path (or similar) I can adjust the velocity and/or
-acceleration from the battle manager.
-** TODO Add some wiggle to the slime normal attack so the text frargments don't appear all in line
-** TODO change skill -> attack spawning to take an id argument     :refactor:
-Currently, text fragments contain code for the position function or some 
-physics declarations and an initial impulse etc.  Instead, move those 
-definitions behind some module or class structure and address them via
-an id (string) that gets passed in as part of the skill.
-** TODO Store a few char sheets in javascript and load them by default if no sheet comes from the server
-** TODO BUG: if the game stops/scene changes, text fragments aren't destroyed
-** TODO BUG: seems that box2d elements are not being deallocated on scene change
-Might be the entire entity or just the box2d physics part.
-** TODO be consistent with .bind for binding context. :refactor:
-   In some places we're using underscore's bind and other we're using native .bind
-** TODO Properly animate text fragment when it transitions to various states
-Need to make several stories out of this
-Animate a successful hit
-Animate a successful defense
-Animate successful completion
-+ player attacks that fail fade away when typed.
-  on second thought don't do this because we're transitioning to the different
-  style of player attacking (or at least testing it out first)
-  * opacity 0 with transition (possibly flicker to off)
-  * fragment immediately becomes ineffective (collision off)
-+ player gets hit 
-any more?
-
 ** TODO Edge case: multiple fragments with same starting text typod :bug:
-NOTE: this algorithm allows the following edge case:
-When multiple fragments are 'active' starting with the same text, e.g.
-'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
-** TODO Tweak balance so that text flies at the player more smoothly (from the npc)
+   NOTE: this algorithm allows the following edge case:
+   When multiple fragments are 'active' starting with the same text, e.g.
+   'fool' and 'foolish'.  If you type 'foox', it will deactivate all the fragments.
+
+   I don't think this is still an issue but i should test for it.
 ** TODO Combos
 If we go with the player attack slots idea, combos becomes easy. Combos would 
 fit into a specific attack slot and you'd simply type one word and another 
@@ -194,19 +169,7 @@ would replace it which if you typed it quickly enough (could have a timer or
 meter that empties out) then the combo continues. Typos would break the combo
 Some combos (or all) would be broken by getting hit unless you had some 
 specific skill(s)
-** TODO Adjust game behavior based on stats from player and npc
 ** TODO Clear all TODO's in code :refactor:
-** TODO Create a module that governs the display of the battle.
-It needs to handle crafty's zoom level and move things around the scene 
-appropriately.  This should probably go in the Camera component.  Currently, 
-we want to set a higher zoom level because the 2d sprites we're using are 
-small and on any decent display are too tiny and hard to see.  We want to 
-scale up the scene but this means we have to move all the entities and the 
-offset of the crafty stage.  The camera component should maintain a zoom level 
-and be able to translate coordinates in scene space to screen space and vice versa.
-This is may also need to handle setup of the viewport depending on device 
-screen size and orientation etc.  Scaling the game appropriately.
-** TODO Particle system setup
 ** TODO Cinematics
    Cinematics as a concept I'd like to be able to do outside of crafty.  Or with 
    some other type of scripting system.
@@ -225,6 +188,25 @@ screen size and orientation etc.  Scaling the game appropriately.
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Display flash + particles on hit of either character
+   CLOSED: [2017-04-12 Wed 03:43]
+   Note: I think theres a confusing disparity here...
+   Particles are rendered on the Canvas
+   Canvas coords are 0,0 in the top left corner
+   DOM coords are 0,0 in the bottom left corner
+   No, on further examination it turned out the discrepancy was that the 
+   viewport was scaled and offset, so any x,y coords needed to be adjusted
+   accordingly
+** DONE Particle system setup
+   CLOSED: [2017-04-12 Wed 04:00]
+** DONE Replace background entity with Crafty.background()
+   CLOSED: [2017-04-12 Wed 03:47]
+   On second thought, there might have been a good reason why I used an entity
+   instead.  might have to do with scaling and offset of 
+   This task should instead revolve around streamlining the background
+   rendering.  Right now, the background has an x and y offset and then the 
+   viewport also has an x and y offset in addition to a scale factor.  Can I 
+   do away with having to have them both?
 ** DONE Allow configurable pre-delay for npc attack
    CLOSED: [2017-04-11 Tue 20:12]
    So they don't just fling attacks out immediately but instead there is a 
@@ -233,6 +215,8 @@ screen size and orientation etc.  Scaling the game appropriately.
    CLOSED: [2017-04-11 Tue 19:42]
    Spawns a cloud of physics text fragments that each have a single letter
    they only do 1 damage each
+** DONE BUG: if the game stops/scene changes, text fragments aren't destroyed
+   CLOSED: [2017-04-12 Wed 03:58]
 ** DONE Create another scene with a different baddie
    CLOSED: [2017-04-11 Tue 18:22]
    The lowest level slime
@@ -380,6 +364,9 @@ screen size and orientation etc.  Scaling the game appropriately.
     It should look at the need for a minimum fragment size, grabbing a word at 
     random.  It should keep adding words until the size is greater than the 
     minimum
+** DONE Change declarations of audio assets to use proper rails asset references
+   CLOSED: [2017-04-12 Wed 03:58]
+Instead of /assets/blah.wav, audio/blah.wav
 ** DONE Reenable sound
    CLOSED: [2017-03-25 Sat 20:52]
    Right now we only have the typewriter sound for when a letter is typed
