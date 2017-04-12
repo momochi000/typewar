@@ -1,11 +1,9 @@
-import StatusBarView from "../views/status_bar_view"
 require("../components/BattleStatusBarView");
 
 const MODE_ICON_VERTICAL_OFFSET = -40;
 export function initBattleStatusSystem(Crafty) { 
   var status_entities, status_bar;
 
-  //  status_bar = new StatusBarView();
   status_bar = Crafty.e("BattleStatusBarView").battleStatusBarView();
 
   status_entities = Crafty("BattleStatus").get();
@@ -28,12 +26,13 @@ export function initBattleStatusSystem(Crafty) {
 
     // Bind removal of the status view when the entity is destroyed
     curr_ent.bind("Remove", function (){ 
-      console.log("DEBUG: Removing status view from the DOM ------>", this.getStatusView().$el);
       this.getStatusView().remove();
     });
   });
 
   status_bar.render();
+
+  bindCleanupStatusBar(status_bar);
 }
 
 export function battleStatusSystem(Crafty) {
@@ -61,14 +60,16 @@ export function battleStatusSystem(Crafty) {
   });
 }
 
-export function teardownBattleStatusSystem(Crafty) {
-  var status_bar;
+function bindCleanupStatusBar(statusBar){
+  var status_bar_view;
 
-  status_bar = Crafty("BattleStatusBarView");
-
-  console.log("DEBUG: tearing down status bar view...");
-  status_bar.getView().remove();
-  status_bar.destroy();
+  statusBar.bind("Remove", function () {
+    status_bar_view = statusBar.getView();
+    status_bar_view.cleanupChildViews();
+    status_bar_view.remove()
+    statusBar._view = null;
+    statusBar.destroy();
+  });
 }
 
 function renderIcon(entity){

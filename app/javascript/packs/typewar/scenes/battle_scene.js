@@ -5,7 +5,7 @@ import battlePCGenerator from "../models/battle_pc_generator"
 import battleNPCGenerator from "../models/battle_npc_generator"
 
 import {initBattleEffectSystem, battleEffectSystem} from "../systems/battle_effect_system"
-import {initBattleStatusSystem, battleStatusSystem, teardownBattleStatusSystem} from "../systems/battle_status_system"
+import {initBattleStatusSystem, battleStatusSystem} from "../systems/battle_status_system"
 import {initInputSystem, inputSystem} from "../systems/input_system"
 import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
 import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
@@ -55,21 +55,13 @@ export default class BattleScene {
   // TODO: rename these methods with _ at the start
 
   deallocateBG(){
-    this._background.destroy();
     this._background = null;
   }
 
   deallocateStageEdges(){
-    this._stageBorders.leftEdge.destroy();
     this._stageBorders.leftEdge = null;
-    this._stageBorders.rightEdge.destroy();
     this._stageBorders.rightEdge = null
-    this._stageBorders.bottomEdge.destroy();
     this._stageBorders.bottomEdge = null
-  }
-
-  deallocateStatusBar(){
-    throw new Error("Not implmemented error");
   }
 
   init() {
@@ -78,9 +70,9 @@ export default class BattleScene {
 
     self.initBox2d();
     self.initSprites();
+    self.initCamera();
     self.initBackground();
     self.initStageEdges();
-    self.initCamera();
 
     self.initCombatants().then(function (response){
       console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
@@ -210,6 +202,8 @@ export default class BattleScene {
 
   resetCamera(){
     Crafty.viewport.scale(1);
+    Crafty.viewport.x -= VIEWPORT_X_OFFSET;
+    Crafty.viewport.y -= VIEWPORT_Y_OFFSET;
   } 
 
   runSystems(evt){
@@ -229,19 +223,15 @@ export default class BattleScene {
   }
 
   stop(){
-    // IN PROGRESS: need to do some teardown after scene ends
-    console.log("DEBUG: STOP BATTLE SCENE CALLBACK ----->");
     this.teardownSystems();
     //    this._analyzeTypingData();
-    //    this.deallocateBG();
-    //    this.deallocateStageEdges();
-    //    this.resetCamera();
-    //    this.deallocateStatusBar();
+    this.deallocateBG();
+    this.deallocateStageEdges();
+    this.resetCamera();
   }
 
   teardownSystems(){
     Crafty.unbind("EnterFrame", this.runSystems);
-    teardownBattleStatusSystem(Crafty);
     teardownAudioSystem(Crafty);
   }
 
