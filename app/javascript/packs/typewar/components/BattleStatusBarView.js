@@ -5,18 +5,25 @@ var Handlebars = require('handlebars');
 
 const STATUS_BAR_VIEW_CONTAINER = "#typewar-status-bar-wrap";
 
-var StatusBarView = Backbone.View.extend({
+StatusBarView = Backbone.View.extend({
   tagName: 'div',
   className: 'status-bar',
   _templateId: '#status-bar-template',
-  _childViews: [],
 
   initialize: function (){
+    this._childViews = [];
     this._template = Handlebars.compile($(this._templateId).html());
   },
 
   insertChild: function (childView){
     this._childViews.push(childView);
+  },
+
+  cleanupChildViews: function (){
+    _.each(this._childViews, (curr_child) => {
+      curr_child.remove();
+    });
+    this._childViews = null;
   },
 
   render: function (opts){
