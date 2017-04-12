@@ -1,6 +1,8 @@
 import SceneManager from "./managers/scene_manager"
 import ServerCaller from "./util/server_caller"
 
+require("./util/debug");
+
 export default class GameMain {
   constructor(container, options){
     if(!container) {

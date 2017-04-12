@@ -1,8 +1,20 @@
 * Current
+** TODO Display flash + particles on hit of either character
+   Note: I think theres a confusing disparity here...
+   Particles are rendered on the Canvas
+   Canvas coords are 0,0 in the top left corner
+   DOM coords are 0,0 in the bottom left corner
+* Backlog
+** TODO Tighten up player hitbox
+** TODO More tweaking of TextLibrary
+   Seems like sometimes even a light attack is like a whole sentence
+   This should never happen, it should always be just a few letters
+*** TODO Fix bug where text appears to be too long
+*** TODO Tweak skills so that text is much smaller and the battle is faster paced
+** TODO When player defends, the text fragment should pop or explode
 ** TODO Damage numbers fly off when receive damage
 *** TODO For npc
 *** TODO For player
-* Backlog
 ** TODO On guard success, setup block effects
 *** TODO Play block animation (works already)
 *** TODO Play guard sound effect (sprite dependent)
@@ -37,11 +49,6 @@
      bottom.  At each step, the player presses a button to continue the tutorial
 ** TODO For spawn physics text fragment, allow force argument :refactor:
    No need to do this until I need it
-** TODO When player defends, the text fragment should pop or explode
-** TODO Display flash + particles on hit of either character
-** TODO More tweaking of TextLibrary
-   Seems like sometimes even a light attack is like a whole sentence
-   This should never happen, it should always be just a few letters
 ** TODO Create battle over scene or transition
 ** TODO Move all data into a single data store
    Components no longer hold any data

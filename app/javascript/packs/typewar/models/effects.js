@@ -11,6 +11,7 @@ require("../components/BattleNPCProjectile");
 require("../components/TriggerableEffectOnCollide");
 require("../components/BattlePhysicsProjectile");
 require("../components/vendor/box2d");
+require("../components/PlayerParticles");
 
 
 const A_TO_Z = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
@@ -27,8 +28,7 @@ class Damage {
     damage_properties_amount = calculateDamage(args.target, args.properties);
 
     applyDamage(args.target, damage_properties_amount);
-
-    // displayDamageEffect(damage_amount);
+    triggerParticles(args.target);
   }
 }
 
@@ -145,7 +145,7 @@ class TriggerAnimation {
 
 // locals
 
-function applyDamage(target, propertiesMagnitude) {
+function applyDamage(target, propertiesMagnitude){
   var amount, effect_func;
   amount = _.reduce(propertiesMagnitude, (sum, curr_val, curr_key) => {
     return (sum+curr_val);
@@ -168,7 +168,7 @@ function applyForceToEntity(entity, force){
   entity.body.ApplyForce(force, body_center);
 }
 
-function calculateDamage(target, damageProperties) {
+function calculateDamage(target, damageProperties){
   var output = {};
   if(!target.charSheet) { return; }
   // NOTE: Eventually we'll do some sophisticated calculation of target
@@ -182,7 +182,7 @@ function calculateDamage(target, damageProperties) {
   return output;
 }
 
-function createTextFragmentPhysics(text, args) {
+function createTextFragmentPhysics(text, args){
   return Crafty.e("2D, DOM, Collision, TextFragment, TextFragmentAttackDisplay, DefendableAttack, Box2D, TriggerableEffectOnCollide, BattleProjectile, BattlePhysicsProjectile")
     .attr({
       x: args.source._x,
@@ -205,7 +205,7 @@ function createTextFragmentPhysics(text, args) {
     });
 }
 
-function displayDamageEffect(damageAmount) {
+function displayDamageEffect(damageAmount){
   // TBI
 }
 
@@ -232,18 +232,23 @@ function buildRandomString(options){
   return output;
 }
 
-function getTextFromSourceEntity(entity, textOptions) {
+function getTextFromSourceEntity(entity, textOptions){
   return TextLibrarian.retrieve(entity.getVocabulary(), textOptions);
 }
 
-function setSelfTargetArg(args) {
+function setSelfTargetArg(args){
   if(args.target == "self") {
     args.target = args.source;
   }
   return args;
 }
 
-function validateTarget(effectName, target) {
+function triggerParticles(targetEnt){
+  if(!targetEnt.has("BattleParticles")){ return; }
+  targetEnt.triggerParticles();
+}
+
+function validateTarget(effectName, target){
   if(!target) { 
     throw new Error(effectName + " being executed without a target");
   }

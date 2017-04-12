@@ -17,10 +17,10 @@ import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} fr
 import {initAudioSystem, audioSystem, teardownAudioSystem} from "../systems/audio_system"
 import {npcDiedPlayerWinSystem} from "../systems/npc_died_player_win_system"
 import {playerDieLoseSystem} from "../systems/player_die_lose_system"
+import {initParticleSystem, particleSystem} from "../systems/particle_system"
 
 require("../components/BattleBackgroundComponent");
 require("../components/BattleEffectable");
-require("../components/BattleStatusView"); // TODO MARKED FOR MOVE
 require("../components/BattleNPCSkillManagerComponent");
 
 const PTM_RATIO = 2; // pixel to meter ratio for physics
@@ -53,10 +53,6 @@ export default class BattleScene {
 
   // private
   // TODO: rename these methods with _ at the start
-
-  deallocateBG(){
-    this._background = null;
-  }
 
   deallocateStageEdges(){
     this._stageBorders.leftEdge = null;
@@ -91,12 +87,13 @@ export default class BattleScene {
   initBackground(){
     var bg, bg_data;
 
-    // TODO: Replace this entity with Crafty.background()
     bg_data = this._sceneData.background;
-    bg = Crafty.e("2D, DOM, Image, BattleBackground")
-      .battleBackground(bg_data.filepath, bg_data.width, bg_data.height)
-      .attr({x: bg_data.offset.x, y: bg_data.offset.y, z: bg_data.offset.z || 0});
-    this._background = bg;
+    Crafty.background(bg_data.css);
+
+    //bg = Crafty.e("2D, DOM, Image, BattleBackground")
+    //  .battleBackground(bg_data.filepath, bg_data.width, bg_data.height)
+    //  .attr({x: bg_data.offset.x, y: bg_data.offset.y, z: bg_data.offset.z || 0});
+    //this._background = bg;
   }
 
   initBox2d() {
@@ -194,6 +191,7 @@ export default class BattleScene {
     initPlayerSkillSystem(Crafty);
     initNPCSkillSystem(Crafty);
     initNPCAISystem(Crafty);
+    initParticleSystem(Crafty);
   }
 
   registerSystems(){
@@ -217,6 +215,7 @@ export default class BattleScene {
     triggerEffectOnCollideSystem(Crafty);
     battleEffectSystem(Crafty);
     battleStatusSystem(Crafty);
+    particleSystem(Crafty);
     audioSystem(Crafty);
     npcDiedPlayerWinSystem(Crafty);
     playerDieLoseSystem(Crafty);
@@ -225,7 +224,6 @@ export default class BattleScene {
   stop(){
     this.teardownSystems();
     //    this._analyzeTypingData();
-    this.deallocateBG();
     this.deallocateStageEdges();
     this.resetCamera();
   }
