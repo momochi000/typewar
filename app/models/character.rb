@@ -59,7 +59,7 @@ class Character < ActiveRecord::Base
   end
 
   def get_vocabulary
-    Text.all.sample.generate_library
+    Text.all.sample.words
   end
 
   private

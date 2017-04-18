@@ -1,16 +1,9 @@
 * Current
-** TODO Tighten up player hitbox
 * Backlog
-** TODO Refactor scene data
-*** TODO Pull out character and npc declarations into separate files
 ** TODO Change colors of stance icons
+** TODO Battle entity pc and the way getFromServer works :refactor:
 ** TODO Add screen shake effect
    For example, when player gets hit, screen should shake a bit
-** TODO More tweaking of TextLibrary
-   Seems like sometimes even a light attack is like a whole sentence
-   This should never happen, it should always be just a few letters
-*** TODO Fix bug where text appears to be too long
-*** TODO Tweak skills so that text is much smaller and the battle is faster paced
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Allow single quotes in text
 ** TODO Enable double quote
@@ -193,6 +186,22 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE More tweaking of TextLibrary
+   CLOSED: [2017-04-18 Tue 16:50]
+   Seems like sometimes even a light attack is like a whole sentence
+   This should never happen, it should always be just a few letters
+*** DONE Fix bug where text appears to be too long
+    CLOSED: [2017-04-18 Tue 16:50]
+*** DONE Tweak skills so that text is much smaller and the battle is faster paced
+    CLOSED: [2017-04-18 Tue 16:50]
+** DONE Refactor scene data
+   CLOSED: [2017-04-18 Tue 15:58]
+*** DONE Pull out character and npc declarations into separate files
+    CLOSED: [2017-04-18 Tue 15:32]
+*** DONE Pull out background declaration
+    CLOSED: [2017-04-18 Tue 15:57]
+** DONE Tighten up player hitbox
+   CLOSED: [2017-04-18 Tue 15:32]
 ** DONE Display flash + particles on hit of either character
    CLOSED: [2017-04-12 Wed 03:43]
    Note: I think theres a confusing disparity here...

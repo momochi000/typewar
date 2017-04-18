@@ -13,8 +13,8 @@ const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
 var slime_copy = _.cloneDeep(SLIME);
-slime_copy.charSheet.status.maxHp = 10;
-slime_copy.charSheet.status.hp = 10;
+slime_copy.charSheet.status.maxHp = 18;
+slime_copy.charSheet.status.hp = 18;
 slime_copy.charSheet.skills = [SlimeScatterAttack];
 
 var rainSlimeBattleData = {

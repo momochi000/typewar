@@ -39,8 +39,8 @@ var ZeroLightSlash = {
   cost: 0,
   name: 'light slash',
   textOptions: {
-    minLength: 7,
-    maxLength: 12,
+    minLength: 4,
+    maxLength: 7,
   }
 };
 
@@ -62,8 +62,8 @@ var ZeroMedSlash = {
   cost: 0,
   name: 'medium slash',
   textOptions: {
-    minLength: 10,
-    maxLength: 18,
+    minLength: 6,
+    maxLength: 9,
   }
 };
 
@@ -84,8 +84,8 @@ var ZeroHardSlash = {
   cost: 0,
   name: 'heavy slash',
   textOptions: {
-    minLength: 18,
-    maxLength: 40,
+    minLength: 8,
+    maxLength: 20,
   }
 };
 
@@ -107,8 +107,8 @@ var ZeroUpperSlash = {
   cost: 0,
   name: 'upper slash',
   textOptions: {
-    minLength: 12,
-    maxLength: 30,
+    minLength: 5,
+    maxLength: 13,
   }
 };
 

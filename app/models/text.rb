@@ -23,6 +23,7 @@ class Text < ActiveRecord::Base
       split(/\b/).
       map(&:strip).
       delete_if(&:blank?).
+      uniq.
       delete_if{|word|
         !(word =~ /\w/)
     }

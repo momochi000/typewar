@@ -65,7 +65,7 @@ export default class BattleEntityPC extends BattleEntityBase {
     // do an ajax get 
     if(window.serverCaller){
       return serverCaller.getVocabulariesPromise().then(( data, textStatus, jqXHR ) => {
-        self._entity.charSheet.data.vocabulary = data
+        self._entity.charSheet.data.vocabulary = data;
       });
     }else{
       return new Promise(function (fulfill, reject){

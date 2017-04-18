@@ -14,8 +14,8 @@ const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
 var slime_copy = _.cloneDeep(SLIME);
-slime_copy.charSheet.status.maxHp = 20;
-slime_copy.charSheet.status.hp = 20;
+slime_copy.charSheet.status.maxHp = 30;
+slime_copy.charSheet.status.hp = 30;
 slime_copy.charSheet.skills = [SlimeStandardAttack, SlimeGlobAttack];
 
 var protoBattleSceneData = {

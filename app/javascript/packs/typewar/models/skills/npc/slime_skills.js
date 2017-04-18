@@ -27,7 +27,7 @@ export var SlimeStandardAttack = {
       speed: 0.03,
       textOptions: {
         minLength: 7,
-        maxLength: 25,
+        maxLength: 13,
       },
       effects: [
         {
@@ -56,7 +56,7 @@ export var SlimeGlobAttack = {
       klass: Effects.SpawnTextProjectilePhysics,
       textOptions: {
         minLength: 5,
-        maxLength: 85,
+        maxLength: 8,
       },
       box2d: {
         bodyType: 'dynamic',
