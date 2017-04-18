@@ -177,15 +177,15 @@ export default class BattleScene {
     this._stageBorders = {
       leftEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, BattleStageBoundary")
         .attr({x: this._sceneData.borders.left, y: 0, w: 5, h: 9000 })
-        .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
+        .collision(),
 
       rightEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, BattleStageBoundary")
-        .attr({x: this._sceneData.width+this._sceneData.borders.right, y: 0, w: 5, h: 9000 })
-        .collision([0,0], [0, 9000], [5, 9000], [5, 0]),
+        .attr({x: this._sceneData.borders.right, y: 0, w: 5, h: 9000 })
+        .collision(),
 
       bottomEdge: Crafty.e("2D, DOM, Collision, BattleStageEdge, Box2D")
-        .attr({x: 0, y: this._sceneData.height + this._sceneData.borders.floor, w: 9000, h: 5 })
-        .collision([0,0], [9000, 0], [9000, 5], [0, 5])
+        .attr({x: 0, y: this._sceneData.borders.floor, w: 9000, h: 5 })
+        .collision()
         .box2d({ bodyType: 'rigid' })
     }
   }

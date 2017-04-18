@@ -1,10 +1,13 @@
-import zero from "./character/zero"
-import slime from "./character/slime"
+import ZERO from "./character/zero"
+import SLIME from "./character/slime"
+import BAYOU from "./background/bayou"
+
 import {SlimeStandardAttack} from "../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED} from "../../constants/audio_constants"
-import * as Images from "../../assets/images"
 import * as Audio from "../../assets/audio"
 
+const STAGE_WIDTH = 450;
+const STAGE_HEIGHT = 240;
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
@@ -16,22 +19,15 @@ var basicSlimeBattleData = {
   height: 240,
   borders: {
     left: STAGE_EDGE_LEFT_BARRIER_OFFSET,
-    right: STAGE_EDGE_RIGHT_BARRIER_OFFSET,
-    floor: STAGE_EDGE_FLOOR_BARRIER_OFFSET
+    right: STAGE_WIDTH + STAGE_EDGE_RIGHT_BARRIER_OFFSET,
+    floor: STAGE_HEIGHT + STAGE_EDGE_FLOOR_BARRIER_OFFSET
   },
 
-  background: {
-    name: 'bayou',
-    filepath: Images.IMG_BG_BAYOU,
-    width: 800,
-    height: 336,
-    css: `url(${Images.IMG_BG_BAYOU}) center center / 110% no-repeat rgb(255, 255, 255)`,
-    offset: {x: -26, y: -60, z: 0}
-  },
+  background: BAYOU,
 
   combatants: {
-    player: zero,
-    npc: slime
+    player: ZERO,
+    npc: SLIME
   },
 
   audio: {

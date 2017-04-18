@@ -1,6 +1,6 @@
 import {SlimeStandardAttack} from "../../../models/skills/npc/slime_skills"
 
-const slime = {
+const SLIME = {
   spriteId: "slime",
   spriteFrame: "slime_st0",
   animationComponent: "BattleSlimeAnimation",
@@ -30,5 +30,5 @@ const slime = {
     },
     skills: [SlimeStandardAttack]
   },
-}
-export default slime
+};
+export default SLIME

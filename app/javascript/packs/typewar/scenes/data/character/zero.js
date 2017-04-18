@@ -1,6 +1,6 @@
 import * as ZeroSkills from "../../../models/skills/player/zero_active_skills"
 
-const zero = {
+const ZERO = {
   spriteId: "player_zero",
   spriteFrame: "plz_st0",
   animationComponent: "BattlePlayerZeroAnimation",
@@ -33,5 +33,4 @@ const zero = {
     ]
   }
 };
-
-export default zero
+export default ZERO
