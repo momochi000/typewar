@@ -31,8 +31,6 @@ export function initBattleStatusSystem(Crafty) {
   });
 
   status_bar.render();
-
-  bindCleanupStatusBar(status_bar);
 }
 
 export function battleStatusSystem(Crafty) {
@@ -59,17 +57,15 @@ export function battleStatusSystem(Crafty) {
     }
   });
 }
+export function teardownBattleStatusSystem(Crafty) {
+  var status_bar, status_bar_view;
 
-function bindCleanupStatusBar(statusBar){
-  var status_bar_view;
-
-  statusBar.bind("Remove", function () {
-    status_bar_view = statusBar.getView();
-    status_bar_view.cleanupChildViews();
-    status_bar_view.remove()
-    statusBar._view = null;
-    statusBar.destroy();
-  });
+  status_bar = Crafty("BattleStatusBarView");
+  status_bar_view = status_bar.getView();
+  status_bar_view.cleanupChildViews();
+  status_bar_view.remove()
+  status_bar._view = null;
+  status_bar.destroy();
 }
 
 function renderIcon(entity){

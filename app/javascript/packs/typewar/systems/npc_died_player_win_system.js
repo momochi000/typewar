@@ -8,7 +8,7 @@ export function npcDiedPlayerWinSystem(Crafty) {
   if(npc.getHP() <= 0){
     // WIN CONDITION MET
     // probably trigger an event that the scene is listening to
-    console.log("DEBUG: NPC DIED, GAME WON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //    console.log("DEBUG: NPC DIED, GAME WON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     Crafty.trigger(SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND);
   }
 }
