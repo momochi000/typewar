@@ -1,6 +1,9 @@
 * Current
-* Backlog
 ** TODO Tighten up player hitbox
+* Backlog
+** TODO Refactor scene data
+*** TODO Pull out character and npc declarations into separate files
+** TODO Change colors of stance icons
 ** TODO Add screen shake effect
    For example, when player gets hit, screen should shake a bit
 ** TODO More tweaking of TextLibrary
