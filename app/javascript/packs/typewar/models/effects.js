@@ -113,8 +113,8 @@ class SpawnTextProjectile {
         x: args.source._x,
         y: args.source._y-20,
         z: (args.source._z+1),
-        h: 20,
-        w: 20
+        h: 10,
+        w: 10
       })
       .textFragment(text)
       .textFragmentAttackDisplay()

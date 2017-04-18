@@ -1,4 +1,3 @@
-
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattlePlayerComponent");
 require("../components/animations/BattlePlayerZeroAnimation");
@@ -14,6 +13,7 @@ export default function battlePCGenerator(characterData) {
 
   pc_ent = Crafty.e(pc_components);
   pc_ent
+    .attr({w: characterData.width, h: characterData.height})
     .battleCharacter(characterData.charSheet)
     .battlePlayer()
     .battleStatus()

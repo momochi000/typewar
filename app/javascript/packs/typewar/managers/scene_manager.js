@@ -1,7 +1,7 @@
 import BattleScene from "../scenes/battle_scene"
-import {basicSlimeBattleData} from "../scenes/data/basic_slime_battle"
-import {rainSlimeBattleData} from "../scenes/data/rain_slime_battle"
-import {protoBattleSceneData} from "../scenes/data/proto_battle_scene"
+import basicSlimeBattleData from "../scenes/data/basic_slime_battle"
+import rainSlimeBattleData from "../scenes/data/rain_slime_battle"
+import protoBattleSceneData from "../scenes/data/proto_battle_scene"
 import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_EVT} from "../constants/scene_constants";
 
 export default class SceneManager {
