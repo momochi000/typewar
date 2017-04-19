@@ -1,6 +1,4 @@
 * Current
-** TODO Add screen shake effect
-   For example, when player gets hit, screen should shake a bit
 * Backlog
 ** TODO Change colors of stance icons
 ** TODO Play slash sound on attack
@@ -34,6 +32,7 @@
      For the first stage, it shows the player that they're in the offensive 
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
+** :release_marker: v0.5
 ** TODO Enable double quote
 ** TODO Ensure that box2d data is being deallocated properly on scene end
    Load the blank scene and look for any box2d memory still in use
@@ -186,6 +185,9 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Add screen shake effect
+   CLOSED: [2017-04-19 Wed 00:36]
+   For example, when player gets hit, screen should shake a bit
 ** DONE Fix particle rendering
    CLOSED: [2017-04-18 Tue 20:29]
    Offset is wrong now that crafty was updated
