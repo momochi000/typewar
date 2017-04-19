@@ -39,7 +39,8 @@ export var SlimeStandardAttack = {
             poison:   0, life:     0, death:    0
           }
         },
-        { klass: Effects.TriggerAnimation, animation: ANIM_HIT }
+        { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
+        { klass: Effects.ScreenShake }
       ]
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_LIGHT_ATTACK },
@@ -74,7 +75,8 @@ export var SlimeGlobAttack = {
             poison:   2, life:     0, death:    0
           }
         },
-        { klass: Effects.TriggerAnimation, animation: ANIM_HIT }
+        { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
+        { klass: Effects.ScreenShake }
       ]
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK },

@@ -34,6 +34,7 @@ var ZeroLightSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_LIGHT_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
+    { klass: Effects.ScreenShake },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 700} 
   ],
   cost: 0,
@@ -57,6 +58,7 @@ var ZeroMedSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_MED_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
+    { klass: Effects.ScreenShake },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 2000} 
   ],
   cost: 0,
@@ -79,6 +81,7 @@ var ZeroHardSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
+    { klass: Effects.ScreenShake },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 5000} 
   ],
   cost: 0,
@@ -102,6 +105,7 @@ var ZeroUpperSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_SPECIAL_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
+    { klass: Effects.ScreenShake },
     { klass: Effects.SetCooldown, target: "self", cooldownLength: 2200} 
   ],
   cost: 0,

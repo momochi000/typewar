@@ -1,5 +1,5 @@
 import Sprite from "../assets/sprite"
-import BattleManager from "../managers/battle_manager"
+import Camera from "../managers/camera"
 
 import battlePCGenerator from "../models/battle_pc_generator"
 import battleNPCGenerator from "../models/battle_npc_generator"
@@ -89,10 +89,12 @@ export default class BattleScene {
   }
 
   initBackground(){
-    var bg, bg_data;
+    var bg, bg_data, bg_css;
 
     bg_data = this._sceneData.background;
-    Crafty.background(bg_data.css);
+    bg_css = `url(${bg_data.filepath}) ${bg_data.offsetX} ${bg_data.offsetY} / ${bg_data.size} no-repeat ${bg_data.color}`;
+
+    Crafty.background(bg_css);
 
     //bg = Crafty.e("2D, DOM, Image, BattleBackground")
     //  .battleBackground(bg_data.filepath, bg_data.width, bg_data.height)
@@ -105,9 +107,15 @@ export default class BattleScene {
   }
 
   initCamera(){
-    Crafty.viewport.scale(VIEWPORT_SCALE);
-    Crafty.viewport.x += VIEWPORT_X_OFFSET;
-    Crafty.viewport.y += VIEWPORT_Y_OFFSET;
+    var camera_args;
+    camera_args = {background: this._sceneData.background};
+    camera_args = _.merge(camera_args, {
+      scale: VIEWPORT_SCALE, 
+      offsetX: VIEWPORT_X_OFFSET, 
+      offsetY: VIEWPORT_Y_OFFSET
+    });
+
+    window.camera = new Camera(camera_args);
   }
 
   initCombatants(){
@@ -230,7 +238,10 @@ export default class BattleScene {
     this.clearBG();
     //    this._analyzeTypingData();
     this.deallocateStageEdges();
+
     //    this.resetCamera();
+    delete window.camera;
+    window.camera = null;
   }
 
   teardownSystems(){

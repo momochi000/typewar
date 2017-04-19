@@ -45,6 +45,12 @@ class SetCooldown {
   }
 }
 
+class ScreenShake {
+  static execute(args) {
+    window.camera.shake(args);
+  }
+}
+
 class SpawnScatterTextProjectilePhysics {
   static execute(args){
     var i, new_ent, text;
@@ -254,4 +260,4 @@ function validateTarget(effectName, target){
   }
 }
 
-export { Damage, SetCooldown, SpawnTextProjectile, SpawnScatterTextProjectilePhysics, SpawnTextProjectilePhysics, TriggerAnimation }
+export { Damage, ScreenShake, SetCooldown, SpawnTextProjectile, SpawnScatterTextProjectilePhysics, SpawnTextProjectilePhysics, TriggerAnimation }

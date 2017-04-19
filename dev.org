@@ -1,7 +1,7 @@
 * Current
-* Backlog
 ** TODO Add screen shake effect
    For example, when player gets hit, screen should shake a bit
+* Backlog
 ** TODO Change colors of stance icons
 ** TODO Play slash sound on attack
 ** TODO :refactor: Battle entity pc and the way getFromServer works
