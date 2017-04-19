@@ -1,15 +1,14 @@
 * Current
 * Backlog
-** TODO Change colors of stance icons
-** TODO Battle entity pc and the way getFromServer works :refactor:
 ** TODO Add screen shake effect
    For example, when player gets hit, screen should shake a bit
+** TODO Change colors of stance icons
+** TODO Play slash sound on attack
+** TODO :refactor: Battle entity pc and the way getFromServer works
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Allow single quotes in text
-** TODO Enable double quote
-** TODO Ensure that box2d data is being deallocated properly on scene end
-   Load the blank scene and look for any box2d memory still in use
-   Check the profiler for anything leftover in fact
+** TODO Get a new sprite for the player
+   Some suitalbe character off mugen
 ** TODO Get a different sprite for the training dummy(s)
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
@@ -35,8 +34,10 @@
      For the first stage, it shows the player that they're in the offensive 
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
-** TODO Get a new sprite for the player
-   Some suitalbe character off mugen
+** TODO Enable double quote
+** TODO Ensure that box2d data is being deallocated properly on scene end
+   Load the blank scene and look for any box2d memory still in use
+   Check the profiler for anything leftover in fact
 ** TODO Create consistent interface for player sprite animations
    No matter which animation package gets loaded and which sprite is being 
    used, the component(s) which govern them should present a standard interface 
@@ -50,7 +51,6 @@
 *** TODO For player
 ** TODO Play a different sound when a typo happens
 ** TODO Play a sound on block
-** TODO Play slash sound on attack
 ** TODO Play smack sound on npc hit
 ** TODO Play smack sound on player hit
 ** TODO Play a sound on monster attack
@@ -186,6 +186,9 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Fix particle rendering
+   CLOSED: [2017-04-18 Tue 20:29]
+   Offset is wrong now that crafty was updated
 ** DONE More tweaking of TextLibrary
    CLOSED: [2017-04-18 Tue 16:50]
    Seems like sometimes even a light attack is like a whole sentence

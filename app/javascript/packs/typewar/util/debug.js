@@ -6,7 +6,7 @@ const PARTICLE_OPTIONS = {
   speedRandom: 1.2,
   // Lifespan in frames
   lifeSpan: 29,
-  lifeSpanRandom: 7,
+  lifeSpanRandom: 25,
   // Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
   angle: 65,
   angleRandom: 34,
@@ -30,10 +30,12 @@ const PARTICLE_OPTIONS = {
   originOffset: {x: 0, y: 0}
 };
 
-function particleFactory(x, y){
+function particleFactory(x, y, particleOptions){
+  if(!particleOptions) { return; }
   return Crafty.e("2D, Canvas, Particles")
     .attr({x: x, y: y, w: 10, h: 10})
-    .particles(PARTICLE_OPTIONS)
+    .particles(particleOptions);
 };
 
+window.d_particle_options = _.cloneDeep(PARTICLE_OPTIONS);
 window.particleFactory = particleFactory;
