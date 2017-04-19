@@ -105,8 +105,6 @@ export default class BattleScene {
   }
 
   initCamera(){
-    console.log("DEBUG: is there scaling happening here the way it should?? ");
-    console.log("VIEWPORT SCALE --->", VIEWPORT_SCALE);
     Crafty.viewport.scale(VIEWPORT_SCALE);
     Crafty.viewport.x += VIEWPORT_X_OFFSET;
     Crafty.viewport.y += VIEWPORT_Y_OFFSET;
