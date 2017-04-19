@@ -4,7 +4,7 @@
  */
 
 // This is a flag to help me tweak these values. I should probably write a util to do this
-const TEXT_DEBUG = true;
+const TEXT_DEBUG = false;
 
 const MIN_LIB_RESULT_SIZE = 4;
 const INFINITE_LOOP_GUARD = 20;
