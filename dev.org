@@ -1,8 +1,6 @@
 * Current
 ** TODO Play slash sound on attack
 * Backlog
-** TODO When player defends, the text fragment should pop or explode
-** TODO Allow single quotes in text
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
 ** TODO Get a different sprite for the training dummy(s)
@@ -58,6 +56,8 @@
 ** TODO Play smack sound on npc hit
 ** TODO Play smack sound on player hit
 ** TODO Play a sound on monster attack
+** TODO When player defends, the text fragment should pop or explode
+   Maybe show an explosion image for a frame or two
 ** TODO Add some wiggle to the slime normal attack so the text frargments don't appear all in line
 ** TODO Player and NPC models to be proper STI subclasses of Character :refactor:
 ** TODO Tweak particle effect
@@ -190,6 +190,8 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Allow single quotes in text
+   CLOSED: [2017-04-20 Thu 15:28]
 ** DONE Slime glob attack make shorter text
    CLOSED: [2017-04-20 Thu 15:17]
    At least for the proto battle

@@ -1,5 +1,8 @@
 # Stupid storage mechanism for text that we can pre-process
 class Text < ActiveRecord::Base
+  VALID_CHARS = /[\w'\-\+]/
+  INVALID_CHARS = /[^\w'\-\+]/
+
   def self.random(size)
   end
 
@@ -20,7 +23,7 @@ class Text < ActiveRecord::Base
 
   def words
     content.
-      split(/\b/).
+      split(INVALID_CHARS).
       map(&:strip).
       delete_if(&:blank?).
       uniq.
