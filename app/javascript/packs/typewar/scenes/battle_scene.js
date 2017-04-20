@@ -148,7 +148,6 @@ export default class BattleScene {
   initEnemyNPC(){
     var enemy_entity, promise;
 
-
     enemy_entity = battleNPCGenerator(this._sceneData.combatants.npc);
     enemy_entity.x = DEFAULT_NPC_LOC_X;
     enemy_entity.y = DEFAULT_NPC_LOC_Y;
@@ -160,16 +159,13 @@ export default class BattleScene {
     });
   }
 
-  // Character data -> an entity should be it's own class somewhere
   initPC(){
-    var pc_ent, pc_model, promise;
+    var promise;
 
-    pc_ent = battlePCGenerator(this._sceneData.combatants.player);
-    pc_ent.x = DEFAULT_PLAYER_LOC_X;
-    pc_ent.y = DEFAULT_PLAYER_LOC_Y;
-    promise = pc_ent.getFromServer();
-
-    return promise.then( () => {
+    promise = battlePCGenerator(this._sceneData.combatants.player);
+    return promise.then( (pc_ent) => {
+      pc_ent.x = DEFAULT_PLAYER_LOC_X;
+      pc_ent.y = DEFAULT_PLAYER_LOC_Y;
       return pc_ent
     });
   }

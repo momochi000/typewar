@@ -1,3 +1,5 @@
+import {DUMMY_TEXT_LIBRARY} from "../constants/dummy_text"
+
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattlePlayerComponent");
 require("../components/animations/BattlePlayerZeroAnimation");
@@ -21,5 +23,23 @@ export default function battlePCGenerator(characterData) {
 
   pc_ent[_.lowerFirst(characterData.animationComponent)].call(pc_ent);
 
-  return pc_ent;
+  return getFromServer(pc_ent);
+}
+
+function getFromServer(entity){
+  return obtainVocabularyFromServer(entity);
+}
+
+function obtainVocabularyFromServer(entity){
+  if(window.serverCaller){
+    return serverCaller.getVocabulariesPromise().then(( data, textStatus, jqXHR ) => {
+      entity.charSheet.data.vocabulary = data;
+      return entity;
+    });
+  }else{
+    return new Promise(function (fulfill, reject){
+      self._entity.charSheet.data.vocabulary = DUMMY_TEXT_LIBRARY;
+      fulfill(this._entity);
+    });
+  }
 }

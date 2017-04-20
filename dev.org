@@ -1,8 +1,9 @@
 * Current
-** TODO Change colors of stance icons
-* Backlog
 ** TODO Play slash sound on attack
 ** TODO :refactor: Battle entity pc and the way getFromServer works
+* Backlog
+** TODO Slime glob attack make shorter text
+   At least for the proto battle
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Allow single quotes in text
 ** TODO Get a new sprite for the player
@@ -33,6 +34,10 @@
      stance. Then shows the player that they can type the skills shown at the 
      bottom.  At each step, the player presses a button to continue the tutorial
 ** :release_marker: v0.5
+** TODO Change colors of stance icons
+   I either need to edit the icon itself or render the icon as an <svg> rather 
+   than <img>.  Both seem like a pain right now for not much gain so I'll push 
+   this back
 ** TODO Enable double quote
 ** TODO Ensure that box2d data is being deallocated properly on scene end
    Load the blank scene and look for any box2d memory still in use
