@@ -1,8 +1,6 @@
 * Current
 ** TODO Play slash sound on attack
 * Backlog
-** TODO Slime glob attack make shorter text
-   At least for the proto battle
 ** TODO When player defends, the text fragment should pop or explode
 ** TODO Allow single quotes in text
 ** TODO Get a new sprite for the player
@@ -192,6 +190,9 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Slime glob attack make shorter text
+   CLOSED: [2017-04-20 Thu 15:17]
+   At least for the proto battle
 ** DONE :refactor: Battle entity pc and the way getFromServer works
    CLOSED: [2017-04-20 Thu 15:12]
 ** DONE Add screen shake effect

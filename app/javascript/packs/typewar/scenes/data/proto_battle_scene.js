@@ -14,9 +14,13 @@ const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
 var slime_copy = _.cloneDeep(SLIME);
+var GlobAttackCopy = _.cloneDeep(SlimeGlobAttack);
+
+GlobAttackCopy.effects[0].textOptions.minLength = 3;
+GlobAttackCopy.effects[0].textOptions.maxLength = 6;
 slime_copy.charSheet.status.maxHp = 30;
 slime_copy.charSheet.status.hp = 30;
-slime_copy.charSheet.skills = [SlimeStandardAttack, SlimeGlobAttack];
+slime_copy.charSheet.skills = [SlimeStandardAttack, GlobAttackCopy];
 
 var protoBattleSceneData = {
   id: "prototype_battle",
