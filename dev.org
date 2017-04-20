@@ -1,6 +1,6 @@
 * Current
-* Backlog
 ** TODO Change colors of stance icons
+* Backlog
 ** TODO Play slash sound on attack
 ** TODO :refactor: Battle entity pc and the way getFromServer works
 ** TODO When player defends, the text fragment should pop or explode

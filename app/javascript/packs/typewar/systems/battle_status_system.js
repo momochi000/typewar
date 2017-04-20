@@ -1,3 +1,5 @@
+import * as Images from "../assets/images"
+
 require("../components/BattleStatusBarView");
 
 const MODE_ICON_VERTICAL_OFFSET = -40;
@@ -85,12 +87,12 @@ function iconContent(asset){
 function stanceToIconAsset(stance){
   switch(stance){
     case "offense":
-      return "assets/Typewar/icons/crossed-swords.svg"
+      return Images.ICON_CROSSED_SWORDS;
       break;
     case "defense":
-      return "assets/Typewar/icons/checked-shield.svg"
+      return Images.ICON_CHECKED_SHIELD;
       break;
     default:
-      return "assets/Typewar/icons/checked-shield.svg"
+      return Images.ICON_CHECKED_SHIELD;
   };
 }
