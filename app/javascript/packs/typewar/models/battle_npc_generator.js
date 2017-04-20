@@ -1,3 +1,4 @@
+import {DUMMY_TEXT_LIBRARY} from "../constants/dummy_text"
 
 require("../components/characters/battle/BattleCharacterComponent");
 require("../components/characters/battle/BattleNPCEnemyComponent");
@@ -22,5 +23,23 @@ export default function battleNPCGenerator(characterData) {
 
   npc_ent[_.lowerFirst(characterData.animationComponent)].call(npc_ent);
 
-  return npc_ent;
+  return getFromServer(npc_ent);
+}
+
+function getFromServer(entity){
+  return obtainVocabularyFromServer(entity);
+}
+
+function obtainVocabularyFromServer(entity){
+  if(window.serverCaller){
+    return serverCaller.getVocabulariesPromise().then(( data, textStatus, jqXHR ) => {
+      entity.charSheet.data.vocabulary = data
+      return entity;
+    });
+  }else{
+    return new Promise(function (fulfill, reject){
+      entity.charSheet.data.vocabulary = DUMMY_TEXT_LIBRARY;
+      fulfill(entity);
+    });
+  }
 }

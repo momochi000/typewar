@@ -1,6 +1,5 @@
 * Current
 ** TODO Play slash sound on attack
-** TODO :refactor: Battle entity pc and the way getFromServer works
 * Backlog
 ** TODO Slime glob attack make shorter text
    At least for the proto battle
@@ -39,6 +38,9 @@
    than <img>.  Both seem like a pain right now for not much gain so I'll push 
    this back
 ** TODO Enable double quote
+** TODO Another iteration on TextLibrarian
+   Not really getting the results I want with the current algorithm
+   This might be the time to create the markov chain generator or something
 ** TODO Ensure that box2d data is being deallocated properly on scene end
    Load the blank scene and look for any box2d memory still in use
    Check the profiler for anything leftover in fact
@@ -190,6 +192,8 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE :refactor: Battle entity pc and the way getFromServer works
+   CLOSED: [2017-04-20 Thu 15:12]
 ** DONE Add screen shake effect
    CLOSED: [2017-04-19 Wed 00:36]
    For example, when player gets hit, screen should shake a bit

@@ -38,8 +38,8 @@ function obtainVocabularyFromServer(entity){
     });
   }else{
     return new Promise(function (fulfill, reject){
-      self._entity.charSheet.data.vocabulary = DUMMY_TEXT_LIBRARY;
-      fulfill(this._entity);
+      entity.charSheet.data.vocabulary = DUMMY_TEXT_LIBRARY;
+      fulfill(entity);
     });
   }
 }

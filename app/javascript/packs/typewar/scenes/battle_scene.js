@@ -146,16 +146,13 @@ export default class BattleScene {
   }
 
   initEnemyNPC(){
-    var enemy_entity, promise;
+    var promise;
 
-    enemy_entity = battleNPCGenerator(this._sceneData.combatants.npc);
-    enemy_entity.x = DEFAULT_NPC_LOC_X;
-    enemy_entity.y = DEFAULT_NPC_LOC_Y;
-
-    promise = enemy_entity.getFromServer();
-
-    return promise.then( () => {
-      return enemy_entity;
+    promise = battleNPCGenerator(this._sceneData.combatants.npc);
+    return promise.then( (npc_ent) => {
+      npc_ent.x = DEFAULT_NPC_LOC_X;
+      npc_ent.y = DEFAULT_NPC_LOC_Y;
+      return npc_ent;
     });
   }
 

@@ -2,27 +2,21 @@
  * This is the base component, other child components are made up of specific
  * monsters or enemy types and require this component, calling methods from it.
  */
-
-import BattleEntityNPC from "../../../entities/battle_entity_npc"
 import CharacterSheet from "../../../models/character_sheet"
 
 Crafty.c("BattleNPCSlime", {
   _ANIM_HIT_DELAY: 430,
   _ANIM_ATTACK_DELAY: 200,
-  _model: null,
 
   init: function (){
     this.requires("2D, SpriteAnimation, BattleCharacter");
   },
 
   battleNPCEnemy: function (charSheet){
-    //this.charSheet = charSheet || new Typewar.Models.CharacterSheet({name: "Slime"});
     if(!this.charSheet) { 
       this.charSheet = new CharacterSheet({name :"Slime"});
     }
-    //    this._battleManagerReference = battleManagerRef;
     this._fragment_timers = [];
-    this._initModel();
 
     return this;
   },
@@ -31,16 +25,6 @@ Crafty.c("BattleNPCSlime", {
     return "offense";
   },
 
-  getFromServer: function (){
-    return this._model.getFromServer();
-  },
-
   isPlayer: function (){ return false; },
   isNPC: function (){ return true; },
-
-  //private 
-
-  _initModel: function (){
-    this._model = new BattleEntityNPC({entity: this});
-  }
 });
