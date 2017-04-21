@@ -39,7 +39,6 @@ export default class BattleScene {
     this._sceneId = sceneId;
     this._sceneData = sceneData;
 
-    console.log("DEBUG: ProtoBattleScene#constructor");
     Crafty.scene(this._sceneId, this.init.bind(this), this.stop.bind(this));
   }
 
@@ -64,7 +63,7 @@ export default class BattleScene {
     this._stageBorders.bottomEdge = null
   }
 
-  init() {
+  init(){
     var self, chars_loaded_promise;
     self = this;
 
@@ -74,16 +73,13 @@ export default class BattleScene {
     self.initStageEdges();
 
     self.initCombatants().then(function (response){
-      console.log("DEBUG: in the 'then' after ProtoBattleScene#initCombatants");
       self.initSystems();
       self.registerSystems();
       self.initCamera();
     }, function (error){
-      console.log("DEBUG: FAILED TO INITIALIZE COMBATANTS FOR SOME REASON...");
       throw(error);
       alert('Failed to initialize combatants for some reason..');
     }).catch( function (error){
-      console.log("DEBUG: ERROR IN PROMISE GROUP~~~~~~~---->", error);
       throw(error);
     });
   }
