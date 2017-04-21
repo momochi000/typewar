@@ -19,6 +19,7 @@ export default function battlePCGenerator(characterData) {
     .battleCharacter(characterData.charSheet)
     .battlePlayer()
     .battleStatus()
+    .battleStance(characterData.initialStance)
     .collision(new Crafty.polygon(characterData.hitbox));
 
   pc_ent[_.lowerFirst(characterData.animationComponent)].call(pc_ent);

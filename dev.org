@@ -8,15 +8,16 @@
 ** TODO Get a different sprite for the training dummy(s)
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
-**** TODO Create a new scene
-**** TODO create training dummy npc
-**** TODO Player just gets a single skill here (light attack)
+**** DONE Create a new scene
+     CLOSED: [2017-04-20 Thu 21:03]
+**** DONE create training dummy npc
+     CLOSED: [2017-04-20 Thu 21:03]
+**** DONE new training dummy npc has no skills and just takes damage
+     CLOSED: [2017-04-20 Thu 21:04]
+**** DONE Player just gets a single skill here (light attack)
+     CLOSED: [2017-04-20 Thu 21:03]
 **** TODO Scene transition to training dummy 2
-**** TODO Identify similarities between proto battle and dummy battle
-**** TODO Factor out what can into a common ancestor or generator/factory
-**** TODO create new scene
-**** TODO create training dummy npc
-**** TODO new training dummy npc has no skills and just takes damage
+**** TODO Factor out scene stuff into a common ancestor or generator/factory
 **** TODO Battle ends when the dummy is defeated
 *** TODO Training dummy stage 2
 **** TODO Player should have 0 skills in this battle
@@ -26,11 +27,32 @@
     Player has a single skill and monster gets a skill, this round teaches the 
     player to balance attack and defense.
 *** TODO Training tutorial wizard
-**** TODO Battle pauses and a tooltip appears prompting the player what to do.
-     For the first stage, it shows the player that they're in the offensive 
-     stance. Then shows the player that they can type the skills shown at the 
-     bottom.  At each step, the player presses a button to continue the tutorial
-** :release_marker: v0.5
+**** DONE New system
+     CLOSED: [2017-04-20 Thu 22:57]
+**** DONE System can transition between steps
+     CLOSED: [2017-04-20 Thu 22:58]
+**** TODO System can open a modal
+     LEFT OFF:
+     Problem here is that the pause step uses Crafty.pause() which stops the 
+     BattleInput component from taking any input. What it should do instead is 
+     use Crafty.keydown to see if the desired input is pressed. Should still 
+     clear the input queue to ensure that no text fragments are getting input 
+
+     No actually this is wrong.  The problem is that enterFrame stops, therefore
+     the tutorialSystem() function won't run once the game is paused.  Basically
+     the only reason that the pause step works at all is because handleStep is 
+     called directly in the execution of the pause step.
+
+     A pause step MUST handle unpausing itself somehow.. will need to think 
+     about how to implement this....
+** TODO Get a new background for training scene
+** :release_marker: v0.4
+** TODO Replace use of setTimeout with Crafty.delay()
+   Not yet.. first time I tried to use entity.delay(..) it didn't work
+   simply switching to setTimeout worked flawlessly so this must be broken
+** TODO rewrite battle input into the input system :refactor:
+   components/BattleInput should run any code
+** TODO Make player lose scene
 ** TODO Change colors of stance icons
    I either need to edit the icon itself or render the icon as an <svg> rather 
    than <img>.  Both seem like a pain right now for not much gain so I'll push 

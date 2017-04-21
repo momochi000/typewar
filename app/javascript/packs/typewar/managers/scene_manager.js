@@ -1,4 +1,6 @@
 import BattleScene from "../scenes/battle_scene"
+import TrainingScene from "../scenes/training_scene"
+import trainingScene1Data from "../scenes/data/training/training_scene1"
 import basicSlimeBattleData from "../scenes/data/basic_slime_battle"
 import rainSlimeBattleData from "../scenes/data/rain_slime_battle"
 import protoBattleSceneData from "../scenes/data/proto_battle_scene"
@@ -76,6 +78,15 @@ export default class SceneManager {
 
   _prepareSceneGraph(){
     this._sceneGraph = [
+      {
+        id: "training_scene_1",
+        sceneKlass: TrainingScene,
+        sceneData: trainingScene1Data,
+        transitions: {
+          victory: "next",
+          defeat: null // TODO: this should play the "you died" scene
+        }
+      },
       {
         id: "baby_slime",
         sceneKlass: BattleScene,
