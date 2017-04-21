@@ -1,11 +1,13 @@
 var StateMachine = require("javascript-state-machine");
+
 Crafty.c("BattleStance", {
   
-  init: function (){
-    this._setupModeFSM();
-  },
+  init: function (){ },
 
-  battleStance: function (){},
+  battleStance: function (initialStance){
+    this._setupModeFSM(initialStance);
+    return this;
+  },
 
   getStance: function (){
     return this._stance.current;
@@ -20,11 +22,12 @@ Crafty.c("BattleStance", {
     return this.getStance();
   },
 
-  _setupModeFSM: function (){
-    var fsm, self;
+  _setupModeFSM: function (initialStance){
+    var fsm, self, initial_stance;
     self=this;
+    initial_stance = initialStance || "defense";
     this._stance = StateMachine.create({
-      initial: "defense",
+      initial: initial_stance,
       events: [
         { name: "toggle", from: "defense", to: "offense" },
         { name: "toggle", from: "offense", to: "defense" }
