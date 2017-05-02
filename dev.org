@@ -3,6 +3,8 @@
 * Backlog
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
+   Working on krayce in gimp. The biggest sprite frame is 481x473
+   This can be the grid size
 ** TODO Get a different sprite for the training dummy(s)
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
