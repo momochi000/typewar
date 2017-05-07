@@ -21,6 +21,8 @@ import {
   ANIM_READY, ANIM_LIGHT_ATTACK, ANIM_MED_ATTACK, ANIM_HEAVY_ATTACK, ANIM_SPECIAL_ATTACK, ANIM_BLOCK, ANIM_DASH, ANIM_JUMP, ANIM_ENTER, ANIM_CHARGE, ANIM_HIT
 } from "../../../constants/animation_constants"
 
+import * as SOUND from "../../../constants/audio_constants"
+
 var ZeroLightSlash = {
   effects: [
     { 
@@ -34,7 +36,8 @@ var ZeroLightSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_LIGHT_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
-    { klass: Effects.SetCooldown, target: "self", cooldownLength: 700} 
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 700},
+    { klass: Effects.PlaySound, soundId: SOUND.SOUND_SWORD_SLASH }
   ],
   cost: 0,
   name: 'light slash',
@@ -57,7 +60,8 @@ var ZeroMedSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_MED_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
-    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2000} 
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2000},
+    { klass: Effects.PlaySound, soundId: SOUND.SOUND_SWORD_SLASH }
   ],
   cost: 0,
   name: 'medium slash',
@@ -79,7 +83,8 @@ var ZeroHardSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_HEAVY_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
-    { klass: Effects.SetCooldown, target: "self", cooldownLength: 5000} 
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 5000},
+    { klass: Effects.PlaySound, soundId: SOUND.SOUND_SWORD_SLASH }
   ],
   cost: 0,
   name: 'heavy slash',
@@ -102,7 +107,8 @@ var ZeroUpperSlash = {
     },
     { klass: Effects.TriggerAnimation, target: "self", animation: ANIM_SPECIAL_ATTACK},
     { klass: Effects.TriggerAnimation, animation: ANIM_HIT },
-    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2200} 
+    { klass: Effects.SetCooldown, target: "self", cooldownLength: 2200},
+    { klass: Effects.PlaySound, soundId: SOUND.SOUND_SWORD_SLASH }
   ],
   cost: 0,
   name: 'upper slash',

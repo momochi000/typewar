@@ -4,8 +4,7 @@ import BAYOU from "../background/bayou"
 
 import {ZeroLightSlash} from "../../../models/skills/player/zero_active_skills"
 import {SlimeStandardAttack} from "../../../models/skills/npc/slime_skills"
-import {SOUND_LETTER_TYPED} from "../../../constants/audio_constants"
-import * as Audio from "../../../assets/audio"
+import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../../constants/audio_constants"
 
 const STAGE_WIDTH = 450;
 const STAGE_HEIGHT = 240;
@@ -38,7 +37,8 @@ var trainingScene1Data = {
 
   audio: {
     sounds: [
-      { soundId: SOUND_LETTER_TYPED, soundUrls: Audio.SND_TYPEWRITER }
+      SOUND_LETTER_TYPED,
+      SOUND_SWORD_SLASH
     ]
   }
 }

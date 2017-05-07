@@ -32,6 +32,17 @@ class Damage {
   }
 }
 
+class PlaySound {
+  static execute(args) {
+    if(!args.soundId) { return; }
+    if(args.delay){
+      // TODO: Allow sound to be played with delay
+    }else{
+      Crafty.trigger("PlaySound", args.soundId);
+    }
+  }
+}
+
 class SetCooldown {
   static execute(args) {
     var args_copy;
@@ -260,4 +271,4 @@ function validateTarget(effectName, target){
   }
 }
 
-export { Damage, ScreenShake, SetCooldown, SpawnTextProjectile, SpawnScatterTextProjectilePhysics, SpawnTextProjectilePhysics, TriggerAnimation }
+export { Damage, PlaySound, ScreenShake, SetCooldown, SpawnTextProjectile, SpawnScatterTextProjectilePhysics, SpawnTextProjectilePhysics, TriggerAnimation }

@@ -1,9 +1,4 @@
 * Current
-** TODO Play slash sound on attack
-* Backlog
-** TODO Get a new sprite for the player
-   Some suitalbe character off mugen
-** TODO Get a different sprite for the training dummy(s)
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** DONE Create a new scene
@@ -43,11 +38,20 @@
 
      A pause step MUST handle unpausing itself somehow.. will need to think 
      about how to implement this....
+* Backlog
+** TODO Get a new sprite for the player
+   Some suitalbe character off mugen
+** TODO Consider removing typing sound
+   It uses up all the sound buffer so other sounds can't play
+   Before doing that, I could try finding a typing sound that's super short
+** TODO Get a different sprite for the training dummy(s)
 ** TODO Get a new background for training scene
 ** :release_marker: v0.4
 ** TODO Replace use of setTimeout with Crafty.delay()
    Not yet.. first time I tried to use entity.delay(..) it didn't work
    simply switching to setTimeout worked flawlessly so this must be broken
+** TODO When player hits or is hit there should be a brief (1-2 frame) stutter
+   A-la other fighting games. Makes the combos more meaty and gives more feedback as to a hit
 ** TODO rewrite battle input into the input system :refactor:
    components/BattleInput should run any code
 ** TODO Make player lose scene
@@ -212,6 +216,8 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Play slash sound on attack
+   CLOSED: [2017-05-06 Sat 17:21]
 ** DONE Allow single quotes in text
    CLOSED: [2017-04-20 Thu 15:28]
 ** DONE Slime glob attack make shorter text
