@@ -3,11 +3,8 @@ require("../components/Tutorial");
 const TUTORIAL_DATA = {
   steps: [
     {type: 'wait', duration: 800},
-    {type: 'pause'},
     {type: 'wait', duration: 2000},
-    {type: 'unpause'},
-    {type: 'wait', duration: 2000},
-    {type: 'wait_input', input: ' '},
+    {type: 'wait_input', input: "SPACE"},
     {type: 'end'}
   ]
 };
@@ -38,8 +35,6 @@ export function tutorialSystem(Crafty){
     if(!target_input) { 
       throw new Error("Error, tutorial is waiting for input but tutorial state is not on an input step!!"); 
     }
-
-    console.log("DEBUG: yeah we're picking up input  here!!! looking for --------> ", target_input);
 
     input_queue.forEach((currInput) => {
       console.log("DEBUG: Processing input queue.. curr input ----> ", currInput);
@@ -78,24 +73,15 @@ function handleStep(entity, Crafty){
     case "modal":
       return;
 
-    case "pause":
-      Crafty.pause();
-      entity.incrementTutorialStep();
-      handleStep(entity, Crafty);
-      return;
-
-    case "unpause":
-      if(Crafty.isPaused()) { Crafty.pause(); }
-      entity.incrementTutorialStep();
-      handleStep(entity, Crafty);
-      return;
-
     case "wait":
       stepWait(entity, Crafty);
       return;
 
     case "wait_input":
       stepWaitInput(entity, Crafty);
+      return;
+
+    case "wait_trigger":
       return;
 
     case "end":
@@ -110,6 +96,22 @@ function handleStep(entity, Crafty){
   }
 }
 
+function handleWaitKeyDown(evt){
+  var Crafty, bound_function, curr_step, entity;
+
+  Crafty = this.Crafty;
+  entity = this.entity;
+  curr_step = entity.getCurrTutorialStep();
+  bound_function = this.boundFunc;
+
+  if(Crafty.keydown[Crafty.keys[curr_step.input]]){
+    $(window).off("keydown", bound_function);
+    entity.incrementTutorialStep();
+    Crafty.pause();
+    handleStep(entity, Crafty);
+  }
+}
+
 function onStep(){
   handleStep(this.entity, this.Crafty);
 }
@@ -118,18 +120,19 @@ function stepWait(entity, Crafty){
   var curr_step;
 
   curr_step = entity.getCurrTutorialStep();
+  Crafty.pause();
   console.log("DEBUG: Waiting with a delay of --------------------", curr_step.duration);
+
   window.setTimeout( () => {
     console.log("DEBUG: the wait is over!!!");
     entity.incrementTutorialStep();
+    Crafty.pause();
     handleStep(entity, Crafty);
   }, curr_step.duration);
 }
 
 function stepWaitInput(entity, Crafty){
-  var curr_step = entity.getCurrTutorialStep();
-
-  entity.setCallback(onStep.bind({entity: entity, Crafty: Crafty}));
-  entity.listenForInput();
+  Crafty.pause();
+  $(window).on("keydown", handleWaitKeyDown.bind({Crafty: Crafty, entity: entity, boundFunc: handleWaitKeyDown}));
 }
 

@@ -38,6 +38,13 @@
 
      A pause step MUST handle unpausing itself somehow.. will need to think 
      about how to implement this....
+     
+     I think the answer might be that there is no pause step, but that any step
+     which requires a pause, must handle it's own pause and unpause action.
+     For example, the wait for input step would call Crafty.pause, then handle 
+     keyboard input until it gets the desired input to continue, then call unpause
+     A step that is supposed to point something out for a few seconds should 
+     render whatever it needs to render, call pause, then unpause after a delay
 * Backlog
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
