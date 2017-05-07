@@ -6,6 +6,7 @@
 
 
 require("../components/AudioManager");
+import {SOUNDS} from "../constants/audio_constants"
 
 export function initAudioSystem(Crafty, audioData){
   var audio_manager, audio_queue;
@@ -30,6 +31,7 @@ export function audioSystem(Crafty){
   audio_manager = Crafty("AudioManager");
   if(audio_manager.length==0){ return; }
   audio_queue = audio_manager.getAudioQueue();
+  if(audio_queue.length==0) { return; }
 
   curr_sound = audio_queue.pop()
   Crafty.audio.play(curr_sound);
@@ -53,7 +55,7 @@ function bindCapturePlaySound(audio_manager){
 
 function prepareSounds(sounds){
   _.each(sounds, (curr_sound_data) => {
-    Crafty.audio.add(curr_sound_data.soundId, curr_sound_data.soundUrls);
+    Crafty.audio.add(curr_sound_data, SOUNDS[curr_sound_data]);
   });
 }
 
