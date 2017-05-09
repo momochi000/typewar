@@ -129,4 +129,3 @@ function stepWaitInput(entity, Crafty){
   Crafty.pause();
   $(window).on("keydown", handleWaitKeyDown.bind({Crafty: Crafty, entity: entity, boundFunc: handleWaitKeyDown}));
 }
-

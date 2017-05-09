@@ -55,6 +55,18 @@
      keyboard input until it gets the desired input to continue, then call unpause
      A step that is supposed to point something out for a few seconds should 
      render whatever it needs to render, call pause, then unpause after a delay
+
+     Ok, solved the pause problem, now building the modal
+***** Do a little design work to determine how it should look roughly
+***** Build a component to represent UI callout
+      There might need to be 2 components, one for on canvas and one for off because 
+      UI callout boxes will need to be displayed both on and off the stage
+***** Build a backbone view that attaches to the component
+***** Add a handlebar template for the UI callout
+***** Create an entity, render the view into the entity
+***** Determine how to point the callout at various elements (other components or what?)
+***** Encapsulate the data needed to generate the whole callout 
+      and include it in the tutorial data structure
 * Backlog
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
