@@ -37,7 +37,6 @@ export function tutorialSystem(Crafty){
     }
 
     input_queue.forEach((currInput) => {
-      console.log("DEBUG: Processing input queue.. curr input ----> ", currInput);
       if(currInput == target_input) { didFindTargetInput = true; }
     });
 
@@ -62,7 +61,6 @@ function generateTutorialEntity(Crafty, data){
 }
 
 function handleStep(entity, Crafty){
-  console.log("DEBUG: TUTORIAL HANDLE STEP ~~~~~~~~~~~~~~~~~~~~~~~~~~~ bout to kick off a "+entity.getCurrTutorialStep().type+" step");
 
   if(!entity.getCurrTutorialStep()){ 
     entity.destroy();
@@ -85,12 +83,10 @@ function handleStep(entity, Crafty){
       return;
 
     case "end":
-      console.log("DEBUG Tutorial has ended, cleaning up...");
       entity.destroy();
       return;
 
     default:
-      console.log("DEBUG: ended up with an unknown tutorial step");
       entity.destroy();
       return;
   }
@@ -121,10 +117,8 @@ function stepWait(entity, Crafty){
 
   curr_step = entity.getCurrTutorialStep();
   Crafty.pause();
-  console.log("DEBUG: Waiting with a delay of --------------------", curr_step.duration);
 
   window.setTimeout( () => {
-    console.log("DEBUG: the wait is over!!!");
     entity.incrementTutorialStep();
     Crafty.pause();
     handleStep(entity, Crafty);

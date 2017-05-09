@@ -71,6 +71,7 @@ Crafty.c("BattleInput", {
   _handleKeyPress: function (keyEvent){
     var letter_value;
 
+    if(Crafty.isPaused()){return;}
     letter_value = this._translateKeyToLetter(keyEvent.key);
 
     if(this._isModifierKey(letter_value)){
@@ -83,6 +84,7 @@ Crafty.c("BattleInput", {
   _handleKeyRelease: function (keyEvent){
     var letter_value;
     
+    if(Crafty.isPaused()){return;}
     letter_value = this._translateKeyToLetter(keyEvent.key);
 
     if(this._isModifierKey(letter_value)){
