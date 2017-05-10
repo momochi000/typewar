@@ -18,7 +18,7 @@ var ModalView = Backbone.View.extend({
     var view_opts
     view_opts = viewOptions || {};
     this.$el.html(this._template(view_opts));
-    $("body").append(this.$el);
+    $("body").prepend(this.$el);
   }
 
 });

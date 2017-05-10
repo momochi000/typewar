@@ -40,6 +40,46 @@ var trainingScene1Data = {
       SOUND_LETTER_TYPED,
       SOUND_SWORD_SLASH
     ]
+  },
+  tutorial: {
+    steps: [
+      {type: 'wait', duration: 3000},
+      {type: 'modal', modalData: {
+        headerContent: "Welcome to typewarrior!",
+        modalContent: "This is a fighting game featuring typing.",
+        footerContent: "Press space to continue..."
+      }},
+      {type: 'wait_input', input: "SPACE"},
+
+      {type: 'modal', modalData: {
+        headerContent: "How to play: Defeat your opponent!",
+        modalContent: "Type the words to attack and defend.  Successful attacks will deplete the enemy's health.  Successful attacks against you will deplete your health.  Reduce the enemy's health to zero before you are defeated. In this stage we'll show you how to attack.",
+        footerContent: "Press space to continue..."
+      }},
+      {type: 'wait_input', input: "SPACE"},
+
+      {type: 'modal', modalData: {
+        headerContent: "How to play: Opponent's health",
+        modalContent: "Here's your opponent's health bar.  As you attack, this bar will deplete.  Bring it to zero and you've won!",
+        footerContent: "Press space to continue..."
+      }, highlightSelectors: ".entity-status-training-dummy"},
+      {type: 'wait_input', input: "SPACE"},
+
+      {type: 'modal', modalData: {
+        headerContent: "How to play: Your skills",
+        modalContent: "Here are your skills, type the word or words shown here to attack.  There will be a cooldown after you've used a given skill where it won't yet be ready.",
+        footerContent: "Press space to continue..."
+      }, highlightSelectors: ".battle-skill"},
+      {type: 'wait_input', input: "SPACE"},
+
+      {type: 'modal', modalData: {
+        headerContent: "How to play: Prepare to fight",
+        modalContent: "This training dummy won't fight back.  Just keep hitting it to get the hang of attacking.",
+        footerContent: "Ready? Press space to continue..."
+      }},
+      {type: 'wait_input', input: "SPACE"},
+      {type: 'end'}
+    ]
   }
 }
 export default trainingScene1Data
