@@ -10,7 +10,6 @@ var EntityStatusView = Backbone.View.extend({
   tagName: 'div',
   className: 'entity-status',
   _templateId: '#entity-status-template',
-  _parentId: '#status-area',
   entity: null,
 
   initialize: function(opts) {
