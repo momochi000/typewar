@@ -12,16 +12,17 @@ var EntityStatusView = Backbone.View.extend({
   _templateId: '#entity-status-template',
   entity: null,
 
-  initialize: function(opts) {
+  initialize: function (opts){
     this.entity = opts.entity;
     this._template = Handlebars.compile($(this._templateId).html());
   },
 
-  render: function() {
+  render: function (){
     var opts, $found_el;
 
     opts = {
       name: this.entity.getName() || "Unnamed",
+      className: _.kebabCase(this.entity.getName()) || "Unnamed",
       percentHP: this.entity.getPercentHP(),
       statusHP: this.getStatusHP()
     }

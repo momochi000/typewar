@@ -19,6 +19,14 @@
      CLOSED: [2017-04-20 Thu 21:04]
 **** DONE Player just gets a single skill here (light attack)
      CLOSED: [2017-04-20 Thu 21:03]
+**** TODO Scene 1 explains some of the game concepts through modals
+***** TODO General intro/welcome
+***** TODO General gameplay explanation
+***** TODO Introduce player character
+***** TODO Introduce opponent
+***** TODO Introduce opponent health
+***** TODO Introduce offensive skill
+***** TODO Explain victory
 **** TODO Scene transition to training dummy 2
 **** TODO Factor out scene stuff into a common ancestor or generator/factory
 **** TODO Battle ends when the dummy is defeated
@@ -57,17 +65,26 @@
      render whatever it needs to render, call pause, then unpause after a delay
 
      Ok, solved the pause problem, now building the modal
-***** Do a little design work to determine how it should look roughly
-***** Build a component to represent UI callout
+***** DONE Do a little design work to determine how it should look roughly
+      CLOSED: [2017-05-09 Tue 16:53]
+***** DONE Build a component to represent UI callout
+      CLOSED: [2017-05-09 Tue 18:37]
       There might need to be 2 components, one for on canvas and one for off because 
       UI callout boxes will need to be displayed both on and off the stage
-***** Build a backbone view that attaches to the component
-***** Add a handlebar template for the UI callout
-***** Create an entity, render the view into the entity
-***** Determine how to point the callout at various elements (other components or what?)
-***** Encapsulate the data needed to generate the whole callout 
+***** DONE Build a backbone view that attaches to the component
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Add a handlebar template for the UI callout
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Create an entity, render the view into the entity
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Determine how to point the callout at various elements (other components or what?)
+      CLOSED: [2017-05-09 Tue 18:37]
+***** TODO Encapsulate the data needed to generate the whole callout 
       and include it in the tutorial data structure
+***** TODO Style/polish the presentation
+****** TODO Add a bright border around .ui-callout-target
 * Backlog
+** TODO Add some kind of scene transition
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
 ** TODO Consider removing typing sound
