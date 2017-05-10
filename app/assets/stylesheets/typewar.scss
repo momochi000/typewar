@@ -9,9 +9,69 @@
   100% { opacity: 1.0; }
 }             
 
+.battle-character-stance{
+  width: 30px; height:30px;
+  @include border-radius(4px);
+}
+
+.battle-skill {
+  width: 20%;
+  display: inline-block;
+  margin: 5px;
+
+  .skill-slot-num {}
+
+  .battle-skill-wrapper {
+    text-align: center;
+    &.ready {background-color: yellowgreen;}
+    &.active {background-color: yellow;}
+    &.cooling {background-color: red;}
+
+    span.typed {
+      font-size: 0.8em;
+    }
+    span.rest {
+      font-size: 1.4em;
+    }
+  }
+}
+
+.skill-manager-wrapper {
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: aliceblue;
+}
+
+.status-bar {
+  //width: 1080px;
+  //margin: 0 auto;
+  position: relative;
+  z-index: 90000000;
+  height: 40px;
+  padding: 0 20px;
+
+  .entity-status {
+    float: left;
+    width: 300px;
+    &:last-child { float: right; }
+
+    .name { 
+      font-weight: bold; 
+    }
+    .health-bar-wrap {
+      background-color: red;
+    }
+    .health-bar {
+      height: 1em;
+      background-color: blue;
+    }
+  }
+}
+
 .text-fragment-attack {
   height: 1px;
 }
+
 .text-fragment-attack-wrapper {
   &.active { 
     z-index: 99999;
@@ -55,62 +115,4 @@
     background-color: steel-blue;
     span.rest { background-color: skyblue; }
   }
-}
-
-.skill-manager-wrapper {
-  margin-bottom: 10px;
-  text-align: center;
-  background-color: aliceblue;
-}
-.battle-skill {
-  width: 20%;
-  display: inline-block;
-  margin: 5px;
-
-  .skill-slot-num {}
-
-  .battle-skill-wrapper {
-    text-align: center;
-    &.ready {background-color: yellowgreen;}
-    &.active {background-color: yellow;}
-    &.cooling {background-color: red;}
-
-    span.typed {
-      font-size: 0.8em;
-    }
-    span.rest {
-      font-size: 1.4em;
-    }
-  }
-}
-
-.status-bar {
-  //width: 1080px;
-  //margin: 0 auto;
-  position: relative;
-  z-index: 90000000;
-  height: 40px;
-  padding: 0 20px;
-
-  .entity-status {
-    float: left;
-    width: 300px;
-    &:last-child { float: right; }
-
-    .name { 
-      font-weight: bold; 
-    }
-    .health-bar-wrap {
-      background-color: red;
-    }
-    .health-bar {
-      height: 1em;
-      background-color: blue;
-    }
-  }
-}
-
-.battle-character-stance{
-  width: 30px; height:30px;
-  @include border-radius(4px);
 }
