@@ -79,8 +79,14 @@
       CLOSED: [2017-05-09 Tue 18:37]
 ***** DONE Determine how to point the callout at various elements (other components or what?)
       CLOSED: [2017-05-09 Tue 18:37]
-***** TODO Encapsulate the data needed to generate the whole callout 
+***** DONE Encapsulate the data needed to generate the whole callout
+      CLOSED: [2017-05-10 Wed 15:55]
       and include it in the tutorial data structure
+***** DONE Figure out the issue with keyboard input being captured/ignored when clicking 
+      CLOSED: [2017-05-10 Wed 16:26]
+      in the crafty stage area
+***** DONE Move tutorial data to the scene data declaration
+      CLOSED: [2017-05-10 Wed 16:29]
 ***** TODO Style/polish the presentation
 ****** TODO Add a bright border around .ui-callout-target
 * Backlog
