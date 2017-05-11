@@ -1,6 +1,7 @@
 import BattleScene from "../scenes/battle_scene"
 import TrainingScene from "../scenes/training_scene"
 import trainingScene1Data from "../scenes/data/training/training_scene1"
+import trainingScene2Data from "../scenes/data/training/training_scene2"
 import basicSlimeBattleData from "../scenes/data/basic_slime_battle"
 import rainSlimeBattleData from "../scenes/data/rain_slime_battle"
 import protoBattleSceneData from "../scenes/data/proto_battle_scene"
@@ -52,10 +53,6 @@ export default class SceneManager {
     return this._currentScene.get("scene_id");
   }
 
-  _getNextSceneFromCondition(currSceneId, condition){
-    //TBI
-  }
-
   _handleSceneTransition(evt){
     var transition_directive;
 
@@ -82,6 +79,15 @@ export default class SceneManager {
         id: "training_scene_1",
         sceneKlass: TrainingScene,
         sceneData: trainingScene1Data,
+        transitions: {
+          victory: "next",
+          defeat: null // TODO: this should play the "you died" scene
+        }
+      },
+      {
+        id: "training_scene_2",
+        sceneKlass: TrainingScene,
+        sceneData: trainingScene2Data,
         transitions: {
           victory: "next",
           defeat: null // TODO: this should play the "you died" scene

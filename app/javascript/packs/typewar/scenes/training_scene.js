@@ -14,6 +14,7 @@ import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} fr
 import {initAudioSystem, audioSystem, teardownAudioSystem} from "../systems/audio_system"
 import {initParticleSystem, particleSystem} from "../systems/particle_system"
 import {initTutorialSystem, tutorialSystem, teardownTutorialSystem} from "../systems/tutorial_system"
+import { npcDiedPlayerWinSystem } from "../systems/npc_died_player_win_system"
 
 
 const DEFAULT_NPC_LOC_X = 390;
@@ -85,6 +86,7 @@ export default class TrainingScene extends BattleScene {
     battleStatusSystem(Crafty);
     particleSystem(Crafty);
     audioSystem(Crafty);
+    npcDiedPlayerWinSystem(Crafty);
   }
 
   teardownSystems(){

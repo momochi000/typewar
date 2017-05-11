@@ -1,4 +1,14 @@
 * Current
+** TODO Work on scene manager
+*** Scenes need to be able to handle different win systems
+    For example, training scene 1 is over when the training dummy is defeated.  
+    This is easily handled by the same system used in the main battle scenes.  
+    However scene 2 is over when the player defends against a set number of 
+    attacks.  Since this would need a different system, and the systems are 
+    coded/called in the training_scene.js which inherits from battle scene, 
+    this won't work and would need a different scene.  What I want to do is 
+    refactor the battle scene to hold an array of systems which are then looped
+    over and run the same way they are currently.
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** DONE Create a new scene
@@ -9,14 +19,22 @@
      CLOSED: [2017-04-20 Thu 21:04]
 **** DONE Player just gets a single skill here (light attack)
      CLOSED: [2017-04-20 Thu 21:03]
-**** TODO Scene 1 explains some of the game concepts through modals
-***** TODO General intro/welcome
-***** TODO General gameplay explanation
-***** TODO Introduce player character
-***** TODO Introduce opponent
-***** TODO Introduce opponent health
-***** TODO Introduce offensive skill
-***** TODO Explain victory
+**** DONE Scene 1 explains some of the game concepts through modals
+     CLOSED: [2017-05-10 Wed 16:32]
+***** DONE General intro/welcome
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE General gameplay explanation
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce player character
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce opponent
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce opponent health
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce offensive skill
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Explain victory
+      CLOSED: [2017-05-10 Wed 16:32]
 **** TODO Scene transition to training dummy 2
 **** TODO Factor out scene stuff into a common ancestor or generator/factory
 **** TODO Battle ends when the dummy is defeated
@@ -27,12 +45,14 @@
 *** TODO Training dummy stage 3
     Player has a single skill and monster gets a skill, this round teaches the 
     player to balance attack and defense.
-*** TODO Training tutorial wizard
+*** DONE Training tutorial wizard
+    CLOSED: [2017-05-10 Wed 16:56]
 **** DONE New system
      CLOSED: [2017-04-20 Thu 22:57]
 **** DONE System can transition between steps
      CLOSED: [2017-04-20 Thu 22:58]
-**** TODO System can open a modal
+**** DONE System can open a modal
+     CLOSED: [2017-05-10 Wed 16:56]
      LEFT OFF:
      Problem here is that the pause step uses Crafty.pause() which stops the 
      BattleInput component from taking any input. What it should do instead is 
@@ -77,8 +97,8 @@
       in the crafty stage area
 ***** DONE Move tutorial data to the scene data declaration
       CLOSED: [2017-05-10 Wed 16:29]
-***** TODO Style/polish the presentation
-****** TODO Add a bright border around .ui-callout-target
+** TODO Style/polish the tutorial presentation
+*** TODO Add a bright border around .ui-callout-target
 * Backlog
 ** TODO Add some kind of scene transition
 ** TODO Get a new sprite for the player
