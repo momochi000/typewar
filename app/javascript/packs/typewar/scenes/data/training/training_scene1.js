@@ -3,7 +3,6 @@ import TRAINING_DUMMY from "../character/training_dummy"
 import BAYOU from "../background/bayou"
 
 import {ZeroLightSlash} from "../../../models/skills/player/zero_active_skills"
-import {SlimeStandardAttack} from "../../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../../constants/audio_constants"
 
 const STAGE_WIDTH = 450;
@@ -16,6 +15,10 @@ var zero_copy = _.cloneDeep(ZERO);
 
 zero_copy.charSheet.skills = [ZeroLightSlash];
 zero_copy.initialStance = "offense";
+
+var dummy_copy = _.cloneDeep(TRAINING_DUMMY);
+dummy_copy.charSheet.status.hp = 5;
+dummy_copy.charSheet.status.maxHp = 5;
 
 var trainingScene1Data = {
   id: "training_scene_1",
@@ -32,7 +35,7 @@ var trainingScene1Data = {
 
   combatants: {
     player: zero_copy,
-    npc: TRAINING_DUMMY
+    npc: dummy_copy
   },
 
   audio: {
