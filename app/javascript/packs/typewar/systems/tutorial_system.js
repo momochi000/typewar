@@ -1,10 +1,10 @@
 require("../components/Tutorial");
 require("../components/ui/UiCallout");
 
-export function initTutorialSystem(Crafty, data){
+export function initTutorialSystem(Crafty, options){
   var tutorial_ent;
 
-  tutorial_ent = generateTutorialEntity(Crafty, data);
+  tutorial_ent = generateTutorialEntity(Crafty, options.tutorialData);
   handleStep(tutorial_ent, Crafty);
 }
 

@@ -60,39 +60,4 @@ export default class TrainingScene extends BattleScene {
       return npc_ent;
     });
   }
-
-  initSystems(){
-    initAudioSystem(Crafty, this._sceneData.audio);
-    initBattleStatusSystem(Crafty);
-    initInputSystem(Crafty);
-    initPlayerSkillSystem(Crafty);
-    initNPCSkillSystem(Crafty);
-    initNPCAISystem(Crafty);
-    initParticleSystem(Crafty);
-    initTutorialSystem(Crafty, this._sceneData.tutorial);
-  }
-
-  runSystems(evt){
-    tutorialSystem(Crafty);
-    inputSystem(Crafty);
-    playerSkillSystem(Crafty);
-    npcSkillSystem(Crafty);
-    nPCAISystem(Crafty);
-    textFragmentAttackDisplaySystem(Crafty);
-    defendableSkillSystem(Crafty);
-    projectileSystem(Crafty, evt.frame, evt.dt);
-    triggerEffectOnCollideSystem(Crafty);
-    battleEffectSystem(Crafty);
-    battleStatusSystem(Crafty);
-    particleSystem(Crafty);
-    audioSystem(Crafty);
-    npcDiedPlayerWinSystem(Crafty);
-  }
-
-  teardownSystems(){
-    Crafty.unbind("EnterFrame", this.runSystems);
-    teardownBattleStatusSystem(Crafty);
-    teardownAudioSystem(Crafty);
-    teardownTutorialSystem(Crafty);
-  }
 }

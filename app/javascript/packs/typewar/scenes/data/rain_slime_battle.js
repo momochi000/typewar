@@ -5,6 +5,8 @@ import BAYOU from "./background/bayou"
 import {SlimeScatterAttack} from "../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../constants/audio_constants"
 
+import standardBattleSystems from "./standard_battle_systems"
+
 const STAGE_WIDTH = 450;
 const STAGE_HEIGHT = 240;
 const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
@@ -39,6 +41,7 @@ var rainSlimeBattleData = {
       SOUND_LETTER_TYPED,
       SOUND_SWORD_SLASH
     ]
-  }
+  },
+  systems: standardBattleSystems
 }
 export default rainSlimeBattleData

@@ -8,9 +8,10 @@
 require("../components/AudioManager");
 import {SOUNDS} from "../constants/audio_constants"
 
-export function initAudioSystem(Crafty, audioData){
+export function initAudioSystem(Crafty, options){
   var audio_manager, audio_queue;
 
+  var {audioData} = options;
   audio_manager = Crafty.e("AudioManager").audioManager();
   audio_queue = audio_manager.getAudioQueue();
   prepareSounds(audioData.sounds);
