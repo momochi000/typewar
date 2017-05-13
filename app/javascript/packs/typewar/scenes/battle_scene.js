@@ -4,21 +4,6 @@ import Camera from "../managers/camera"
 import battlePCGenerator from "../models/battle_pc_generator"
 import battleNPCGenerator from "../models/battle_npc_generator"
 
-import {initBattleEffectSystem, battleEffectSystem} from "../systems/battle_effect_system"
-import {initBattleStatusSystem, battleStatusSystem, teardownBattleStatusSystem} from "../systems/battle_status_system"
-import {initInputSystem, inputSystem} from "../systems/input_system"
-import {initPlayerSkillSystem, playerSkillSystem} from "../systems/player_skill_system"
-import {initNPCSkillSystem, npcSkillSystem} from "../systems/npc_skill_system"
-import {initNPCAISystem, nPCAISystem} from "../systems/npc_ai_system"
-import {initProjectileSystem, projectileSystem} from "../systems/projectile_system"
-import {initTriggerEffectOnCollideSystem, triggerEffectOnCollideSystem} from "../systems/trigger_effect_on_collide_system"
-import {initDefendableSkillSystem, defendableSkillSystem} from "../systems/defendable_skill_system"
-import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} from "../systems/text_fragment_attack_display_system"
-import {initAudioSystem, audioSystem, teardownAudioSystem} from "../systems/audio_system"
-import {npcDiedPlayerWinSystem} from "../systems/npc_died_player_win_system"
-import {playerDieLoseSystem} from "../systems/player_die_lose_system"
-import {initParticleSystem, particleSystem} from "../systems/particle_system"
-
 require("../components/BattleBackgroundComponent");
 require("../components/BattleEffectable");
 require("../components/BattleNPCSkillManagerComponent");
@@ -186,16 +171,34 @@ export default class BattleScene {
   }
 
   initSystems(){
-    initAudioSystem(Crafty, this._sceneData.audio);
-    initBattleStatusSystem(Crafty);
-    initInputSystem(Crafty);
-    initPlayerSkillSystem(Crafty);
-    initNPCSkillSystem(Crafty);
-    initNPCAISystem(Crafty);
-    initParticleSystem(Crafty);
+    _.each(this._sceneData.systems.initializers, (curr_initializer) => {
+      if(curr_initializer.options && Object.keys(curr_initializer.options).length > 0){
+        // NOTE: this is tricky/ugly/smelly and could use a refactor.
+        //   the curr_initializer.options is expected to be of the form
+        //   {optionName: [path, to, option]}
+        //   the path to option is an array of strings which walks down the
+        //   _sceneData to the desired option(s)
+        //   right now it's assumed to only be a single step.  There's a lot of
+        //   coupling between this code and the structure of the scene data 
+        //   which is less than ideal
+        let initializer_opts = {};
+        _.each(curr_initializer.options, (curr_val, curr_key) => {
+          initializer_opts[curr_key] = this._sceneData[curr_val[0]];
+        });
+        curr_initializer.system.call(this, Crafty, initializer_opts);
+      }else{
+        curr_initializer.system.call(this, Crafty);
+      }
+    });
   }
 
   registerSystems(){
+    // NOTE: Here's another smell. I'm using Crafty.settings to hold the system
+    //   runners but this is probably not the right place for them. 
+    //   Better would be some entity which can be cleaned up later.  Even 
+    //   better would be a global data storage
+    Crafty.settings.register("systemRunners", () => {});
+    Crafty.settings.modify("systemRunners", this._sceneData.systems.runners);
     Crafty.bind("EnterFrame", this.runSystems);
   }
 
@@ -206,20 +209,10 @@ export default class BattleScene {
   } 
 
   runSystems(evt){
-    inputSystem(Crafty);
-    playerSkillSystem(Crafty);
-    npcSkillSystem(Crafty);
-    nPCAISystem(Crafty);
-    textFragmentAttackDisplaySystem(Crafty);
-    defendableSkillSystem(Crafty);
-    projectileSystem(Crafty, evt.frame, evt.dt);
-    triggerEffectOnCollideSystem(Crafty);
-    battleEffectSystem(Crafty);
-    battleStatusSystem(Crafty);
-    particleSystem(Crafty);
-    audioSystem(Crafty);
-    npcDiedPlayerWinSystem(Crafty);
-    playerDieLoseSystem(Crafty);
+    var runners = Crafty.settings.get("systemRunners");
+    _.each(runners, (curr_runner) => {
+      curr_runner.system.call(this, Crafty, evt);
+    });
   }
 
   stop(){
@@ -234,9 +227,11 @@ export default class BattleScene {
   }
 
   teardownSystems(){
+    Crafty.settings.modify("systemRunners", null);
     Crafty.unbind("EnterFrame", this.runSystems);
-    teardownBattleStatusSystem(Crafty);
-    teardownAudioSystem(Crafty);
+    _.each(this._sceneData.systems.cleanup, (curr_cleanup) => {
+      curr_cleanup.system.call(this, Crafty);
+    });
   }
 
   // private

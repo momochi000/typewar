@@ -5,8 +5,11 @@ export function initProjectileSystem(Crafty) {
 }
 
 
-export function projectileSystem(Crafty, frame, dt) {
-  var projectiles;
+export function projectileSystem(Crafty, evt) {
+  var projectiles, frame, dt;
+
+  frame = evt.frame;
+  dt = evt.dt;
 
   projectiles = Crafty("BattleNPCProjectile").get();
   _.each(projectiles, (curr_projectile) => {
