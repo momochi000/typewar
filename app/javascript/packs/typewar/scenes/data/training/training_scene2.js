@@ -19,7 +19,7 @@ import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} fr
 import {initAudioSystem, audioSystem, teardownAudioSystem} from "../../../systems/audio_system"
 import {initParticleSystem, particleSystem} from "../../../systems/particle_system"
 import {initTutorialSystem, tutorialSystem, teardownTutorialSystem} from "../../../systems/tutorial_system"
-import { npcDiedPlayerWinSystem } from "../../../systems/npc_died_player_win_system"
+import {initTutorialDefendWinSystem, tutorialDefendWinSystem, teardownTutorialDefendWinSystem} from "../../../systems/tutorial_defend_win_system"
 
 const STAGE_WIDTH = 450;
 const STAGE_HEIGHT = 240;
@@ -65,6 +65,7 @@ var trainingScene1Data = {
       {system: initNPCSkillSystem},
       {system: initNPCAISystem},
       {system: initParticleSystem},
+      {system: initTutorialDefendWinSystem},
       {system: initTutorialSystem, options: {tutorialData: ["tutorial"]}}
     ],
     runners: [
@@ -74,6 +75,7 @@ var trainingScene1Data = {
       {system: npcSkillSystem},
       {system: nPCAISystem},
       {system: textFragmentAttackDisplaySystem},
+      {system: tutorialDefendWinSystem},
       {system: defendableSkillSystem},
       {system: projectileSystem},
       {system: triggerEffectOnCollideSystem},
@@ -81,12 +83,12 @@ var trainingScene1Data = {
       {system: battleStatusSystem},
       {system: particleSystem},
       {system: audioSystem},
-      {system: npcDiedPlayerWinSystem}
     ],
     cleanup: [
       {system: teardownBattleStatusSystem},
       {system: teardownAudioSystem},
-      {system: teardownTutorialSystem}
+      {system: teardownTutorialSystem},
+      {system: teardownTutorialDefendWinSystem}
     ]
   },
   tutorial: {
@@ -94,7 +96,14 @@ var trainingScene1Data = {
       {type: 'wait', duration: 3000},
       {type: 'modal', modalData: {
         headerContent: "Defend yourself!",
-        modalContent: "Now we'll practice defending yourself.  The training dummy will attempt to attack you by sending words your way. Type the words successfully to guard against them.  If they hit you, you will receive damage.",
+        modalContent: "Now we'll practice defense.  The training dummy will attempt to attack you by sending words your way. Type the words successfully to guard against them.  If they hit you, you will receive damage.",
+        footerContent: "Press space to continue..."
+      }},
+      {type: 'wait_input', input: "SPACE"},
+
+      {type: 'modal', modalData: {
+        headerContent: "Defend yourself!",
+        modalContent: "Defend against 5 attacks to complete the training.",
         footerContent: "Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},

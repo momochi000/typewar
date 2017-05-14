@@ -1,14 +1,4 @@
 * Current
-** TODO Work on scene manager
-*** Scenes need to be able to handle different win systems
-    For example, training scene 1 is over when the training dummy is defeated.  
-    This is easily handled by the same system used in the main battle scenes.  
-    However scene 2 is over when the player defends against a set number of 
-    attacks.  Since this would need a different system, and the systems are 
-    coded/called in the training_scene.js which inherits from battle scene, 
-    this won't work and would need a different scene.  What I want to do is 
-    refactor the battle scene to hold an array of systems which are then looped
-    over and run the same way they are currently.
 ** TODO Tutorial section                                               :epic:
 *** TODO Training dummy stage 1
 **** DONE Create a new scene
@@ -35,13 +25,21 @@
       CLOSED: [2017-05-10 Wed 16:32]
 ***** DONE Explain victory
       CLOSED: [2017-05-10 Wed 16:32]
-**** TODO Scene transition to training dummy 2
-**** TODO Factor out scene stuff into a common ancestor or generator/factory
-**** TODO Battle ends when the dummy is defeated
+**** DONE Factor out scene stuff into a common ancestor or generator/factory
+     CLOSED: [2017-05-13 Sat 17:00]
+**** DONE Battle ends when the dummy is defeated
+     CLOSED: [2017-05-13 Sat 17:00]
 *** TODO Training dummy stage 2
-**** TODO Player should have 0 skills in this battle
-**** TODO training dummy has one simple skill that does 0 damage to player
-**** TODO scene ends after 5 or so text fragments are defended
+**** DONE Player should have 0 skills in this battle
+     CLOSED: [2017-05-13 Sat 17:15]
+**** DONE training dummy has one simple skill that does 0 damage to player
+     CLOSED: [2017-05-13 Sat 17:15]
+**** DONE scene ends after 5 or so text fragments are defended
+     CLOSED: [2017-05-13 Sat 18:01]
+**** TODO UI element displays which indicates number of remaining fragments to defend
+**** TODO Scene transition from the first training scene
+     Need some kind of UI hints/explanation/victory screen, followed by fadeout
+     etc etc
 *** TODO Training dummy stage 3
     Player has a single skill and monster gets a skill, this round teaches the 
     player to balance attack and defense.
@@ -278,6 +276,18 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Work on scene manager
+   CLOSED: [2017-05-13 Sat 16:59]
+*** DONE Scenes need to be able to handle different win systems
+    CLOSED: [2017-05-13 Sat 16:59]
+    For example, training scene 1 is over when the training dummy is defeated.  
+    This is easily handled by the same system used in the main battle scenes.  
+    However scene 2 is over when the player defends against a set number of 
+    attacks.  Since this would need a different system, and the systems are 
+    coded/called in the training_scene.js which inherits from battle scene, 
+    this won't work and would need a different scene.  What I want to do is 
+    refactor the battle scene to hold an array of systems which are then looped
+    over and run the same way they are currently.
 ** DONE Play slash sound on attack
    CLOSED: [2017-05-06 Sat 17:21]
 ** DONE Allow single quotes in text

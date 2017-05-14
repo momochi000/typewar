@@ -1,6 +1,6 @@
 import {SCENE_TRANSITION_EVT, BATTLE_DEFEAT_COND} from "../constants/scene_constants";
 
-export function playerDieLoseSystem(Crafty) {
+export function playerDieLoseSystem(Crafty){
   var player;
 
   player = Crafty("BattlePlayer");
