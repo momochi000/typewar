@@ -1,6 +1,7 @@
 * Current
 ** TODO Tutorial section                                               :epic:
-*** TODO Training dummy stage 1
+*** DONE Training dummy stage 1
+    CLOSED: [2017-05-13 Sat 18:04]
 **** DONE Create a new scene
      CLOSED: [2017-04-20 Thu 21:03]
 **** DONE create training dummy npc
@@ -107,6 +108,8 @@
 ** TODO Get a different sprite for the training dummy(s)
 ** TODO Get a new background for training scene
 ** :release_marker: v0.4
+** TODO In training stage 2, disable tab to switch stances
+   Probably disable in stage 1 as well
 ** TODO Replace use of setTimeout with Crafty.delay()
    Not yet.. first time I tried to use entity.delay(..) it didn't work
    simply switching to setTimeout worked flawlessly so this must be broken
