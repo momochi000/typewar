@@ -13,6 +13,10 @@ const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
+var slimeCopy = _.cloneDeep(SLIME);
+slimeCopy.charSheet.status.hp = 6;
+slimeCopy.charSheet.status.maxHp = 6;
+
 var basicSlimeBattleData = {
   id: "prototype_battle",
   name: "prototype battle scene",
@@ -28,7 +32,7 @@ var basicSlimeBattleData = {
 
   combatants: {
     player: ZERO,
-    npc: SLIME
+    npc: slimeCopy
   },
 
   audio: {

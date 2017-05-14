@@ -15,8 +15,8 @@ const SLIME = {
       poison:   1, life:     1, death:    1
     },
     status: {
-      hp: 6,
-      maxHp: 10
+      hp: 10,
+      maxHp: 10 
     },
     stats: {
       level: 0,
