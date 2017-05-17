@@ -37,13 +37,15 @@
      CLOSED: [2017-05-13 Sat 17:15]
 **** DONE scene ends after 5 or so text fragments are defended
      CLOSED: [2017-05-13 Sat 18:01]
-**** TODO UI element displays which indicates number of remaining fragments to defend
+**** DONE UI element displays which indicates number of remaining fragments to defend
+     CLOSED: [2017-05-16 Tue 20:43]
 **** TODO Scene transition from the first training scene
      Need some kind of UI hints/explanation/victory screen, followed by fadeout
      etc etc
 *** TODO Training dummy stage 3
     Player has a single skill and monster gets a skill, this round teaches the 
     player to balance attack and defense.
+**** After player finishes first text fragment, tutorial prompts player to press tab
 *** DONE Training tutorial wizard
     CLOSED: [2017-05-10 Wed 16:56]
 **** DONE New system

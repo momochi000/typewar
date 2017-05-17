@@ -1,6 +1,7 @@
 /* Game system which manages the second tutorial stage where the player learns
  * to defend against text fragment attacks.
  * */
+
 require("../components/DefenseTutorial");
 
 import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND} from "../constants/scene_constants";
@@ -19,6 +20,7 @@ export function tutorialDefendWinSystem(Crafty){
    });
   if(completed_frags.length >= 1){
     tutorial_defense_ent.incrementDefendedCount();
+    tutorial_defense_ent.getView().render(tutorial_defense_ent.getDefenseGoal() - tutorial_defense_ent.getDefendedCount());
   }
 
   if(tutorial_defense_ent.getDefendedCount() >= tutorial_defense_ent.getDefenseGoal()){
@@ -28,6 +30,7 @@ export function tutorialDefendWinSystem(Crafty){
 
 export function teardownTutorialDefendWinSystem(Crafty){
   _.each(Crafty("DefenseTutorial").get(), (curr) => {
+    curr.cleanup();
     curr.destroy();
   });
 }
