@@ -38,6 +38,24 @@
   }
 }
 
+.defense-tutorial-notification {
+  font-family: sans-serif;
+
+  .deftutorial-message {
+    position: relative;
+    top: 25px;
+    width: 130px;
+    margin: auto;
+    padding: 1em 0.5em;
+    text-align: center;
+    background-color: red;
+  }
+  .deftutorial-count {
+    font-size: 2em;
+    font-weight: bold;
+  }
+}
+
 .skill-manager-wrapper {
   margin-bottom: 10px;
   text-align: center;
