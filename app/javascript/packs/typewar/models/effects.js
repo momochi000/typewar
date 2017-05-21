@@ -1,4 +1,4 @@
-// This is the library of game effects that skills may have on the game state/board
+// TODO: Move this under ./effects/
 
 import TextLibrarian from "../util/text_librarian"
 
