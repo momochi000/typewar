@@ -6,15 +6,14 @@ Crafty.c("Tutorial", {
   tutorial: function (data){
     this.setTutorialData(data);
     this.setTutorialStepNum(0);
-    //    this._setupTutorialFSM();
     return this;
   },
 
   getTutorialData: function (){ return this._tutorialData; },
   setTutorialData: function (newdata) { this._tutorialData = newdata; },
 
-  //getTutorialState: function (){ return this._tutorialState; },
-  //setTutorialState: function (newState){ this._tutorialState = newState; }
+  getTutorialSteps: function (){ return this._tutorialData.steps; },
+
   getTutorialStepNum: function (){ return this._tutorialStep; },
   setTutorialStepNum: function (newStep){ this._tutorialStep = newStep; },
 
@@ -27,26 +26,4 @@ Crafty.c("Tutorial", {
 
   getCallback: function (){ return this._callback; },
   setCallback: function (newCallback){ this._callback = newCallback; },
-
-
-  // I think no state machine
-  //  _setupTutorialFSM: function (){
-  //    this._tutorialFsm = Statemachine.create({
-  //      initial: "warming",
-  //      events: [
-  //        { name: "next", from: "warming", to: "waiting" },
-  //        { name: "next", from: "waiting", to: "gg
-  //      ]
-  //    });
-  //
-  //    // example
-  //    this._stance = StateMachine.create({
-  //      initial: initial_stance,
-  //      events: [
-  //        { name: "toggle", from: "defense", to: "offense" },
-  //        { name: "toggle", from: "offense", to: "defense" }
-  //      ],
-  //      callbacks: { }
-  //    });
-  //  }
 });

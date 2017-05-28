@@ -5,6 +5,7 @@ import BAYOU from "../background/bayou"
 import {ZeroLightSlash} from "../../../models/skills/player/zero_active_skills"
 import {SlimeStandardAttack} from "../../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../../constants/audio_constants"
+import {TRAINING_TUTORIAL_COMPLETED_EVT} from "../../../constants/scene_constants"
 
 import {initBattleEffectSystem, battleEffectSystem} from "../../../systems/battle_effect_system"
 import {initBattleStatusSystem, battleStatusSystem, teardownBattleStatusSystem} from "../../../systems/battle_status_system"
@@ -107,6 +108,7 @@ var trainingScene1Data = {
         footerContent: "Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},
+      {type: 'wait_event', eventTarget: TRAINING_TUTORIAL_COMPLETED_EVT},
 
       {type: 'end'}
     ]

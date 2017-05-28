@@ -4,6 +4,7 @@ import BAYOU from "../background/bayou"
 
 import {ZeroLightSlash} from "../../../models/skills/player/zero_active_skills"
 import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../../constants/audio_constants"
+import {TRAINING_TUTORIAL_COMPLETED_EVT} from "../../../constants/scene_constants"
 
 import {initBattleEffectSystem, battleEffectSystem} from "../../../systems/battle_effect_system"
 import {initBattleStatusSystem, battleStatusSystem, teardownBattleStatusSystem} from "../../../systems/battle_status_system"
@@ -18,7 +19,7 @@ import {initTextFragmentAttackDisplaySystem, textFragmentAttackDisplaySystem} fr
 import {initAudioSystem, audioSystem, teardownAudioSystem} from "../../../systems/audio_system"
 import {initParticleSystem, particleSystem} from "../../../systems/particle_system"
 import {initTutorialSystem, tutorialSystem, teardownTutorialSystem} from "../../../systems/tutorial_system"
-import { npcDiedPlayerWinSystem } from "../../../systems/npc_died_player_win_system"
+import { npcDiedTutorialSystem } from "../../../systems/npc_died_tutorial_system"
 
 
 const STAGE_WIDTH = 450;
@@ -33,8 +34,10 @@ zero_copy.charSheet.skills = [ZeroLightSlash];
 zero_copy.initialStance = "offense";
 
 var dummy_copy = _.cloneDeep(TRAINING_DUMMY);
-dummy_copy.charSheet.status.hp = 5;
-dummy_copy.charSheet.status.maxHp = 5;
+//dummy_copy.charSheet.status.hp = 5;
+//dummy_copy.charSheet.status.maxHp = 5;
+dummy_copy.charSheet.status.hp = 1;
+dummy_copy.charSheet.status.maxHp = 1;
 
 var trainingScene1Data = {
   id: "training_scene_1",
@@ -85,7 +88,7 @@ var trainingScene1Data = {
       {system: battleStatusSystem},
       {system: particleSystem},
       {system: audioSystem},
-      {system: npcDiedPlayerWinSystem}
+      {system: npcDiedTutorialSystem}
     ],
     cleanup: [
       {system: teardownBattleStatusSystem},
@@ -95,7 +98,7 @@ var trainingScene1Data = {
   },
   tutorial: {
     steps: [
-      {type: 'wait', duration: 3000},
+      {type: 'wait', duration: 1000},
       {type: 'modal', modalData: {
         headerContent: "Welcome to typewarrior!",
         modalContent: "This is a fighting game featuring typing.",
@@ -130,6 +133,7 @@ var trainingScene1Data = {
         footerContent: "Ready? Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},
+      {type: 'wait_event', eventTarget: TRAINING_TUTORIAL_COMPLETED_EVT}, // wait 5 things complete
       {type: 'end'}
     ]
   }
