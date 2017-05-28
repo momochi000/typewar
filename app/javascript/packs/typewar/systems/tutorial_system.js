@@ -1,6 +1,8 @@
 require("../components/Tutorial");
 require("../components/ui/UiCallout");
 
+import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND} from "../constants/scene_constants";
+
 export function initTutorialSystem(Crafty, options){
   var tutorial_ent;
 
@@ -11,8 +13,10 @@ export function initTutorialSystem(Crafty, options){
 export function tutorialSystem(Crafty){ }
 
 export function teardownTutorialSystem(Crafty){
-  var t = Crafty("Tutorial");
-  if(t.length > 0) { t.destroy(); }
+  var tutorial;
+
+  tutorial = Crafty("Tutorial");
+  if(tutorial.length > 0) { tutorial.destroy(); }
 }
 
 function cleanupModal(Crafty){
@@ -56,8 +60,13 @@ function handleStep(entity, Crafty){
       //    case "wait_trigger":
       //      return;
 
+    case "wait_event":
+      stepWaitEvent(entity, Crafty);
+      return;
+
     case "end":
       entity.destroy();
+      Crafty.trigger(SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND);
       return;
 
     default:
@@ -123,6 +132,15 @@ function stepWait(entity, Crafty){
     Crafty.pause();
     handleStep(entity, Crafty);
   }, curr_step.duration);
+}
+
+function stepWaitEvent(entity, Crafty){
+  var curr_step = entity.getCurrTutorialStep();
+
+  Crafty.one(curr_step.eventTarget, () => {
+    entity.incrementTutorialStep();
+    handleStep(entity, Crafty);
+  });
 }
 
 function stepWaitInput(entity, Crafty){

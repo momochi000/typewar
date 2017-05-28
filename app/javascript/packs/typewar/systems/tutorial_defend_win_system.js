@@ -4,7 +4,7 @@
 
 require("../components/DefenseTutorial");
 
-import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND} from "../constants/scene_constants";
+import {TRAINING_TUTORIAL_COMPLETED_EVT} from "../constants/scene_constants";
 
 export function initTutorialDefendWinSystem(Crafty){
   Crafty.e("DefenseTutorial").defenseTutorial(5);
@@ -24,7 +24,7 @@ export function tutorialDefendWinSystem(Crafty){
   }
 
   if(tutorial_defense_ent.getDefendedCount() >= tutorial_defense_ent.getDefenseGoal()){
-    Crafty.trigger(SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND);
+    Crafty.trigger(TRAINING_TUTORIAL_COMPLETED_EVT);
   }
 }
 
