@@ -30,7 +30,8 @@
      CLOSED: [2017-05-13 Sat 17:00]
 **** DONE Battle ends when the dummy is defeated
      CLOSED: [2017-05-13 Sat 17:00]
-*** TODO Training dummy stage 2
+*** DONE Training dummy stage 2
+    CLOSED: [2017-05-30 Tue 16:48]
 **** DONE Player should have 0 skills in this battle
      CLOSED: [2017-05-13 Sat 17:15]
 **** DONE training dummy has one simple skill that does 0 damage to player
@@ -39,7 +40,8 @@
      CLOSED: [2017-05-13 Sat 18:01]
 **** DONE UI element displays which indicates number of remaining fragments to defend
      CLOSED: [2017-05-16 Tue 20:43]
-**** TODO Scene transition from the first training scene
+**** DONE Scene transition from the first training scene
+     CLOSED: [2017-05-30 Tue 16:48]
      Need some kind of UI hints/explanation/victory screen, followed by fadeout
      etc etc
 *** TODO Training dummy stage 3
@@ -99,9 +101,9 @@
 ***** DONE Move tutorial data to the scene data declaration
       CLOSED: [2017-05-10 Wed 16:29]
 ** TODO Style/polish the tutorial presentation
-*** TODO Add a bright border around .ui-callout-target
+*** TODO Add some text telling the player they won't die even if they take fatal damage on training scene 2
+*** TODO There is a strange flicker after the fadeout transition, the stage is rendered with improper camera zoom
 * Backlog
-** TODO Add some kind of scene transition
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
 ** TODO Consider removing typing sound
@@ -281,6 +283,8 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Add some kind of scene transition
+   CLOSED: [2017-05-30 Tue 16:50]
 ** DONE Work on scene manager
    CLOSED: [2017-05-13 Sat 16:59]
 *** DONE Scenes need to be able to handle different win systems
