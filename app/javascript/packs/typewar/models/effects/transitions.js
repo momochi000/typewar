@@ -6,26 +6,24 @@ Crafty.c("FadeoutTransition", {
   },
   fadeoutTransition: function (){return this;},
   fadeout: function (){
-    return new Promise((fulfill, reject) => {
-      // LEFT OFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // * somehow do a css animation from transparent to black over a given time interval
-      // * make it so that the fulfill happens afterwards
-      // * in the system which triggers the scene transition, put the trigger in a .then()
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      fulfill();
-    });
+    var $element;
+
+    $element = $(this._element);
+    $element.addClass("transition-end-state");
   }
 });
 
 export class Fadeout {
   static execute(args){
+    var { fulfill, reject } = args;
+
+    window.setTimeout(() => {
+      fulfill();
+    }, 3000)
+
     // create a mask over the canvas and increase its opacity until black
     Crafty.e("FadeoutTransition, 2D, DOM").
-      attr({x: 0, y: 0, w: Crafty.stage.elem.offsetWidth, h: Crafty.stage.elem.offsetHeight}).
+      attr({x: 0, y: 0, z: 9999999, w: Crafty.stage.elem.offsetWidth, h: Crafty.stage.elem.offsetHeight}).
       fadeoutTransition().
       fadeout();
   }

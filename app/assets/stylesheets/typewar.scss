@@ -135,3 +135,15 @@
     span.rest { background-color: skyblue; }
   }
 }
+
+$default-fadeout-duration: 2s;
+.FadeoutTransition {
+  background-color: black;
+  @include opacity(0.0);
+  @include transition-property(opacity);
+  @include transition-duration($default-fadeout-duration);
+
+  &.transition-end-state{
+    @include opacity(1.0);
+  }
+}
