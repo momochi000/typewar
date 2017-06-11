@@ -1,0 +1,28 @@
+FROM node:6.10.3
+WORKDIR /myapp
+COPY package.json /myapp
+COPY yarn.lock /myapp
+
+# install yarn
+#RUN apt-get update -qq && apt-get install -y apt-utils build-essential apt-transport-https
+RUN apt-get update -qq && apt-get install -y apt-transport-https
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -qq && apt-get install -y yarn
+
+# install node packages
+#RUN npm config set registry http://registry.npmjs.org/ && npm install
+RUN yarn install
+
+RUN mkdir /myapp/bin
+COPY bin/webpack-dev-server /myapp/bin
+
+# LEFT OFF
+# So the problem here seems to be that webpack-dev-server running off of 
+# webpacker needs ruby.  Since I need both a specific version of node and a 
+# specific version of ruby, I can't easily use either the ruby image nor the node
+# image. I'll need to use a ruby base image and then build the version of node I
+# need.  This will be a bit tricky.  It also means I probably don't need a 
+# separate image for webpack-dev (so bye bye to this dockerfile) and I should 
+# move all the requisite code into the main Dockerfile.  Also removing the 
+# webpeck-dev service from docker-compose.yml

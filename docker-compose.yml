@@ -1,0 +1,48 @@
+version: '3'
+services:
+  db:
+    image: postgres
+
+  web:
+    build: .
+    volumes:
+      - .:/myapp/
+      - /bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - webpack-dev
+#    command: bundle exec rails s -p 3000 -b '0.0.0.0' 
+    command: ./bin/rails s -p 3000 -b '0.0.0.0' 
+
+  bundle:
+    image: typewar_web
+    command: echo bundling ruby gems??
+    volumes:
+      - /bundle
+
+#  node_modules:
+#    image: typewar_web
+#    command: echo building node modules??
+#    volumes: 
+#      - /node_modules
+
+  webpack-dev:
+    image: typewar_web
+    build:
+      context: .
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "8080:8080"
+    volumes:
+      - /myapp
+      - /bundle
+    command: ./bin/webpack-dev-server
+
+#  webpack-dev:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-webpack
+#    command: ./bin/webpack-dev-server
