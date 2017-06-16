@@ -13,7 +13,6 @@ services:
     depends_on:
       - db
       - webpack-dev
-#    command: bundle exec rails s -p 3000 -b '0.0.0.0' 
     command: ./bin/rails s -p 3000 -b '0.0.0.0' 
 
   bundle:
@@ -39,9 +38,3 @@ services:
     volumes:
       - .:/myapp
     command: ./bin/webpack-dev-server
-
-#  webpack-dev:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-webpack
-#    command: ./bin/webpack-dev-server
