@@ -2,6 +2,7 @@ import BattleScene from "../scenes/battle_scene"
 import TrainingScene from "../scenes/training_scene"
 import trainingScene1Data from "../scenes/data/training/training_scene1"
 import trainingScene2Data from "../scenes/data/training/training_scene2"
+import trainingScene3Data from "../scenes/data/training/training_scene3"
 import basicSlimeBattleData from "../scenes/data/basic_slime_battle"
 import rainSlimeBattleData from "../scenes/data/rain_slime_battle"
 import protoBattleSceneData from "../scenes/data/proto_battle_scene"
@@ -65,7 +66,7 @@ export default class SceneManager {
   _playTransitionSequence(seq, curr_step){
     var self, transition_sequence, temp_promise;
     self = this;
-    if(!seq) { 
+    if(!seq) {
       console.log(`DEBUG: there is no transition directive declared for the ${evt} event`);
       // TODO: play game over scene
       return;
@@ -99,6 +100,15 @@ export default class SceneManager {
         id: "training_scene_2",
         sceneKlass: TrainingScene,
         sceneData: trainingScene2Data,
+        transitions: {
+          victory: ["next"],
+          defeat: null // TODO: this should play the "you died" scene
+        }
+      },
+      {
+        id: "training_scene_3",
+        sceneKlass: TrainingScene,
+        sceneData: trainingScene3Data,
         transitions: {
           victory: ["next"],
           defeat: null // TODO: this should play the "you died" scene
@@ -147,7 +157,7 @@ export default class SceneManager {
           throw new Error("This is the end of the game! we're working on new levels");
         }
         return _tdNext;
-        
+
       case "default":
         throw new Error("Error, invalid transition declared ---> ", transitionDirective);
         return;

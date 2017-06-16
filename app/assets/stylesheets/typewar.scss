@@ -147,3 +147,8 @@ $default-fadeout-duration: 2s;
     @include opacity(1.0);
   }
 }
+
+.typewar-entity-highlight {
+  z-index: $modal-z-index+2 !important;
+  border: dotted red 3px;
+}

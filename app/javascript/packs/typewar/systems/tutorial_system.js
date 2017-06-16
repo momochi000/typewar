@@ -1,5 +1,6 @@
 require("../components/Tutorial");
 require("../components/ui/UiCallout");
+require("../components/TWHighlight");
 
 import {SCENE_TRANSITION_EVT, BATTLE_VICTORY_COND} from "../constants/scene_constants";
 
@@ -39,9 +40,9 @@ function generateTutorialEntity(Crafty, data){
 
 function handleStep(entity, Crafty){
 
-  if(!entity.getCurrTutorialStep()){ 
+  if(!entity.getCurrTutorialStep()){
     entity.destroy();
-    return; 
+    return;
   }
 
   switch(entity.getCurrTutorialStep().type){
@@ -56,9 +57,6 @@ function handleStep(entity, Crafty){
     case "wait_input":
       stepWaitInput(entity, Crafty);
       return;
-
-      //    case "wait_trigger":
-      //      return;
 
     case "wait_event":
       stepWaitEvent(entity, Crafty);
@@ -87,9 +85,19 @@ function handleWaitKeyDown(evt){
     Crafty("UICallout").removeComponent("Keyboard", false);
     entity.incrementTutorialStep();
     cleanupModal(Crafty);
+    unhighlightEntities();
     unhighlightUiElements();
     Crafty.pause();
     handleStep(entity, Crafty);
+  }
+}
+
+function highlightEntities(entitySelectors){
+  if(!entitySelectors) { return; }
+  if((typeof entitySelectors) === "string"){
+    _.each(Crafty(entitySelectors).get(), (curr_entity) => {
+      curr_entity.addComponent("TWHighlight").tWHighlight();
+    });
   }
 }
 
@@ -116,6 +124,7 @@ function stepModal(entity, Crafty){
   modal_entity = generateModalEntity(Crafty, curr_step.modalData);
 
   highlightUiElements(curr_step.highlightSelectors);
+  highlightEntities(curr_step.highlightEntities);
 
   entity.incrementTutorialStep();
   handleStep(entity, Crafty);
@@ -147,6 +156,13 @@ function stepWaitInput(entity, Crafty){
   Crafty.pause();
 
   Crafty("UICallout").addComponent("Keyboard").bind('KeyDown', handleWaitKeyDown.bind({Crafty: Crafty, entity: entity, boundFunc: handleWaitKeyDown}));
+}
+
+function unhighlightEntities(){
+  _.each(Crafty("TWHighlight").get(), (curr_highlighted_entity) => {
+    curr_highlighted_entity.removeTWHighlight();
+    curr_highlighted_entity.removeComponent("TWHighlight");
+  });
 }
 
 function unhighlightUiElements(){

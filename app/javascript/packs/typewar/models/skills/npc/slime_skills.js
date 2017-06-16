@@ -1,22 +1,22 @@
 /* TODO: Evaluate if this makes sense..
- *   remove start_x and start_y from required options.  Text fragments should 
- *   always be spawned from the x,y of the spawner.  If there needs to be some 
+ *   remove start_x and start_y from required options.  Text fragments should
+ *   always be spawned from the x,y of the spawner.  If there needs to be some
  *   offset, then it can be part of the position function
  */
 
 //import BaseSkill from './base_npc_skill'
 import * as Effects from "../../effects"
 
-import { 
+import {
   ANIM_READY, ANIM_LIGHT_ATTACK, ANIM_MED_ATTACK, ANIM_HEAVY_ATTACK, ANIM_SPECIAL_ATTACK, ANIM_BLOCK, ANIM_DASH, ANIM_JUMP, ANIM_ENTER, ANIM_CHARGE, ANIM_HIT
 } from "../../../constants/animation_constants"
 
-// TODO NOTES: 
+// TODO NOTES:
 // Animation will need an overhaul.
 // Currently, I'm using some constants to define specific animation reels.
-// But actually, let's say a successful attack should trigger the stagger 
+// But actually, let's say a successful attack should trigger the stagger
 // animation for the target.  Well, as it is now, it'll specify specifically
-// the ZERO_ANIM_HIT but what if the target isn't zero? then this thing will 
+// the ZERO_ANIM_HIT but what if the target isn't zero? then this thing will
 // break
 
 export var SlimeStandardAttack = {
