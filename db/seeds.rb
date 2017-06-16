@@ -8,5 +8,5 @@
 
 lorem_text      = FactoryGirl.create(:text)
 test_text       = FactoryGirl.create(:test_text)
-player          = FactoryGirl.create(:player_lv1, :name => 'donald duck')
-enemy_slime     = FactoryGirl.create(:easy_slime)
+#player          = FactoryGirl.create(:player_lv1, :name => 'donald duck')
+#enemy_slime     = FactoryGirl.create(:easy_slime)
