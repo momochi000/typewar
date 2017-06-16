@@ -1,3 +1,4 @@
+#TODO: Remove this file.  However it is a nice template for yarn. Keep it for use in future app
 FROM node:6.10.3
 WORKDIR /myapp
 COPY package.json /myapp
