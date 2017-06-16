@@ -2,7 +2,7 @@ import TextLibrarian from "../util/text_librarian"
 
 require("../components/PlayerSkillManager");
 
-function initPlayerSkillSystem(Crafty) {
+function initPlayerSkillSystem(Crafty){
   var skill_managers;
 
   skill_managers = Crafty("PlayerSkillManager").get();
@@ -31,7 +31,7 @@ function bindCleanupSkills(skillManagers){
   });
 }
 
-function playerSkillSystem(Crafty) { 
+function playerSkillSystem(Crafty){
   var skill_entities, completed_skill_entities;
 
   // NOTE: There is a potential problem/issue here:
@@ -53,7 +53,7 @@ function playerSkillSystem(Crafty) {
 
 // private
 
-function buildSkill(entity, skillDef) {
+function buildSkill(entity, skillDef){
   return Crafty.e("BattlePCSkill, TextFragment")
            .textFragment(TextLibrarian.retrieve(entity.getVocabulary(), skillDef.textOptions))
            .battlePCSkill(entity, skillDef);
@@ -81,7 +81,7 @@ function executeSkill(skillEntity){
   });
 }
 
-function initSkills(entity) {
+function initSkills(entity){
   var new_skill_ent;
   _.each(entity.getSkillset(), (curr_skill_def) => {
     new_skill_ent = buildSkill(entity, curr_skill_def);

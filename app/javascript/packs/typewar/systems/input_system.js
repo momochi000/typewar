@@ -1,4 +1,4 @@
-import { CMD_CHANGE_STANCE } from "../constants/command_constants"
+import {CMD_CHANGE_STANCE} from "../constants/command_constants"
 
 require("../components/BattleInput");
 

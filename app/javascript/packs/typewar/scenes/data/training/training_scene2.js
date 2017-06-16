@@ -2,7 +2,6 @@ import ZERO from "../character/zero"
 import TRAINING_DUMMY from "../character/training_dummy"
 import BAYOU from "../background/bayou"
 
-import {ZeroLightSlash} from "../../../models/skills/player/zero_active_skills"
 import {SlimeStandardAttack} from "../../../models/skills/npc/slime_skills"
 import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../../constants/audio_constants"
 import {TRAINING_TUTORIAL_COMPLETED_EVT} from "../../../constants/scene_constants"
@@ -33,7 +32,7 @@ zero_copy.charSheet.skills = [];
 var dummy_copy = _.cloneDeep(TRAINING_DUMMY);
 dummy_copy.charSheet.skills = [SlimeStandardAttack];
 
-var trainingScene1Data = {
+var trainingScene2Data = {
   id: "training_scene_1",
   name: "Training scene 1",
   width: 450,
@@ -113,4 +112,4 @@ var trainingScene1Data = {
     ]
   }
 }
-export default trainingScene1Data
+export default trainingScene2Data
