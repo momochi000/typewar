@@ -1,109 +1,15 @@
 * Current
-** TODO Tutorial section                                               :epic:
-*** DONE Training dummy stage 1
-    CLOSED: [2017-05-13 Sat 18:04]
-**** DONE Create a new scene
-     CLOSED: [2017-04-20 Thu 21:03]
-**** DONE create training dummy npc
-     CLOSED: [2017-04-20 Thu 21:03]
-**** DONE new training dummy npc has no skills and just takes damage
-     CLOSED: [2017-04-20 Thu 21:04]
-**** DONE Player just gets a single skill here (light attack)
-     CLOSED: [2017-04-20 Thu 21:03]
-**** DONE Scene 1 explains some of the game concepts through modals
-     CLOSED: [2017-05-10 Wed 16:32]
-***** DONE General intro/welcome
-      CLOSED: [2017-05-10 Wed 16:32]
-***** DONE General gameplay explanation
-      CLOSED: [2017-05-10 Wed 16:32]
-***** DONE Introduce player character
-      CLOSED: [2017-05-10 Wed 16:32]
-***** DONE Introduce opponent
-      CLOSED: [2017-05-10 Wed 16:32]
-***** DONE Introduce opponent health
-      CLOSED: [2017-05-10 Wed 16:32]
-***** DONE Introduce offensive skill
-      CLOSED: [2017-05-10 Wed 16:32]
-***** DONE Explain victory
-      CLOSED: [2017-05-10 Wed 16:32]
-**** DONE Factor out scene stuff into a common ancestor or generator/factory
-     CLOSED: [2017-05-13 Sat 17:00]
-**** DONE Battle ends when the dummy is defeated
-     CLOSED: [2017-05-13 Sat 17:00]
-*** DONE Training dummy stage 2
-    CLOSED: [2017-05-30 Tue 16:48]
-**** DONE Player should have 0 skills in this battle
-     CLOSED: [2017-05-13 Sat 17:15]
-**** DONE training dummy has one simple skill that does 0 damage to player
-     CLOSED: [2017-05-13 Sat 17:15]
-**** DONE scene ends after 5 or so text fragments are defended
-     CLOSED: [2017-05-13 Sat 18:01]
-**** DONE UI element displays which indicates number of remaining fragments to defend
-     CLOSED: [2017-05-16 Tue 20:43]
-**** DONE Scene transition from the first training scene
-     CLOSED: [2017-05-30 Tue 16:48]
-     Need some kind of UI hints/explanation/victory screen, followed by fadeout
-     etc etc
-*** TODO Training dummy stage 3
-    Player has a single skill and monster gets a skill, this round teaches the 
-    player to balance attack and defense.
-**** After player finishes first text fragment, tutorial prompts player to press tab
-*** DONE Training tutorial wizard
-    CLOSED: [2017-05-10 Wed 16:56]
-**** DONE New system
-     CLOSED: [2017-04-20 Thu 22:57]
-**** DONE System can transition between steps
-     CLOSED: [2017-04-20 Thu 22:58]
-**** DONE System can open a modal
-     CLOSED: [2017-05-10 Wed 16:56]
-     LEFT OFF:
-     Problem here is that the pause step uses Crafty.pause() which stops the 
-     BattleInput component from taking any input. What it should do instead is 
-     use Crafty.keydown to see if the desired input is pressed. Should still 
-     clear the input queue to ensure that no text fragments are getting input 
-
-     No actually this is wrong.  The problem is that enterFrame stops, therefore
-     the tutorialSystem() function won't run once the game is paused.  Basically
-     the only reason that the pause step works at all is because handleStep is 
-     called directly in the execution of the pause step.
-
-     A pause step MUST handle unpausing itself somehow.. will need to think 
-     about how to implement this....
-     
-     I think the answer might be that there is no pause step, but that any step
-     which requires a pause, must handle it's own pause and unpause action.
-     For example, the wait for input step would call Crafty.pause, then handle 
-     keyboard input until it gets the desired input to continue, then call unpause
-     A step that is supposed to point something out for a few seconds should 
-     render whatever it needs to render, call pause, then unpause after a delay
-
-     Ok, solved the pause problem, now building the modal
-***** DONE Do a little design work to determine how it should look roughly
-      CLOSED: [2017-05-09 Tue 16:53]
-***** DONE Build a component to represent UI callout
-      CLOSED: [2017-05-09 Tue 18:37]
-      There might need to be 2 components, one for on canvas and one for off because 
-      UI callout boxes will need to be displayed both on and off the stage
-***** DONE Build a backbone view that attaches to the component
-      CLOSED: [2017-05-09 Tue 18:37]
-***** DONE Add a handlebar template for the UI callout
-      CLOSED: [2017-05-09 Tue 18:37]
-***** DONE Create an entity, render the view into the entity
-      CLOSED: [2017-05-09 Tue 18:37]
-***** DONE Determine how to point the callout at various elements (other components or what?)
-      CLOSED: [2017-05-09 Tue 18:37]
-***** DONE Encapsulate the data needed to generate the whole callout
-      CLOSED: [2017-05-10 Wed 15:55]
-      and include it in the tutorial data structure
-***** DONE Figure out the issue with keyboard input being captured/ignored when clicking 
-      CLOSED: [2017-05-10 Wed 16:26]
-      in the crafty stage area
-***** DONE Move tutorial data to the scene data declaration
-      CLOSED: [2017-05-10 Wed 16:29]
 ** TODO Style/polish the tutorial presentation
 *** TODO Add some text telling the player they won't die even if they take fatal damage on training scene 2
 *** TODO There is a strange flicker after the fadeout transition, the stage is rendered with improper camera zoom
+*** TODO Add scene transitions after each training stage and battle
+*** TODO Style the modal
 * Backlog
+** TODO Split event constants into own file constants/events.js
+** TODO Don't show skills unless in offensive mode
+   This should be done on a branch/ as an experiment.  I want to see if it looks
+   good, doesn't confuse the player, and it more effectively lets the player
+   know that they're attacking.
 ** TODO Get a new sprite for the player
    Some suitalbe character off mugen
 ** TODO Consider removing typing sound
@@ -111,9 +17,21 @@
    Before doing that, I could try finding a typing sound that's super short
 ** TODO Get a different sprite for the training dummy(s)
 ** TODO Get a new background for training scene
+** TODO Monster death animation
+** TODO Some sort of battle won/lost alert/ui thingy
 ** :release_marker: v0.4
+** TODO Pretty up the TWHighlight component
+   So, now it does the box around it, but it doesn't bring it into the 
+   foreground ahead of the modal mask.  This is a bit awkward. See if we can fix
+   that. I'm thinking, we need to duplicate the actual icon, and place the dupe
+   inside the highlight box
+** TODO character sprite changes stance when stance changes
+   This is dependent on the player sprite having the appropriate frames
 ** TODO In training stage 2, disable tab to switch stances
    Probably disable in stage 1 as well
+** TODO Battle intros
+   Some like, animations the characters do.  Some ui elements 
+   ("round one, fight!", "Heaven or hell, let's rock!", etc)
 ** TODO Replace use of setTimeout with Crafty.delay()
    Not yet.. first time I tried to use entity.delay(..) it didn't work
    simply switching to setTimeout worked flawlessly so this must be broken
@@ -241,8 +159,6 @@
    monsters come in a constant stream so the scene doesn't transition
    There's going to be a number of different game modes eventually, this being one of them.
    Maybe also a time attack, maybe a speed rush, boss rush, etc.
-** TODO character sprite changes stance when stance changes
-   This is dependent on the player sprite having the appropriate frames
 ** TODO System for recording text fragment completion data
 ** TODO Research use of web workers
 ** TODO Send typing data to the server
@@ -283,6 +199,109 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Tutorial section                                               :epic:
+   CLOSED: [2017-06-15 Thu 18:47]
+*** DONE Training dummy stage 1
+    CLOSED: [2017-05-13 Sat 18:04]
+**** DONE Create a new scene
+     CLOSED: [2017-04-20 Thu 21:03]
+**** DONE create training dummy npc
+     CLOSED: [2017-04-20 Thu 21:03]
+**** DONE new training dummy npc has no skills and just takes damage
+     CLOSED: [2017-04-20 Thu 21:04]
+**** DONE Player just gets a single skill here (light attack)
+     CLOSED: [2017-04-20 Thu 21:03]
+**** DONE Scene 1 explains some of the game concepts through modals
+     CLOSED: [2017-05-10 Wed 16:32]
+***** DONE General intro/welcome
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE General gameplay explanation
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce player character
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce opponent
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce opponent health
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Introduce offensive skill
+      CLOSED: [2017-05-10 Wed 16:32]
+***** DONE Explain victory
+      CLOSED: [2017-05-10 Wed 16:32]
+**** DONE Factor out scene stuff into a common ancestor or generator/factory
+     CLOSED: [2017-05-13 Sat 17:00]
+**** DONE Battle ends when the dummy is defeated
+     CLOSED: [2017-05-13 Sat 17:00]
+*** DONE Training dummy stage 2
+    CLOSED: [2017-05-30 Tue 16:48]
+**** DONE Player should have 0 skills in this battle
+     CLOSED: [2017-05-13 Sat 17:15]
+**** DONE training dummy has one simple skill that does 0 damage to player
+     CLOSED: [2017-05-13 Sat 17:15]
+**** DONE scene ends after 5 or so text fragments are defended
+     CLOSED: [2017-05-13 Sat 18:01]
+**** DONE UI element displays which indicates number of remaining fragments to defend
+     CLOSED: [2017-05-16 Tue 20:43]
+**** DONE Scene transition from the first training scene
+     CLOSED: [2017-05-30 Tue 16:48]
+     Need some kind of UI hints/explanation/victory screen, followed by fadeout
+     etc etc
+*** DONE Training dummy stage 3
+    CLOSED: [2017-06-15 Thu 18:39]
+    Player has a single skill and monster gets a skill, this round teaches the 
+    player to balance attack and defense.
+**** After player finishes first text fragment, tutorial prompts player to press tab
+*** DONE Training tutorial wizard
+    CLOSED: [2017-05-10 Wed 16:56]
+**** DONE New system
+     CLOSED: [2017-04-20 Thu 22:57]
+**** DONE System can transition between steps
+     CLOSED: [2017-04-20 Thu 22:58]
+**** DONE System can open a modal
+     CLOSED: [2017-05-10 Wed 16:56]
+     LEFT OFF:
+     Problem here is that the pause step uses Crafty.pause() which stops the 
+     BattleInput component from taking any input. What it should do instead is 
+     use Crafty.keydown to see if the desired input is pressed. Should still 
+     clear the input queue to ensure that no text fragments are getting input 
+
+     No actually this is wrong.  The problem is that enterFrame stops, therefore
+     the tutorialSystem() function won't run once the game is paused.  Basically
+     the only reason that the pause step works at all is because handleStep is 
+     called directly in the execution of the pause step.
+
+     A pause step MUST handle unpausing itself somehow.. will need to think 
+     about how to implement this....
+     
+     I think the answer might be that there is no pause step, but that any step
+     which requires a pause, must handle it's own pause and unpause action.
+     For example, the wait for input step would call Crafty.pause, then handle 
+     keyboard input until it gets the desired input to continue, then call unpause
+     A step that is supposed to point something out for a few seconds should 
+     render whatever it needs to render, call pause, then unpause after a delay
+
+     Ok, solved the pause problem, now building the modal
+***** DONE Do a little design work to determine how it should look roughly
+      CLOSED: [2017-05-09 Tue 16:53]
+***** DONE Build a component to represent UI callout
+      CLOSED: [2017-05-09 Tue 18:37]
+      There might need to be 2 components, one for on canvas and one for off because 
+      UI callout boxes will need to be displayed both on and off the stage
+***** DONE Build a backbone view that attaches to the component
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Add a handlebar template for the UI callout
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Create an entity, render the view into the entity
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Determine how to point the callout at various elements (other components or what?)
+      CLOSED: [2017-05-09 Tue 18:37]
+***** DONE Encapsulate the data needed to generate the whole callout
+      CLOSED: [2017-05-10 Wed 15:55]
+      and include it in the tutorial data structure
+***** DONE Figure out the issue with keyboard input being captured/ignored when clicking 
+      CLOSED: [2017-05-10 Wed 16:26]
+      in the crafty stage area
+***** DONE Move tutorial data to the scene data declaration
+      CLOSED: [2017-05-10 Wed 16:29]
 ** DONE Add some kind of scene transition
    CLOSED: [2017-05-30 Tue 16:50]
 ** DONE Work on scene manager
