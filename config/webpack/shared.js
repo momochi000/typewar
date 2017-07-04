@@ -15,6 +15,7 @@ const extensionGlob = `**/*{${paths.extensions.join(',')}}*`
 const packPaths = sync(join(paths.source, paths.entry, extensionGlob))
 
 module.exports = {
+
   entry: packPaths.reduce(
     (map, entry) => {
       const localMap = map
@@ -23,6 +24,23 @@ module.exports = {
       return localMap
     }, {}
   ),
+
+  // NOTE: this is when I want to include a specific entry point before others
+  // in this case, it's babel-polyfill
+  // however, this breaks hot reload for some reason.
+  //  entry: function (){
+  //    let output;
+  //    output = (packPaths.reduce(
+  //      (map, entry) => {
+  //        const localMap = map;
+  //        const namespace = relative(join(paths.source, paths.entry), dirname(entry));
+  //        localMap[join(namespace, basename(entry, extname(entry)))] = resolve(entry);
+  //        return localMap;
+  //      }, {}
+  //    ));
+  //    output.typewar = ['babel-polyfill', output.typewar];
+  //    return output;
+  //  },
 
   output: { filename: '[name].js', path: resolve(paths.output, paths.entry) },
 
