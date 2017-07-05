@@ -33,7 +33,6 @@ RUN \
   cd /tmp && \
   rm -rf /tmp/node-v*
 
-
 ENV APP_HOME /myapp
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
@@ -58,17 +57,14 @@ RUN apt-get update -qq && apt-get install -y yarn
 #  YARN_JOBS=2 \
 #  YARN_PATH=/node_modules
 
-#RUN yarn install
 RUN ./bin/yarn install
 
-#RUN bundle exec rails webpacker:install
-
-#RUN ./bin/webpack-dev-server && \
-#./bin/rails s -p 3000 -b 0.0.0.0 
-
-#RUN ./bin/rails s -p 3000 -b 0.0.0.0 
+ARG ASSET_HOST
+RUN bin/rake ASSET_HOST=${ASSET_HOST} RAILS_ENV=production assets:precompile
 
 RUN useradd -m myuser
 USER myuser
 
+# Needed in production for heroku
+#RUN ./bin/rails s -p 3000 -b 0.0.0.0 
 CMD ./bin/rails s -p $PORT -b '0.0.0.0'
