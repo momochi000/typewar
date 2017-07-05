@@ -14,6 +14,7 @@ Box2dWeb.js
 app/assets/javascripts/jasmine_examples
 spec/javascripts/jasmine_examples
 /public/packs
+/public/assets
 
 /node_modules
 /vendor/node_modules
