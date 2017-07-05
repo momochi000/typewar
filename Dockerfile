@@ -70,3 +70,5 @@ RUN ./bin/yarn install
 
 RUN useradd -m myuser
 USER myuser
+
+CMD ./bin/rails s -p 3000 -b '0.0.0.0'
