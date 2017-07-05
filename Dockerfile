@@ -33,6 +33,7 @@ RUN \
   cd /tmp && \
   rm -rf /tmp/node-v*
 
+
 ENV APP_HOME /myapp
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
@@ -66,3 +67,6 @@ RUN ./bin/yarn install
 #./bin/rails s -p 3000 -b 0.0.0.0 
 
 #RUN ./bin/rails s -p 3000 -b 0.0.0.0 
+
+RUN useradd -m myuser
+USER myuser
