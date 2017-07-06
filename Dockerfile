@@ -59,12 +59,13 @@ RUN apt-get update -qq && apt-get install -y yarn
 
 RUN ./bin/yarn install
 
+
+# This part is needed in production for heroku. Unfortunately, it's getting 
+# in the way in development
 ARG ASSET_HOST
 RUN bin/rake ASSET_HOST=${ASSET_HOST} RAILS_ENV=production assets:precompile
 
 RUN useradd -m myuser
 USER myuser
 
-# Needed in production for heroku
-#RUN ./bin/rails s -p 3000 -b 0.0.0.0 
 CMD ./bin/rails s -p $PORT -b '0.0.0.0'
