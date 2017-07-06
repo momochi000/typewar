@@ -36,5 +36,5 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - .:/myapp
-    command: ./bin/webpack-dev-server
+      - .:/myapp/
+    command: ./bin/webpack-dev-server --host 0.0.0.0 --inline true --hot true
