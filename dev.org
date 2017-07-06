@@ -2,14 +2,8 @@
 ** TODO Style/polish the tutorial presentation
 *** DONE Add some text telling the player they won't die even if they take fatal damage on training scene 2
     CLOSED: [2017-07-04 Tue 15:29]
-*** TODO There is a strange flicker after the fadeout transition, the stage is rendered with improper camera zoom
 *** TODO Add scene transitions after each training stage and battle
 *** TODO Style the modal
-** DONE Deploy the app to herkou
-   CLOSED: [2017-07-05 Wed 15:13]
-** TODO Host the assets on cloudfront
-** TODO Create a deploy script
-** TODO Cleanup Dockerfile of deploy needs
 * Backlog
 ** TODO Split event constants into own file constants/events.js
 ** TODO Don't show skills unless in offensive mode
@@ -25,6 +19,7 @@
 ** TODO Get a new background for training scene
 ** TODO Monster death animation
 ** TODO Some sort of battle won/lost alert/ui thingy
+** TODO There is a strange flicker after the fadeout transition, the stage is rendered with improper camera zoom
 ** :release_marker: v0.4
 ** TODO Pretty up the TWHighlight component
    So, now it does the box around it, but it doesn't bring it into the 
@@ -38,6 +33,8 @@
 ** TODO Battle intros
    Some like, animations the characters do.  Some ui elements 
    ("round one, fight!", "Heaven or hell, let's rock!", etc)
+** TODO Host the assets on cloudfront
+** TODO Create a deploy script
 ** TODO Replace use of setTimeout with Crafty.delay()
    Not yet.. first time I tried to use entity.delay(..) it didn't work
    simply switching to setTimeout worked flawlessly so this must be broken
@@ -205,6 +202,10 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Deploy the app to herkou
+   CLOSED: [2017-07-05 Wed 15:13]
+** DONE Cleanup Dockerfile of deploy needs
+   CLOSED: [2017-07-05 Wed 18:31]
 ** DONE Tutorial section                                               :epic:
    CLOSED: [2017-06-15 Thu 18:47]
 *** DONE Training dummy stage 1

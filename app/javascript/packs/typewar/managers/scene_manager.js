@@ -101,7 +101,7 @@ export default class SceneManager {
         sceneKlass: TrainingScene,
         sceneData: trainingScene2Data,
         transitions: {
-          victory: ["next"],
+          victory: ["fadeout", "next"],
           defeat: null // TODO: this should play the "you died" scene
         }
       },
@@ -110,7 +110,7 @@ export default class SceneManager {
         sceneKlass: TrainingScene,
         sceneData: trainingScene3Data,
         transitions: {
-          victory: ["next"],
+          victory: ["fadeout", "next"],
           defeat: null // TODO: this should play the "you died" scene
         }
       },
