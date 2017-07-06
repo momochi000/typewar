@@ -1,9 +1,15 @@
 * Current
 ** TODO Style/polish the tutorial presentation
-*** TODO Add some text telling the player they won't die even if they take fatal damage on training scene 2
+*** DONE Add some text telling the player they won't die even if they take fatal damage on training scene 2
+    CLOSED: [2017-07-04 Tue 15:29]
 *** TODO There is a strange flicker after the fadeout transition, the stage is rendered with improper camera zoom
 *** TODO Add scene transitions after each training stage and battle
 *** TODO Style the modal
+** DONE Deploy the app to herkou
+   CLOSED: [2017-07-05 Wed 15:13]
+** TODO Host the assets on cloudfront
+** TODO Create a deploy script
+** TODO Cleanup Dockerfile of deploy needs
 * Backlog
 ** TODO Split event constants into own file constants/events.js
 ** TODO Don't show skills unless in offensive mode
