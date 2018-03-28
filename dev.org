@@ -3,8 +3,13 @@
 *** DONE Add some text telling the player they won't die even if they take fatal damage on training scene 2
     CLOSED: [2017-07-04 Tue 15:29]
 *** TODO Add scene transitions after each training stage and battle
-*** TODO Style the modal
+*** TODO Style the modal.
+    Typography, spacing, border, etc.
+*** TODO Style the highlight 
+    When a UI element/concept gets introduced to the user
 * Backlog
+** TODO After the first non-training battle, game breaks                :bug:
+** TODO Look into importing sprites from AESPRITE or other sprite generation tool
 ** TODO Split event constants into own file constants/events.js
 ** TODO Don't show skills unless in offensive mode
    This should be done on a branch/ as an experiment.  I want to see if it looks
