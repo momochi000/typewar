@@ -9,6 +9,8 @@
     When a UI element/concept gets introduced to the user
 * Backlog
 ** TODO After the first non-training battle, game breaks                :bug:
+** TODO Update the text library 
+   to not use bible
 ** TODO Look into importing sprites from AESPRITE or other sprite generation tool
 ** TODO Split event constants into own file constants/events.js
 ** TODO Don't show skills unless in offensive mode
