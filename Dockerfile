@@ -24,9 +24,9 @@ RUN rm -rf /var/lib/apt/lists/*
 # Maybe we can just download the binary
 RUN \
   cd /tmp && \
-  wget http://nodejs.org/dist/v6.4.0/node-v6.4.0-linux-x64.tar.gz && \
-  tar xzf node-v6.4.0-linux-x64.tar.gz && \
-  rm -f node-v6.4.0-linux-x64.tar.gz && \
+  wget http://nodejs.org/dist/v9.6.0/node-v9.6.0-linux-x64.tar.gz && \
+  tar xzf node-v9.6.0-linux-x64.tar.gz && \
+  rm -f node-v9.6.0-linux-x64.tar.gz && \
   cd node-v* && \
   cp bin/node /usr/bin && \
   ./bin/npm install -g npm && \
@@ -60,7 +60,7 @@ RUN apt-get update -qq && apt-get install -y yarn
 RUN ./bin/yarn install
 
 
-# This part is needed in production for heroku. Unfortunately, it's getting 
+# This part is needed in production for heroku. Unfortunately, it's getting
 # in the way in development
 ARG ASSET_HOST
 RUN bin/rake ASSET_HOST=${ASSET_HOST} RAILS_ENV=production assets:precompile

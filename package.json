@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "7.4.0",
+    "node": "9.6.0",
     "npm": "4.0.5"
   },
   "devDependencies": {
