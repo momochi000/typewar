@@ -94,14 +94,14 @@ var trainingScene2Data = {
   tutorial: {
     steps: [
       {type: 'modal', modalData: {
-        headerContent: "Defend yourself!",
+        headerContent: "Defend Yourself!",
         modalContent: "Now we'll practice defense.  The training dummy will attempt to attack you by sending words your way. Type the words successfully to guard against them.  If they hit you, you will receive damage.",
         footerContent: "Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},
 
       {type: 'modal', modalData: {
-        headerContent: "Defend yourself!",
+        headerContent: "Defend Yourself!",
         modalContent: "Defend against 5 attacks to complete the training.",
         footerContent: "Press space to continue..."
       }},

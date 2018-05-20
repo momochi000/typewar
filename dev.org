@@ -1,13 +1,6 @@
 * Current
-** TODO Style/polish the tutorial presentation
-*** DONE Add some text telling the player they won't die even if they take fatal damage on training scene 2
-    CLOSED: [2017-07-04 Tue 15:29]
-*** TODO Add scene transitions after each training stage and battle
-*** TODO Style the modal.
-    Typography, spacing, border, etc.
-*** TODO Style the highlight 
-    When a UI element/concept gets introduced to the user
 * Backlog
+** TODO Player death causes a crash
 ** TODO After the first non-training battle, game breaks                :bug:
 ** TODO Update the text library 
    to not use bible
@@ -209,6 +202,18 @@ specific skill(s)
    a set of slots that can be typed anytime
    Tab to toggle to item stance
 * Done
+** DONE Style/polish the tutorial presentation
+   CLOSED: [2018-05-19 Sat 17:46]
+*** DONE Add some text telling the player they won't die even if they take fatal damage on training scene 2
+    CLOSED: [2017-07-04 Tue 15:29]
+*** DONE Add scene transitions after each training stage and battle
+    CLOSED: [2018-05-19 Sat 17:10]
+*** DONE Style the modal.
+    CLOSED: [2018-05-19 Sat 17:40]
+    Typography, spacing, border, etc.
+*** DONE Style the highlight 
+    CLOSED: [2018-05-19 Sat 17:46]
+    When a UI element/concept gets introduced to the user
 ** DONE Deploy the app to herkou
    CLOSED: [2017-07-05 Wed 15:13]
 ** DONE Cleanup Dockerfile of deploy needs

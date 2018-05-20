@@ -114,21 +114,21 @@ var trainingScene3Data = {
       {type: 'wait_event', eventTarget: PLAYER_DEFENDED_ATTACK_EVT},
 
       {type: 'modal', modalData: {
-        headerContent: "Switching defense to offense",
+        headerContent: "Switching Defense to Offense",
         modalContent: "Now we'll switch from defending against attacks to using our skills to hit the dummy.",
         footerContent: "Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},
 
       {type: 'modal', modalData: {
-        headerContent: "Switching defense to offense",
+        headerContent: "Switching Defense to Offense",
         modalContent: "These icons indicate the stance that each character is in.  The shield above your character indicates that you are defending.  You can switch stances with tab.",
         footerContent: "Press space to continue..."
       }, highlightEntities: "ModeIcon"},
       {type: 'wait_input', input: "SPACE"},
 
       {type: 'modal', modalData: {
-        headerContent: "Switching defense to offense",
+        headerContent: "Switching Defense to Offense",
         modalContent: "Press tab now to switch to offense.",
         footerContent: "Press space to continue..."
       }, highlightEntities: "ModeIcon"},
@@ -137,14 +137,14 @@ var trainingScene3Data = {
       {type: 'wait_event', eventTarget: PLAYER_SWITCHED_TO_OFFENSE_EVT},
 
       {type: 'modal', modalData: {
-        headerContent: "Switching defense to offense",
+        headerContent: "Switching Defense to Offense",
         modalContent: "See how the icon above your character has changed to crossed swords?",
         footerContent: "Press space to continue..."
       }, highlightEntities: "ModeIcon"},
       {type: 'wait_input', input: "SPACE"},
 
       {type: 'modal', modalData: {
-        headerContent: "Ready to attack",
+        headerContent: "Ready to Attack",
         modalContent: "Now you're ready to start typing the words here (your skills) ",
         footerContent: "Press space to continue..."
       }, highlightSelectors: ".battle-skill"},
@@ -154,14 +154,14 @@ var trainingScene3Data = {
 
 
       {type: 'modal', modalData: {
-        headerContent: "Finish your training",
+        headerContent: "Finish Your Training",
         modalContent: "Great! You've defended against the dummy's attacks, then switched to an offensive stance and struck the dummy.",
         footerContent: "Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},
 
       {type: 'modal', modalData: {
-        headerContent: "Finish your training",
+        headerContent: "Finish Your Training",
         modalContent: "Now use the skills you've learned to protect yourself as you break the practice dummy.  Keep switching to defense to prevent yourself from being hit.  Keep switching back to offense to deal damage when it's safe. These are the fundamentals of battle.  Now, have at it!",
         footerContent: "Press space to continue..."
       }},

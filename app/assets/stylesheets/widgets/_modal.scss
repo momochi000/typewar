@@ -1,4 +1,18 @@
 $modal-z-index: 1000;
+.typewar-ui-modal {
+  .modal-inner-wrap {
+    border: 4px solid gray;
+  }
+  .modal-header {
+    text-align: center;
+    margin: 0 0 1em;
+    font-size: 1.4em;
+  }
+  .modal-footer {
+    text-align: right;
+    margin: 1.5em 0 0;
+  }
+}
 
 .modal-mask {
   position: fixed;
@@ -39,5 +53,5 @@ $modal-z-index: 1000;
 .ui-callout-target {
   position: relative !important;
   z-index: $modal-z-index+2 !important;
-  border: dotted red 3px;
+  border: dotted #FFF940 3px;
 }

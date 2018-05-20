@@ -7,7 +7,7 @@ var Handlebars = require("handlebars");
 
 var ModalView = Backbone.View.extend({
   tagName: 'div',
-  className: 'modal',
+  className: 'typewar-ui-modal',
   _templateId: '#modal-template',
 
   initialize: function (opts) {
