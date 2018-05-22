@@ -40,6 +40,7 @@ function generateTutorialEntity(Crafty, data){
 
 function handleStep(entity, Crafty){
 
+  let curr_step = entity.getCurrTutorialStep()
   if(!entity.getCurrTutorialStep()){
     entity.destroy();
     return;

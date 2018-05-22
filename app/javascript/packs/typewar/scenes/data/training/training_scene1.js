@@ -4,7 +4,7 @@ import BAYOU from "../background/bayou"
 
 import {ZeroLightSlash} from "../../../models/skills/player/zero_active_skills"
 import {SOUND_LETTER_TYPED, SOUND_SWORD_SLASH} from "../../../constants/audio_constants"
-import {TRAINING_TUTORIAL_COMPLETED_EVT} from "../../../constants/scene_constants"
+import {SID_TRAINING1} from "../../../constants/scene_constants"
 
 import {initBattleEffectSystem, battleEffectSystem} from "../../../systems/battle_effect_system"
 import {initBattleStatusSystem, battleStatusSystem, teardownBattleStatusSystem} from "../../../systems/battle_status_system"
@@ -28,6 +28,8 @@ const STAGE_EDGE_LEFT_BARRIER_OFFSET = 3;
 const STAGE_EDGE_RIGHT_BARRIER_OFFSET = 60;
 const STAGE_EDGE_FLOOR_BARRIER_OFFSET = 0;
 
+const TRAINING_TUTORIAL_COMPLETED_EVT = "tutorial_completed"
+
 var zero_copy = _.cloneDeep(ZERO);
 
 zero_copy.charSheet.skills = [ZeroLightSlash];
@@ -40,7 +42,7 @@ dummy_copy.charSheet.status.hp = 1;
 dummy_copy.charSheet.status.maxHp = 1;
 
 var trainingScene1Data = {
-  id: "training_scene_1",
+  id: SID_TRAINING1,
   name: "Training scene 1",
   width: 450,
   height: 240,
@@ -133,7 +135,7 @@ var trainingScene1Data = {
         footerContent: "Ready? Press space to continue..."
       }},
       {type: 'wait_input', input: "SPACE"},
-      {type: 'wait_event', eventTarget: TRAINING_TUTORIAL_COMPLETED_EVT}, // wait 5 things complete
+      {type: 'wait_event', eventTarget: TRAINING_TUTORIAL_COMPLETED_EVT},
       {type: 'end'}
     ]
   }

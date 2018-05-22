@@ -76,7 +76,7 @@ function executeSkill(skillEntity){
     }
     skill_args = _.merge(skillEntity.getSkillDef(), skill_args, effect_args);
 
-    console.log("DEBUG: PLAYER SKILL SYSTEM PROCESSING, About to execute skill effect --------->>", effect_klass, skill_args);
+//    console.log("DEBUG: PLAYER SKILL SYSTEM PROCESSING, About to execute skill effect --------->>", effect_klass, skill_args);
     effect_klass.execute(skill_args);
   });
 }

@@ -91,8 +91,8 @@ export default class BattleScene {
     var camera_args;
     camera_args = {background: this._sceneData.background};
     camera_args = _.merge(camera_args, {
-      scale: VIEWPORT_SCALE, 
-      offsetX: VIEWPORT_X_OFFSET, 
+      scale: VIEWPORT_SCALE,
+      offsetX: VIEWPORT_X_OFFSET,
       offsetY: VIEWPORT_Y_OFFSET
     });
 
@@ -171,6 +171,7 @@ export default class BattleScene {
   }
 
   initSystems(){
+    var self = this;
     _.each(this._sceneData.systems.initializers, (curr_initializer) => {
       if(curr_initializer.options && Object.keys(curr_initializer.options).length > 0){
         // NOTE: this is tricky/ugly/smelly and could use a refactor.
@@ -179,23 +180,23 @@ export default class BattleScene {
         //   the path to option is an array of strings which walks down the
         //   _sceneData to the desired option(s)
         //   right now it's assumed to only be a single step.  There's a lot of
-        //   coupling between this code and the structure of the scene data 
+        //   coupling between this code and the structure of the scene data
         //   which is less than ideal
         let initializer_opts = {};
         _.each(curr_initializer.options, (curr_val, curr_key) => {
-          initializer_opts[curr_key] = this._sceneData[curr_val[0]];
+          initializer_opts[curr_key] = self._sceneData[curr_val[0]];
         });
-        curr_initializer.system.call(this, Crafty, initializer_opts);
+        curr_initializer.system.call(self, Crafty, initializer_opts);
       }else{
-        curr_initializer.system.call(this, Crafty);
+        curr_initializer.system.call(self, Crafty);
       }
     });
   }
 
   registerSystems(){
     // NOTE: Here's another smell. I'm using Crafty.settings to hold the system
-    //   runners but this is probably not the right place for them. 
-    //   Better would be some entity which can be cleaned up later.  Even 
+    //   runners but this is probably not the right place for them.
+    //   Better would be some entity which can be cleaned up later.  Even
     //   better would be a global data storage
     Crafty.settings.register("systemRunners", () => {});
     Crafty.settings.modify("systemRunners", this._sceneData.systems.runners);
@@ -206,7 +207,7 @@ export default class BattleScene {
     Crafty.viewport.scale(1);
     Crafty.viewport.x -= VIEWPORT_X_OFFSET;
     Crafty.viewport.y -= VIEWPORT_Y_OFFSET;
-  } 
+  }
 
   runSystems(evt){
     var runners = Crafty.settings.get("systemRunners");

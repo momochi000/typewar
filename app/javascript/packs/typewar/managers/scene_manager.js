@@ -1,28 +1,91 @@
 import BattleScene from "../scenes/battle_scene"
 import TrainingScene from "../scenes/training_scene"
-import trainingScene1Data from "../scenes/data/training/training_scene1"
-import trainingScene2Data from "../scenes/data/training/training_scene2"
-import trainingScene3Data from "../scenes/data/training/training_scene3"
 import basicSlimeBattleData from "../scenes/data/basic_slime_battle"
 import rainSlimeBattleData from "../scenes/data/rain_slime_battle"
 import protoBattleSceneData from "../scenes/data/proto_battle_scene"
-import * as Transitions from "../models/effects/transitions"
-import {SCENE_TRANSITION_EVT} from "../constants/scene_constants";
+import trainingScene1Data from "../scenes/data/training/training_scene1"
+import trainingScene2Data from "../scenes/data/training/training_scene2"
+import trainingScene3Data from "../scenes/data/training/training_scene3"
+import * as Transitions from "../models/effects/transitions";
+
+import {
+  SCENE_TRANSITION_EVT,
+  TRN_FADEOUT,
+  TRN_NEXT,
+  SID_TRAINING1,
+  SID_TRAINING2,
+  SID_TRAINING3,
+  SID_BABY_SLIME,
+  SID_SLIME_BLAST,
+  SID_PROTOTYPE_BATTLE
+} from "../constants/scene_constants";
+
+const DEFAULT_SCENE_GRAPH = [
+  {
+    id: SID_TRAINING1,
+    sceneKlass: TrainingScene,
+    sceneData: trainingScene1Data,
+    transitions: {
+      victory: [TRN_FADEOUT, TRN_NEXT],
+      defeat: null // TODO: this should play the "you died" scene
+    }
+  },
+  {
+    id: SID_TRAINING2,
+    sceneKlass: TrainingScene,
+    sceneData: trainingScene2Data,
+    transitions: {
+      victory: [TRN_FADEOUT, TRN_NEXT],
+      defeat: null // TODO: this should play the "you died" scene
+    }
+  },
+  {
+    id: SID_TRAINING3,
+    sceneKlass: TrainingScene,
+    sceneData: trainingScene3Data,
+    transitions: {
+      victory: [TRN_FADEOUT, TRN_NEXT],
+      defeat: null // TODO: this should play the "you died" scene
+    }
+  },
+  {
+    id: SID_BABY_SLIME,
+    sceneKlass: BattleScene,
+    sceneData: basicSlimeBattleData,
+    transitions: {
+      victory: [ TRN_NEXT],
+      defeat: null // TODO: this should play the "you died" scene
+    }
+  },
+  {
+    id: SID_SLIME_BLAST,
+    sceneKlass: BattleScene,
+    sceneData: rainSlimeBattleData,
+    transitions: {
+      victory: [ TRN_NEXT],
+      defeat: null // TODO: this should play the "you died" scene
+    }
+  },
+  {
+    id: SID_PROTOTYPE_BATTLE,
+    sceneKlass: BattleScene,
+    sceneData: protoBattleSceneData,
+    transitions: {
+      victory: [ TRN_NEXT],
+      defeat: null // TODO: this should play the "you died" scene
+    }
+  },
+]
 
 export default class SceneManager {
   constructor(){
-    this._prepareSceneGraph();
+    this._initSceneGraph();
     this._bindSceneListeners();
   }
 
   get currentScene(){
     return this._currentScene;
   }
-
-  // For debugging only
-  //  set currentScene(scene){
-  //    this._currentScene = scene;
-  //  }
 
   playScene(sceneId){
     var scene_data, scene_klass, new_scene;
@@ -42,7 +105,7 @@ export default class SceneManager {
   // private
 
   _bindSceneListeners(){
-    Crafty.bind(SCENE_TRANSITION_EVT, this._handleSceneTransition.bind(this))
+    Crafty.bind(SCENE_TRANSITION_EVT, this._handleSceneTransition.bind(this));
   }
 
   _findSceneFromId(sceneId){
@@ -67,10 +130,11 @@ export default class SceneManager {
     var self, transition_sequence, temp_promise;
     self = this;
     if(!seq) {
-      console.log(`DEBUG: there is no transition directive declared for the ${evt} event`);
+      console.log(`DEBUG: there is no transition directive declared for the event`);
       // TODO: play game over scene
-      return;
-    }
+      //    No.. i think the game over scene should be explicitly turned to.
+      //    This is probably an exception.
+      return; }
 
 
     //prep sequence into a list of promises
@@ -85,72 +149,17 @@ export default class SceneManager {
     });
   }
 
-  _prepareSceneGraph(){
-    this._sceneGraph = [
-      {
-        id: "training_scene_1",
-        sceneKlass: TrainingScene,
-        sceneData: trainingScene1Data,
-        transitions: {
-          victory: ["fadeout", "next"],
-          defeat: null // TODO: this should play the "you died" scene
-        }
-      },
-      {
-        id: "training_scene_2",
-        sceneKlass: TrainingScene,
-        sceneData: trainingScene2Data,
-        transitions: {
-          victory: ["fadeout", "next"],
-          defeat: null // TODO: this should play the "you died" scene
-        }
-      },
-      {
-        id: "training_scene_3",
-        sceneKlass: TrainingScene,
-        sceneData: trainingScene3Data,
-        transitions: {
-          victory: ["fadeout", "next"],
-          defeat: null // TODO: this should play the "you died" scene
-        }
-      },
-      {
-        id: "baby_slime",
-        sceneKlass: BattleScene,
-        sceneData: basicSlimeBattleData,
-        transitions: {
-          victory: ["next"],
-          defeat: null // TODO: this should play the "you died" scene
-        }
-      },
-      {
-        id: "slime_blaster",
-        sceneKlass: BattleScene,
-        sceneData: rainSlimeBattleData,
-        transitions: {
-          victory: ["next"],
-          defeat: null // TODO: this should play the "you died" scene
-        }
-      },
-      {
-        id: "prototype_battle",
-        sceneKlass: BattleScene,
-        sceneData: protoBattleSceneData,
-        transitions: {
-          victory: ["next"],
-          defeat: null // TODO: this should play the "you died" scene
-        }
-      },
-    ]
+  _initSceneGraph(){
+    this._sceneGraph = DEFAULT_SCENE_GRAPH;
   }
 
   _promiseFromTransition(transitionDirective){
     var self = this;
 
     switch(transitionDirective){
-      case "fadeout":
+      case TRN_FADEOUT:
         return _tdFadeout;
-      case "next":
+      case TRN_NEXT:
         if(!this._sceneGraph[this._currentSceneIndex+1]){
           // TODO: no scene to transition to, need to handle this
           //   play the end credits or something

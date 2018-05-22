@@ -1,6 +1,12 @@
 * Current
+** TODO Player death causes a crash                                     :bug:
+   This requires a game over scene.
+*** TODO Create a game over scene
 * Backlog
-** TODO Player death causes a crash
+** TODO There is a strange flicker after the fadeout transition
+   the stage is rendered with improper camera zoom. I believe this is because
+   the viewport resets when a scene transition happens. It probably renders for
+   a second like that.  Should think of another way to handle these...
 ** TODO After the first non-training battle, game breaks                :bug:
 ** TODO Update the text library 
    to not use bible
@@ -19,7 +25,6 @@
 ** TODO Get a new background for training scene
 ** TODO Monster death animation
 ** TODO Some sort of battle won/lost alert/ui thingy
-** TODO There is a strange flicker after the fadeout transition, the stage is rendered with improper camera zoom
 ** :release_marker: v0.4
 ** TODO Pretty up the TWHighlight component
    So, now it does the box around it, but it doesn't bring it into the 
