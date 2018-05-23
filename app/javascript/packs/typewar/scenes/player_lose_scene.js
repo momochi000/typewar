@@ -1,26 +1,37 @@
+import { SID_PL_LOSE } from "../constants/scene_constants"
+import BG_PL_DIED from "./data/background/player_died"
+import * as Transitions from "../models/effects/transitions";
+
 export default class PlayerLoseScene {
   constructor() {
-    Crafty.scene();
+    Crafty.scene(SID_PL_LOSE, this.init.bind(this), () => {});
+  }
+
+  get sceneId(){
+    return SID_PL_LOSE;
+  }
+
+  play() {
+    Crafty.scene(SID_PL_LOSE);
+  }
+
+  init() {
+    this._initFadeIn();
+    this._setBackground();
+  }
+
+  stop() {
+    // TBI
+    throw new Error("Stop method not implemented on PlayerLoseScene");
+  }
+
+  //private
+
+  _initFadeIn() {
+    Transitions.Fadein.execute({});
+  }
+
+  _setBackground() {
+    Crafty.background(`#000 url(\"${BG_PL_DIED.filepath}") no-repeat center center`);
   }
 }
-
-Typewar.Data.Scenes.PlayerLoseScene = Backbone.Model.extend({
-  defaults: {
-    scene_id: 'player_lose_scene'
-  },
-
-  initialize: function (){
-    var self = this;
-    Crafty.scene(this.get('scene_id'), function (){
-      self.initBackground();
-    });
-  },
-
-  initBackground: function (){
-    Crafty.background("#FFF url(\"assets/Typewar/backgrounds/battle_over_lose.jpg\") no-repeat center center");
-  },
-
-  play: function (){
-    Crafty.scene(this.get("scene_id"));
-  }
-});

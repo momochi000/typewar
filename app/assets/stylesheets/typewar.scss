@@ -1,15 +1,15 @@
 @import "widgets/modal";
 
-@-webkit-keyframes blinker {  
+@-webkit-keyframes blinker {
   0% { opacity: 1.0; }
   50% { opacity: 0.0; }
   100% { opacity: 1.0; }
 }
-@keyframes blinker {  
+@keyframes blinker {
   0% { opacity: 1.0; }
   50% { opacity: 0.0; }
   100% { opacity: 1.0; }
-}             
+}
 
 .battle-character-stance{
   width: 30px; height:30px;
@@ -74,8 +74,8 @@
     width: 300px;
     &:last-child { float: right; }
 
-    .name { 
-      font-weight: bold; 
+    .name {
+      font-weight: bold;
     }
     .health-bar-wrap {
       background-color: red;
@@ -92,11 +92,11 @@
 }
 
 .text-fragment-attack-wrapper {
-  &.active { 
+  &.active {
     z-index: 99999;
     width: 8em;
-    background-color: hotpink; 
-    &.typo { 
+    background-color: hotpink;
+    &.typo {
       -webkit-animation-name: blinker;
       -webkit-animation-duration: 0.13s;
       -webkit-animation-timing-function: linear;
@@ -112,12 +112,12 @@
   text-align: center;
   font-size: 1.0em;
   line-height: 1.2em;
-  span.typed { 
-    background-color: green; 
+  span.typed {
+    background-color: green;
     font-size: 0.5em;
   }
-  span.missed { 
-    background-color: red; 
+  span.missed {
+    background-color: red;
     display:none;
   }
   span.rest { background-color: yellow; }
@@ -144,7 +144,20 @@ $default-fadeout-duration: 2s;
   @include transition-duration($default-fadeout-duration);
 
   &.transition-end-state{
-    @include opacity(1.0);
+    ///@include opacity(1.0 !important);
+    opacity: 1.0 !important;
+  }
+}
+
+.FadeinTransition {
+  background-color: black;
+  @include opacity(1.0);
+  @include transition-property(opacity);
+  @include transition-duration($default-fadeout-duration);
+
+  &.transition-end-state{
+    ///@include opacity(0 !important);
+    opacity: 0.0 !important;
   }
 }
 

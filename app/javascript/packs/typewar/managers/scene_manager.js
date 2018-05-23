@@ -1,5 +1,6 @@
 import BattleScene from "../scenes/battle_scene"
 import TrainingScene from "../scenes/training_scene"
+import PlayerLoseScene from "../scenes/player_lose_scene"
 import basicSlimeBattleData from "../scenes/data/basic_slime_battle"
 import rainSlimeBattleData from "../scenes/data/rain_slime_battle"
 import protoBattleSceneData from "../scenes/data/proto_battle_scene"
@@ -12,12 +13,14 @@ import {
   SCENE_TRANSITION_EVT,
   TRN_FADEOUT,
   TRN_NEXT,
+  TRN_LOSE,
   SID_TRAINING1,
   SID_TRAINING2,
   SID_TRAINING3,
   SID_BABY_SLIME,
   SID_SLIME_BLAST,
-  SID_PROTOTYPE_BATTLE
+  SID_PROTOTYPE_BATTLE,
+  SID_PL_LOSE
 } from "../constants/scene_constants";
 
 const DEFAULT_SCENE_GRAPH = [
@@ -27,7 +30,7 @@ const DEFAULT_SCENE_GRAPH = [
     sceneData: trainingScene1Data,
     transitions: {
       victory: [TRN_FADEOUT, TRN_NEXT],
-      defeat: null // TODO: this should play the "you died" scene
+      defeat: [TRN_LOSE]
     }
   },
   {
@@ -36,7 +39,7 @@ const DEFAULT_SCENE_GRAPH = [
     sceneData: trainingScene2Data,
     transitions: {
       victory: [TRN_FADEOUT, TRN_NEXT],
-      defeat: null // TODO: this should play the "you died" scene
+      defeat: [TRN_LOSE]
     }
   },
   {
@@ -45,7 +48,7 @@ const DEFAULT_SCENE_GRAPH = [
     sceneData: trainingScene3Data,
     transitions: {
       victory: [TRN_FADEOUT, TRN_NEXT],
-      defeat: null // TODO: this should play the "you died" scene
+      defeat: [TRN_LOSE]
     }
   },
   {
@@ -53,8 +56,8 @@ const DEFAULT_SCENE_GRAPH = [
     sceneKlass: BattleScene,
     sceneData: basicSlimeBattleData,
     transitions: {
-      victory: [ TRN_NEXT],
-      defeat: null // TODO: this should play the "you died" scene
+      victory: [TRN_NEXT],
+      defeat: [TRN_LOSE]
     }
   },
   {
@@ -62,8 +65,8 @@ const DEFAULT_SCENE_GRAPH = [
     sceneKlass: BattleScene,
     sceneData: rainSlimeBattleData,
     transitions: {
-      victory: [ TRN_NEXT],
-      defeat: null // TODO: this should play the "you died" scene
+      victory: [TRN_NEXT],
+      defeat: [TRN_LOSE]
     }
   },
   {
@@ -71,10 +74,14 @@ const DEFAULT_SCENE_GRAPH = [
     sceneKlass: BattleScene,
     sceneData: protoBattleSceneData,
     transitions: {
-      victory: [ TRN_NEXT],
-      defeat: null // TODO: this should play the "you died" scene
+      victory: [TRN_NEXT],
+      defeat: [TRN_LOSE]
     }
   },
+  {
+    id: SID_PL_LOSE,
+    sceneKlass: PlayerLoseScene
+  }
 ]
 
 export default class SceneManager {
@@ -167,6 +174,8 @@ export default class SceneManager {
         }
         return _tdNext;
 
+      case TRN_LOSE:
+        return _tdLose;
       case "default":
         throw new Error("Error, invalid transition declared ---> ", transitionDirective);
         return;
@@ -186,5 +195,12 @@ function _tdNext(){
   return new Promise((fulfill, reject) => {
     self.playScene(self._currentSceneIndex+1);
     fulfill();
+  });
+}
+
+function _tdLose(){
+  var self = this;
+  return new Promise((fulfill, reject) => {
+    self.playScene(SID_PL_LOSE);
   });
 }

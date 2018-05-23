@@ -14,7 +14,9 @@ export const SID_TRAINING3 = "training_scene_3"
 export const SID_BABY_SLIME = "baby_slime"
 export const SID_SLIME_BLAST = "slime_blaster"
 export const SID_PROTOTYPE_BATTLE = "prototype_battle"
+export const SID_PL_LOSE = "player_lose_scene"
 
 // Scene transitions
 export const TRN_FADEOUT = 'fadeout';
 export const TRN_NEXT = 'next';
+export const TRN_LOSE = 'lose';

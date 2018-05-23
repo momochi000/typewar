@@ -36,8 +36,6 @@ zero_copy.charSheet.skills = [ZeroLightSlash];
 zero_copy.initialStance = "offense";
 
 var dummy_copy = _.cloneDeep(TRAINING_DUMMY);
-//dummy_copy.charSheet.status.hp = 5;
-//dummy_copy.charSheet.status.maxHp = 5;
 dummy_copy.charSheet.status.hp = 1;
 dummy_copy.charSheet.status.maxHp = 1;
 
