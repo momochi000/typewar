@@ -10,7 +10,12 @@ module.exports = merge(sharedConfig, {
   output: { filename: '[name]-[chunkhash].js' },
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      sourceMap: false,
+      compress: { warnings: true },
+      output: { comments: false }
+    }),
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
