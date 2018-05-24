@@ -1,4 +1,3 @@
-config/database.yml
 node_modules/
 .git/
 tmp/
